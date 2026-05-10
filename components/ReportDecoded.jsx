@@ -1,0 +1,1390 @@
+'use client';
+import { useState, useEffect } from "react";
+
+/* ─────────────────────────────────────────────────────────────
+   GLOBAL STYLES
+   Palette: navy + warm amber CTA (replaces generic blue),
+   warm cream bg, teal for success / negotiate.
+───────────────────────────────────────────────────────────── */
+const G = `
+@import url('https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,300;0,9..144,400;0,9..144,500;0,9..144,600;1,9..144,400;1,9..144,500&family=DM+Sans:wght@300;400;500;600&family=DM+Mono:wght@400;500&display=swap');
+
+*,*::before,*::after{margin:0;padding:0;box-sizing:border-box;}
+
+:root{
+  /* Brand */
+  --navy:   #0A1628;
+  --navy2:  #122034;
+  --navy3:  #1C3050;
+
+  /* Page surfaces */
+  --cream:  #F7F3EE;
+  --cream2: #EDE8DF;
+  --white:  #FFFFFF;
+
+  /* Primary CTA — warm amber (replaces generic blue) */
+  --amber:        #C97A3A;
+  --amber-hover:  #B56928;
+  --amber-bg:     #FEF3E8;
+  --amber-border: #F4C9A0;
+
+  /* Verdict: negotiate */
+  --gold:         #B45309;
+  --gold-bg:      #FFFBEB;
+  --gold-border:  #FDE68A;
+
+  /* Verdict: proceed */
+  --teal:         #0D6B5E;
+  --teal-light:   #E6F7F5;
+  --teal-border:  #9ECEC8;
+
+  /* Verdict: caution / major */
+  --red:          #BE3A2F;
+  --red-bg:       #FEF0EE;
+  --red-border:   #F4B5AF;
+
+  /* Pest */
+  --brown:        #92400E;
+  --brown-bg:     #FEF3C7;
+
+  /* Neutrals */
+  --text:   #1C1917;
+  --muted:  #6B7280;
+  --subtle: #9CA3AF;
+  --border: #E5E0D8;
+  --slate:  #F0EDE8;
+}
+
+body{
+  font-family:'DM Sans',sans-serif;
+  background:var(--cream);
+  color:var(--text);
+  -webkit-font-smoothing:antialiased;
+}
+
+/* ── NAV ─────────────────────────────────────────── */
+.nav{
+  background:var(--navy);
+  padding:0 40px;
+  height:64px;
+  display:flex;
+  align-items:center;
+  justify-content:space-between;
+  position:sticky;
+  top:0;
+  z-index:100;
+  border-bottom:1px solid rgba(255,255,255,0.06);
+}
+.nav-logo{
+  font-family:'Fraunces',serif;
+  color:white;
+  font-size:21px;
+  letter-spacing:-0.4px;
+  font-weight:500;
+}
+.nav-logo span{color:var(--amber);}
+.nav-links{display:flex;gap:4px;align-items:center;}
+.nav-link{
+  color:rgba(255,255,255,0.5);
+  font-size:13.5px;
+  padding:7px 14px;
+  border-radius:7px;
+  cursor:pointer;
+  transition:all .15s;
+}
+.nav-link:hover{background:rgba(255,255,255,0.07);color:rgba(255,255,255,0.9);}
+.nav-link.active{background:rgba(201,122,58,0.15);color:var(--amber);}
+.nav-cta{
+  background:var(--amber);
+  color:white;
+  font-size:13.5px;
+  font-weight:600;
+  padding:9px 20px;
+  border-radius:9px;
+  cursor:pointer;
+  border:none;
+  font-family:'DM Sans',sans-serif;
+  transition:background .15s;
+  margin-left:8px;
+}
+.nav-cta:hover{background:var(--amber-hover);}
+
+/* ── HERO ────────────────────────────────────────── */
+.hero-section{
+  background:var(--navy);
+  padding:80px 24px 96px;
+  text-align:center;
+  position:relative;
+  overflow:hidden;
+}
+/* Subtle dot-grid texture */
+.hero-section::before{
+  content:'';
+  position:absolute;
+  inset:0;
+  background-image:radial-gradient(circle at 1px 1px, rgba(255,255,255,0.04) 1px, transparent 0);
+  background-size:32px 32px;
+  pointer-events:none;
+}
+/* Amber hairline at base */
+.hero-section::after{
+  content:'';
+  position:absolute;
+  bottom:0;left:0;right:0;
+  height:1px;
+  background:linear-gradient(90deg,transparent,rgba(201,122,58,0.45),transparent);
+}
+.hero-badge{
+  display:inline-flex;
+  align-items:center;
+  gap:6px;
+  background:rgba(201,122,58,0.12);
+  border:1px solid rgba(201,122,58,0.28);
+  color:#E8A05A;
+  font-size:12.5px;
+  font-weight:500;
+  padding:5px 16px;
+  border-radius:20px;
+  letter-spacing:.3px;
+  margin-bottom:28px;
+}
+.hero-h{
+  font-family:'Fraunces',serif;
+  font-size:clamp(42px,6vw,64px);
+  line-height:1.06;
+  color:white;
+  margin-bottom:20px;
+  letter-spacing:-1.5px;
+  font-weight:400;
+  max-width:760px;
+  margin-left:auto;
+  margin-right:auto;
+}
+.hero-h em{font-style:italic;color:var(--amber);}
+.hero-sub{
+  font-size:17px;
+  color:rgba(255,255,255,0.55);
+  line-height:1.7;
+  max-width:500px;
+  margin:0 auto;
+  font-weight:300;
+}
+
+/* ── UPLOAD AREA ─────────────────────────────────── */
+.upload-area{
+  max-width:780px;
+  margin:-44px auto 0;
+  padding:0 24px 72px;
+  position:relative;
+  z-index:1;
+}
+.upload-zone{
+  background:white;
+  border:2px dashed var(--border);
+  border-radius:22px;
+  padding:60px 44px;
+  text-align:center;
+  cursor:pointer;
+  transition:all .22s ease;
+  margin-bottom:24px;
+  box-shadow:0 8px 40px rgba(10,22,40,0.12);
+}
+.upload-zone:hover{
+  border-color:var(--amber);
+  background:#FFFAF6;
+  box-shadow:0 12px 56px rgba(201,122,58,0.14);
+}
+.upload-icon{
+  width:68px;height:68px;
+  background:var(--amber-bg);
+  border:1.5px solid var(--amber-border);
+  border-radius:18px;
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  margin:0 auto 22px;
+  font-size:30px;
+}
+.upload-title{
+  font-family:'Fraunces',serif;
+  font-size:24px;
+  color:var(--navy);
+  margin-bottom:8px;
+  font-weight:500;
+}
+.upload-sub{
+  font-size:14px;
+  color:var(--muted);
+  margin-bottom:26px;
+  line-height:1.55;
+}
+.upload-btn{
+  background:var(--amber);
+  color:white;
+  padding:14px 36px;
+  border-radius:11px;
+  font-size:15px;
+  font-weight:600;
+  cursor:pointer;
+  border:none;
+  font-family:'DM Sans',sans-serif;
+  transition:background .15s;
+  display:inline-block;
+}
+.upload-btn:hover{background:var(--amber-hover);}
+.upload-filetypes{
+  margin-top:16px;
+  font-size:12.5px;
+  color:var(--subtle);
+}
+
+/* ── HOW IT WORKS STRIP ──────────────────────────── */
+.how-strip{
+  display:grid;
+  grid-template-columns:repeat(3,1fr);
+  gap:2px;
+  background:var(--border);
+  border-radius:16px;
+  overflow:hidden;
+  margin-bottom:24px;
+}
+.how-step{
+  background:white;
+  padding:22px 24px;
+  display:flex;
+  align-items:flex-start;
+  gap:14px;
+}
+.how-num{
+  width:34px;height:34px;
+  border-radius:9px;
+  background:var(--navy);
+  color:white;
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  font-family:'DM Mono',monospace;
+  font-size:12.5px;
+  flex-shrink:0;
+  margin-top:1px;
+}
+.how-label{font-weight:600;font-size:14px;color:var(--navy);margin-bottom:4px;}
+.how-desc{font-size:12.5px;color:var(--muted);line-height:1.55;}
+
+/* ── PRICING ─────────────────────────────────────── */
+.pricing-row{
+  display:grid;
+  grid-template-columns:repeat(3,1fr);
+  gap:12px;
+  margin-bottom:28px;
+}
+.price-card{
+  background:white;
+  border:1.5px solid var(--border);
+  border-radius:16px;
+  padding:26px;
+}
+.price-card.featured{
+  background:var(--navy);
+  border-color:var(--navy);
+}
+.price-label{
+  font-size:11px;
+  text-transform:uppercase;
+  letter-spacing:1px;
+  color:var(--muted);
+  margin-bottom:8px;
+  font-weight:700;
+}
+.price-card.featured .price-label{color:rgba(255,255,255,0.4);}
+.price-amount{
+  font-family:'Fraunces',serif;
+  font-size:36px;
+  color:var(--navy);
+  letter-spacing:-1px;
+  font-weight:400;
+  margin-bottom:8px;
+}
+.price-card.featured .price-amount{color:white;}
+.price-desc{font-size:13px;color:var(--muted);line-height:1.55;}
+.price-card.featured .price-desc{color:rgba(255,255,255,0.45);}
+.price-tag{
+  font-size:10.5px;
+  background:var(--amber);
+  color:white;
+  padding:3px 11px;
+  border-radius:10px;
+  display:inline-block;
+  margin-top:12px;
+  font-weight:700;
+  letter-spacing:.2px;
+}
+
+/* ── TRUST BAR ───────────────────────────────────── */
+.trust-bar{
+  display:flex;
+  gap:20px;
+  justify-content:center;
+  flex-wrap:wrap;
+  padding:8px 0 0;
+}
+.trust-item{
+  display:flex;
+  align-items:center;
+  gap:7px;
+  font-size:13px;
+  color:var(--muted);
+}
+.trust-dot{
+  width:6px;height:6px;
+  border-radius:50%;
+  background:var(--teal);
+  flex-shrink:0;
+}
+
+/* ── SCREEN TABS ─────────────────────────────────── */
+.screen-tabs{
+  background:var(--navy2);
+  padding:0 40px;
+  display:flex;
+  gap:2px;
+  overflow-x:auto;
+  border-bottom:1px solid rgba(255,255,255,0.05);
+}
+.stab{
+  padding:13px 18px;
+  font-size:12.5px;
+  color:rgba(255,255,255,0.4);
+  cursor:pointer;
+  border-bottom:2px solid transparent;
+  white-space:nowrap;
+  transition:all .15s;
+}
+.stab.active{color:var(--amber);border-bottom-color:var(--amber);}
+.stab:hover:not(.active){color:rgba(255,255,255,0.75);}
+
+/* ── LOADING ─────────────────────────────────────── */
+.loading-screen{
+  max-width:500px;
+  margin:80px auto;
+  padding:40px 24px;
+  text-align:center;
+}
+.loading-ring{
+  width:72px;height:72px;
+  position:relative;
+  margin:0 auto 36px;
+}
+.loading-ring-outer{
+  width:72px;height:72px;
+  border:3px solid var(--border);
+  border-radius:50%;
+  position:absolute;
+}
+.loading-ring-inner{
+  width:72px;height:72px;
+  border:3px solid transparent;
+  border-top-color:var(--amber);
+  border-right-color:var(--amber);
+  border-radius:50%;
+  animation:spin .75s linear infinite;
+  position:absolute;
+}
+@keyframes spin{to{transform:rotate(360deg)}}
+.loading-h{
+  font-family:'Fraunces',serif;
+  font-size:26px;
+  color:var(--navy);
+  margin-bottom:8px;
+  font-weight:500;
+}
+.loading-sub{font-size:14px;color:var(--muted);margin-bottom:36px;}
+.loading-steps{text-align:left;display:flex;flex-direction:column;gap:8px;}
+.lstep{
+  display:flex;
+  align-items:center;
+  gap:12px;
+  font-size:13.5px;
+  padding:11px 16px;
+  border-radius:10px;
+  transition:all .3s;
+}
+.lstep.done{color:var(--teal);background:var(--teal-light);}
+.lstep.active{color:var(--navy);background:var(--amber-bg);font-weight:500;}
+.lstep.wait{color:var(--subtle);}
+.lstep-icon{font-size:14px;flex-shrink:0;width:20px;text-align:center;}
+
+/* ── RESULTS ─────────────────────────────────────── */
+.results-screen{
+  max-width:1000px;
+  margin:0 auto;
+  padding:36px 24px 100px;
+}
+.prop-bar{
+  background:var(--navy);
+  border-radius:16px;
+  padding:22px 32px;
+  display:flex;
+  align-items:center;
+  justify-content:space-between;
+  margin-bottom:20px;
+  gap:16px;
+  flex-wrap:wrap;
+}
+.prop-addr{
+  color:white;
+  font-family:'Fraunces',serif;
+  font-size:19px;
+  font-weight:400;
+  letter-spacing:-0.3px;
+}
+.prop-meta{color:rgba(255,255,255,0.38);font-size:12.5px;margin-top:5px;}
+.prop-price-label{font-size:11px;color:rgba(255,255,255,0.35);text-transform:uppercase;letter-spacing:.5px;}
+.prop-price-val{
+  font-family:'Fraunces',serif;
+  font-size:26px;
+  color:white;
+  margin-top:3px;
+  font-weight:400;
+  letter-spacing:-0.5px;
+}
+
+/* ── VERDICT ─────────────────────────────────────── */
+.verdict-card{
+  border-radius:16px;
+  padding:28px 32px;
+  display:flex;
+  align-items:flex-start;
+  gap:22px;
+  margin-bottom:20px;
+  border:1.5px solid;
+}
+.verdict-card.negotiate{background:var(--gold-bg);border-color:var(--gold-border);}
+.verdict-card.proceed  {background:var(--teal-light);border-color:var(--teal-border);}
+.verdict-card.caution  {background:var(--red-bg);border-color:var(--red-border);}
+.verdict-left{flex-shrink:0;text-align:center;}
+.verdict-emoji{font-size:34px;line-height:1;display:block;margin-bottom:8px;}
+.verdict-badge{
+  padding:5px 12px;
+  border-radius:7px;
+  font-weight:700;
+  font-size:11px;
+  letter-spacing:.8px;
+  text-transform:uppercase;
+  white-space:nowrap;
+}
+.negotiate .verdict-badge{background:var(--gold);color:white;}
+.proceed   .verdict-badge{background:var(--teal);color:white;}
+.caution   .verdict-badge{background:var(--red);color:white;}
+.verdict-text{
+  font-size:14.5px;
+  line-height:1.75;
+  color:var(--text);
+  padding-top:6px;
+}
+.verdict-text strong{font-weight:600;}
+
+/* ── STATS ROW ───────────────────────────────────── */
+.stats-row{
+  display:grid;
+  grid-template-columns:repeat(4,1fr);
+  gap:12px;
+  margin-bottom:20px;
+}
+.stat-card{
+  background:white;
+  border:1px solid var(--border);
+  border-radius:14px;
+  padding:20px 22px;
+}
+.stat-label{
+  font-size:11px;
+  text-transform:uppercase;
+  letter-spacing:.8px;
+  color:var(--muted);
+  margin-bottom:6px;
+  font-weight:700;
+}
+.stat-val{
+  font-family:'Fraunces',serif;
+  font-size:28px;
+  color:var(--navy);
+  letter-spacing:-0.5px;
+  font-weight:400;
+}
+.stat-sub{font-size:12px;color:var(--muted);margin-top:5px;line-height:1.4;}
+
+/* ── TWO COL ─────────────────────────────────────── */
+.two-col{display:grid;grid-template-columns:1fr 340px;gap:20px;align-items:start;}
+
+/* ── SECTION LABEL ───────────────────────────────── */
+.section-label{
+  font-size:11px;
+  text-transform:uppercase;
+  letter-spacing:1.2px;
+  color:var(--muted);
+  margin-bottom:12px;
+  font-weight:700;
+}
+
+/* ── DEFECT CARDS ────────────────────────────────── */
+.defect-card{
+  background:white;
+  border:1px solid var(--border);
+  border-radius:14px;
+  margin-bottom:12px;
+  overflow:hidden;
+  transition:box-shadow .2s;
+}
+.defect-card:hover{box-shadow:0 4px 20px rgba(10,22,40,0.07);}
+.defect-header{
+  padding:18px 22px;
+  display:flex;
+  align-items:flex-start;
+  justify-content:space-between;
+  gap:12px;
+  cursor:pointer;
+  transition:background .15s;
+}
+.defect-header:hover{background:var(--slate);}
+.defect-title-row{display:flex;align-items:center;gap:12px;flex:1;}
+.severity-dot{width:10px;height:10px;border-radius:50%;flex-shrink:0;}
+.major .severity-dot{background:var(--red);}
+.minor .severity-dot{background:var(--gold);}
+.pest  .severity-dot{background:var(--brown);}
+.defect-name{font-weight:600;font-size:14.5px;color:var(--navy);}
+.defect-loc{font-size:12px;color:var(--muted);margin-top:2px;}
+.severity-badge{
+  font-size:10.5px;
+  font-weight:700;
+  padding:3px 10px;
+  border-radius:5px;
+  letter-spacing:.3px;
+  flex-shrink:0;
+}
+.major .severity-badge{background:var(--red-bg);color:var(--red);}
+.minor .severity-badge{background:var(--gold-bg);color:var(--gold);}
+.pest  .severity-badge{background:var(--brown-bg);color:var(--brown);}
+.defect-chevron{color:var(--subtle);font-size:12px;margin-top:4px;}
+.defect-body{border-top:1px solid var(--border);padding:22px;}
+.defect-desc{font-size:14px;line-height:1.75;color:#374151;margin-bottom:18px;}
+.cost-chip{
+  display:inline-flex;
+  align-items:center;
+  gap:8px;
+  background:var(--slate);
+  border:1px solid var(--border);
+  border-radius:9px;
+  padding:9px 16px;
+  font-size:13px;
+}
+.cost-chip strong{color:var(--navy);font-family:'DM Mono',monospace;}
+
+/* ── TRADIES ─────────────────────────────────────── */
+.tradies-section{margin-top:22px;}
+.tradies-label{
+  font-size:11px;
+  text-transform:uppercase;
+  letter-spacing:1px;
+  color:var(--muted);
+  margin-bottom:12px;
+  font-weight:700;
+}
+.tradie-cards{display:grid;grid-template-columns:1fr 1fr;gap:10px;}
+.tradie-card{
+  background:var(--slate);
+  border:1px solid var(--border);
+  border-radius:12px;
+  padding:16px;
+}
+.tradie-top{display:flex;align-items:flex-start;gap:12px;margin-bottom:12px;}
+.tradie-avatar{
+  width:40px;height:40px;
+  border-radius:10px;
+  background:var(--navy);
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  font-family:'Fraunces',serif;
+  color:white;
+  font-size:15px;
+  flex-shrink:0;
+  font-weight:500;
+}
+.tradie-name{font-weight:600;font-size:13.5px;color:var(--navy);}
+.tradie-biz{font-size:12px;color:var(--muted);}
+.stars{color:#F59E0B;font-size:11px;margin-top:2px;}
+.tradie-meta{display:flex;gap:6px;flex-wrap:wrap;margin-bottom:12px;}
+.tradie-tag{
+  font-size:11px;
+  background:white;
+  border:1px solid var(--border);
+  border-radius:5px;
+  padding:2px 9px;
+  color:var(--muted);
+}
+.tradie-quote-btn{
+  width:100%;
+  background:var(--navy);
+  color:white;
+  border:none;
+  border-radius:8px;
+  padding:9px;
+  font-size:13px;
+  font-weight:500;
+  cursor:pointer;
+  font-family:'DM Sans',sans-serif;
+  transition:background .15s;
+}
+.tradie-quote-btn:hover{background:var(--navy3);}
+
+/* ── RIGHT PANEL ─────────────────────────────────── */
+.right-panel{display:flex;flex-direction:column;gap:14px;}
+.panel-card{
+  background:white;
+  border:1px solid var(--border);
+  border-radius:16px;
+  padding:24px;
+}
+.panel-title{
+  font-family:'Fraunces',serif;
+  font-size:17px;
+  color:var(--navy);
+  margin-bottom:14px;
+  font-weight:500;
+}
+.negs-amount{
+  font-family:'Fraunces',serif;
+  font-size:44px;
+  color:var(--teal);
+  margin-bottom:6px;
+  letter-spacing:-2px;
+  font-weight:400;
+}
+.negs-sub{font-size:13px;color:var(--muted);margin-bottom:16px;line-height:1.5;}
+.negs-text{
+  background:var(--slate);
+  border:1px solid var(--border);
+  border-radius:10px;
+  padding:16px;
+  font-size:13px;
+  line-height:1.65;
+  color:#374151;
+  font-style:italic;
+}
+.copy-btn{
+  width:100%;
+  margin-top:12px;
+  background:var(--teal);
+  color:white;
+  border:none;
+  border-radius:9px;
+  padding:12px;
+  font-size:13.5px;
+  font-weight:600;
+  cursor:pointer;
+  font-family:'DM Sans',sans-serif;
+  transition:opacity .15s;
+}
+.copy-btn:hover{opacity:.88;}
+.question-item{
+  display:flex;
+  gap:12px;
+  padding:10px 0;
+  border-bottom:1px solid var(--border);
+  font-size:13px;
+  line-height:1.55;
+}
+.question-item:last-child{border-bottom:none;}
+.q-num{color:var(--amber);font-weight:700;flex-shrink:0;font-family:'DM Mono',monospace;}
+.download-btn{
+  width:100%;
+  background:var(--navy);
+  color:white;
+  border:none;
+  border-radius:12px;
+  padding:15px;
+  font-size:14.5px;
+  font-weight:600;
+  cursor:pointer;
+  font-family:'DM Sans',sans-serif;
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  gap:9px;
+  transition:background .15s;
+}
+.download-btn:hover{background:var(--navy3);}
+
+/* ── AGENT / PM DASHBOARDS ───────────────────────── */
+.agent-screen,.pm-screen{
+  max-width:1080px;
+  margin:0 auto;
+  padding:36px 24px 100px;
+}
+.agent-header{
+  display:flex;
+  align-items:flex-start;
+  justify-content:space-between;
+  margin-bottom:28px;
+}
+.agent-h{
+  font-family:'Fraunces',serif;
+  font-size:30px;
+  color:var(--navy);
+  font-weight:400;
+  letter-spacing:-0.5px;
+}
+.agent-sub{font-size:14px;color:var(--muted);margin-top:5px;}
+.agent-stats{display:grid;grid-template-columns:repeat(4,1fr);gap:12px;margin-bottom:28px;}
+.new-report-btn{
+  background:var(--amber);
+  color:white;
+  padding:11px 22px;
+  border-radius:10px;
+  font-size:14px;
+  font-weight:600;
+  cursor:pointer;
+  border:none;
+  font-family:'DM Sans',sans-serif;
+  transition:background .15s;
+  white-space:nowrap;
+}
+.new-report-btn:hover{background:var(--amber-hover);}
+.table-wrap{
+  background:white;
+  border:1px solid var(--border);
+  border-radius:16px;
+  overflow:hidden;
+}
+.table-head{
+  background:var(--slate);
+  display:grid;
+  grid-template-columns:2.5fr 1.2fr 1fr 1fr 1fr auto;
+  padding:12px 24px;
+  font-size:11px;
+  font-weight:700;
+  text-transform:uppercase;
+  letter-spacing:.7px;
+  color:var(--muted);
+  border-bottom:1px solid var(--border);
+}
+.table-row{
+  display:grid;
+  grid-template-columns:2.5fr 1.2fr 1fr 1fr 1fr auto;
+  padding:15px 24px;
+  border-top:1px solid var(--border);
+  align-items:center;
+  font-size:13.5px;
+  transition:background .1s;
+}
+.table-row:hover{background:var(--slate);}
+.client-name{font-weight:600;color:var(--navy);font-size:14px;}
+.client-addr{font-size:12px;color:var(--muted);margin-top:2px;}
+.verdict-pill{
+  font-size:11px;
+  font-weight:700;
+  padding:3px 10px;
+  border-radius:5px;
+  display:inline-block;
+  letter-spacing:.2px;
+}
+.pill-neg{background:var(--gold-bg);color:var(--gold);}
+.pill-pro{background:var(--teal-light);color:var(--teal);}
+.pill-cau{background:var(--red-bg);color:var(--red);}
+.view-btn{font-size:12.5px;color:var(--amber);cursor:pointer;font-weight:600;}
+
+/* ── PM SCREEN ───────────────────────────────────── */
+.pm-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:12px;margin-bottom:28px;}
+.pm-card{background:white;border:1px solid var(--border);border-radius:14px;padding:22px;}
+.pm-card-title{font-size:11px;text-transform:uppercase;letter-spacing:.8px;color:var(--muted);margin-bottom:6px;font-weight:700;}
+.pm-card-val{
+  font-family:'Fraunces',serif;
+  font-size:30px;
+  color:var(--navy);
+  font-weight:400;
+  letter-spacing:-0.5px;
+}
+.pm-card-sub{font-size:12px;color:var(--muted);margin-top:5px;}
+.pm-table-head{
+  background:var(--slate);
+  display:grid;
+  grid-template-columns:2fr 1.3fr 1fr 1.2fr 1fr auto;
+  padding:12px 24px;
+  font-size:11px;
+  font-weight:700;
+  text-transform:uppercase;
+  letter-spacing:.7px;
+  color:var(--muted);
+  border-bottom:1px solid var(--border);
+}
+.pm-table-row{
+  display:grid;
+  grid-template-columns:2fr 1.3fr 1fr 1.2fr 1fr auto;
+  padding:15px 24px;
+  border-top:1px solid var(--border);
+  align-items:center;
+  font-size:13.5px;
+  transition:background .1s;
+}
+.pm-table-row:hover{background:var(--slate);}
+.urgency-badge{font-size:11px;font-weight:700;padding:3px 10px;border-radius:5px;display:inline-block;}
+.urg-high{background:var(--red-bg);color:var(--red);}
+.urg-med {background:var(--gold-bg);color:var(--gold);}
+.urg-low {background:var(--teal-light);color:var(--teal);}
+
+/* ── UTILITIES ───────────────────────────────────── */
+.scrollbar-hide{scrollbar-width:none;}
+.scrollbar-hide::-webkit-scrollbar{display:none;}
+@keyframes fadeUp{from{opacity:0;transform:translateY(16px)}to{opacity:1;transform:translateY(0)}}
+.fade-up{animation:fadeUp .4s ease forwards;}
+`;
+
+/* ─────────────────────────────────────────────────────────────
+   DATA
+───────────────────────────────────────────────────────────── */
+const DEFECTS = [
+  {
+    type:"major", name:"Roof Covering — Ridge Capping", loc:"Main roof structure, western slope",
+    badge:"MAJOR DEFECT",
+    desc:"Significant cracking and displacement observed across approximately 40% of ridge capping. Multiple broken tiles on the western slope with exposed mortar bedding. This presents an active water ingress risk to the roof cavity and ceiling structure. Requires urgent attention prior to or immediately following purchase.",
+    cost:"$3,200 – $6,800",
+    tradies:[
+      {init:"JM",name:"Jake Morrow",biz:"Morrow Roofing",stars:"★★★★★",rating:"5.0",reviews:"84",suburb:"Ocean Grove",tag:"Roofing Specialist"},
+      {init:"BT",name:"Ben Tapia",biz:"Surf Coast Roof & Gutter",stars:"★★★★★",rating:"4.9",reviews:"61",suburb:"Torquay",tag:"Licensed Roofer"},
+    ]
+  },
+  {
+    type:"major", name:"Rising Damp", loc:"Western external wall, base course",
+    badge:"MAJOR DEFECT",
+    desc:"Rising damp is evident to the lower 600mm of the western external wall. Efflorescence and paint bubbling present across a 3.2m span. This indicates a failed or absent damp course. Left unaddressed, rising damp causes progressive structural damage to wall framing, plasterwork, and can create conditions conducive to mould growth.",
+    cost:"$4,500 – $9,200",
+    tradies:[
+      {init:"SD",name:"Scott Darby",biz:"Darby Damp Solutions",stars:"★★★★★",rating:"5.0",reviews:"47",suburb:"Geelong",tag:"Damp & Waterproofing"},
+      {init:"CW",name:"Chris Webb",biz:"Bellarine Building & Damp",stars:"★★★★★",rating:"4.8",reviews:"39",suburb:"Barwon Heads",tag:"Licensed Builder"},
+    ]
+  },
+  {
+    type:"minor", name:"Subfloor Ventilation Deficiency", loc:"Subfloor — southern zone",
+    badge:"MINOR DEFECT",
+    desc:"Subfloor ventilation is inadequate in the southern zone. Cross-ventilation is restricted by a blocked vent and debris accumulation. One timber bearer is showing early-stage moisture absorption. While not yet structural, this condition increases susceptibility to timber decay and termite activity if not rectified within 6–12 months.",
+    cost:"$600 – $1,400",
+    tradies:[
+      {init:"PT",name:"Pete Thorne",biz:"Thorne Building Services",stars:"★★★★★",rating:"4.9",reviews:"72",suburb:"Ocean Grove",tag:"Builder & Renovations"},
+      {init:"RL",name:"Ryan Lowe",biz:"Lowe Pest & Building",stars:"★★★★★",rating:"5.0",reviews:"28",suburb:"Queenscliff",tag:"Subfloor Specialist"},
+    ]
+  },
+  {
+    type:"minor", name:"Gutters & Downpipes", loc:"Southwest corner, rear of property",
+    badge:"MINOR DEFECT",
+    desc:"Box gutters are blocked with leaf litter and debris along the southwest elevation and are sagging 35mm below optimal drainage pitch. The rear downpipe has separated from the below-ground drainage connection. Continued blockage will result in water overflow against the external wall and potential subfloor water entry during heavy rain.",
+    cost:"$380 – $950",
+    tradies:[
+      {init:"DK",name:"Dan Kovacs",biz:"Bellarine Plumbing",stars:"★★★★★",rating:"5.0",reviews:"118",suburb:"Ocean Grove",tag:"Licensed Plumber"},
+      {init:"MH",name:"Mike Harris",biz:"Harris Gutters & Roofing",stars:"★★★★★",rating:"4.9",reviews:"55",suburb:"Leopold",tag:"Gutter Specialist"},
+    ]
+  },
+  {
+    type:"pest", name:"Termite Conducive Conditions", loc:"Western garden bed, adjacent to wall",
+    badge:"PEST RISK",
+    desc:"Timber garden sleepers are in direct ground contact within 200mm of the western external wall — a recognised high-risk condition for termite bridging. No active termite activity was detected during the inspection. However, the proximity of untreated timber to the structure represents a significant ongoing risk and should be addressed promptly. A full termite management plan is recommended.",
+    cost:"$800 – $2,200",
+    tradies:[
+      {init:"GP",name:"Grant Perry",biz:"Perry Pest Control",stars:"★★★★★",rating:"5.0",reviews:"93",suburb:"Geelong",tag:"Licensed Pest Inspector"},
+      {init:"AJ",name:"Adam Jones",biz:"Surf Coast Termite Specialists",stars:"★★★★★",rating:"4.9",reviews:"41",suburb:"Torquay",tag:"Termite Management"},
+    ]
+  },
+];
+
+const AGENT_REPORTS = [
+  {client:"Sarah & Tom Brennan",addr:"48 Torquay Rd, Ocean Grove",date:"08 May 2026",verdict:"Negotiate",price:"$785,000",saving:"$14,000",pill:"pill-neg"},
+  {client:"James Whitfield",addr:"22 Surf Parade, Barwon Heads",date:"06 May 2026",verdict:"Proceed",price:"$1,140,000",saving:"$3,500",pill:"pill-pro"},
+  {client:"Priya Sharma",addr:"7 Banksia Ct, Drysdale",date:"04 May 2026",verdict:"Caution",price:"$620,000",saving:"$28,000",pill:"pill-cau"},
+  {client:"Mark & Jo Deluca",addr:"15 Reserve Dr, Portarlington",date:"01 May 2026",verdict:"Negotiate",price:"$840,000",saving:"$11,500",pill:"pill-neg"},
+  {client:"Callum Rhodes",addr:"3 Dunes Ave, Point Lonsdale",date:"28 Apr 2026",verdict:"Proceed",price:"$965,000",saving:"$2,000",pill:"pill-pro"},
+];
+
+const PM_MAINTENANCE = [
+  {addr:"14 Shell Rd, Clifton Springs",tenant:"Harrison",type:"Roof Leak — Active",urgency:"High",cls:"urg-high",cost:"$2,400–$4,800",tradie:"Morrow Roofing"},
+  {addr:"8 Portarlington Rd, Indented Head",tenant:"Patel",type:"Hot Water System Failure",urgency:"High",cls:"urg-high",cost:"$1,200–$2,400",tradie:"Bellarine Plumbing"},
+  {addr:"22 Bay St, Queenscliff",tenant:"Morrison",type:"Subfloor Damp — Early Stage",urgency:"Medium",cls:"urg-med",cost:"$600–$1,400",tradie:"Thorne Building"},
+  {addr:"31 Flinders Ave, Leopold",tenant:"Chen",type:"Gutter Blockage",urgency:"Low",cls:"urg-low",cost:"$350–$600",tradie:"Harris Gutters"},
+  {addr:"5 Dune Ct, Ocean Grove",tenant:"Williams",type:"External Paint Peeling",urgency:"Low",cls:"urg-low",cost:"$800–$2,000",tradie:"Pending"},
+];
+
+const LOAD_STEPS = [
+  "Reading inspection report…",
+  "Identifying major defects (AS4349.1)…",
+  "Classifying minor defects…",
+  "Assessing pest and termite findings…",
+  "Estimating repair costs (AU rates)…",
+  "Matching local 5-star tradies…",
+  "Generating negotiation position…",
+  "Building your report…",
+];
+
+const NEGOTIATION_TEXT = `Hi [Agent Name],
+
+Following our building and pest inspection at 48 Torquay Road, we have identified significant defects requiring rectification estimated between $9,080 and $19,350 (independent trade quotes obtained).
+
+In light of these findings, we are seeking a price adjustment of $14,000, reflecting fair market compensation for the remediation works required. We remain genuinely interested in proceeding and look forward to your response.
+
+Kind regards,
+[Buyer Name]`;
+
+/* ─────────────────────────────────────────────────────────────
+   APP
+───────────────────────────────────────────────────────────── */
+export default function App() {
+  const [screen, setScreen]   = useState("upload");
+  const [loadStep, setLoadStep] = useState(0);
+  const [expanded, setExpanded] = useState({});
+  const [copied, setCopied]   = useState(false);
+  const [navTab, setNavTab]   = useState("buyer");
+
+  useEffect(() => {
+    if (screen !== "loading") return;
+    if (loadStep >= LOAD_STEPS.length) { setTimeout(() => setScreen("results"), 400); return; }
+    const t = setTimeout(() => setLoadStep(s => s + 1), 650);
+    return () => clearTimeout(t);
+  }, [screen, loadStep]);
+
+  const toggle   = (i) => setExpanded(e => ({ ...e, [i]: !e[i] }));
+  const simulate = () => { setLoadStep(0); setScreen("loading"); };
+  const goTo     = (s, tab) => { setScreen(s); if (tab) setNavTab(tab); };
+
+  return (
+    <>
+      <style>{G}</style>
+
+      {/* ── NAV ─────────────────────────────────────── */}
+      <nav className="nav">
+        <div className="nav-logo">Report<span>Decoded</span></div>
+        <div className="nav-links">
+          <div
+            className={`nav-link ${navTab==="buyer"?"active":""}`}
+            onClick={() => goTo("upload","buyer")}
+          >For Buyers</div>
+          <div
+            className={`nav-link ${navTab==="agent"?"active":""}`}
+            onClick={() => goTo("agent","agent")}
+          >For Agents</div>
+          <div
+            className={`nav-link ${navTab==="pm"?"active":""}`}
+            onClick={() => goTo("pm","pm")}
+          >For Property Managers</div>
+          <button className="nav-cta">Sign In</button>
+        </div>
+      </nav>
+
+      {/* ── SCREEN TABS (results only) ────────────── */}
+      {screen === "results" && (
+        <div className="screen-tabs scrollbar-hide">
+          {[
+            {s:"upload",  label:"↑ Upload New"},
+            {s:"results", label:"📋 Results View"},
+            {s:"agent",   label:"👤 Agent Dashboard"},
+            {s:"pm",      label:"🏢 PM Dashboard"},
+          ].map(({s, label}) => (
+            <div
+              key={s}
+              className={`stab ${screen===s?"active":""}`}
+              onClick={() => {
+                setScreen(s);
+                if (s==="agent") setNavTab("agent");
+                else if (s==="pm") setNavTab("pm");
+                else setNavTab("buyer");
+              }}
+            >{label}</div>
+          ))}
+        </div>
+      )}
+
+      {/* ══════════════════════════════════════════════
+          UPLOAD SCREEN
+      ══════════════════════════════════════════════ */}
+      {screen === "upload" && (
+        <div className="fade-up">
+
+          {/* Dark cinematic hero */}
+          <div className="hero-section">
+            <div className="hero-badge">🇦🇺 Built for Australian Property Buyers</div>
+            <h1 className="hero-h">
+              Your building report,<br/><em>decoded.</em>
+            </h1>
+            <p className="hero-sub">
+              Upload your inspection report and get a plain-English verdict — what's serious, what it costs to fix, local 5-star tradies, and exactly how much to negotiate off the price.
+            </p>
+          </div>
+
+          {/* Upload card — rises from hero */}
+          <div className="upload-area">
+
+            <div className="upload-zone" onClick={simulate}>
+              <div className="upload-icon">📄</div>
+              <div className="upload-title">Drop your inspection report here</div>
+              <div className="upload-sub">
+                Supports building, pest & combined reports · AS4349.1 compliant reports
+              </div>
+              <button
+                className="upload-btn"
+                onClick={e => { e.stopPropagation(); simulate(); }}
+              >
+                Upload & Decode Report →
+              </button>
+              <div className="upload-filetypes">
+                PDF format · End-to-end encrypted · Results in under 60 seconds
+              </div>
+            </div>
+
+            {/* How it works */}
+            <div className="how-strip">
+              {[
+                {n:"01", label:"Upload Your Report",  desc:"Drop any AS4349.1 building & pest inspection PDF"},
+                {n:"02", label:"AI Analysis",          desc:"Defects classified, costs estimated, tradies matched"},
+                {n:"03", label:"Your Verdict",          desc:"Plain-English summary + ready-to-send negotiation letter"},
+              ].map(({n, label, desc}) => (
+                <div className="how-step" key={n}>
+                  <div className="how-num">{n}</div>
+                  <div>
+                    <div className="how-label">{label}</div>
+                    <div className="how-desc">{desc}</div>
+                  </div>
+                </div>
+              ))}
+            </div>
+
+            {/* Pricing */}
+            <div className="pricing-row">
+              <div className="price-card">
+                <div className="price-label">Single Report</div>
+                <div className="price-amount">$59</div>
+                <div className="price-desc">Full analysis, cost estimates & 2 tradie picks per defect</div>
+              </div>
+              <div className="price-card featured">
+                <div className="price-label">3-Report Pack</div>
+                <div className="price-amount">$149</div>
+                <div className="price-desc">For investors evaluating multiple properties at once</div>
+                <div className="price-tag">Most Popular</div>
+              </div>
+              <div className="price-card">
+                <div className="price-label">Agent / PM Monthly</div>
+                <div className="price-amount">$99<span style={{fontSize:17,fontWeight:300}}>/mo</span></div>
+                <div className="price-desc">Unlimited reports, white-label branding & client delivery</div>
+              </div>
+            </div>
+
+            {/* Trust bar */}
+            <div className="trust-bar">
+              {[
+                "No subscription required",
+                "Results in under 60 seconds",
+                "Australian Standard AS4349.1",
+                "Verified 5-star local tradies",
+                "Your report stays private",
+              ].map(t => (
+                <div className="trust-item" key={t}>
+                  <div className="trust-dot"/>
+                  {t}
+                </div>
+              ))}
+            </div>
+
+          </div>
+        </div>
+      )}
+
+      {/* ══════════════════════════════════════════════
+          LOADING SCREEN
+      ══════════════════════════════════════════════ */}
+      {screen === "loading" && (
+        <div className="loading-screen">
+          <div className="loading-ring">
+            <div className="loading-ring-outer"/>
+            <div className="loading-ring-inner"/>
+          </div>
+          <h2 className="loading-h">Analysing your report…</h2>
+          <p className="loading-sub">This usually takes 30–60 seconds</p>
+          <div className="loading-steps">
+            {LOAD_STEPS.map((s, i) => (
+              <div
+                key={i}
+                className={`lstep ${i < loadStep ? "done" : i === loadStep ? "active" : "wait"}`}
+              >
+                <div className="lstep-icon">
+                  {i < loadStep ? "✓" : i === loadStep ? "›" : "·"}
+                </div>
+                {i < loadStep ? s : s}
+              </div>
+            ))}
+          </div>
+        </div>
+      )}
+
+      {/* ══════════════════════════════════════════════
+          RESULTS SCREEN
+      ══════════════════════════════════════════════ */}
+      {screen === "results" && (
+        <div className="results-screen fade-up">
+
+          {/* Property bar */}
+          <div className="prop-bar">
+            <div>
+              <div className="prop-addr">48 Torquay Road, Ocean Grove VIC 3226</div>
+              <div className="prop-meta">Building + Pest Inspection · Processed 8 May 2026 · Ref: RD-2026-0841</div>
+            </div>
+            <div style={{textAlign:"right"}}>
+              <div className="prop-price-label">Purchase Price</div>
+              <div className="prop-price-val">$785,000</div>
+            </div>
+          </div>
+
+          {/* Verdict */}
+          <div className="verdict-card negotiate">
+            <div className="verdict-left">
+              <span className="verdict-emoji">⚖️</span>
+              <div className="verdict-badge">Negotiate</div>
+            </div>
+            <div className="verdict-text">
+              <strong>This property has 2 major defects requiring urgent attention before or after settlement.</strong> The roof capping failure and rising damp to the western wall are genuine structural concerns with meaningful repair costs. They are fixable — but they give you clear, documented grounds to negotiate a price reduction. The minor defects and pest conditions are manageable and typical for a property of this age. <strong>Recommended negotiation: $14,000 off the listed price.</strong>
+            </div>
+          </div>
+
+          {/* Stats */}
+          <div className="stats-row">
+            {[
+              {label:"Defects Found",    val:"5",        sub:"2 major · 2 minor · 1 pest risk"},
+              {label:"Est. Repair Cost", val:"$14K–$20K",sub:"Independent tradie estimates"},
+              {label:"Negotiation Target",val:"$14,000", sub:"Based on repair cost midpoint"},
+              {label:"Tradies Matched",  val:"10",       sub:"2 per defect · 5-star rated"},
+            ].map((s,i) => (
+              <div className="stat-card" key={i}>
+                <div className="stat-label">{s.label}</div>
+                <div className="stat-val">{s.val}</div>
+                <div className="stat-sub">{s.sub}</div>
+              </div>
+            ))}
+          </div>
+
+          {/* Two column layout */}
+          <div className="two-col">
+            {/* Left: defects */}
+            <div>
+              {[
+                {type:"major", label:"🔴  Major Defects"},
+                {type:"minor", label:"🟡  Minor Defects"},
+                {type:"pest",  label:"🟤  Pest Findings"},
+              ].map(({type, label}) => {
+                const items = DEFECTS.filter(d => d.type === type);
+                return (
+                  <div key={type} style={{marginBottom:28}}>
+                    <div className="section-label">{label}</div>
+                    {items.map((d, i) => {
+                      const key = `${type}-${i}`;
+                      return (
+                        <div className={`defect-card ${type}`} key={key}>
+                          <div className="defect-header" onClick={() => toggle(key)}>
+                            <div className="defect-title-row">
+                              <div className="severity-dot"/>
+                              <div>
+                                <div className="defect-name">{d.name}</div>
+                                <div className="defect-loc">{d.loc}</div>
+                              </div>
+                            </div>
+                            <div style={{display:"flex",alignItems:"center",gap:10}}>
+                              <div className="severity-badge">{d.badge}</div>
+                              <div className="defect-chevron">{expanded[key]?"▲":"▼"}</div>
+                            </div>
+                          </div>
+
+                          {expanded[key] && (
+                            <div className="defect-body">
+                              <p className="defect-desc">{d.desc}</p>
+                              <div className="cost-chip">
+                                💰 Estimated repair cost: <strong>{d.cost}</strong>
+                              </div>
+                              <div className="tradies-section">
+                                <div className="tradies-label">✅  Recommended Local Tradies</div>
+                                <div className="tradie-cards">
+                                  {d.tradies.map((t, ti) => (
+                                    <div className="tradie-card" key={ti}>
+                                      <div className="tradie-top">
+                                        <div className="tradie-avatar">{t.init}</div>
+                                        <div>
+                                          <div className="tradie-name">{t.name}</div>
+                                          <div className="tradie-biz">{t.biz}</div>
+                                          <div className="stars">
+                                            {t.stars}
+                                            <span style={{color:"var(--muted)",fontSize:10}}> {t.rating} ({t.reviews} reviews)</span>
+                                          </div>
+                                        </div>
+                                      </div>
+                                      <div className="tradie-meta">
+                                        <span className="tradie-tag">📍 {t.suburb}</span>
+                                        <span className="tradie-tag">{t.tag}</span>
+                                      </div>
+                                      <button className="tradie-quote-btn">Get Quote →</button>
+                                    </div>
+                                  ))}
+                                </div>
+                              </div>
+                            </div>
+                          )}
+                        </div>
+                      );
+                    })}
+                  </div>
+                );
+              })}
+            </div>
+
+            {/* Right: panel */}
+            <div className="right-panel">
+              <div className="panel-card">
+                <div className="panel-title">💬 Negotiation Language</div>
+                <div className="negs-amount">–$14,000</div>
+                <div className="negs-sub">Recommended price reduction based on repair cost midpoint. Copy and send directly to your agent.</div>
+                <div className="negs-text">{NEGOTIATION_TEXT}</div>
+                <button
+                  className="copy-btn"
+                  onClick={() => { setCopied(true); setTimeout(() => setCopied(false), 2000); }}
+                >
+                  {copied ? "✓ Copied to clipboard" : "Copy to Clipboard"}
+                </button>
+              </div>
+
+              <div className="panel-card">
+                <div className="panel-title">❓ Ask Your Conveyancer</div>
+                {[
+                  "Can the vendor be required to fix the major defects as a condition of sale?",
+                  "Is the rising damp disclosed anywhere in the Section 32?",
+                  "Does the cooling-off period allow time to obtain independent trade quotes?",
+                  "Are there any drainage easements affecting the western boundary?",
+                ].map((q, i) => (
+                  <div className="question-item" key={i}>
+                    <span className="q-num">Q{i+1}</span>
+                    <span style={{color:"#374151"}}>{q}</span>
+                  </div>
+                ))}
+              </div>
+
+              <button className="download-btn">
+                ⬇&nbsp; Download Full PDF Report
+              </button>
+            </div>
+          </div>
+        </div>
+      )}
+
+      {/* ══════════════════════════════════════════════
+          AGENT DASHBOARD
+      ══════════════════════════════════════════════ */}
+      {screen === "agent" && (
+        <div className="agent-screen fade-up">
+          <div className="agent-header">
+            <div>
+              <div className="agent-h">Client Reports</div>
+              <div className="agent-sub">Bellarine Buyer's Agency · White-label plan · Unlimited reports</div>
+            </div>
+            <button className="new-report-btn" onClick={simulate}>+ Upload New Report</button>
+          </div>
+
+          <div className="agent-stats">
+            {[
+              {label:"Reports This Month",     val:"18",      sub:"↑ 6 from last month"},
+              {label:"Avg. Negotiation Saved", val:"$11,200", sub:"Per successful negotiation"},
+              {label:"Tradie Referrals",       val:"34",      sub:"Jobs connected this month"},
+              {label:"Client Satisfaction",   val:"4.97/5",  sub:"Based on 18 responses"},
+            ].map((s, i) => (
+              <div className="stat-card" key={i}>
+                <div className="stat-label">{s.label}</div>
+                <div className="stat-val">{s.val}</div>
+                <div className="stat-sub">{s.sub}</div>
+              </div>
+            ))}
+          </div>
+
+          <div className="table-wrap">
+            <div className="table-head">
+              <div>Client / Property</div>
+              <div>Date</div>
+              <div>Price</div>
+              <div>Verdict</div>
+              <div>Saving</div>
+              <div/>
+            </div>
+            {AGENT_REPORTS.map((r, i) => (
+              <div className="table-row" key={i}>
+                <div>
+                  <div className="client-name">{r.client}</div>
+                  <div className="client-addr">{r.addr}</div>
+                </div>
+                <div style={{color:"var(--muted)",fontSize:13}}>{r.date}</div>
+                <div style={{fontFamily:"'DM Mono',monospace",fontSize:13}}>{r.price}</div>
+                <div><span className={`verdict-pill ${r.pill}`}>{r.verdict}</span></div>
+                <div style={{fontFamily:"'DM Mono',monospace",fontSize:13,color:"var(--teal)",fontWeight:600}}>{r.saving}</div>
+                <div className="view-btn" onClick={() => setScreen("results")}>View →</div>
+              </div>
+            ))}
+          </div>
+        </div>
+      )}
+
+      {/* ══════════════════════════════════════════════
+          PM DASHBOARD
+      ══════════════════════════════════════════════ */}
+      {screen === "pm" && (
+        <div className="pm-screen fade-up">
+          <div className="agent-header">
+            <div>
+              <div className="agent-h">Maintenance Triage</div>
+              <div className="agent-sub">Bellarine Property Management · 143 properties · PM Pro plan</div>
+            </div>
+            <button className="new-report-btn">+ Upload Inspection Report</button>
+          </div>
+
+          <div className="pm-grid">
+            {[
+              {label:"Properties Managed",    val:"143", sub:"Across Bellarine & Surf Coast"},
+              {label:"Open Maintenance",      val:"5",   sub:"2 urgent · 2 medium · 1 low"},
+              {label:"Tradie Jobs Booked",    val:"12",  sub:"This month via Report Decoded"},
+              {label:"Landlord Reports Sent", val:"18",  sub:"Plain-English summaries"},
+            ].map((s, i) => (
+              <div className="pm-card" key={i}>
+                <div className="pm-card-title">{s.label}</div>
+                <div className="pm-card-val">{s.val}</div>
+                <div className="pm-card-sub">{s.sub}</div>
+              </div>
+            ))}
+          </div>
+
+          <div className="section-label" style={{marginBottom:12}}>Open Maintenance Items</div>
+          <div className="table-wrap">
+            <div className="pm-table-head">
+              <div>Property / Tenant</div>
+              <div>Issue Type</div>
+              <div>Urgency</div>
+              <div>Est. Cost</div>
+              <div>Tradie</div>
+              <div/>
+            </div>
+            {PM_MAINTENANCE.map((r, i) => (
+              <div className="pm-table-row" key={i}>
+                <div>
+                  <div className="client-name" style={{fontSize:13.5}}>{r.addr}</div>
+                  <div className="client-addr">Tenant: {r.tenant}</div>
+                </div>
+                <div style={{fontSize:13}}>{r.type}</div>
+                <div><span className={`urgency-badge ${r.cls}`}>{r.urgency}</span></div>
+                <div style={{fontFamily:"'DM Mono',monospace",fontSize:12,color:"var(--muted)"}}>{r.cost}</div>
+                <div style={{fontSize:13,color:r.tradie==="Pending"?"var(--red)":"var(--teal)",fontWeight:600}}>{r.tradie}</div>
+                <div className="view-btn">Action →</div>
+              </div>
+            ))}
+          </div>
+        </div>
+      )}
+    </>
+  );
+}
+
