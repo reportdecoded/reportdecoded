@@ -241,9 +241,10 @@ function ResultsView({ analysis, expanded, toggle, copied, setCopied }) {
   const pests = analysis.pest_findings || [];
   const totalDefects = majors.length + minors.length + pests.length;
 
+  const copyText = analysis.builder_rectification_letter || analysis.negotiation_language || '';
   const handleCopy = async () => {
     try {
-      await navigator.clipboard.writeText(analysis.negotiation_language || '');
+      await navigator.clipboard.writeText(copyText);
       setCopied(true);
       setTimeout(() => setCopied(false), 2000);
     } catch {
@@ -362,6 +363,32 @@ function ResultsView({ analysis, expanded, toggle, copied, setCopied }) {
               <button className="copy-btn" onClick={handleCopy}>
                 {copied ? '✓ Copied to clipboard' : 'Copy to Clipboard'}
               </button>
+            </div>
+          )}
+
+          {analysis.builder_rectification_letter && (
+            <div className="panel-card">
+              <div className="panel-title">🔧 Rectification Letter to Builder</div>
+              <div className="negs-amount">
+                {fmt$(analysis.negotiation_amount)}
+              </div>
+              <div className="negs-sub">
+                Estimated value of rectification work outstanding. Send to your builder /
+                site supervisor before signing off practical completion.
+              </div>
+              <div className="negs-text">{analysis.builder_rectification_letter}</div>
+              <button className="copy-btn" onClick={handleCopy}>
+                {copied ? '✓ Copied to clipboard' : 'Copy to Clipboard'}
+              </button>
+            </div>
+          )}
+
+          {analysis.if_builder_refuses_note && (
+            <div className="panel-card">
+              <div className="panel-title">⚠️ If your builder refuses</div>
+              <div style={{ color: '#374151', fontSize: 14, lineHeight: 1.6, whiteSpace: 'pre-wrap' }}>
+                {analysis.if_builder_refuses_note}
+              </div>
             </div>
           )}
 

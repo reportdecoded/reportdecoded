@@ -949,6 +949,7 @@ export default function App() {
   const [buyerEmail, setBuyerEmail]   = useState("");
   const [purchasePrice, setPurchasePrice] = useState("");
   const [pack, setPack]               = useState("single");
+  const [reportType, setReportType]   = useState("pre_purchase");
   const [processing, setProcessing]   = useState(false);
   const [uploadError, setUploadError] = useState(null);
 
@@ -1007,6 +1008,7 @@ export default function App() {
           buyerEmail,
           purchasePrice: purchasePrice ? Number(purchasePrice) : null,
           pack,
+          reportType,
         }),
       });
       const data = await res.json();
@@ -1026,6 +1028,7 @@ export default function App() {
     setUploadedFile(null);
     setBuyerEmail("");
     setPurchasePrice("");
+    setReportType("pre_purchase");
     setUploadError(null);
     if (fileInputRef.current) fileInputRef.current.value = "";
   };
@@ -1154,6 +1157,44 @@ export default function App() {
                 </div>
 
                 <div style={{display:"flex",flexDirection:"column",gap:14,maxWidth:480,margin:"0 auto"}}>
+                  <fieldset style={{border:"1px solid var(--border)",borderRadius:10,padding:"10px 14px 12px",background:"#fff"}}>
+                    <legend style={{fontSize:13,color:"var(--muted)",padding:"0 4px"}}>
+                      Type of report
+                    </legend>
+                    <label style={{display:"flex",alignItems:"flex-start",gap:10,padding:"6px 2px",cursor:"pointer"}}>
+                      <input
+                        type="radio"
+                        name="reportType"
+                        value="pre_purchase"
+                        checked={reportType === "pre_purchase"}
+                        onChange={() => setReportType("pre_purchase")}
+                        style={{marginTop:4}}
+                      />
+                      <div style={{textAlign:"left",fontSize:14,color:"var(--text)"}}>
+                        <strong>Pre-purchase inspection</strong>
+                        <div style={{fontSize:12,color:"var(--muted)",marginTop:2}}>
+                          You're buying a property. Get a verdict + negotiation language for your agent.
+                        </div>
+                      </div>
+                    </label>
+                    <label style={{display:"flex",alignItems:"flex-start",gap:10,padding:"6px 2px",cursor:"pointer"}}>
+                      <input
+                        type="radio"
+                        name="reportType"
+                        value="new_build_handover"
+                        checked={reportType === "new_build_handover"}
+                        onChange={() => setReportType("new_build_handover")}
+                        style={{marginTop:4}}
+                      />
+                      <div style={{textAlign:"left",fontSize:14,color:"var(--text)"}}>
+                        <strong>New build handover</strong>
+                        <div style={{fontSize:12,color:"var(--muted)",marginTop:2}}>
+                          You're about to take possession of a new build. Get a rectification letter to your builder + a plan-B if they refuse.
+                        </div>
+                      </div>
+                    </label>
+                  </fieldset>
+
                   <label style={{fontSize:13,color:"var(--muted)",textAlign:"left"}}>
                     Your email *
                     <input

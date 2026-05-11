@@ -18,11 +18,15 @@ export async function POST(request) {
       buyerEmail,
       purchasePrice,
       pack = 'single',
+      reportType = 'pre_purchase',
     } = await request.json();
 
     const price = PRICES[pack];
     if (!price) {
       return Response.json({ error: 'Invalid pack type' }, { status: 400 });
+    }
+    if (!['pre_purchase', 'new_build_handover'].includes(reportType)) {
+      return Response.json({ error: 'Invalid reportType' }, { status: 400 });
     }
     if (!reportUrl) {
       return Response.json({ error: 'reportUrl is required' }, { status: 400 });
@@ -40,6 +44,7 @@ export async function POST(request) {
         buyer_email: buyerEmail,
         purchase_price: purchasePrice ? Number(purchasePrice) : null,
         pack,
+        report_type: reportType,
         status: 'pending',
         payment_status: 'unpaid',
       })
