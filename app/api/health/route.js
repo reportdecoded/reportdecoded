@@ -28,7 +28,7 @@ export async function GET() {
   const status = KEYS.map(({ name, required, label }) => {
     const value = process.env[name];
     const present = typeof value === 'string' && value.length > 0;
-    return { name, label, required, present };
+    return { name, label, required, present, length: value?.length ?? 0 };
   });
 
   const missingRequired = status.filter((s) => s.required && !s.present);
