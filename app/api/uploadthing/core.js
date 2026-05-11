@@ -7,7 +7,7 @@ const f = createUploadthing();
 // that happens in /api/payment after the buyer commits to checkout.
 export const ourFileRouter = {
   inspectionReport: f({
-    pdf: { maxFileSize: '16MB', maxFileCount: 1 },
+    pdf: { maxFileSize: '25MB', maxFileCount: 1 },
   })
     // No auth gate yet — the upload is anonymous until payment.
     .middleware(async () => ({}))
