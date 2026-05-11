@@ -1,0 +1,421 @@
+'use client';
+import { Suspense, useEffect, useState } from 'react';
+import { useSearchParams } from 'next/navigation';
+import Link from 'next/link';
+import { STYLES } from '@/components/ReportDecoded';
+
+const LOAD_STEPS = [
+  'Reading inspection report…',
+  'Identifying major defects (AS4349.1)…',
+  'Classifying minor defects…',
+  'Assessing pest and termite findings…',
+  'Estimating repair costs (AU rates)…',
+  'Generating negotiation position…',
+  'Drafting conveyancer questions…',
+  'Building your report…',
+];
+
+function ResultsBody() {
+  const params = useSearchParams();
+  const reportId = params.get('reportId');
+
+  const [report, setReport] = useState(null);
+  const [error, setError] = useState(null);
+  const [loadStep, setLoadStep] = useState(0);
+  const [expanded, setExpanded] = useState({});
+  const [copied, setCopied] = useState(false);
+
+  // Poll /api/report-status until complete or failed.
+  useEffect(() => {
+    if (!reportId) return;
+    let cancelled = false;
+    let timeoutId;
+
+    async function poll() {
+      try {
+        const res = await fetch(`/api/report-status?reportId=${reportId}`);
+        if (cancelled) return;
+        if (!res.ok) {
+          setError(`Couldn't load this report (HTTP ${res.status}).`);
+          return;
+        }
+        const data = await res.json();
+        if (cancelled) return;
+        setReport(data);
+        if (data.status === 'complete' || data.status === 'failed') return;
+        timeoutId = setTimeout(poll, 3000);
+      } catch (e) {
+        if (!cancelled) setError(e?.message || 'Network error');
+      }
+    }
+    poll();
+    return () => {
+      cancelled = true;
+      clearTimeout(timeoutId);
+    };
+  }, [reportId]);
+
+  // Animate the load steps while waiting.
+  useEffect(() => {
+    if (report?.status === 'complete' || report?.status === 'failed') return;
+    if (loadStep >= LOAD_STEPS.length - 1) return;
+    const t = setTimeout(() => setLoadStep((s) => s + 1), 4500);
+    return () => clearTimeout(t);
+  }, [loadStep, report?.status]);
+
+  const toggle = (k) => setExpanded((e) => ({ ...e, [k]: !e[k] }));
+
+  return (
+    <>
+      <style>{STYLES}</style>
+
+      <nav className="nav">
+        <Link href="/" style={{ textDecoration: 'none' }}>
+          <div className="nav-logo">
+            Report<span>Decoded</span>
+          </div>
+        </Link>
+        <div className="nav-links">
+          <Link href="/" className="nav-link" style={{ textDecoration: 'none' }}>
+            ← Upload Another
+          </Link>
+        </div>
+      </nav>
+
+      {!reportId && <NoReportId />}
+      {reportId && error && <ErrorState message={error} />}
+      {reportId && !error && (!report || report.status === 'pending' || report.status === 'processing') && (
+        <LoadingState loadStep={loadStep} />
+      )}
+      {reportId && !error && report?.status === 'failed' && (
+        <FailedState reason={report.failure_reason} />
+      )}
+      {reportId && !error && report?.status === 'complete' && (
+        <ResultsView
+          analysis={report.analysis}
+          expanded={expanded}
+          toggle={toggle}
+          copied={copied}
+          setCopied={setCopied}
+        />
+      )}
+    </>
+  );
+}
+
+function NoReportId() {
+  return (
+    <div className="loading-screen">
+      <h2 className="loading-h">No report selected.</h2>
+      <p className="loading-sub">
+        Head back home and upload an inspection report to get started.
+      </p>
+    </div>
+  );
+}
+
+function ErrorState({ message }) {
+  return (
+    <div className="loading-screen">
+      <h2 className="loading-h">Something went wrong.</h2>
+      <p className="loading-sub">{message}</p>
+    </div>
+  );
+}
+
+function FailedState({ reason }) {
+  return (
+    <div className="loading-screen">
+      <h2 className="loading-h">We couldn't analyse this report.</h2>
+      <p className="loading-sub">
+        {reason ||
+          'The file may be a scanned image instead of a text PDF. A full refund has been processed.'}
+      </p>
+    </div>
+  );
+}
+
+function LoadingState({ loadStep }) {
+  return (
+    <div className="loading-screen">
+      <div className="loading-ring">
+        <div className="loading-ring-outer" />
+        <div className="loading-ring-inner" />
+      </div>
+      <h2 className="loading-h">Analysing your report…</h2>
+      <p className="loading-sub">This usually takes 30–60 seconds.</p>
+      <div className="loading-steps">
+        {LOAD_STEPS.map((s, i) => (
+          <div
+            key={i}
+            className={`lstep ${i < loadStep ? 'done' : i === loadStep ? 'active' : 'wait'}`}
+          >
+            <div className="lstep-icon">
+              {i < loadStep ? '✓' : i === loadStep ? '›' : '·'}
+            </div>
+            {s}
+          </div>
+        ))}
+      </div>
+    </div>
+  );
+}
+
+function VerdictBadge({ verdict }) {
+  if (verdict === 'PROCEED')
+    return (
+      <div className="verdict-left">
+        <span className="verdict-emoji">✅</span>
+        <div className="verdict-badge">Proceed</div>
+      </div>
+    );
+  if (verdict === 'WALK AWAY')
+    return (
+      <div className="verdict-left">
+        <span className="verdict-emoji">🛑</span>
+        <div className="verdict-badge">Walk Away</div>
+      </div>
+    );
+  return (
+    <div className="verdict-left">
+      <span className="verdict-emoji">⚖️</span>
+      <div className="verdict-badge">Negotiate</div>
+    </div>
+  );
+}
+
+function verdictCardClass(verdict) {
+  if (verdict === 'PROCEED') return 'verdict-card proceed';
+  if (verdict === 'WALK AWAY') return 'verdict-card walk';
+  return 'verdict-card negotiate';
+}
+
+function fmt$(n) {
+  if (n == null || isNaN(n)) return '—';
+  return `$${Number(n).toLocaleString('en-AU')}`;
+}
+
+function DefectCard({ kind, defect, index, expanded, toggle }) {
+  const key = `${kind}-${index}`;
+  const badge =
+    kind === 'major' ? 'MAJOR DEFECT' : kind === 'minor' ? 'MINOR DEFECT' : 'PEST RISK';
+  return (
+    <div className={`defect-card ${kind}`}>
+      <div className="defect-header" onClick={() => toggle(key)}>
+        <div className="defect-title-row">
+          <div className="severity-dot" />
+          <div>
+            <div className="defect-name">{defect.name}</div>
+            <div className="defect-loc">{defect.location}</div>
+          </div>
+        </div>
+        <div style={{ display: 'flex', alignItems: 'center', gap: 10 }}>
+          <div className="severity-badge">{badge}</div>
+          <div className="defect-chevron">{expanded[key] ? '▲' : '▼'}</div>
+        </div>
+      </div>
+      {expanded[key] && (
+        <div className="defect-body">
+          <p className="defect-desc">{defect.plain_english}</p>
+          {defect.why_it_matters && (
+            <p className="defect-desc" style={{ marginTop: 12, fontStyle: 'italic' }}>
+              <strong>Why it matters:</strong> {defect.why_it_matters}
+            </p>
+          )}
+          <div className="cost-chip">
+            💰 Estimated repair cost:{' '}
+            <strong>
+              {fmt$(defect.repair_cost_low)} – {fmt$(defect.repair_cost_high)}
+            </strong>
+          </div>
+        </div>
+      )}
+    </div>
+  );
+}
+
+function ResultsView({ analysis, expanded, toggle, copied, setCopied }) {
+  if (!analysis) return null;
+  const majors = analysis.major_defects || [];
+  const minors = analysis.minor_defects || [];
+  const pests = analysis.pest_findings || [];
+  const totalDefects = majors.length + minors.length + pests.length;
+
+  const handleCopy = async () => {
+    try {
+      await navigator.clipboard.writeText(analysis.negotiation_language || '');
+      setCopied(true);
+      setTimeout(() => setCopied(false), 2000);
+    } catch {
+      /* ignore */
+    }
+  };
+
+  return (
+    <div className="results-screen fade-up">
+      <div className="prop-bar">
+        <div>
+          <div className="prop-addr">
+            {analysis.property_address || 'Property address pending'}
+          </div>
+          <div className="prop-meta">
+            Building + Pest Inspection
+            {analysis.inspection_date ? ` · ${analysis.inspection_date}` : ''}
+            {analysis.building_era ? ` · ${analysis.building_era}` : ''}
+          </div>
+        </div>
+      </div>
+
+      <div className={verdictCardClass(analysis.overall_verdict)}>
+        <VerdictBadge verdict={analysis.overall_verdict} />
+        <div className="verdict-text">{analysis.verdict_summary}</div>
+      </div>
+
+      <div className="stats-row">
+        <div className="stat-card">
+          <div className="stat-label">Defects Found</div>
+          <div className="stat-val">{totalDefects}</div>
+          <div className="stat-sub">
+            {majors.length} major · {minors.length} minor · {pests.length} pest
+          </div>
+        </div>
+        <div className="stat-card">
+          <div className="stat-label">Est. Repair Cost</div>
+          <div className="stat-val">
+            {fmt$(analysis.total_repair_cost_low)} – {fmt$(analysis.total_repair_cost_high)}
+          </div>
+          <div className="stat-sub">Independent tradie estimates</div>
+        </div>
+        <div className="stat-card">
+          <div className="stat-label">Negotiation Target</div>
+          <div className="stat-val">{fmt$(analysis.negotiation_amount)}</div>
+          <div className="stat-sub">Based on repair cost midpoint</div>
+        </div>
+        <div className="stat-card">
+          <div className="stat-label">Verdict</div>
+          <div className="stat-val">{analysis.overall_verdict || '—'}</div>
+          <div className="stat-sub">AS4349.1 assessment</div>
+        </div>
+      </div>
+
+      <div className="two-col">
+        <div>
+          {majors.length > 0 && (
+            <div style={{ marginBottom: 28 }}>
+              <div className="section-label">🔴  Major Defects</div>
+              {majors.map((d, i) => (
+                <DefectCard
+                  key={i}
+                  kind="major"
+                  defect={d}
+                  index={i}
+                  expanded={expanded}
+                  toggle={toggle}
+                />
+              ))}
+            </div>
+          )}
+          {minors.length > 0 && (
+            <div style={{ marginBottom: 28 }}>
+              <div className="section-label">🟡  Minor Defects</div>
+              {minors.map((d, i) => (
+                <DefectCard
+                  key={i}
+                  kind="minor"
+                  defect={d}
+                  index={i}
+                  expanded={expanded}
+                  toggle={toggle}
+                />
+              ))}
+            </div>
+          )}
+          {pests.length > 0 && (
+            <div style={{ marginBottom: 28 }}>
+              <div className="section-label">🟤  Pest Findings</div>
+              {pests.map((d, i) => (
+                <DefectCard
+                  key={i}
+                  kind="pest"
+                  defect={d}
+                  index={i}
+                  expanded={expanded}
+                  toggle={toggle}
+                />
+              ))}
+            </div>
+          )}
+        </div>
+
+        <div className="right-panel">
+          {analysis.negotiation_language && (
+            <div className="panel-card">
+              <div className="panel-title">💬 Negotiation Language</div>
+              <div className="negs-amount">
+                –{fmt$(analysis.negotiation_amount)}
+              </div>
+              <div className="negs-sub">
+                Recommended price reduction based on repair cost midpoint. Copy and send
+                directly to your agent.
+              </div>
+              <div className="negs-text">{analysis.negotiation_language}</div>
+              <button className="copy-btn" onClick={handleCopy}>
+                {copied ? '✓ Copied to clipboard' : 'Copy to Clipboard'}
+              </button>
+            </div>
+          )}
+
+          {Array.isArray(analysis.conveyancer_questions) &&
+            analysis.conveyancer_questions.length > 0 && (
+              <div className="panel-card">
+                <div className="panel-title">❓ Ask Your Conveyancer</div>
+                {analysis.conveyancer_questions.map((q, i) => (
+                  <div className="question-item" key={i}>
+                    <span className="q-num">Q{i + 1}</span>
+                    <span style={{ color: '#374151' }}>{q}</span>
+                  </div>
+                ))}
+              </div>
+            )}
+
+          {analysis.what_report_does_not_cover && (
+            <div className="panel-card">
+              <div className="panel-title">⚠️ What this doesn't cover</div>
+              <div style={{ color: '#374151', fontSize: 14, lineHeight: 1.6 }}>
+                {analysis.what_report_does_not_cover}
+              </div>
+            </div>
+          )}
+
+          {analysis.disclaimer && (
+            <div
+              style={{
+                color: '#6B7280',
+                fontSize: 12,
+                lineHeight: 1.6,
+                padding: '8px 4px',
+              }}
+            >
+              {analysis.disclaimer}
+            </div>
+          )}
+        </div>
+      </div>
+    </div>
+  );
+}
+
+export default function ResultsPage() {
+  return (
+    <Suspense
+      fallback={
+        <>
+          <style>{STYLES}</style>
+          <LoadingState loadStep={0} />
+        </>
+      }
+    >
+      <ResultsBody />
+    </Suspense>
+  );
+}

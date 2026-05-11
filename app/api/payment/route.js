@@ -1,9 +1,9 @@
 // app/api/payment/route.js
-// Creates a Stripe Checkout session for pay-per-report purchases
+// Creates a Supabase report row, then a Stripe Checkout session linked to it
+// via metadata.reportId. Webhook flips the row to paid + triggers analysis.
 
-import Stripe from 'stripe';
-
-const stripe = new Stripe(process.env.STRIPE_SECRET_KEY);
+import { getStripe } from '@/lib/stripe';
+import { getServiceSupabase } from '@/lib/supabase';
 
 const PRICES = {
   single: { amount: 5900, label: 'Single Report — Report Decoded' },
@@ -13,14 +13,53 @@ const PRICES = {
 
 export async function POST(request) {
   try {
-    const { pack = 'single', reportId, buyerEmail } = await request.json();
+    const {
+      reportUrl,
+      buyerEmail,
+      purchasePrice,
+      pack = 'single',
+    } = await request.json();
 
     const price = PRICES[pack];
     if (!price) {
       return Response.json({ error: 'Invalid pack type' }, { status: 400 });
     }
+    if (!reportUrl) {
+      return Response.json({ error: 'reportUrl is required' }, { status: 400 });
+    }
+    if (!buyerEmail || !/.+@.+\..+/.test(buyerEmail)) {
+      return Response.json({ error: 'Valid buyerEmail is required' }, { status: 400 });
+    }
 
-    const session = await stripe.checkout.sessions.create({
+    // 1. Create the report row up front so the webhook has something to update.
+    const supabase = getServiceSupabase();
+    const { data: report, error: insertErr } = await supabase
+      .from('reports')
+      .insert({
+        report_url: reportUrl,
+        buyer_email: buyerEmail,
+        purchase_price: purchasePrice ? Number(purchasePrice) : null,
+        pack,
+        status: 'pending',
+        payment_status: 'unpaid',
+      })
+      .select('id')
+      .single();
+
+    if (insertErr || !report) {
+      console.error('[payment] supabase insert failed:', insertErr);
+      return Response.json(
+        { error: 'Could not create report record. Please try again.' },
+        { status: 500 }
+      );
+    }
+
+    const reportId = report.id;
+    const base = process.env.NEXT_PUBLIC_BASE_URL || 'http://localhost:3000';
+
+    // 2. Create the Stripe Checkout session, tagging it with reportId so the
+    //    webhook can flip the correct row to paid.
+    const session = await getStripe().checkout.sessions.create({
       payment_method_types: ['card'],
       customer_email: buyerEmail,
       line_items: [
@@ -34,15 +73,17 @@ export async function POST(request) {
         },
       ],
       mode: 'payment',
-      success_url: `${process.env.NEXT_PUBLIC_BASE_URL}/results?reportId=${reportId}&session_id={CHECKOUT_SESSION_ID}`,
-      cancel_url: `${process.env.NEXT_PUBLIC_BASE_URL}`,
+      success_url: `${base}/results?reportId=${reportId}&session_id={CHECKOUT_SESSION_ID}`,
+      cancel_url: base,
       metadata: { reportId, pack },
     });
 
-    return Response.json({ url: session.url });
-
+    return Response.json({ url: session.url, reportId });
   } catch (error) {
     console.error('Payment error:', error);
-    return Response.json({ error: 'Payment setup failed' }, { status: 500 });
+    return Response.json(
+      { error: error?.message || 'Payment setup failed' },
+      { status: 500 }
+    );
   }
 }

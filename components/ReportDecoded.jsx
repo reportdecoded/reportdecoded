@@ -2,11 +2,11 @@
 import { useState, useEffect } from "react";
 
 /* ─────────────────────────────────────────────────────────────
-   GLOBAL STYLES
+   GLOBAL STYLES — exported so the /results page can share them.
    Palette: navy + warm amber CTA (replaces generic blue),
    warm cream bg, teal for success / negotiate.
 ───────────────────────────────────────────────────────────── */
-const G = `
+export const STYLES = `
 @import url('https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,300;0,9..144,400;0,9..144,500;0,9..144,600;1,9..144,400;1,9..144,500&family=DM+Sans:wght@300;400;500;600&family=DM+Mono:wght@400;500&display=swap');
 
 *,*::before,*::after{margin:0;padding:0;box-sizing:border-box;}
@@ -955,7 +955,7 @@ export default function App() {
 
   return (
     <>
-      <style>{G}</style>
+      <style>{STYLES}</style>
 
       {/* ── NAV ─────────────────────────────────────── */}
       <nav className="nav">
