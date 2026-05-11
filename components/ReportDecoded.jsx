@@ -1041,7 +1041,9 @@ export default function App() {
 
       {/* ── NAV ─────────────────────────────────────── */}
       <nav className="nav">
-        <div className="nav-logo">Report<span>Decoded</span></div>
+        <div className="nav-logo" style={{display:"flex",alignItems:"center"}}>
+          <img src="/logo-dark.png" alt="Report Decoded" style={{height:36,width:"auto",display:"block"}} />
+        </div>
         <div className="nav-links">
           <div
             className={`nav-link ${navTab==="buyer"?"active":""}`}

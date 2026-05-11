@@ -70,10 +70,12 @@ function ResultsBody() {
       <style>{STYLES}</style>
 
       <nav className="nav">
-        <Link href="/" style={{ textDecoration: 'none' }}>
-          <div className="nav-logo">
-            Report<span>Decoded</span>
-          </div>
+        <Link href="/" style={{ textDecoration: 'none', display: 'flex', alignItems: 'center' }}>
+          <img
+            src="/logo-dark.png"
+            alt="Report Decoded"
+            style={{ height: 36, width: 'auto', display: 'block' }}
+          />
         </Link>
         <div className="nav-links">
           <Link href="/" className="nav-link" style={{ textDecoration: 'none' }}>
