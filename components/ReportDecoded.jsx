@@ -1,5 +1,6 @@
 'use client';
-import { useState, useEffect } from "react";
+import { useState, useEffect, useRef } from "react";
+import { useUploadThing } from "@/lib/uploadthing";
 
 /* ─────────────────────────────────────────────────────────────
    GLOBAL STYLES — exported so the /results page can share them.
@@ -942,6 +943,31 @@ export default function App() {
   const [copied, setCopied]   = useState(false);
   const [navTab, setNavTab]   = useState("buyer");
 
+  // Real upload + checkout flow state
+  const fileInputRef = useRef(null);
+  const [uploadedFile, setUploadedFile] = useState(null); // { url, name }
+  const [buyerEmail, setBuyerEmail]   = useState("");
+  const [purchasePrice, setPurchasePrice] = useState("");
+  const [pack, setPack]               = useState("single");
+  const [processing, setProcessing]   = useState(false);
+  const [uploadError, setUploadError] = useState(null);
+
+  const { startUpload, isUploading } = useUploadThing("inspectionReport", {
+    onClientUploadComplete: (res) => {
+      const first = res?.[0];
+      const url = first?.serverData?.url || first?.ufsUrl || first?.url;
+      if (!url) {
+        setUploadError("Upload finished but no URL was returned. Please try again.");
+        return;
+      }
+      setUploadedFile({ url, name: first?.serverData?.name || first?.name || "report.pdf" });
+      setUploadError(null);
+    },
+    onUploadError: (err) => {
+      setUploadError(err?.message || "Upload failed.");
+    },
+  });
+
   useEffect(() => {
     if (screen !== "loading") return;
     if (loadStep >= LOAD_STEPS.length) { setTimeout(() => setScreen("results"), 400); return; }
@@ -952,6 +978,59 @@ export default function App() {
   const toggle   = (i) => setExpanded(e => ({ ...e, [i]: !e[i] }));
   const simulate = () => { setLoadStep(0); setScreen("loading"); };
   const goTo     = (s, tab) => { setScreen(s); if (tab) setNavTab(tab); };
+
+  const handleFileSelect = (e) => {
+    setUploadError(null);
+    const file = e.target.files?.[0];
+    if (!file) return;
+    if (file.type !== "application/pdf") {
+      setUploadError("Please upload a PDF.");
+      return;
+    }
+    startUpload([file]);
+  };
+
+  const handleCheckout = async () => {
+    if (!uploadedFile?.url) return;
+    if (!buyerEmail || !/.+@.+\..+/.test(buyerEmail)) {
+      setUploadError("Please enter a valid email so we can deliver your report.");
+      return;
+    }
+    setProcessing(true);
+    setUploadError(null);
+    try {
+      const res = await fetch("/api/payment", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({
+          reportUrl: uploadedFile.url,
+          buyerEmail,
+          purchasePrice: purchasePrice ? Number(purchasePrice) : null,
+          pack,
+        }),
+      });
+      const data = await res.json();
+      if (!res.ok || !data.url) {
+        setUploadError(data?.error || "Could not start checkout. Please try again.");
+        setProcessing(false);
+        return;
+      }
+      window.location.href = data.url;
+    } catch (err) {
+      setUploadError(err?.message || "Network error during checkout.");
+      setProcessing(false);
+    }
+  };
+
+  const resetUpload = () => {
+    setUploadedFile(null);
+    setBuyerEmail("");
+    setPurchasePrice("");
+    setUploadError(null);
+    if (fileInputRef.current) fileInputRef.current.value = "";
+  };
+
+  const packPrice = pack === "ten" ? "$390" : pack === "three" ? "$149" : "$59";
 
   return (
     <>
@@ -1020,22 +1099,116 @@ export default function App() {
           {/* Upload card — rises from hero */}
           <div className="upload-area">
 
-            <div className="upload-zone" onClick={simulate}>
-              <div className="upload-icon">📄</div>
-              <div className="upload-title">Drop your inspection report here</div>
-              <div className="upload-sub">
-                Supports building, pest & combined reports · AS4349.1 compliant reports
+            <input
+              ref={fileInputRef}
+              type="file"
+              accept="application/pdf"
+              onChange={handleFileSelect}
+              style={{display:"none"}}
+            />
+
+            {!uploadedFile && !isUploading && (
+              <div className="upload-zone" onClick={() => fileInputRef.current?.click()}>
+                <div className="upload-icon">📄</div>
+                <div className="upload-title">Drop your inspection report here</div>
+                <div className="upload-sub">
+                  Supports building, pest & combined reports · AS4349.1 compliant reports
+                </div>
+                <button
+                  className="upload-btn"
+                  onClick={e => { e.stopPropagation(); fileInputRef.current?.click(); }}
+                >
+                  Choose PDF →
+                </button>
+                <div className="upload-filetypes">
+                  PDF format · End-to-end encrypted · Results in under 60 seconds
+                </div>
+                {uploadError && (
+                  <div style={{marginTop:16,color:"var(--red)",fontSize:14}}>{uploadError}</div>
+                )}
               </div>
-              <button
-                className="upload-btn"
-                onClick={e => { e.stopPropagation(); simulate(); }}
-              >
-                Upload & Decode Report →
-              </button>
-              <div className="upload-filetypes">
-                PDF format · End-to-end encrypted · Results in under 60 seconds
+            )}
+
+            {isUploading && (
+              <div className="upload-zone">
+                <div className="upload-icon">⏳</div>
+                <div className="upload-title">Uploading your report…</div>
+                <div className="upload-sub">Just a moment.</div>
               </div>
-            </div>
+            )}
+
+            {uploadedFile && !isUploading && (
+              <div className="upload-zone" style={{cursor:"default",padding:"36px 40px"}}>
+                <div style={{textAlign:"center",marginBottom:24}}>
+                  <div className="upload-icon">✅</div>
+                  <div className="upload-title" style={{marginBottom:4}}>{uploadedFile.name}</div>
+                  <div className="upload-sub" style={{marginBottom:0}}>
+                    Uploaded — let's get you your analysis.{" "}
+                    <button
+                      onClick={resetUpload}
+                      style={{background:"none",border:0,color:"var(--amber)",cursor:"pointer",textDecoration:"underline",font:"inherit",padding:0}}
+                    >
+                      choose a different file
+                    </button>
+                  </div>
+                </div>
+
+                <div style={{display:"flex",flexDirection:"column",gap:14,maxWidth:480,margin:"0 auto"}}>
+                  <label style={{fontSize:13,color:"var(--muted)",textAlign:"left"}}>
+                    Your email *
+                    <input
+                      type="email"
+                      required
+                      value={buyerEmail}
+                      onChange={e => setBuyerEmail(e.target.value)}
+                      placeholder="you@example.com"
+                      style={{display:"block",width:"100%",padding:"12px 14px",fontSize:15,border:"1px solid var(--border)",borderRadius:10,marginTop:6,fontFamily:"inherit",background:"#fff",color:"var(--text)"}}
+                    />
+                  </label>
+
+                  <label style={{fontSize:13,color:"var(--muted)",textAlign:"left"}}>
+                    Purchase price (AUD) — optional
+                    <input
+                      type="number"
+                      value={purchasePrice}
+                      onChange={e => setPurchasePrice(e.target.value)}
+                      placeholder="785000"
+                      style={{display:"block",width:"100%",padding:"12px 14px",fontSize:15,border:"1px solid var(--border)",borderRadius:10,marginTop:6,fontFamily:"inherit",background:"#fff",color:"var(--text)"}}
+                    />
+                  </label>
+
+                  <label style={{fontSize:13,color:"var(--muted)",textAlign:"left"}}>
+                    Package
+                    <select
+                      value={pack}
+                      onChange={e => setPack(e.target.value)}
+                      style={{display:"block",width:"100%",padding:"12px 14px",fontSize:15,border:"1px solid var(--border)",borderRadius:10,marginTop:6,fontFamily:"inherit",background:"#fff",color:"var(--text)"}}
+                    >
+                      <option value="single">Single Report — $59</option>
+                      <option value="three">3-Report Pack — $149</option>
+                      <option value="ten">10-Report Pack — $390</option>
+                    </select>
+                  </label>
+
+                  <button
+                    className="upload-btn"
+                    onClick={handleCheckout}
+                    disabled={processing}
+                    style={{marginTop:8}}
+                  >
+                    {processing ? "Setting up payment…" : `Continue to Payment (${packPrice}) →`}
+                  </button>
+
+                  {uploadError && (
+                    <div style={{color:"var(--red)",fontSize:14,textAlign:"center"}}>{uploadError}</div>
+                  )}
+
+                  <div className="upload-filetypes" style={{marginTop:0,textAlign:"center"}}>
+                    Secured by Stripe · 60-second analysis · Refund if we can't read your PDF
+                  </div>
+                </div>
+              </div>
+            )}
 
             {/* How it works */}
             <div className="how-strip">
