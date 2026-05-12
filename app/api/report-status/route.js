@@ -21,7 +21,7 @@ export async function GET(request) {
   const { data, error } = await supabase
     .from('reports')
     .select(
-      'id, status, payment_status, property_address, result_json, failure_reason, created_at'
+      'id, status, payment_status, property_address, result_json, tradies_json, failure_reason, created_at'
     )
     .eq('id', reportId)
     .single();
@@ -40,6 +40,7 @@ export async function GET(request) {
   };
   if (data.status === 'complete') {
     payload.analysis = data.result_json;
+    payload.tradies = data.tradies_json || null;
   }
   if (data.status === 'failed') {
     payload.failure_reason = data.failure_reason;

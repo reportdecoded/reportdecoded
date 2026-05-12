@@ -19,7 +19,7 @@ const KEYS = [
   { name: 'UPLOADTHING_TOKEN',           required: true,  label: 'UploadThing token' },
   { name: 'RESEND_API_KEY',              required: true,  label: 'Resend (email) API key' },
   { name: 'NEXT_PUBLIC_BASE_URL',        required: false, label: 'Public base URL' },
-  { name: 'GOOGLE_MAPS_API_KEY',         required: false, label: 'Google Maps (tradie matching, later)' },
+  { name: 'GOOGLE_MAPS_API_KEY',         required: false, label: 'Google Maps Places + Geocoding (tradie matching on /results)' },
   { name: 'INTERNAL_API_TOKEN',          required: false, label: 'Internal API token (prod /api/analyse gate)' },
   { name: 'RESEND_FROM_EMAIL',           required: false, label: 'Resend "from" email (defaults to onboarding@resend.dev)' },
 ];

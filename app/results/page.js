@@ -95,6 +95,7 @@ function ResultsBody() {
       {reportId && !error && report?.status === 'complete' && (
         <ResultsView
           analysis={report.analysis}
+          tradies={report.tradies}
           expanded={expanded}
           toggle={toggle}
           copied={copied}
@@ -197,10 +198,74 @@ function fmt$(n) {
   return `$${Number(n).toLocaleString('en-AU')}`;
 }
 
-function DefectCard({ kind, defect, index, expanded, toggle }) {
+function tradieInitials(name) {
+  return (name || '')
+    .split(/\s+/)
+    .filter(Boolean)
+    .slice(0, 2)
+    .map((s) => s[0]?.toUpperCase() || '')
+    .join('');
+}
+
+function fullStars(rating) {
+  const r = Math.round((rating || 0) * 2) / 2; // round to nearest 0.5
+  const filled = Math.floor(r);
+  const half = r - filled === 0.5;
+  return '★'.repeat(filled) + (half ? '½' : '') + '☆'.repeat(Math.max(0, 5 - filled - (half ? 1 : 0)));
+}
+
+function TradieCard({ tradie }) {
+  return (
+    <div className="tradie-card">
+      <div className="tradie-top">
+        <div className="tradie-avatar">{tradieInitials(tradie.business_name)}</div>
+        <div>
+          <div className="tradie-name">{tradie.business_name}</div>
+          <div className="stars">
+            {fullStars(tradie.rating)}
+            <span style={{ color: 'var(--muted)', fontSize: 10 }}>
+              {' '}
+              {tradie.rating?.toFixed(1)} ({tradie.review_count} reviews)
+            </span>
+          </div>
+        </div>
+      </div>
+      {tradie.address && (
+        <div className="tradie-meta">
+          <span className="tradie-tag">📍 {tradie.address}</span>
+        </div>
+      )}
+      <div style={{ display: 'flex', gap: 8, marginTop: 12, flexWrap: 'wrap' }}>
+        {tradie.phone && (
+          <a
+            href={`tel:${tradie.phone.replace(/\s+/g, '')}`}
+            className="tradie-quote-btn"
+            style={{ textDecoration: 'none', display: 'inline-block' }}
+          >
+            📞 {tradie.phone}
+          </a>
+        )}
+        {tradie.website && (
+          <a
+            href={tradie.website}
+            target="_blank"
+            rel="noopener noreferrer"
+            className="tradie-quote-btn"
+            style={{ textDecoration: 'none', display: 'inline-block', background: 'var(--cream2)', color: 'var(--text)' }}
+          >
+            Visit website →
+          </a>
+        )}
+      </div>
+    </div>
+  );
+}
+
+function DefectCard({ kind, defect, index, expanded, toggle, tradiesForCategory }) {
   const key = `${kind}-${index}`;
   const badge =
     kind === 'major' ? 'MAJOR DEFECT' : kind === 'minor' ? 'MINOR DEFECT' : 'PEST RISK';
+  const tradies = Array.isArray(tradiesForCategory) ? tradiesForCategory : [];
   return (
     <div className={`defect-card ${kind}`}>
       <div className="defect-header" onClick={() => toggle(key)}>
@@ -230,18 +295,30 @@ function DefectCard({ kind, defect, index, expanded, toggle }) {
               {fmt$(defect.repair_cost_low)} – {fmt$(defect.repair_cost_high)}
             </strong>
           </div>
+          {tradies.length > 0 && (
+            <div className="tradies-section">
+              <div className="tradies-label">✅ Recommended Local Tradies</div>
+              <div className="tradie-cards">
+                {tradies.map((t) => (
+                  <TradieCard key={t.id} tradie={t} />
+                ))}
+              </div>
+            </div>
+          )}
         </div>
       )}
     </div>
   );
 }
 
-function ResultsView({ analysis, expanded, toggle, copied, setCopied }) {
+function ResultsView({ analysis, tradies, expanded, toggle, copied, setCopied }) {
   if (!analysis) return null;
   const majors = analysis.major_defects || [];
   const minors = analysis.minor_defects || [];
   const pests = analysis.pest_findings || [];
   const totalDefects = majors.length + minors.length + pests.length;
+  const tradiesBy = tradies || {};
+  const tradieCount = Object.values(tradiesBy).reduce((n, list) => n + (list?.length || 0), 0);
 
   const copyText = analysis.builder_rectification_letter || analysis.negotiation_language || '';
   const handleCopy = async () => {
@@ -314,6 +391,7 @@ function ResultsView({ analysis, expanded, toggle, copied, setCopied }) {
                   index={i}
                   expanded={expanded}
                   toggle={toggle}
+                  tradiesForCategory={tradiesBy[d.trade_category]}
                 />
               ))}
             </div>
@@ -329,6 +407,7 @@ function ResultsView({ analysis, expanded, toggle, copied, setCopied }) {
                   index={i}
                   expanded={expanded}
                   toggle={toggle}
+                  tradiesForCategory={tradiesBy[d.trade_category]}
                 />
               ))}
             </div>
@@ -344,8 +423,29 @@ function ResultsView({ analysis, expanded, toggle, copied, setCopied }) {
                   index={i}
                   expanded={expanded}
                   toggle={toggle}
+                  tradiesForCategory={tradiesBy[d.trade_category]}
                 />
               ))}
+            </div>
+          )}
+
+          {tradieCount > 0 && (
+            <div
+              style={{
+                marginTop: 8,
+                padding: '14px 18px',
+                background: 'var(--cream2)',
+                border: '1px solid var(--border)',
+                borderRadius: 10,
+                fontSize: 12,
+                color: 'var(--muted)',
+                lineHeight: 1.5,
+              }}
+            >
+              Tradies above sourced from public Google Maps business listings and ranked by
+              rating and review count. Listings are not endorsements. Always verify a
+              tradesperson's licence and insurance before engaging them.
+              <span style={{ display: 'block', marginTop: 6 }}>Powered by Google</span>
             </div>
           )}
         </div>
