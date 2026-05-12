@@ -207,27 +207,25 @@ function tradieInitials(name) {
     .join('');
 }
 
-function fullStars(rating) {
-  const r = Math.round((rating || 0) * 2) / 2; // round to nearest 0.5
-  const filled = Math.floor(r);
-  const half = r - filled === 0.5;
-  return '★'.repeat(filled) + (half ? '½' : '') + '☆'.repeat(Math.max(0, 5 - filled - (half ? 1 : 0)));
+function formatDistance(meters) {
+  if (typeof meters !== 'number' || !isFinite(meters)) return null;
+  if (meters < 1000) return `${Math.round(meters)} m away`;
+  return `${(meters / 1000).toFixed(1)} km away`;
 }
 
 function TradieCard({ tradie }) {
+  const dist = formatDistance(tradie.distance_m);
   return (
     <div className="tradie-card">
       <div className="tradie-top">
         <div className="tradie-avatar">{tradieInitials(tradie.business_name)}</div>
         <div>
           <div className="tradie-name">{tradie.business_name}</div>
-          <div className="stars">
-            {fullStars(tradie.rating)}
-            <span style={{ color: 'var(--muted)', fontSize: 10 }}>
-              {' '}
-              {tradie.rating?.toFixed(1)} ({tradie.review_count} reviews)
-            </span>
-          </div>
+          {dist && (
+            <div style={{ color: 'var(--muted)', fontSize: 12, marginTop: 2 }}>
+              {dist}
+            </div>
+          )}
         </div>
       </div>
       {tradie.address && (
@@ -442,10 +440,11 @@ function ResultsView({ analysis, tradies, expanded, toggle, copied, setCopied })
                 lineHeight: 1.5,
               }}
             >
-              Tradies above sourced from public Google Maps business listings and ranked by
-              rating and review count. Listings are not endorsements. Always verify a
-              tradesperson's licence and insurance before engaging them.
-              <span style={{ display: 'block', marginTop: 6 }}>Powered by Google</span>
+              Tradies above sourced from public business listings near the property address.
+              Listings are not endorsements — always verify a tradesperson's licence and
+              insurance before engaging. Verified Report Decoded partners will replace these
+              listings in your region as our marketplace rolls out.
+              <span style={{ display: 'block', marginTop: 6 }}>Powered by HERE Maps</span>
             </div>
           )}
         </div>
