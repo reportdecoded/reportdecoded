@@ -1104,7 +1104,7 @@ export default function App() {
             </p>
             <div style={{marginTop:18}}>
               <a
-                href="/results?reportId=f3ef0ce1-5443-4e91-a420-5e8bf7d8713d"
+                href="/results?reportId=f3ef0ce1-5443-4e91-a420-5e8bf7d8713d&sample=1"
                 style={{
                   display:"inline-block",
                   color:"rgba(255,255,255,0.72)",

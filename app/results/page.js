@@ -18,6 +18,7 @@ const LOAD_STEPS = [
 function ResultsBody() {
   const params = useSearchParams();
   const reportId = params.get('reportId');
+  const isSample = params.get('sample') === '1';
 
   const [report, setReport] = useState(null);
   const [error, setError] = useState(null);
@@ -83,6 +84,28 @@ function ResultsBody() {
           </Link>
         </div>
       </nav>
+
+      {isSample && (
+        <div
+          style={{
+            background: 'var(--amber)',
+            color: '#fff',
+            padding: '12px 24px',
+            textAlign: 'center',
+            fontSize: 14,
+            lineHeight: 1.5,
+          }}
+        >
+          📋 <strong>This is a sample report</strong> based on a real Australian inspection
+          PDF — not your own analysis.{' '}
+          <Link
+            href="/"
+            style={{ color: '#fff', textDecoration: 'underline', fontWeight: 600 }}
+          >
+            Upload your own PDF →
+          </Link>
+        </div>
+      )}
 
       {!reportId && <NoReportId />}
       {reportId && error && <ErrorState message={error} />}
