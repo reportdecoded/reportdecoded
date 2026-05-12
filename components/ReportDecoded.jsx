@@ -919,7 +919,7 @@ const LOAD_STEPS = [
   "Classifying minor defects…",
   "Assessing pest and termite findings…",
   "Estimating repair costs (AU rates)…",
-  "Matching local 5-star tradies…",
+  "Matching local tradies in your area…",
   "Generating negotiation position…",
   "Building your report…",
 ];
@@ -1100,8 +1100,24 @@ export default function App() {
               Your building report,<br/><em>decoded.</em>
             </h1>
             <p className="hero-sub">
-              Upload your inspection report and get a plain-English verdict — what's serious, what it costs to fix, local 5-star tradies, and exactly how much to negotiate off the price.
+              Upload your inspection report and get a plain-English verdict — what's serious, what it costs to fix, local tradies in your area to call, and exactly how much to negotiate off the price.
             </p>
+            <div style={{marginTop:18}}>
+              <a
+                href="/results?reportId=4aec6bbe-9378-44eb-a0fb-6abdd39c3e6c"
+                style={{
+                  display:"inline-block",
+                  color:"rgba(255,255,255,0.72)",
+                  textDecoration:"none",
+                  borderBottom:"1px solid rgba(255,255,255,0.25)",
+                  paddingBottom:2,
+                  fontSize:14,
+                  letterSpacing:0.2,
+                }}
+              >
+                See a sample report →
+              </a>
+            </div>
           </div>
 
           {/* Upload card — rises from hero */}
@@ -1337,7 +1353,7 @@ export default function App() {
                 "No subscription required",
                 "Results in under 60 seconds",
                 "Australian Standard AS4349.1",
-                "Verified 5-star local tradies",
+                "Local tradies matched to your area",
                 "Your report stays private",
               ].map(t => (
                 <div className="trust-item" key={t}>
@@ -1413,7 +1429,7 @@ export default function App() {
               {label:"Defects Found",    val:"5",        sub:"2 major · 2 minor · 1 pest risk"},
               {label:"Est. Repair Cost", val:"$14K–$20K",sub:"Independent tradie estimates"},
               {label:"Negotiation Target",val:"$14,000", sub:"Based on repair cost midpoint"},
-              {label:"Tradies Matched",  val:"10",       sub:"2 per defect · 5-star rated"},
+              {label:"Tradies Matched",  val:"10",       sub:"2 per defect · local to your area"},
             ].map((s,i) => (
               <div className="stat-card" key={i}>
                 <div className="stat-label">{s.label}</div>
@@ -1480,7 +1496,6 @@ export default function App() {
                                         <span className="tradie-tag">📍 {t.suburb}</span>
                                         <span className="tradie-tag">{t.tag}</span>
                                       </div>
-                                      <button className="tradie-quote-btn">Get Quote →</button>
                                     </div>
                                   ))}
                                 </div>
@@ -1525,9 +1540,6 @@ export default function App() {
                 ))}
               </div>
 
-              <button className="download-btn">
-                ⬇&nbsp; Download Full PDF Report
-              </button>
             </div>
           </div>
         </div>
