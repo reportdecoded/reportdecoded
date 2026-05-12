@@ -102,6 +102,37 @@ function ResultsBody() {
           setCopied={setCopied}
         />
       )}
+
+      <footer
+        style={{
+          background: 'var(--navy)',
+          color: 'rgba(255,255,255,0.6)',
+          padding: '32px 24px',
+          marginTop: 48,
+          textAlign: 'center',
+          fontSize: 13,
+          lineHeight: 1.7,
+        }}
+      >
+        <div style={{ maxWidth: 760, margin: '0 auto' }}>
+          <div style={{ marginBottom: 10 }}>
+            <Link href="/privacy" style={{ color: 'rgba(255,255,255,0.85)', textDecoration: 'none', margin: '0 12px' }}>
+              Privacy Policy
+            </Link>
+            ·
+            <Link href="/terms" style={{ color: 'rgba(255,255,255,0.85)', textDecoration: 'none', margin: '0 12px' }}>
+              Terms of Service
+            </Link>
+            ·
+            <a href="mailto:info@reportdecoded.com.au" style={{ color: 'rgba(255,255,255,0.85)', textDecoration: 'none', margin: '0 12px' }}>
+              Contact
+            </a>
+          </div>
+          <div style={{ fontSize: 12, color: 'rgba(255,255,255,0.45)' }}>
+            © 2026 Report Decoded · AI analysis is general information, not professional advice.
+          </div>
+        </div>
+      </footer>
     </>
   );
 }
