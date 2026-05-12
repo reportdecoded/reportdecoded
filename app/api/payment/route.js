@@ -19,6 +19,7 @@ export async function POST(request) {
       purchasePrice,
       pack = 'single',
       reportType = 'pre_purchase',
+      purchaseIntent = 'home',
     } = await request.json();
 
     const price = PRICES[pack];
@@ -27,6 +28,9 @@ export async function POST(request) {
     }
     if (!['pre_purchase', 'new_build_handover'].includes(reportType)) {
       return Response.json({ error: 'Invalid reportType' }, { status: 400 });
+    }
+    if (!['home', 'investment'].includes(purchaseIntent)) {
+      return Response.json({ error: 'Invalid purchaseIntent' }, { status: 400 });
     }
     if (!reportUrl) {
       return Response.json({ error: 'reportUrl is required' }, { status: 400 });
@@ -45,6 +49,7 @@ export async function POST(request) {
         purchase_price: purchasePrice ? Number(purchasePrice) : null,
         pack,
         report_type: reportType,
+        purchase_intent: purchaseIntent,
         status: 'pending',
         payment_status: 'unpaid',
       })

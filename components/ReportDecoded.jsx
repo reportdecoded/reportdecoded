@@ -950,6 +950,7 @@ export default function App() {
   const [purchasePrice, setPurchasePrice] = useState("");
   const [pack, setPack]               = useState("single");
   const [reportType, setReportType]   = useState("pre_purchase");
+  const [purchaseIntent, setPurchaseIntent] = useState("home");
   const [processing, setProcessing]   = useState(false);
   const [uploadError, setUploadError] = useState(null);
 
@@ -1009,6 +1010,7 @@ export default function App() {
           purchasePrice: purchasePrice ? Number(purchasePrice) : null,
           pack,
           reportType,
+          purchaseIntent,
         }),
       });
       const data = await res.json();
@@ -1029,6 +1031,7 @@ export default function App() {
     setBuyerEmail("");
     setPurchasePrice("");
     setReportType("pre_purchase");
+    setPurchaseIntent("home");
     setUploadError(null);
     if (fileInputRef.current) fileInputRef.current.value = "";
   };
@@ -1192,6 +1195,44 @@ export default function App() {
                         <strong>New build handover</strong>
                         <div style={{fontSize:12,color:"var(--muted)",marginTop:2}}>
                           You're about to take possession of a new build. Get a rectification letter to your builder + a plan-B if they refuse.
+                        </div>
+                      </div>
+                    </label>
+                  </fieldset>
+
+                  <fieldset style={{border:"1px solid var(--border)",borderRadius:10,padding:"10px 14px 12px",background:"#fff"}}>
+                    <legend style={{fontSize:13,color:"var(--muted)",padding:"0 4px"}}>
+                      What's this property for?
+                    </legend>
+                    <label style={{display:"flex",alignItems:"flex-start",gap:10,padding:"6px 2px",cursor:"pointer"}}>
+                      <input
+                        type="radio"
+                        name="purchaseIntent"
+                        value="home"
+                        checked={purchaseIntent === "home"}
+                        onChange={() => setPurchaseIntent("home")}
+                        style={{marginTop:4}}
+                      />
+                      <div style={{textAlign:"left",fontSize:14,color:"var(--text)"}}>
+                        <strong>Home — I'll live there</strong>
+                        <div style={{fontSize:12,color:"var(--muted)",marginTop:2}}>
+                          Owner-occupier. Analysis prioritises safety, comfort, and long-term ownership burden.
+                        </div>
+                      </div>
+                    </label>
+                    <label style={{display:"flex",alignItems:"flex-start",gap:10,padding:"6px 2px",cursor:"pointer"}}>
+                      <input
+                        type="radio"
+                        name="purchaseIntent"
+                        value="investment"
+                        checked={purchaseIntent === "investment"}
+                        onChange={() => setPurchaseIntent("investment")}
+                        style={{marginTop:4}}
+                      />
+                      <div style={{textAlign:"left",fontSize:14,color:"var(--text)"}}>
+                        <strong>Investment — I'll rent it out</strong>
+                        <div style={{fontSize:12,color:"var(--muted)",marginTop:2}}>
+                          Analysis prioritises yield impact, capex vs opex, rental compliance (smoke alarms, RCDs, pool fencing) and tenanting risk.
                         </div>
                       </div>
                     </label>
