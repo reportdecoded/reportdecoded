@@ -1,5 +1,6 @@
 'use client';
 import { useState, useEffect, useRef } from "react";
+import Link from "next/link";
 import { useUploadThing } from "@/lib/uploadthing";
 
 /* ─────────────────────────────────────────────────────────────
@@ -1052,10 +1053,11 @@ export default function App() {
             className={`nav-link ${navTab==="buyer"?"active":""}`}
             onClick={() => goTo("upload","buyer")}
           >For Buyers</div>
-          <div
-            className={`nav-link ${navTab==="agent"?"active":""}`}
-            onClick={() => goTo("agent","agent")}
-          >For Agents</div>
+          <Link
+            href="/agents"
+            className="nav-link"
+            style={{textDecoration:"none"}}
+          >For Agents</Link>
           <div
             className={`nav-link ${navTab==="pm"?"active":""}`}
             onClick={() => goTo("pm","pm")}
