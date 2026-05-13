@@ -93,6 +93,7 @@ body{
   border-radius:7px;
   cursor:pointer;
   transition:all .15s;
+  white-space:nowrap;
 }
 .nav-link:hover{background:rgba(255,255,255,0.07);color:rgba(255,255,255,0.9);}
 .nav-link.active{background:rgba(201,122,58,0.15);color:var(--amber);}
@@ -927,6 +928,10 @@ body{
   .nav{padding:0 16px;height:58px;}
   .nav-link{font-size:13px;padding:6px 10px;}
   .nav-cta{font-size:13px;padding:8px 14px;margin-left:4px;}
+  /* PM tab is a "Coming Soon" mockup — drop it from mobile nav to avoid
+     overflow. Desktop users still see it; PMs unlikely to be on mobile
+     for the MVP. Coming Soon banner lives inside the PM screen anyway. */
+  .nav-link--pm{display:none;}
 
   /* HERO */
   .hero-section{padding:48px 20px 64px;}
@@ -1279,7 +1284,7 @@ export default function App() {
             style={{textDecoration:"none"}}
           >For Agents</Link>
           <div
-            className={`nav-link ${navTab==="pm"?"active":""}`}
+            className={`nav-link nav-link--pm ${navTab==="pm"?"active":""}`}
             onClick={() => goTo("pm","pm")}
             style={{display:"inline-flex",alignItems:"center",gap:7}}
           >
