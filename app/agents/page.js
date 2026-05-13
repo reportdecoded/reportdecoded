@@ -81,6 +81,9 @@ export default function AgentsPage() {
           <Link href="/agents" className="nav-link active" style={{ textDecoration: 'none' }}>
             For Agents
           </Link>
+          <Link href="/signin" className="nav-cta" style={{ textDecoration: 'none' }}>
+            Sign In
+          </Link>
         </div>
       </nav>
 

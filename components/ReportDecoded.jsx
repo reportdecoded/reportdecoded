@@ -1062,7 +1062,7 @@ export default function App() {
             className={`nav-link ${navTab==="pm"?"active":""}`}
             onClick={() => goTo("pm","pm")}
           >For Property Managers</div>
-          <button className="nav-cta">Sign In</button>
+          <Link href="/signin" className="nav-cta" style={{textDecoration:"none"}}>Sign In</Link>
         </div>
       </nav>
 
