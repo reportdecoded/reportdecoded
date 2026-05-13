@@ -196,7 +196,7 @@ export default function AgentsPage() {
 
         {/* Signup form */}
         <div style={{ marginTop: 56, marginBottom: 24 }} id="signup">
-          <div className="upload-zone" style={{ cursor: 'default', padding: '36px 40px' }}>
+          <div className="upload-zone upload-zone--form" style={{ cursor: 'default' }}>
             {submitted ? (
               <div style={{ textAlign: 'center', padding: '24px 0' }}>
                 <div className="upload-icon">✅</div>
@@ -242,7 +242,7 @@ export default function AgentsPage() {
                     margin: '0 auto',
                   }}
                 >
-                  <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: 12 }}>
+                  <div className="rd-two-col-form">
                     <label style={{ fontSize: 13, color: 'var(--muted)', textAlign: 'left' }}>
                       Full name *
                       <input
@@ -310,7 +310,7 @@ export default function AgentsPage() {
                     ))}
                   </fieldset>
 
-                  <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: 12 }}>
+                  <div className="rd-two-col-form">
                     <label style={{ fontSize: 13, color: 'var(--muted)', textAlign: 'left' }}>
                       Business email *
                       <input

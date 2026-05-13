@@ -198,18 +198,8 @@ function ReportRow({ report, agentId, highlighted }) {
   const shareUrl = `/results?reportId=${report.id}&agent=${agentId}`;
 
   return (
-    <div
-      style={{
-        display: 'flex',
-        alignItems: 'center',
-        gap: 14,
-        background: '#fff',
-        border: `1px solid ${highlighted ? 'var(--amber)' : 'var(--border)'}`,
-        borderRadius: 10,
-        padding: '14px 18px',
-      }}
-    >
-      <div style={{ flex: 1, minWidth: 0 }}>
+    <div className={`rd-report-row${highlighted ? ' highlighted' : ''}`}>
+      <div className="rd-report-main">
         <div style={{ fontWeight: 600, fontSize: 15, marginBottom: 2, overflow: 'hidden', textOverflow: 'ellipsis', whiteSpace: 'nowrap' }}>
           {address}
         </div>
@@ -218,34 +208,36 @@ function ReportRow({ report, agentId, highlighted }) {
           {report.buyer_email && ` · ${report.buyer_email}`}
         </div>
       </div>
-      <span
-        style={{
-          background: verdictMeta.bg,
-          color: verdictMeta.fg,
-          fontSize: 12,
-          fontWeight: 600,
-          padding: '4px 10px',
-          borderRadius: 999,
-          whiteSpace: 'nowrap',
-        }}
-      >
-        {verdictMeta.label}
-      </span>
-      {report.status === 'complete' ? (
-        <>
-          <Link
-            href={shareUrl}
-            target="_blank"
-            rel="noopener noreferrer"
-            style={{ color: 'var(--amber)', fontSize: 13, fontWeight: 600, textDecoration: 'none', whiteSpace: 'nowrap' }}
-          >
-            View →
-          </Link>
-          <CopyShareButton shareUrl={shareUrl} />
-        </>
-      ) : (
-        <span style={{ color: 'var(--subtle)', fontSize: 12 }}>—</span>
-      )}
+      <div className="rd-report-actions">
+        <span
+          style={{
+            background: verdictMeta.bg,
+            color: verdictMeta.fg,
+            fontSize: 12,
+            fontWeight: 600,
+            padding: '4px 10px',
+            borderRadius: 999,
+            whiteSpace: 'nowrap',
+          }}
+        >
+          {verdictMeta.label}
+        </span>
+        {report.status === 'complete' ? (
+          <>
+            <Link
+              href={shareUrl}
+              target="_blank"
+              rel="noopener noreferrer"
+              style={{ color: 'var(--amber)', fontSize: 13, fontWeight: 600, textDecoration: 'none', whiteSpace: 'nowrap' }}
+            >
+              View →
+            </Link>
+            <CopyShareButton shareUrl={shareUrl} />
+          </>
+        ) : (
+          <span style={{ color: 'var(--subtle)', fontSize: 12 }}>—</span>
+        )}
+      </div>
     </div>
   );
 }

@@ -840,6 +840,151 @@ body{
 .scrollbar-hide::-webkit-scrollbar{display:none;}
 @keyframes fadeUp{from{opacity:0;transform:translateY(16px)}to{opacity:1;transform:translateY(0)}}
 .fade-up{animation:fadeUp .4s ease forwards;}
+
+/* ── RESPONSIVE HELPERS (used by inline-styled pages) ──
+   Pages that can't get media queries via inline styles
+   opt into these classes for mobile layout. */
+.rd-two-col-form{display:grid;grid-template-columns:1fr 1fr;gap:12px;}
+.rd-report-row{
+  display:flex;
+  align-items:center;
+  gap:14px;
+  background:#fff;
+  border:1px solid var(--border);
+  border-radius:10px;
+  padding:14px 18px;
+}
+.rd-report-row.highlighted{border-color:var(--amber);}
+.rd-report-main{flex:1;min-width:0;}
+.rd-report-actions{display:flex;align-items:center;gap:10px;flex-shrink:0;}
+.rd-page-main{max-width:880px;margin:40px auto;padding:0 24px;}
+/* Form-mode of the upload-zone — used by /agents signup. Less padding
+   than the marketing dropzone, and no hover lift. */
+.upload-zone--form{padding:36px 40px;}
+.upload-zone--form:hover{border-color:var(--border);background:#fff;box-shadow:0 8px 40px rgba(10,22,40,0.12);}
+
+/* ── MOBILE — TABLET BREAKPOINT ───────────────────
+   Covers iPad portrait + phones. Stacks multi-column
+   grids, tightens horizontal padding, drops font sizes
+   on hero + section headings. */
+@media (max-width: 720px){
+  /* NAV */
+  .nav{padding:0 16px;height:58px;}
+  .nav-link{font-size:13px;padding:6px 10px;}
+  .nav-cta{font-size:13px;padding:8px 14px;margin-left:4px;}
+
+  /* HERO */
+  .hero-section{padding:48px 20px 64px;}
+  .hero-badge{font-size:11.5px;padding:4px 13px;margin-bottom:20px;}
+  .hero-h{font-size:34px !important;letter-spacing:-1px;line-height:1.1;margin-bottom:16px;}
+  .hero-sub{font-size:15px;line-height:1.6;}
+
+  /* UPLOAD AREA */
+  .upload-area{margin-top:-28px;padding:0 16px 48px;}
+  .upload-zone{padding:36px 22px;border-radius:18px;}
+  .upload-icon{width:56px;height:56px;font-size:24px;margin-bottom:16px;}
+  .upload-title{font-size:20px;}
+  .upload-sub{font-size:13.5px;margin-bottom:20px;}
+  .upload-btn{padding:12px 26px;font-size:14px;}
+
+  /* HOW IT WORKS — stack 3 → 1 */
+  .how-strip{grid-template-columns:1fr;}
+
+  /* PRICING — stack 3 → 1 */
+  .pricing-row{grid-template-columns:1fr;gap:10px;}
+  .price-card{padding:22px 20px;}
+  .price-amount{font-size:32px;}
+
+  /* TRUST BAR */
+  .trust-bar{gap:14px;padding-top:4px;}
+  .trust-item{font-size:12.5px;}
+
+  /* SCREEN TABS */
+  .screen-tabs{padding:0 16px;}
+  .stab{padding:11px 14px;font-size:12px;}
+
+  /* RESULTS / DASHBOARDS */
+  .results-screen,.agent-screen,.pm-screen{padding:24px 16px 80px;}
+
+  /* PROPERTY BAR — stack address + price */
+  .prop-bar{padding:18px 20px;border-radius:14px;flex-direction:column;align-items:flex-start;gap:10px;}
+  .prop-addr{font-size:17px;}
+  .prop-price-val{font-size:22px;}
+
+  /* VERDICT — tighten + allow text to flow under emoji */
+  .verdict-card{padding:20px 22px;gap:14px;border-radius:14px;}
+  .verdict-emoji{font-size:28px;}
+  .verdict-text{font-size:14px;line-height:1.65;padding-top:0;}
+
+  /* STATS ROW — 4 → 2 */
+  .stats-row{grid-template-columns:1fr 1fr;gap:10px;}
+  .stat-card{padding:16px 18px;}
+  .stat-val{font-size:24px;}
+
+  /* TWO COL — stack right panel under main */
+  .two-col{grid-template-columns:1fr;gap:16px;}
+
+  /* DEFECT CARDS */
+  .defect-header{padding:14px 18px;}
+  .defect-body{padding:18px;}
+  .defect-name{font-size:14px;}
+
+  /* TRADIES — single column */
+  .tradie-cards{grid-template-columns:1fr;}
+
+  /* RIGHT PANEL */
+  .panel-card{padding:20px 18px;}
+  .negs-amount{font-size:36px;}
+  .download-btn{padding:13px;font-size:14px;}
+
+  /* AGENT / PM DASHBOARDS */
+  .agent-header{flex-direction:column;gap:14px;margin-bottom:22px;}
+  .agent-h{font-size:26px;}
+  .agent-stats,.pm-grid{grid-template-columns:1fr 1fr;gap:10px;}
+  .pm-card{padding:16px 18px;}
+  .pm-card-val{font-size:24px;}
+
+  /* TABLES — let overflow scroll horizontally so 6-col grids
+     don't squash. Wrap parent in scrollable container. */
+  .table-wrap{overflow-x:auto;-webkit-overflow-scrolling:touch;}
+  .table-head,.table-row,.pm-table-head,.pm-table-row{
+    min-width:640px;
+    padding:12px 18px;
+  }
+}
+
+/* ── PHONE BREAKPOINT — tighter still ─────────────
+   Catches the smallest devices (iPhone SE, 360px Android). */
+@media (max-width: 480px){
+  .nav{padding:0 12px;height:54px;}
+  .nav-link{font-size:12.5px;padding:5px 8px;}
+  .nav-cta{padding:7px 11px;font-size:12.5px;}
+
+  .hero-section{padding:36px 16px 52px;}
+  .hero-h{font-size:28px !important;letter-spacing:-0.5px;}
+  .hero-sub{font-size:14px;}
+
+  .upload-area{padding:0 12px 36px;}
+  .upload-zone{padding:28px 18px;}
+
+  .stats-row{grid-template-columns:1fr;}
+  .agent-stats,.pm-grid{grid-template-columns:1fr;}
+
+  .verdict-card{flex-direction:column;}
+  .verdict-left{text-align:left;display:flex;align-items:center;gap:10px;}
+  .verdict-emoji{margin-bottom:0;}
+}
+
+/* Responsive-helper mobile rules — stack signup form fields,
+   stack report row content above the actions chip group. */
+@media (max-width: 720px){
+  .rd-two-col-form{grid-template-columns:1fr;}
+  .rd-page-main{padding:0 16px;margin:24px auto;}
+  .rd-report-row{flex-wrap:wrap;padding:14px 16px;gap:10px;}
+  .rd-report-main{flex-basis:100%;}
+  .rd-report-actions{margin-left:auto;}
+  .upload-zone--form{padding:28px 20px;}
+}
 `;
 
 /* ─────────────────────────────────────────────────────────────
