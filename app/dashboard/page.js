@@ -29,6 +29,7 @@ export default async function DashboardPage({ searchParams }) {
   const params = await searchParams;
   const justSubscribed = params?.subscribed === '1';
   const subscribeCancelled = params?.subscribe_cancelled === '1';
+  const subscribeRequired = params?.subscribe_required === '1';
 
   const supabase = await getSupabaseServer();
   const { data: { user } } = await supabase.auth.getUser();
@@ -110,6 +111,20 @@ export default async function DashboardPage({ searchParams }) {
             Subscription cancelled before payment. No worries — choose a plan below when you're ready.
           </div>
         )}
+        {subscribeRequired && !hasActiveSub && (
+          <div
+            style={{
+              background: 'var(--gold-bg)',
+              border: '1px solid var(--gold-border)',
+              color: 'var(--gold)',
+              padding: '14px 18px',
+              borderRadius: 10,
+              marginBottom: 24,
+            }}
+          >
+            Pick a plan below to start uploading client reports.
+          </div>
+        )}
 
         <h1 style={{ fontFamily: "'Fraunces',serif", fontSize: 38, marginBottom: 6 }}>
           Welcome back, {firstName}.
@@ -167,16 +182,22 @@ function ActiveSubscriberView({ agent }) {
         }}
       >
         <DashboardCard
+          title="📤 Run a client report"
+          body="Upload an inspection PDF — your subscription covers the analysis. Your client gets a branded report shareable via one link."
+          ctaText="Upload PDF →"
+          ctaHref="/dashboard/upload"
+        />
+        <DashboardCard
           title="📋 Your client reports"
-          body="Reports you generate via the agent flow will appear here, keyed by client."
-          ctaText="Coming soon"
-          ctaHref={null}
+          body="Every report you've generated, with one-click sharing links pre-branded with your logo + accent colour."
+          ctaText="View all reports →"
+          ctaHref="/dashboard/reports"
         />
         <DashboardCard
           title="👀 Preview your branding"
           body={
             agent.logo_url
-              ? "See how a client report renders with your logo and accent colour applied. One-click sharing arrives once you can upload reports from your dashboard."
+              ? "See how a sample client report renders with your logo and accent colour applied."
               : "Once you upload your logo below, click here to see how a client report will look — your logo at the top, your accent colour on every button."
           }
           customCta={
@@ -185,12 +206,6 @@ function ActiveSubscriberView({ agent }) {
               hasBranding={!!(agent.logo_url || agent.accent_color)}
             />
           }
-        />
-        <DashboardCard
-          title="📤 Run a client report"
-          body="Until the in-dashboard upload flow ships, use the standard buyer-side upload. Reports will retroactively link to your dashboard."
-          ctaText="Open buyer upload →"
-          ctaHref="/"
         />
         <DashboardCard
           title="💳 Billing"

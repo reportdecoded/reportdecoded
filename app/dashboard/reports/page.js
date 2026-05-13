@@ -1,0 +1,274 @@
+// app/dashboard/reports/page.js
+// Phase 4b: list of reports the signed-in agent has generated.
+// Each row links to the branded /results view + has a copy-share-link button.
+
+import { redirect } from 'next/navigation';
+import Link from 'next/link';
+import { getSupabaseServer } from '@/lib/auth-server';
+import { getServiceSupabase } from '@/lib/supabase';
+import { STYLES } from '@/components/ReportDecoded';
+import SignOutButton from '../SignOutButton';
+import { countAgentReportsLast30Days, STARTER_INCLUDED_REPORTS } from '@/lib/usage';
+import CopyShareButton from './CopyShareButton';
+
+export const metadata = {
+  title: 'Your client reports — Report Decoded',
+  robots: { index: false, follow: false },
+};
+
+const ACTIVE_STATUSES = new Set(['active', 'trialing']);
+
+export default async function DashboardReportsPage({ searchParams }) {
+  const params = await searchParams;
+  const justCreated = params?.new;
+  const overageBanner = params?.overage === '1';
+
+  const supabase = await getSupabaseServer();
+  const { data: { user } } = await supabase.auth.getUser();
+  if (!user) {
+    redirect('/signin?next=/dashboard/reports');
+  }
+
+  const admin = getServiceSupabase();
+  const { data: agent } = await admin
+    .from('agents')
+    .select('id, business_name, logo_url, accent_color, subscription_status, subscription_tier')
+    .ilike('email', user.email)
+    .maybeSingle();
+
+  if (!agent) {
+    redirect('/agents?need_profile=1');
+  }
+  if (!ACTIVE_STATUSES.has(agent.subscription_status)) {
+    redirect('/dashboard?subscribe_required=1');
+  }
+
+  // Pull this agent's reports, newest first.
+  const { data: reports = [] } = await admin
+    .from('reports')
+    .select('id, created_at, status, property_address, buyer_email, result_json, report_type, purchase_intent')
+    .eq('agent_id', agent.id)
+    .order('created_at', { ascending: false })
+    .limit(100);
+
+  const countInWindow = await countAgentReportsLast30Days(agent.id);
+  const accentStyle = agent.accent_color
+    ? { '--amber': agent.accent_color, '--amber-hover': agent.accent_color }
+    : undefined;
+
+  return (
+    <>
+      <style>{STYLES}</style>
+      <nav className="nav" style={accentStyle}>
+        <Link href="/dashboard" style={{ display: 'flex', alignItems: 'center', textDecoration: 'none' }}>
+          {agent.logo_url ? (
+            // eslint-disable-next-line @next/next/no-img-element
+            <img src={agent.logo_url} alt={agent.business_name || 'Your agency'} style={{ height: 36, maxWidth: 180, objectFit: 'contain' }} />
+          ) : (
+            <img src="/logo-dark.png" alt="Report Decoded" style={{ height: 36 }} />
+          )}
+        </Link>
+        <div className="nav-links">
+          <span style={{ color: 'rgba(255,255,255,0.55)', fontSize: 13, marginRight: 12 }}>
+            {user.email}
+          </span>
+          <SignOutButton />
+        </div>
+      </nav>
+
+      <main style={{ maxWidth: 960, margin: '40px auto', padding: '0 24px' }}>
+        <Link href="/dashboard" style={{ color: 'var(--muted)', fontSize: 13, textDecoration: 'none' }}>
+          ← Back to dashboard
+        </Link>
+
+        <div style={{ display: 'flex', alignItems: 'flex-end', justifyContent: 'space-between', marginTop: 12, gap: 16, flexWrap: 'wrap' }}>
+          <div>
+            <h1 style={{ fontFamily: "'Fraunces',serif", fontSize: 34, marginBottom: 6 }}>
+              Your client reports
+            </h1>
+            <p style={{ color: 'var(--muted)', fontSize: 14, lineHeight: 1.6 }}>
+              {agent.subscription_tier === 'starter'
+                ? `${countInWindow} of ${STARTER_INCLUDED_REPORTS} reports used in the past 30 days`
+                : `${countInWindow} report${countInWindow === 1 ? '' : 's'} in the past 30 days · unlimited`}
+            </p>
+          </div>
+          <Link
+            href="/dashboard/upload"
+            style={{
+              background: 'var(--amber)',
+              color: '#fff',
+              padding: '10px 18px',
+              borderRadius: 8,
+              fontWeight: 600,
+              fontSize: 14,
+              textDecoration: 'none',
+            }}
+          >
+            + New report
+          </Link>
+        </div>
+
+        {justCreated && (
+          <div
+            style={{
+              marginTop: 18,
+              background: 'var(--teal-light)',
+              border: '1px solid var(--teal-border)',
+              color: 'var(--teal)',
+              padding: '14px 18px',
+              borderRadius: 10,
+              fontWeight: 600,
+            }}
+          >
+            ✅ Report uploaded. Claude is analysing it now — refresh in ~60 seconds.
+            {overageBanner && (
+              <div style={{ marginTop: 6, fontWeight: 400, fontSize: 13, color: 'var(--text)' }}>
+                Heads up: this one's over your monthly allowance, so $15 will be added to
+                your next invoice.
+              </div>
+            )}
+          </div>
+        )}
+
+        <div style={{ marginTop: 28 }}>
+          {reports.length === 0 ? (
+            <EmptyState />
+          ) : (
+            <div style={{ display: 'flex', flexDirection: 'column', gap: 10 }}>
+              {reports.map((r) => (
+                <ReportRow key={r.id} report={r} agentId={agent.id} highlighted={r.id === justCreated} />
+              ))}
+            </div>
+          )}
+        </div>
+      </main>
+    </>
+  );
+}
+
+function EmptyState() {
+  return (
+    <div
+      style={{
+        background: '#fff',
+        border: '1px dashed var(--border)',
+        borderRadius: 12,
+        padding: '40px 24px',
+        textAlign: 'center',
+      }}
+    >
+      <div style={{ fontSize: 16, fontWeight: 600, marginBottom: 8 }}>
+        No reports yet
+      </div>
+      <div style={{ color: 'var(--muted)', fontSize: 14, marginBottom: 18 }}>
+        Upload your first inspection PDF and you'll see it here.
+      </div>
+      <Link
+        href="/dashboard/upload"
+        style={{
+          background: 'var(--amber)',
+          color: '#fff',
+          padding: '10px 18px',
+          borderRadius: 8,
+          fontWeight: 600,
+          fontSize: 14,
+          textDecoration: 'none',
+        }}
+      >
+        Upload first report →
+      </Link>
+    </div>
+  );
+}
+
+function ReportRow({ report, agentId, highlighted }) {
+  const verdict = report.result_json?.overall_verdict;
+  const verdictMeta = verdictDisplay(verdict, report.status);
+  const address =
+    report.property_address ||
+    report.result_json?.property_address ||
+    'Address not detected';
+  const created = new Date(report.created_at).toLocaleString('en-AU', {
+    day: 'numeric',
+    month: 'short',
+    year: 'numeric',
+    hour: 'numeric',
+    minute: '2-digit',
+  });
+  const shareUrl = `/results?reportId=${report.id}&agent=${agentId}`;
+
+  return (
+    <div
+      style={{
+        display: 'flex',
+        alignItems: 'center',
+        gap: 14,
+        background: '#fff',
+        border: `1px solid ${highlighted ? 'var(--amber)' : 'var(--border)'}`,
+        borderRadius: 10,
+        padding: '14px 18px',
+      }}
+    >
+      <div style={{ flex: 1, minWidth: 0 }}>
+        <div style={{ fontWeight: 600, fontSize: 15, marginBottom: 2, overflow: 'hidden', textOverflow: 'ellipsis', whiteSpace: 'nowrap' }}>
+          {address}
+        </div>
+        <div style={{ color: 'var(--muted)', fontSize: 12 }}>
+          {created} · {reportTypeLabel(report.report_type)}
+          {report.buyer_email && ` · ${report.buyer_email}`}
+        </div>
+      </div>
+      <span
+        style={{
+          background: verdictMeta.bg,
+          color: verdictMeta.fg,
+          fontSize: 12,
+          fontWeight: 600,
+          padding: '4px 10px',
+          borderRadius: 999,
+          whiteSpace: 'nowrap',
+        }}
+      >
+        {verdictMeta.label}
+      </span>
+      {report.status === 'complete' ? (
+        <>
+          <Link
+            href={shareUrl}
+            target="_blank"
+            rel="noopener noreferrer"
+            style={{ color: 'var(--amber)', fontSize: 13, fontWeight: 600, textDecoration: 'none', whiteSpace: 'nowrap' }}
+          >
+            View →
+          </Link>
+          <CopyShareButton shareUrl={shareUrl} />
+        </>
+      ) : (
+        <span style={{ color: 'var(--subtle)', fontSize: 12 }}>—</span>
+      )}
+    </div>
+  );
+}
+
+function verdictDisplay(verdict, status) {
+  if (status === 'failed') {
+    return { label: 'FAILED', bg: 'var(--red-bg)', fg: 'var(--red)' };
+  }
+  if (status !== 'complete') {
+    return { label: 'PROCESSING', bg: 'var(--cream2)', fg: 'var(--muted)' };
+  }
+  if (verdict === 'PROCEED') {
+    return { label: 'PROCEED', bg: 'var(--teal-light)', fg: 'var(--teal)' };
+  }
+  if (verdict === 'NEGOTIATE') {
+    return { label: 'NEGOTIATE', bg: 'var(--gold-bg)', fg: 'var(--gold)' };
+  }
+  if (verdict === 'WALK_AWAY') {
+    return { label: 'WALK AWAY', bg: 'var(--red-bg)', fg: 'var(--red)' };
+  }
+  return { label: 'COMPLETE', bg: 'var(--cream2)', fg: 'var(--muted)' };
+}
+
+function reportTypeLabel(t) {
+  return t === 'new_build_handover' ? 'New build handover' : 'Pre-purchase';
+}

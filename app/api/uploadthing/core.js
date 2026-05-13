@@ -25,4 +25,17 @@ export const ourFileRouter = {
     .onUploadComplete(async ({ file }) => {
       return { url: file.ufsUrl ?? file.url, key: file.key, name: file.name };
     }),
+
+  // Phase 4b: agent uploads an inspection PDF for a client from the dashboard.
+  // Same 25MB cap as the buyer-side endpoint. Auth gate is enforced at the
+  // /api/agent-upload step (UploadThing middleware can't read Supabase session
+  // cookies reliably across all environments — gating happens server-side when
+  // the agent submits the form).
+  agentReport: f({
+    pdf: { maxFileSize: '25MB', maxFileCount: 1 },
+  })
+    .middleware(async () => ({}))
+    .onUploadComplete(async ({ file }) => {
+      return { url: file.ufsUrl ?? file.url, key: file.key, name: file.name };
+    }),
 };
