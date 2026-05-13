@@ -7,6 +7,19 @@ import { createServerClient } from '@supabase/ssr';
 import { NextResponse } from 'next/server';
 
 export async function middleware(request) {
+  // Defensive: if a Supabase magic-link landed us somewhere other than
+  // /auth/callback (e.g. on / because of how Supabase Site URL is configured),
+  // forward the auth code to our callback handler so the session can be
+  // established and the user redirected to /dashboard.
+  if (
+    request.nextUrl.searchParams.has('code') &&
+    request.nextUrl.pathname !== '/auth/callback'
+  ) {
+    const callback = new URL('/auth/callback', request.url);
+    callback.searchParams.set('code', request.nextUrl.searchParams.get('code'));
+    return NextResponse.redirect(callback);
+  }
+
   let response = NextResponse.next({ request });
 
   const supabase = createServerClient(
