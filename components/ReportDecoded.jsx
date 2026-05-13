@@ -1860,10 +1860,10 @@ export default function App() {
                 The numbers below are a preview — drop your email and you'll be first to know when it ships.
               </div>
             </div>
-            <a
+            <Link
               className="pm-roadmap-cta"
-              href="mailto:info@reportdecoded.com.au?subject=Notify%20me%20when%20PM%20product%20launches&body=Hi%20Morgan%2C%20%0A%0AI%27d%20like%20to%20be%20notified%20when%20the%20Property%20Manager%20product%20is%20ready.%0A%0AMy%20agency%3A%20%0AHow%20many%20properties%3A%20%0A%0AThanks!"
-            >Notify me when it ships →</a>
+              href="/contact?topic=pm"
+            >Notify me when it ships →</Link>
           </div>
 
           <div className="agent-header">
@@ -1947,7 +1947,7 @@ export default function App() {
             ·
             <a href="/terms" style={{color:"rgba(255,255,255,0.85)",textDecoration:"none",margin:"0 12px"}}>Terms of Service</a>
             ·
-            <a href="mailto:info@reportdecoded.com.au" style={{color:"rgba(255,255,255,0.85)",textDecoration:"none",margin:"0 12px"}}>Contact</a>
+            <Link href="/contact" style={{color:"rgba(255,255,255,0.85)",textDecoration:"none",margin:"0 12px"}}>Contact</Link>
           </div>
           <div style={{fontSize:12,color:"rgba(255,255,255,0.45)"}}>
             © 2026 Report Decoded · Australian property inspection report interpreter ·

@@ -185,9 +185,9 @@ function ResultsBody() {
               Terms of Service
             </Link>
             ·
-            <a href="mailto:info@reportdecoded.com.au" style={{ color: 'rgba(255,255,255,0.85)', textDecoration: 'none', margin: '0 12px' }}>
+            <Link href="/contact" style={{ color: 'rgba(255,255,255,0.85)', textDecoration: 'none', margin: '0 12px' }}>
               Contact
-            </a>
+            </Link>
           </div>
           <div style={{ fontSize: 12, color: 'rgba(255,255,255,0.45)' }}>
             © 2026 Report Decoded · AI analysis is general information, not professional advice.
