@@ -173,11 +173,11 @@ function ActiveSubscriberView({ agent }) {
           ctaHref={null}
         />
         <DashboardCard
-          title="🔗 Your share link"
+          title="👀 Preview your branding"
           body={
             agent.logo_url
-              ? `Append &agent=${agent.id} to any /results URL to render it with your logo + accent colour.`
-              : `Once you set up your branding below, append &agent=${agent.id} to any /results URL and the report will render with your branding.`
+              ? "See how a client report renders with your logo and accent colour applied. One-click sharing arrives once you can upload reports from your dashboard."
+              : "Once you upload your logo below, click here to see how a client report will look — your logo at the top, your accent colour on every button."
           }
           customCta={
             <ShareLinkActions

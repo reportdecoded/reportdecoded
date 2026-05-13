@@ -1,67 +1,38 @@
 'use client';
-import { useState } from 'react';
 
-// The Yarraville sample (already exists in Supabase). Appending &agent=YOURID
-// renders that report with your branding overlay.
+// The Yarraville sample (real report row in Supabase). Appending &agent=YOURID
+// renders it with your branding overlay so you can see what a client sees.
 const SAMPLE_REPORT_ID = 'f3ef0ce1-5443-4e91-a420-5e8bf7d8713d';
 
 export default function ShareLinkActions({ agentId, hasBranding }) {
-  const [copied, setCopied] = useState(false);
-
-  const handleCopyId = async () => {
-    try {
-      await navigator.clipboard.writeText(agentId);
-      setCopied(true);
-      setTimeout(() => setCopied(false), 2000);
-    } catch {
-      /* clipboard blocked — show fallback */
-      window.prompt('Copy your agent ID:', agentId);
-    }
-  };
-
   const previewUrl = `/results?reportId=${SAMPLE_REPORT_ID}&agent=${agentId}`;
-
   return (
-    <div style={{ display: 'flex', flexDirection: 'column', gap: 8 }}>
+    <div style={{ display: 'flex', flexDirection: 'column', gap: 6 }}>
       <a
         href={previewUrl}
         target="_blank"
         rel="noopener noreferrer"
         style={{
           display: 'inline-block',
-          background: 'var(--amber)',
-          color: '#fff',
+          background: hasBranding ? 'var(--amber)' : 'var(--cream2)',
+          color: hasBranding ? '#fff' : 'var(--muted)',
           textDecoration: 'none',
-          padding: '8px 14px',
+          padding: '10px 14px',
           borderRadius: 8,
           fontWeight: 600,
-          fontSize: 13,
+          fontSize: 14,
           textAlign: 'center',
+          border: hasBranding ? 0 : '1px solid var(--border)',
+          pointerEvents: hasBranding ? 'auto' : 'auto', // still clickable when no branding (shows baseline)
         }}
       >
-        {hasBranding ? 'Preview with sample report →' : 'Preview (set up below first) →'}
+        {hasBranding ? 'See how a client sees it →' : 'Preview (set up branding first) →'}
       </a>
-      <button
-        type="button"
-        onClick={handleCopyId}
-        style={{
-          background: 'transparent',
-          color: 'var(--muted)',
-          border: '1px solid var(--border)',
-          padding: '6px 10px',
-          borderRadius: 6,
-          fontSize: 12,
-          cursor: 'pointer',
-          fontFamily: 'inherit',
-        }}
-      >
-        {copied ? '✓ Copied' : '📋 Copy your agent ID'}
-      </button>
       <a
         href="#brand-settings"
-        style={{ color: 'var(--amber)', fontSize: 12, textDecoration: 'none', marginTop: 2 }}
+        style={{ color: 'var(--amber)', fontSize: 12, textDecoration: 'none', marginTop: 4 }}
       >
-        {hasBranding ? 'Edit branding ↓' : 'Set up branding ↓'}
+        {hasBranding ? 'Edit your branding ↓' : 'Set up your branding ↓'}
       </a>
     </div>
   );
