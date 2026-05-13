@@ -1,3 +1,6 @@
+import { Analytics } from '@vercel/analytics/next';
+import { SpeedInsights } from '@vercel/speed-insights/next';
+
 export const metadata = {
   title: 'Report Decoded',
   description: 'AI Building Inspection Report Interpreter for Australian Property Buyers',
@@ -24,6 +27,8 @@ export default function RootLayout({ children }) {
     <html lang="en">
       <body style={{ margin: 0, padding: 0 }}>
         {children}
+        <Analytics />
+        <SpeedInsights />
       </body>
     </html>
   );
