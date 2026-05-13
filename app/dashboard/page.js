@@ -16,6 +16,7 @@ import SignOutButton from './SignOutButton';
 import SubscribeButtons from './SubscribeButtons';
 import ManageBillingButton from './ManageBillingButton';
 import BrandSettings from './BrandSettings';
+import ShareLinkActions from './ShareLinkActions';
 
 export const metadata = {
   title: 'Dashboard — Report Decoded',
@@ -124,7 +125,7 @@ export default async function DashboardPage({ searchParams }) {
         {hasActiveSub ? (
           <>
             <ActiveSubscriberView agent={agent} />
-            <div style={{ marginTop: 32 }}>
+            <div id="brand-settings" style={{ marginTop: 32, scrollMarginTop: 80 }}>
               <BrandSettings initial={{ logo_url: agent.logo_url, accent_color: agent.accent_color }} />
             </div>
           </>
@@ -173,9 +174,17 @@ function ActiveSubscriberView({ agent }) {
         />
         <DashboardCard
           title="🔗 Your share link"
-          body={`Reports shared via this URL get branded with your logo + accent: /results?reportId=...&agent=${agent.id}`}
-          ctaText={agent.logo_url ? 'Customise below ↓' : 'Set up below ↓'}
-          ctaHref={null}
+          body={
+            agent.logo_url
+              ? `Append &agent=${agent.id} to any /results URL to render it with your logo + accent colour.`
+              : `Once you set up your branding below, append &agent=${agent.id} to any /results URL and the report will render with your branding.`
+          }
+          customCta={
+            <ShareLinkActions
+              agentId={agent.id}
+              hasBranding={!!(agent.logo_url || agent.accent_color)}
+            />
+          }
         />
         <DashboardCard
           title="📤 Run a client report"
