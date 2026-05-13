@@ -17,6 +17,26 @@ import { runAnalysisForReport } from '@/lib/runAnalysis';
 // Allow up to 5 minutes for the post-response analysis to finish.
 export const maxDuration = 300;
 
+// Reverse-lookup tier from price ID — used when subscription event metadata is
+// missing (Stripe doesn't always carry our checkout-time metadata into
+// subscription.* events). The env var names match those in /api/subscribe.
+function agentTierFromPriceId(priceId) {
+  if (!priceId) return null;
+  if (
+    priceId === process.env.STRIPE_PRICE_STARTER_MONTHLY ||
+    priceId === process.env.STRIPE_PRICE_STARTER_YEARLY
+  ) return 'starter';
+  if (
+    priceId === process.env.STRIPE_PRICE_PRO_MONTHLY ||
+    priceId === process.env.STRIPE_PRICE_PRO_YEARLY
+  ) return 'pro';
+  if (
+    priceId === process.env.STRIPE_PRICE_AGENCY_MONTHLY ||
+    priceId === process.env.STRIPE_PRICE_AGENCY_YEARLY
+  ) return 'agency';
+  return null;
+}
+
 export async function POST(request) {
   const body = await request.text();
   const signature = request.headers.get('stripe-signature');
@@ -36,6 +56,27 @@ export async function POST(request) {
   switch (event.type) {
     case 'checkout.session.completed': {
       const session = event.data.object;
+
+      // SUBSCRIPTION checkout (agent signs up for Starter/Pro/Agency).
+      // The subscription.created event handles tier + status; here we just
+      // log + idempotently link the agent row to the new customer/subscription.
+      if (session.mode === 'subscription') {
+        const agentId = session.metadata?.agent_id;
+        const supabase = getServiceSupabase();
+        if (agentId) {
+          await supabase
+            .from('agents')
+            .update({
+              stripe_customer_id: session.customer,
+              stripe_subscription_id: session.subscription,
+            })
+            .eq('id', agentId);
+          console.log(`[webhook] subscription checkout completed for agent ${agentId}`);
+        }
+        break;
+      }
+
+      // ONE-OFF PAYMENT checkout (buyer pays for a report) — existing flow.
       const reportId = session.metadata?.reportId;
       if (!reportId) {
         console.warn('[webhook] checkout.session.completed without reportId');
@@ -82,17 +123,49 @@ export async function POST(request) {
 
     case 'customer.subscription.created':
     case 'customer.subscription.updated': {
-      // Agent / PM / tradie subscription activation — handled in Phase 2.
+      const sub = event.data.object;
+      const supabase = getServiceSupabase();
+      const tier = sub.metadata?.tier || agentTierFromPriceId(sub.items?.data?.[0]?.price?.id);
+      const update = {
+        stripe_subscription_id: sub.id,
+        stripe_customer_id: sub.customer,
+        subscription_status: sub.status,            // Stripe's enum mirrors ours
+        subscription_tier: tier || null,
+      };
+      const { error, count } = await supabase
+        .from('agents')
+        .update(update, { count: 'exact' })
+        .or(`stripe_customer_id.eq.${sub.customer},stripe_subscription_id.eq.${sub.id}`);
+      if (error) {
+        console.error(`[webhook] subscription update failed:`, error.message);
+      } else {
+        console.log(`[webhook] subscription ${sub.id} (${sub.status}, tier=${tier}) -> ${count} agent rows updated`);
+      }
       break;
     }
 
     case 'customer.subscription.deleted': {
-      // Subscription cancel — Phase 2.
+      const sub = event.data.object;
+      const supabase = getServiceSupabase();
+      await supabase
+        .from('agents')
+        .update({ subscription_status: 'canceled' })
+        .eq('stripe_subscription_id', sub.id);
+      console.log(`[webhook] subscription ${sub.id} canceled`);
       break;
     }
 
     case 'invoice.payment_failed': {
-      // Notify user, pause account after grace period — Phase 2.
+      const invoice = event.data.object;
+      if (invoice.subscription) {
+        const supabase = getServiceSupabase();
+        await supabase
+          .from('agents')
+          .update({ subscription_status: 'past_due' })
+          .eq('stripe_subscription_id', invoice.subscription);
+        console.log(`[webhook] invoice payment failed for sub ${invoice.subscription} -> past_due`);
+        // TODO future: send a "your card declined" email via Resend
+      }
       break;
     }
   }
