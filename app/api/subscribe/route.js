@@ -83,10 +83,20 @@ export async function POST(request) {
 
   const base = process.env.NEXT_PUBLIC_BASE_URL || 'http://localhost:3000';
 
+  const lineItems = [{ price: priceId, quantity: 1 }];
+
+  // Starter tier gets a second, metered line item that bills $15/extra report
+  // when usage in a billing cycle exceeds the 12-report cap. The metered
+  // subscription item exists from day 1 but won't be charged until usage
+  // events are reported via the meter (wired in Phase 4b).
+  if (tier === 'starter' && process.env.STRIPE_PRICE_STARTER_OVERAGE) {
+    lineItems.push({ price: process.env.STRIPE_PRICE_STARTER_OVERAGE });
+  }
+
   const session = await stripe.checkout.sessions.create({
     mode: 'subscription',
     customer: customerId,
-    line_items: [{ price: priceId, quantity: 1 }],
+    line_items: lineItems,
     success_url: `${base}/dashboard?subscribed=1&session_id={CHECKOUT_SESSION_ID}`,
     cancel_url: `${base}/dashboard?subscribe_cancelled=1`,
     metadata: { agent_id: agent.id, tier, interval },

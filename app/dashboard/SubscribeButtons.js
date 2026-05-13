@@ -5,10 +5,10 @@ const TIERS = [
   {
     id: 'starter',
     name: 'Starter',
-    monthly: 99,
-    yearly: 990,
-    tagline: '15 reports per month',
-    features: ['White-label PDFs', 'Client report history', 'Email support'],
+    monthly: 79,
+    yearly: 790,
+    tagline: '12 reports per month',
+    features: ['$15 per extra report (auto-billed)', 'White-label PDFs', 'Client report history', 'Email support'],
   },
   {
     id: 'pro',

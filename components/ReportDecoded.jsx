@@ -1342,11 +1342,12 @@ export default function App() {
                 <div className="price-desc">For investors evaluating multiple properties at once</div>
                 <div className="price-tag">Most Popular</div>
               </div>
-              <div className="price-card">
-                <div className="price-label">Agent / PM Monthly</div>
-                <div className="price-amount">$99<span style={{fontSize:17,fontWeight:300}}>/mo</span></div>
-                <div className="price-desc">Unlimited reports, white-label branding & client delivery</div>
-              </div>
+              <Link href="/agents" className="price-card" style={{textDecoration:"none",color:"inherit",cursor:"pointer"}}>
+                <div className="price-label">For Agents</div>
+                <div className="price-amount">From $79<span style={{fontSize:17,fontWeight:300}}>/mo</span></div>
+                <div className="price-desc">Buyer's agents + selling agents. White-label, client history, $15 per extra report.</div>
+                <div style={{marginTop:8,color:"var(--amber)",fontSize:13,fontWeight:600}}>Learn more →</div>
+              </Link>
             </div>
 
             {/* Trust bar */}

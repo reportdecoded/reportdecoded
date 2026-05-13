@@ -45,9 +45,9 @@ export default function AgentsPage() {
     {
       id: 'starter',
       name: 'Starter',
-      price: '$99',
-      tagline: '15 reports per month',
-      features: ['White-label PDFs', 'Client report history', 'Email support'],
+      price: '$79',
+      tagline: '12 reports per month',
+      features: ['$15 per extra report (auto-billed)', 'White-label PDFs', 'Client report history', 'Email support'],
     },
     {
       id: 'pro',
@@ -341,7 +341,7 @@ export default function AgentsPage() {
                       onChange={(e) => setTierInterest(e.target.value)}
                       style={inputStyle}
                     >
-                      <option value="starter">Starter — $99/mo (15 reports)</option>
+                      <option value="starter">Starter — $79/mo (12 reports, $15 each after)</option>
                       <option value="pro">Pro — $199/mo (unlimited)</option>
                       <option value="agency">Agency — $399/mo (team)</option>
                       <option value="exploring">Just exploring</option>
