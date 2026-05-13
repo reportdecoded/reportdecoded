@@ -19,12 +19,31 @@ function ResultsBody() {
   const params = useSearchParams();
   const reportId = params.get('reportId');
   const isSample = params.get('sample') === '1';
+  const agentId = params.get('agent');
 
   const [report, setReport] = useState(null);
   const [error, setError] = useState(null);
   const [loadStep, setLoadStep] = useState(0);
   const [expanded, setExpanded] = useState({});
   const [copied, setCopied] = useState(false);
+  const [brand, setBrand] = useState(null); // { business_name, logo_url, accent_color }
+
+  // Fetch agent branding if ?agent= is in the URL (white-label share link)
+  useEffect(() => {
+    if (!agentId) return;
+    let cancelled = false;
+    fetch(`/api/agent-brand?id=${encodeURIComponent(agentId)}`)
+      .then((r) => (r.ok ? r.json() : null))
+      .then((data) => {
+        if (!cancelled && data && (data.logo_url || data.accent_color)) {
+          setBrand(data);
+        }
+      })
+      .catch(() => {});
+    return () => {
+      cancelled = true;
+    };
+  }, [agentId]);
 
   // Poll /api/report-status until complete or failed.
   useEffect(() => {
@@ -70,17 +89,36 @@ function ResultsBody() {
     <>
       <style>{STYLES}</style>
 
+      {/* When viewed via an agent's share link, override the amber accent. */}
+      {brand?.accent_color && (
+        <style>{`:root { --amber: ${brand.accent_color}; --amber-hover: ${brand.accent_color}; }`}</style>
+      )}
+
       <nav className="nav">
         <Link href="/" style={{ textDecoration: 'none', display: 'flex', alignItems: 'center' }}>
-          <img
-            src="/logo-dark.png"
-            alt="Report Decoded"
-            style={{ height: 36, width: 'auto', display: 'block' }}
-          />
+          {brand?.logo_url ? (
+            // eslint-disable-next-line @next/next/no-img-element
+            <img
+              src={brand.logo_url}
+              alt={brand.business_name || 'Agency'}
+              style={{ height: 36, maxWidth: 200, objectFit: 'contain', display: 'block' }}
+            />
+          ) : (
+            <img
+              src="/logo-dark.png"
+              alt="Report Decoded"
+              style={{ height: 36, width: 'auto', display: 'block' }}
+            />
+          )}
         </Link>
         <div className="nav-links">
+          {brand && (
+            <span style={{ color: 'rgba(255,255,255,0.45)', fontSize: 11, marginRight: 14, fontStyle: 'italic' }}>
+              Analysis by Report Decoded
+            </span>
+          )}
           <Link href="/" className="nav-link" style={{ textDecoration: 'none' }}>
-            ← Upload Another
+            {brand ? '↑ Run another' : '← Upload Another'}
           </Link>
         </div>
       </nav>

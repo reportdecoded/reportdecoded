@@ -15,6 +15,7 @@ import { STYLES } from '@/components/ReportDecoded';
 import SignOutButton from './SignOutButton';
 import SubscribeButtons from './SubscribeButtons';
 import ManageBillingButton from './ManageBillingButton';
+import BrandSettings from './BrandSettings';
 
 export const metadata = {
   title: 'Dashboard — Report Decoded',
@@ -38,7 +39,7 @@ export default async function DashboardPage({ searchParams }) {
   const admin = getServiceSupabase();
   let { data: agent } = await admin
     .from('agents')
-    .select('*')
+    .select('id, full_name, email, phone, business_name, role, tier_interest, status, subscription_status, subscription_tier, stripe_customer_id, stripe_subscription_id, auth_user_id, logo_url, accent_color')
     .ilike('email', user.email)
     .maybeSingle();
 
@@ -61,9 +62,14 @@ export default async function DashboardPage({ searchParams }) {
   return (
     <>
       <style>{STYLES}</style>
-      <nav className="nav">
+      <nav className="nav" style={agent.accent_color ? { '--amber': agent.accent_color, '--amber-hover': agent.accent_color } : undefined}>
         <Link href="/" style={{ display: 'flex', alignItems: 'center', textDecoration: 'none' }}>
-          <img src="/logo-dark.png" alt="Report Decoded" style={{ height: 36 }} />
+          {agent.logo_url ? (
+            // eslint-disable-next-line @next/next/no-img-element
+            <img src={agent.logo_url} alt={agent.business_name || 'Your agency'} style={{ height: 36, maxWidth: 180, objectFit: 'contain' }} />
+          ) : (
+            <img src="/logo-dark.png" alt="Report Decoded" style={{ height: 36 }} />
+          )}
         </Link>
         <div className="nav-links">
           <span style={{ color: 'rgba(255,255,255,0.55)', fontSize: 13, marginRight: 12 }}>
@@ -116,7 +122,12 @@ export default async function DashboardPage({ searchParams }) {
         </p>
 
         {hasActiveSub ? (
-          <ActiveSubscriberView agent={agent} />
+          <>
+            <ActiveSubscriberView agent={agent} />
+            <div style={{ marginTop: 32 }}>
+              <BrandSettings initial={{ logo_url: agent.logo_url, accent_color: agent.accent_color }} />
+            </div>
+          </>
         ) : (
           <PricingView agent={agent} />
         )}
@@ -161,9 +172,9 @@ function ActiveSubscriberView({ agent }) {
           ctaHref={null}
         />
         <DashboardCard
-          title="🎨 White-label settings"
-          body="Upload your agency logo + accent colour to brand every PDF report your clients see."
-          ctaText="Coming soon"
+          title="🔗 Your share link"
+          body={`Reports shared via this URL get branded with your logo + accent: /results?reportId=...&agent=${agent.id}`}
+          ctaText={agent.logo_url ? 'Customise below ↓' : 'Set up below ↓'}
           ctaHref={null}
         />
         <DashboardCard

@@ -15,4 +15,14 @@ export const ourFileRouter = {
       // Returned values are sent back to the client as `serverData`.
       return { url: file.ufsUrl ?? file.url, key: file.key, name: file.name };
     }),
+
+  // White-label logo uploads from the agent dashboard. Smaller size cap (2MB
+  // is plenty for a logo), image-only.
+  agentLogo: f({
+    image: { maxFileSize: '2MB', maxFileCount: 1 },
+  })
+    .middleware(async () => ({}))
+    .onUploadComplete(async ({ file }) => {
+      return { url: file.ufsUrl ?? file.url, key: file.key, name: file.name };
+    }),
 };
