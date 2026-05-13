@@ -863,6 +863,61 @@ body{
 .upload-zone--form{padding:36px 40px;}
 .upload-zone--form:hover{border-color:var(--border);background:#fff;box-shadow:0 8px 40px rgba(10,22,40,0.12);}
 
+/* PM "Coming Soon" roadmap banner — designed mobile-first.
+   Desktop: text left + CTA right. Mobile: stacks, CTA goes full-width. */
+.pm-roadmap-banner{
+  background:linear-gradient(135deg, var(--navy) 0%, var(--navy3) 100%);
+  border:1px solid rgba(201,122,58,0.25);
+  border-radius:16px;
+  padding:22px 26px;
+  margin-bottom:24px;
+  color:#fff;
+  display:flex;
+  align-items:center;
+  justify-content:space-between;
+  gap:20px;
+}
+.pm-roadmap-text{flex:1 1 auto;min-width:0;}
+.pm-roadmap-pill{
+  display:inline-block;
+  font-size:10.5px;
+  font-weight:700;
+  letter-spacing:1px;
+  text-transform:uppercase;
+  background:rgba(201,122,58,0.18);
+  color:#E8A05A;
+  border:1px solid rgba(201,122,58,0.35);
+  padding:3px 9px;
+  border-radius:6px;
+  margin-bottom:10px;
+}
+.pm-roadmap-h{
+  font-family:'Fraunces',serif;
+  font-size:21px;
+  font-weight:500;
+  margin-bottom:6px;
+  letter-spacing:-0.3px;
+  line-height:1.25;
+}
+.pm-roadmap-body{
+  color:rgba(255,255,255,0.65);
+  font-size:14px;
+  line-height:1.6;
+}
+.pm-roadmap-cta{
+  background:var(--amber);
+  color:#fff;
+  padding:12px 22px;
+  border-radius:10px;
+  font-size:14px;
+  font-weight:600;
+  text-decoration:none;
+  white-space:nowrap;
+  flex-shrink:0;
+  transition:background .15s;
+}
+.pm-roadmap-cta:hover{background:var(--amber-hover);}
+
 /* ── MOBILE — TABLET BREAKPOINT ───────────────────
    Covers iPad portrait + phones. Stacks multi-column
    grids, tightens horizontal padding, drops font sizes
@@ -984,6 +1039,26 @@ body{
   .rd-report-main{flex-basis:100%;}
   .rd-report-actions{margin-left:auto;}
   .upload-zone--form{padding:28px 20px;}
+
+  /* PM roadmap banner — stack vertically, CTA goes full-width, tighter pad */
+  .pm-roadmap-banner{
+    flex-direction:column;
+    align-items:stretch;
+    padding:18px 18px;
+    gap:14px;
+    border-radius:14px;
+    margin-bottom:18px;
+  }
+  .pm-roadmap-pill{font-size:10px;margin-bottom:8px;}
+  .pm-roadmap-h{font-size:17px;letter-spacing:-0.2px;line-height:1.3;margin-bottom:6px;}
+  .pm-roadmap-body{font-size:13px;line-height:1.55;}
+  .pm-roadmap-cta{
+    text-align:center;
+    padding:12px 18px;
+    font-size:13.5px;
+    width:100%;
+    box-sizing:border-box;
+  }
 }
 `;
 
@@ -1769,65 +1844,20 @@ export default function App() {
       ══════════════════════════════════════════════ */}
       {screen === "pm" && (
         <div className="pm-screen fade-up">
-          {/* Roadmap banner — the PM dashboard is a preview, not a live product yet. */}
-          <div
-            style={{
-              background:"linear-gradient(135deg, var(--navy) 0%, var(--navy3) 100%)",
-              borderRadius:16,
-              padding:"22px 28px",
-              marginBottom:24,
-              color:"white",
-              display:"flex",
-              alignItems:"center",
-              justifyContent:"space-between",
-              gap:20,
-              flexWrap:"wrap",
-              border:"1px solid rgba(201,122,58,0.25)",
-            }}
-          >
-            <div style={{flex:"1 1 320px", minWidth:0}}>
-              <div
-                style={{
-                  display:"inline-block",
-                  fontSize:11,
-                  fontWeight:700,
-                  letterSpacing:1,
-                  textTransform:"uppercase",
-                  background:"rgba(201,122,58,0.18)",
-                  color:"#E8A05A",
-                  border:"1px solid rgba(201,122,58,0.35)",
-                  padding:"3px 9px",
-                  borderRadius:6,
-                  marginBottom:10,
-                }}
-              >Coming Soon · Roadmap Preview</div>
-              <div
-                style={{
-                  fontFamily:"'Fraunces',serif",
-                  fontSize:22,
-                  fontWeight:500,
-                  marginBottom:6,
-                  letterSpacing:-0.3,
-                }}
-              >This dashboard isn't live yet — it's the product we're building next.</div>
-              <div style={{color:"rgba(255,255,255,0.65)", fontSize:14, lineHeight:1.6}}>
+          {/* Roadmap banner — the PM dashboard is a preview, not a live product yet.
+              Mobile layout handled by .pm-roadmap-banner media query in STYLES. */}
+          <div className="pm-roadmap-banner">
+            <div className="pm-roadmap-text">
+              <div className="pm-roadmap-pill">Coming Soon · Roadmap Preview</div>
+              <div className="pm-roadmap-h">This dashboard isn't live yet — it's the product we're building next.</div>
+              <div className="pm-roadmap-body">
                 AI-triaged maintenance from tenant reports, instant tradie quotes, and plain-English landlord summaries.
                 The numbers below are a preview — drop your email and you'll be first to know when it ships.
               </div>
             </div>
             <a
+              className="pm-roadmap-cta"
               href="mailto:info@reportdecoded.com.au?subject=Notify%20me%20when%20PM%20product%20launches&body=Hi%20Morgan%2C%20%0A%0AI%27d%20like%20to%20be%20notified%20when%20the%20Property%20Manager%20product%20is%20ready.%0A%0AMy%20agency%3A%20%0AHow%20many%20properties%3A%20%0A%0AThanks!"
-              style={{
-                background:"var(--amber)",
-                color:"white",
-                padding:"12px 22px",
-                borderRadius:10,
-                fontSize:14,
-                fontWeight:600,
-                textDecoration:"none",
-                whiteSpace:"nowrap",
-                flexShrink:0,
-              }}
             >Notify me when it ships →</a>
           </div>
 
