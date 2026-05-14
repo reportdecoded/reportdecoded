@@ -2,6 +2,7 @@
 import { Suspense, useEffect, useState } from 'react';
 import { useSearchParams } from 'next/navigation';
 import Link from 'next/link';
+import { track } from '@vercel/analytics';
 import { STYLES } from '@/components/ReportDecoded';
 
 const LOAD_STEPS = [
@@ -20,6 +21,7 @@ function ResultsBody() {
   const reportId = params.get('reportId');
   const isSample = params.get('sample') === '1';
   const agentId = params.get('agent');
+  const stripeSessionId = params.get('session_id');
 
   const [report, setReport] = useState(null);
   const [error, setError] = useState(null);
@@ -27,6 +29,29 @@ function ResultsBody() {
   const [expanded, setExpanded] = useState({});
   const [copied, setCopied] = useState(false);
   const [brand, setBrand] = useState(null); // { business_name, logo_url, accent_color }
+  const [trackedView, setTrackedView] = useState(false);
+
+  // Fire 'report_purchased' the moment we arrive from Stripe Checkout success.
+  // This is the funnel event most ad campaigns will optimise against.
+  useEffect(() => {
+    if (stripeSessionId) {
+      track('report_purchased', { source: isSample ? 'sample' : 'buyer_flow' });
+    } else if (isSample) {
+      track('sample_viewed', { source: agentId ? 'branded' : 'public' });
+    }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, []);
+
+  // Fire 'report_viewed' once the analysis is complete and rendered.
+  useEffect(() => {
+    if (!trackedView && report?.status === 'complete') {
+      track('report_viewed', {
+        verdict: report.analysis?.overall_verdict || 'UNKNOWN',
+        is_branded: !!agentId,
+      });
+      setTrackedView(true);
+    }
+  }, [report, trackedView, agentId]);
 
   // Fetch agent branding if ?agent= is in the URL (white-label share link)
   useEffect(() => {
@@ -176,18 +201,10 @@ function ResultsBody() {
         }}
       >
         <div style={{ maxWidth: 760, margin: '0 auto' }}>
-          <div style={{ marginBottom: 10 }}>
-            <Link href="/privacy" style={{ color: 'rgba(255,255,255,0.85)', textDecoration: 'none', margin: '0 12px' }}>
-              Privacy Policy
-            </Link>
-            ·
-            <Link href="/terms" style={{ color: 'rgba(255,255,255,0.85)', textDecoration: 'none', margin: '0 12px' }}>
-              Terms of Service
-            </Link>
-            ·
-            <Link href="/contact" style={{ color: 'rgba(255,255,255,0.85)', textDecoration: 'none', margin: '0 12px' }}>
-              Contact
-            </Link>
+          <div className="rd-footer-links">
+            <Link href="/privacy">Privacy Policy</Link>
+            <Link href="/terms">Terms of Service</Link>
+            <Link href="/contact">Contact</Link>
           </div>
           <div style={{ fontSize: 12, color: 'rgba(255,255,255,0.45)' }}>
             © 2026 Report Decoded · AI analysis is general information, not professional advice.

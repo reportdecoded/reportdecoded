@@ -17,6 +17,7 @@ import SubscribeButtons from './SubscribeButtons';
 import ManageBillingButton from './ManageBillingButton';
 import BrandSettings from './BrandSettings';
 import ShareLinkActions from './ShareLinkActions';
+import SubscribedTracker from './SubscribedTracker';
 
 export const metadata = {
   title: 'Dashboard — Report Decoded',
@@ -83,19 +84,22 @@ export default async function DashboardPage({ searchParams }) {
 
       <main style={{ maxWidth: 880, margin: '40px auto', padding: '0 24px' }}>
         {justSubscribed && (
-          <div
-            style={{
-              background: 'var(--teal-light)',
-              border: '1px solid var(--teal-border)',
-              color: 'var(--teal)',
-              padding: '14px 18px',
-              borderRadius: 10,
-              marginBottom: 24,
-              fontWeight: 600,
-            }}
-          >
-            ✅ Subscription active. Welcome to Report Decoded — let's go.
-          </div>
+          <>
+            <SubscribedTracker tier={agent.subscription_tier} />
+            <div
+              style={{
+                background: 'var(--teal-light)',
+                border: '1px solid var(--teal-border)',
+                color: 'var(--teal)',
+                padding: '14px 18px',
+                borderRadius: 10,
+                marginBottom: 24,
+                fontWeight: 600,
+              }}
+            >
+              ✅ Subscription active. Welcome to Report Decoded — let's go.
+            </div>
+          </>
         )}
         {subscribeCancelled && (
           <div

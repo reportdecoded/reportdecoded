@@ -2,6 +2,7 @@
 
 import { useRef, useState } from 'react';
 import { useRouter } from 'next/navigation';
+import { track } from '@vercel/analytics';
 import { useUploadThing } from '@/lib/uploadthing';
 
 export default function UploadForm({ tier }) {
@@ -55,6 +56,10 @@ export default function UploadForm({ tier }) {
       setError('Please attach the inspection PDF first.');
       return;
     }
+    if (!propertyAddress.trim()) {
+      setError('Please enter the property address — it powers the local tradie matching for your client.');
+      return;
+    }
 
     setSubmitting(true);
     try {
@@ -75,8 +80,11 @@ export default function UploadForm({ tier }) {
       if (!res.ok) {
         setError(data.error || 'Could not start analysis.');
         setSubmitting(false);
+        track('agent_upload_failed', { tier, reportType, purchaseIntent, message: (data.error || '').slice(0, 80) });
         return;
       }
+
+      track('agent_upload_completed', { tier, reportType, purchaseIntent, overage: !!data.overage });
 
       // Redirect to the dashboard reports list so the agent can watch the
       // new report flip from 'processing' -> 'complete'.
@@ -111,17 +119,21 @@ export default function UploadForm({ tier }) {
         )}
       </div>
 
-      {/* --- Address (optional but recommended) --- */}
+      {/* --- Address (required — powers tradie matching) --- */}
       <Label>
-        2. Property address <span style={hintStyle}>(optional — helps with tradie matching)</span>
+        2. Property address <span style={{ ...hintStyle, color: 'var(--amber)' }}>*required</span>
       </Label>
       <input
         type="text"
+        required
         value={propertyAddress}
         onChange={(e) => setPropertyAddress(e.target.value)}
-        placeholder="123 Main Street, Suburb VIC"
+        placeholder="123 Main Street, Suburb VIC 3000"
         style={inputStyle}
       />
+      <div style={{ fontSize: 12, color: 'var(--muted)', marginTop: 4, lineHeight: 1.5 }}>
+        We use this to find local tradies for your client. Always required.
+      </div>
 
       {/* --- Purchase price (optional) --- */}
       <Label>

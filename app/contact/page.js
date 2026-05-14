@@ -14,6 +14,7 @@
 import { Suspense, useEffect, useState } from 'react';
 import { useSearchParams } from 'next/navigation';
 import Link from 'next/link';
+import { track } from '@vercel/analytics';
 import { STYLES } from '@/components/ReportDecoded';
 
 const TOPICS = [
@@ -81,9 +82,11 @@ function ContactForm() {
       if (!res.ok) {
         setError(data.error || 'Could not send. Please try again.');
         setSubmitting(false);
+        track('contact_form_failed', { topic });
         return;
       }
       setSubmitted(true);
+      track('contact_form_submitted', { topic });
     } catch (err) {
       setError(err?.message || 'Network error');
       setSubmitting(false);

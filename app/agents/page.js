@@ -1,6 +1,7 @@
 'use client';
 import { useState } from 'react';
 import Link from 'next/link';
+import { track } from '@vercel/analytics';
 import { STYLES } from '@/components/ReportDecoded';
 
 export default function AgentsPage() {
@@ -32,9 +33,11 @@ export default function AgentsPage() {
       if (!res.ok) {
         setError(data.error || 'Sign-up failed. Please try again.');
         setSubmitting(false);
+        track('agent_signup_failed', { role, tier_interest: tierInterest });
         return;
       }
       setSubmitted(true);
+      track('agent_signup_submitted', { role, tier_interest: tierInterest });
     } catch (err) {
       setError(err.message || 'Network error');
       setSubmitting(false);
@@ -394,18 +397,10 @@ export default function AgentsPage() {
         }}
       >
         <div style={{ maxWidth: 760, margin: '0 auto' }}>
-          <div style={{ marginBottom: 10 }}>
-            <Link href="/privacy" style={{ color: 'rgba(255,255,255,0.85)', textDecoration: 'none', margin: '0 12px' }}>
-              Privacy Policy
-            </Link>
-            ·
-            <Link href="/terms" style={{ color: 'rgba(255,255,255,0.85)', textDecoration: 'none', margin: '0 12px' }}>
-              Terms of Service
-            </Link>
-            ·
-            <Link href="/contact" style={{ color: 'rgba(255,255,255,0.85)', textDecoration: 'none', margin: '0 12px' }}>
-              Contact
-            </Link>
+          <div className="rd-footer-links">
+            <Link href="/privacy">Privacy Policy</Link>
+            <Link href="/terms">Terms of Service</Link>
+            <Link href="/contact">Contact</Link>
           </div>
           <div style={{ fontSize: 12, color: 'rgba(255,255,255,0.45)' }}>
             © 2026 Report Decoded · Australian property inspection report interpreter ·

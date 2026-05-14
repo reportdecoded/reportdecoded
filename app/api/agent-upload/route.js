@@ -50,6 +50,12 @@ export async function POST(request) {
   if (!reportUrl || typeof reportUrl !== 'string') {
     return Response.json({ error: 'reportUrl is required' }, { status: 400 });
   }
+  if (!propertyAddress || typeof propertyAddress !== 'string' || propertyAddress.trim().length < 6) {
+    return Response.json(
+      { error: 'Property address is required (it powers local tradie matching).' },
+      { status: 400 }
+    );
+  }
   if (!['pre_purchase', 'new_build_handover'].includes(reportType)) {
     return Response.json({ error: 'Invalid reportType' }, { status: 400 });
   }

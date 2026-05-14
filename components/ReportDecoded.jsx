@@ -1,6 +1,7 @@
 'use client';
 import { useState, useEffect, useRef } from "react";
 import Link from "next/link";
+import { track } from "@vercel/analytics";
 import { useUploadThing } from "@/lib/uploadthing";
 
 /* ─────────────────────────────────────────────────────────────
@@ -859,6 +860,22 @@ body{
 .rd-report-main{flex:1;min-width:0;}
 .rd-report-actions{display:flex;align-items:center;gap:10px;flex-shrink:0;}
 .rd-page-main{max-width:880px;margin:40px auto;padding:0 24px;}
+/* Footer link group — flex with gap replaces "·" text separators that
+   wrapped weirdly on phones (Privacy · Terms · Contact). */
+.rd-footer-links{
+  display:flex;
+  flex-wrap:wrap;
+  justify-content:center;
+  align-items:center;
+  gap:8px 22px;
+  margin-bottom:10px;
+}
+.rd-footer-links a{
+  color:rgba(255,255,255,0.85);
+  text-decoration:none;
+  white-space:nowrap;
+}
+.rd-footer-links a:hover{color:#fff;}
 /* Form-mode of the upload-zone — used by /agents signup. Less padding
    than the marketing dropzone, and no hover lift. */
 .upload-zone--form{padding:36px 40px;}
@@ -1186,13 +1203,16 @@ export default function App() {
       const url = first?.serverData?.url || first?.ufsUrl || first?.url;
       if (!url) {
         setUploadError("Upload finished but no URL was returned. Please try again.");
+        track("upload_failed", { stage: "no_url_returned" });
         return;
       }
       setUploadedFile({ url, name: first?.serverData?.name || first?.name || "report.pdf" });
       setUploadError(null);
+      track("upload_completed", { source: "buyer_flow" });
     },
     onUploadError: (err) => {
       setUploadError(err?.message || "Upload failed.");
+      track("upload_failed", { stage: "uploadthing_error", message: err?.message?.slice(0, 80) });
     },
   });
 
@@ -1242,12 +1262,15 @@ export default function App() {
       const data = await res.json();
       if (!res.ok || !data.url) {
         setUploadError(data?.error || "Could not start checkout. Please try again.");
+        track("checkout_failed", { stage: "api_payment", pack });
         setProcessing(false);
         return;
       }
+      track("checkout_initiated", { pack, reportType, purchaseIntent });
       window.location.href = data.url;
     } catch (err) {
       setUploadError(err?.message || "Network error during checkout.");
+      track("checkout_failed", { stage: "network", pack });
       setProcessing(false);
     }
   };
@@ -1942,12 +1965,10 @@ export default function App() {
         lineHeight:1.7
       }}>
         <div style={{maxWidth:760,margin:"0 auto"}}>
-          <div style={{marginBottom:10}}>
-            <a href="/privacy" style={{color:"rgba(255,255,255,0.85)",textDecoration:"none",margin:"0 12px"}}>Privacy Policy</a>
-            ·
-            <a href="/terms" style={{color:"rgba(255,255,255,0.85)",textDecoration:"none",margin:"0 12px"}}>Terms of Service</a>
-            ·
-            <Link href="/contact" style={{color:"rgba(255,255,255,0.85)",textDecoration:"none",margin:"0 12px"}}>Contact</Link>
+          <div className="rd-footer-links">
+            <a href="/privacy">Privacy Policy</a>
+            <a href="/terms">Terms of Service</a>
+            <Link href="/contact">Contact</Link>
           </div>
           <div style={{fontSize:12,color:"rgba(255,255,255,0.45)"}}>
             © 2026 Report Decoded · Australian property inspection report interpreter ·
