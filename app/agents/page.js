@@ -10,7 +10,11 @@ export default function AgentsPage() {
   const [role, setRole] = useState('buyer_agent');
   const [email, setEmail] = useState('');
   const [phone, setPhone] = useState('');
-  const [tierInterest, setTierInterest] = useState('pro');
+  // Default: no tier explicitly chosen. The dropdown shows "Just exploring"
+  // until the user clicks one of the pricing cards or picks via the dropdown
+  // directly. This keeps the "Most Popular" badge visible on the Pro card
+  // until the user actively decides.
+  const [tierInterest, setTierInterest] = useState('exploring');
   const [submitting, setSubmitting] = useState(false);
   const [submitted, setSubmitted] = useState(false);
   const [error, setError] = useState(null);
@@ -158,32 +162,86 @@ export default function AgentsPage() {
             💰 Simple pricing — cancel anytime
           </div>
           <div className="pricing-row" style={{ marginTop: 24 }}>
-            {tiers.map((t) => (
-              <div key={t.id} className={`price-card${t.featured ? ' featured' : ''}`}>
-                <div className="price-label">{t.name}</div>
-                <div className="price-amount">
-                  {t.price}
-                  <span style={{ fontSize: 17, fontWeight: 300 }}>/mo</span>
-                </div>
-                <div className="price-desc">{t.tagline}</div>
-                {t.featured && <div className="price-tag">Most Popular</div>}
-                <ul
+            {tiers.map((t) => {
+              const isSelected = tierInterest === t.id;
+              return (
+                <div
+                  key={t.id}
+                  role="button"
+                  tabIndex={0}
+                  onClick={() => {
+                    setTierInterest(t.id);
+                    // Smooth-scroll the signup form into view so the chosen tier
+                    // doesn't get lost off-screen below the pricing fold.
+                    setTimeout(() => {
+                      document.getElementById('signup')?.scrollIntoView({
+                        behavior: 'smooth',
+                        block: 'start',
+                      });
+                    }, 50);
+                  }}
+                  onKeyDown={(e) => {
+                    if (e.key === 'Enter' || e.key === ' ') {
+                      e.preventDefault();
+                      setTierInterest(t.id);
+                      setTimeout(() => {
+                        document.getElementById('signup')?.scrollIntoView({
+                          behavior: 'smooth',
+                          block: 'start',
+                        });
+                      }, 50);
+                    }
+                  }}
+                  className={`price-card${t.featured ? ' featured' : ''}${isSelected ? ' selected' : ''}`}
                   style={{
-                    listStyle: 'none',
-                    padding: 0,
-                    margin: '14px 0 0',
-                    textAlign: 'left',
-                    fontSize: 13,
-                    color: 'var(--muted)',
-                    lineHeight: 1.7,
+                    cursor: 'pointer',
+                    position: 'relative',
+                    transition: 'transform .15s, box-shadow .15s, border-color .15s',
                   }}
                 >
-                  {t.features.map((f) => (
-                    <li key={f}>✓ {f}</li>
-                  ))}
-                </ul>
-              </div>
-            ))}
+                  {isSelected && (
+                    <div
+                      style={{
+                        position: 'absolute',
+                        top: 10,
+                        right: 10,
+                        background: 'var(--amber)',
+                        color: '#fff',
+                        fontSize: 10,
+                        fontWeight: 700,
+                        padding: '3px 9px',
+                        borderRadius: 5,
+                        letterSpacing: 0.6,
+                      }}
+                    >
+                      ✓ SELECTED
+                    </div>
+                  )}
+                  <div className="price-label">{t.name}</div>
+                  <div className="price-amount">
+                    {t.price}
+                    <span style={{ fontSize: 17, fontWeight: 300 }}>/mo</span>
+                  </div>
+                  <div className="price-desc">{t.tagline}</div>
+                  {t.featured && !isSelected && <div className="price-tag">Most Popular</div>}
+                  <ul
+                    style={{
+                      listStyle: 'none',
+                      padding: 0,
+                      margin: '14px 0 0',
+                      textAlign: 'left',
+                      fontSize: 13,
+                      color: t.featured ? 'rgba(255,255,255,0.7)' : 'var(--muted)',
+                      lineHeight: 1.7,
+                    }}
+                  >
+                    {t.features.map((f) => (
+                      <li key={f}>✓ {f}</li>
+                    ))}
+                  </ul>
+                </div>
+              );
+            })}
           </div>
           <div
             style={{

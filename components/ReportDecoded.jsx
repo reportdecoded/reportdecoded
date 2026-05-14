@@ -292,6 +292,21 @@ body{
   background:var(--navy);
   border-color:var(--navy);
 }
+/* Interactive states — used when pricing cards on /agents are clickable */
+.price-card:hover{
+  border-color:var(--amber-border);
+  box-shadow:0 8px 24px rgba(201,122,58,0.12);
+  transform:translateY(-2px);
+}
+.price-card.selected{
+  border-color:var(--amber);
+  border-width:2px;
+  box-shadow:0 10px 32px rgba(201,122,58,0.22);
+}
+.price-card.featured.selected{
+  border-color:var(--amber);
+  box-shadow:0 10px 32px rgba(201,122,58,0.35);
+}
 .price-label{
   font-size:11px;
   text-transform:uppercase;
