@@ -1403,7 +1403,7 @@ export default function App() {
           </div>
 
           {/* Upload card — rises from hero */}
-          <div className="upload-area">
+          <div className="upload-area" id="buyer-upload">
 
             <input
               ref={fileInputRef}
@@ -1609,19 +1609,57 @@ export default function App() {
               ))}
             </div>
 
-            {/* Pricing */}
+            {/* Pricing — buyer side. Cards are clickable and sync the pack
+                state used inside the upload form above. Clicking smooth-
+                scrolls back to the upload area so the user sees their
+                choice reflected in the "Continue to Payment ($X)" CTA. */}
             <div className="pricing-row">
-              <div className="price-card">
-                <div className="price-label">Single Report</div>
-                <div className="price-amount">$59</div>
-                <div className="price-desc">Full analysis, cost estimates & 2 tradie picks per defect</div>
-              </div>
-              <div className="price-card featured">
-                <div className="price-label">3-Report Pack</div>
-                <div className="price-amount">$149</div>
-                <div className="price-desc">For investors evaluating multiple properties at once</div>
-                <div className="price-tag">Most Popular</div>
-              </div>
+              {[
+                { id: "single", label: "Single Report", price: "$59", desc: "Full analysis, cost estimates & 2 tradie picks per defect", featured: false },
+                { id: "three",  label: "3-Report Pack", price: "$149", desc: "For investors evaluating multiple properties at once", featured: true },
+              ].map((p) => {
+                const isSelected = pack === p.id;
+                const handlePick = () => {
+                  setPack(p.id);
+                  setTimeout(() => {
+                    document.getElementById("buyer-upload")?.scrollIntoView({ behavior: "smooth", block: "start" });
+                  }, 50);
+                };
+                return (
+                  <div
+                    key={p.id}
+                    role="button"
+                    tabIndex={0}
+                    onClick={handlePick}
+                    onKeyDown={(e) => {
+                      if (e.key === "Enter" || e.key === " ") { e.preventDefault(); handlePick(); }
+                    }}
+                    className={`price-card${p.featured ? " featured" : ""}${isSelected ? " selected" : ""}`}
+                    style={{ cursor: "pointer", position: "relative", transition: "transform .15s, box-shadow .15s, border-color .15s" }}
+                  >
+                    {isSelected && (
+                      <div
+                        style={{
+                          position: "absolute",
+                          top: 10,
+                          right: 10,
+                          background: "var(--amber)",
+                          color: "#fff",
+                          fontSize: 10,
+                          fontWeight: 700,
+                          padding: "3px 9px",
+                          borderRadius: 5,
+                          letterSpacing: 0.6,
+                        }}
+                      >✓ SELECTED</div>
+                    )}
+                    <div className="price-label">{p.label}</div>
+                    <div className="price-amount">{p.price}</div>
+                    <div className="price-desc">{p.desc}</div>
+                    {p.featured && !isSelected && <div className="price-tag">Most Popular</div>}
+                  </div>
+                );
+              })}
               <Link href="/agents" className="price-card" style={{textDecoration:"none",color:"inherit",cursor:"pointer"}}>
                 <div className="price-label">For Agents</div>
                 <div className="price-amount">From $79<span style={{fontSize:17,fontWeight:300}}>/mo</span></div>
