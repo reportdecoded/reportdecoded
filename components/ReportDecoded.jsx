@@ -1657,6 +1657,41 @@ export default function App() {
                     <div className="price-amount">{p.price}</div>
                     <div className="price-desc">{p.desc}</div>
                     {p.featured && !isSelected && <div className="price-tag">Most Popular</div>}
+                    {/* Next-step hint — only shown when this card is the
+                        chosen pack AND a PDF hasn't been uploaded yet.
+                        Disappears once they're in the form. */}
+                    {isSelected && !uploadedFile && (
+                      <div
+                        style={{
+                          marginTop: 14,
+                          padding: "8px 12px",
+                          background: p.featured ? "rgba(201,122,58,0.18)" : "var(--amber-bg)",
+                          border: `1px solid ${p.featured ? "rgba(201,122,58,0.45)" : "var(--amber-border)"}`,
+                          borderRadius: 8,
+                          fontSize: 12,
+                          fontWeight: 600,
+                          color: p.featured ? "#E8A05A" : "var(--amber)",
+                          textAlign: "center",
+                          letterSpacing: 0.2,
+                        }}
+                      >↑ Drop your PDF above to proceed</div>
+                    )}
+                    {isSelected && uploadedFile && (
+                      <div
+                        style={{
+                          marginTop: 14,
+                          padding: "8px 12px",
+                          background: p.featured ? "rgba(13,107,94,0.20)" : "var(--teal-light)",
+                          border: `1px solid ${p.featured ? "rgba(13,107,94,0.45)" : "var(--teal-border)"}`,
+                          borderRadius: 8,
+                          fontSize: 12,
+                          fontWeight: 600,
+                          color: p.featured ? "#9ECEC8" : "var(--teal)",
+                          textAlign: "center",
+                          letterSpacing: 0.2,
+                        }}
+                      >✓ PDF ready · finish the form above</div>
+                    )}
                   </div>
                 );
               })}
