@@ -596,6 +596,25 @@ function ResultsView({ analysis, tradies, expanded, toggle, copied, setCopied })
         </div>
 
         <div className="right-panel">
+          <div className="panel-card">
+            <div className="panel-title">📄 Download Report</div>
+            <div style={{ color: 'var(--muted)', fontSize: 13, lineHeight: 1.55, marginBottom: 14 }}>
+              {agentId
+                ? "Branded PDF with your agency logo + colour. Email or print for your client."
+                : "Save a polished PDF copy of this report to your computer or email."}
+            </div>
+            <a
+              href={`/api/report-pdf?reportId=${reportId}${agentId ? `&agent=${agentId}` : ''}`}
+              className="download-btn"
+              style={{ textDecoration: 'none' }}
+              onClick={() => {
+                try { track('report_pdf_downloaded', { is_branded: !!agentId }); } catch {}
+              }}
+            >
+              ⬇ Download PDF
+            </a>
+          </div>
+
           {analysis.negotiation_language && (
             <div className="panel-card">
               <div className="panel-title">💬 Negotiation Language</div>
