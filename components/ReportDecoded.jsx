@@ -1342,7 +1342,7 @@ export default function App() {
               }}
             >Soon</span>
           </div>
-          <Link href="/signin" className="nav-cta" style={{textDecoration:"none"}}>Sign In</Link>
+          <Link href="/signin" className="nav-cta" style={{textDecoration:"none"}}>Agent Sign In</Link>
         </div>
       </nav>
 
