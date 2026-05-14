@@ -373,14 +373,49 @@ function DefectCard({ kind, defect, index, expanded, toggle, tradiesForCategory 
   const badge =
     kind === 'major' ? 'MAJOR DEFECT' : kind === 'minor' ? 'MINOR DEFECT' : 'PEST RISK';
   const tradies = Array.isArray(tradiesForCategory) ? tradiesForCategory : [];
+
+  // Schema tolerance: pest_findings sometimes return pest_type/damage_description
+  // instead of the defect-standard name/plain_english. Show whatever's present.
+  const displayName = defect.name || defect.pest_type || 'Finding';
+  const description = defect.plain_english || defect.damage_description || defect.summary || '';
+  const whyItMatters = defect.why_it_matters || defect.recommendation || '';
+
+  const pages = Array.isArray(defect.source_pages) ? defect.source_pages.filter(Number.isFinite) : [];
+  const pageLabel = pages.length === 0 ? null : pages.length === 1 ? `p.${pages[0]}` : `pp.${pages.join(', ')}`;
+
+  const hasCosts = Number.isFinite(defect.repair_cost_low) && defect.repair_cost_low > 0;
+
   return (
     <div className={`defect-card ${kind}`}>
       <div className="defect-header" onClick={() => toggle(key)}>
         <div className="defect-title-row">
           <div className="severity-dot" />
           <div>
-            <div className="defect-name">{defect.name}</div>
-            <div className="defect-loc">{defect.location}</div>
+            <div className="defect-name">{displayName}</div>
+            <div className="defect-loc" style={{ display: 'flex', alignItems: 'center', gap: 8, flexWrap: 'wrap' }}>
+              {defect.location && <span>{defect.location}</span>}
+              {pageLabel && (
+                <span
+                  title="Where this finding was discussed in your inspector's PDF"
+                  style={{
+                    display: 'inline-flex',
+                    alignItems: 'center',
+                    gap: 4,
+                    fontSize: 11,
+                    fontWeight: 600,
+                    color: 'var(--navy)',
+                    background: 'var(--slate)',
+                    border: '1px solid var(--border)',
+                    borderRadius: 5,
+                    padding: '2px 7px',
+                    fontFamily: "'DM Mono', monospace",
+                    letterSpacing: 0.2,
+                  }}
+                >
+                  📄 Inspector ref: {pageLabel}
+                </span>
+              )}
+            </div>
           </div>
         </div>
         <div style={{ display: 'flex', alignItems: 'center', gap: 10 }}>
@@ -390,18 +425,20 @@ function DefectCard({ kind, defect, index, expanded, toggle, tradiesForCategory 
       </div>
       {expanded[key] && (
         <div className="defect-body">
-          <p className="defect-desc">{defect.plain_english}</p>
-          {defect.why_it_matters && (
+          {description && <p className="defect-desc">{description}</p>}
+          {whyItMatters && (
             <p className="defect-desc" style={{ marginTop: 12, fontStyle: 'italic' }}>
-              <strong>Why it matters:</strong> {defect.why_it_matters}
+              <strong>{defect.why_it_matters ? 'Why it matters:' : 'Recommendation:'}</strong> {whyItMatters}
             </p>
           )}
-          <div className="cost-chip">
-            💰 Estimated repair cost:{' '}
-            <strong>
-              {fmt$(defect.repair_cost_low)} – {fmt$(defect.repair_cost_high)}
-            </strong>
-          </div>
+          {hasCosts && (
+            <div className="cost-chip">
+              💰 Estimated repair cost:{' '}
+              <strong>
+                {fmt$(defect.repair_cost_low)} – {fmt$(defect.repair_cost_high)}
+              </strong>
+            </div>
+          )}
           {tradies.length > 0 && (
             <div className="tradies-section">
               <div className="tradies-label">✅ Recommended Local Tradies</div>
