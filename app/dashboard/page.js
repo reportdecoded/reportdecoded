@@ -18,6 +18,7 @@ import ManageBillingButton from './ManageBillingButton';
 import BrandSettings from './BrandSettings';
 import ShareLinkActions from './ShareLinkActions';
 import SubscribedTracker from './SubscribedTracker';
+import SetPasswordCard from './SetPasswordCard';
 
 export const metadata = {
   title: 'Dashboard — Report Decoded',
@@ -147,6 +148,7 @@ export default async function DashboardPage({ searchParams }) {
             <div id="brand-settings" style={{ marginTop: 32, scrollMarginTop: 80 }}>
               <BrandSettings initial={{ logo_url: agent.logo_url, accent_color: agent.accent_color }} />
             </div>
+            <SetPasswordCard />
           </>
         ) : (
           <PricingView agent={agent} />
