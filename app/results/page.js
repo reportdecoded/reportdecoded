@@ -186,6 +186,8 @@ function ResultsBody() {
           toggle={toggle}
           copied={copied}
           setCopied={setCopied}
+          reportId={reportId}
+          agentId={agentId}
         />
       )}
 
@@ -455,7 +457,7 @@ function DefectCard({ kind, defect, index, expanded, toggle, tradiesForCategory 
   );
 }
 
-function ResultsView({ analysis, tradies, expanded, toggle, copied, setCopied }) {
+function ResultsView({ analysis, tradies, expanded, toggle, copied, setCopied, reportId, agentId }) {
   if (!analysis) return null;
   const majors = analysis.major_defects || [];
   const minors = analysis.minor_defects || [];
