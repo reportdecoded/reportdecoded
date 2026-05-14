@@ -27,9 +27,11 @@ if (!reportId) {
 }
 
 const { createClient } = await import('@supabase/supabase-js');
+const secretKey =
+  process.env.SUPABASE_SECRET_KEY || process.env.SUPABASE_SERVICE_ROLE_KEY;
 const supabase = createClient(
   process.env.NEXT_PUBLIC_SUPABASE_URL,
-  process.env.SUPABASE_SERVICE_ROLE_KEY,
+  secretKey,
   { auth: { persistSession: false, autoRefreshToken: false } }
 );
 

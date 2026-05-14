@@ -84,22 +84,29 @@ for (let i = 1; i < args.length; i++) {
 }
 
 // ── env sanity ────────────────────────────────────────────────
+// During the Supabase key migration (May 2026): accept either the new
+// SUPABASE_SECRET_KEY or the legacy SUPABASE_SERVICE_ROLE_KEY.
+const supabaseSecret =
+  process.env.SUPABASE_SECRET_KEY || process.env.SUPABASE_SERVICE_ROLE_KEY;
+if (supabaseSecret) process.env.SUPABASE_SECRET_KEY = supabaseSecret; // normalise
+
 const required = [
   'NEXT_PUBLIC_SUPABASE_URL',
-  'SUPABASE_SERVICE_ROLE_KEY',
+  'SUPABASE_SECRET_KEY',
   'UPLOADTHING_TOKEN',
   'ANTHROPIC_API_KEY',
 ];
 const missing = required.filter((k) => !process.env[k]);
 if (missing.length) {
   console.error(`Missing env vars: ${missing.join(', ')}`);
-  console.error('Run with: node --env-file=.env.local scripts/run-pdf.mjs ...');
+  console.error('(SUPABASE_SECRET_KEY also accepts the legacy SUPABASE_SERVICE_ROLE_KEY name.)');
+  console.error('Run: node scripts/run-pdf.mjs <pdf-path>');
   process.exit(1);
 }
 
 const supabase = createClient(
   process.env.NEXT_PUBLIC_SUPABASE_URL,
-  process.env.SUPABASE_SERVICE_ROLE_KEY,
+  process.env.SUPABASE_SECRET_KEY,
   { auth: { persistSession: false, autoRefreshToken: false } }
 );
 

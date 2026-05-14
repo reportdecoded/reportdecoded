@@ -8,14 +8,18 @@
 // Returns 200 with details either way; the "ready" boolean is true only when
 // every required key is present.
 
+// `fallback` lets one key satisfy the requirement if its preferred name is
+// missing. Used during the Supabase key migration (May 2026): the new
+// publishable/secret names are preferred, but the legacy anon/service_role
+// names still satisfy the check.
 const KEYS = [
   { name: 'ANTHROPIC_API_KEY',           required: true,  label: 'Anthropic (Claude API)' },
   { name: 'STRIPE_SECRET_KEY',           required: true,  label: 'Stripe — secret key' },
   { name: 'STRIPE_PUBLISHABLE_KEY',      required: true,  label: 'Stripe — publishable key' },
   { name: 'STRIPE_WEBHOOK_SECRET',       required: true,  label: 'Stripe — webhook signing secret' },
   { name: 'NEXT_PUBLIC_SUPABASE_URL',    required: true,  label: 'Supabase project URL' },
-  { name: 'NEXT_PUBLIC_SUPABASE_ANON_KEY', required: true,label: 'Supabase anon key' },
-  { name: 'SUPABASE_SERVICE_ROLE_KEY',   required: true,  label: 'Supabase service-role key' },
+  { name: 'NEXT_PUBLIC_SUPABASE_PUBLISHABLE_KEY', required: true, fallback: 'NEXT_PUBLIC_SUPABASE_ANON_KEY', label: 'Supabase publishable key (legacy: anon)' },
+  { name: 'SUPABASE_SECRET_KEY',         required: true,  fallback: 'SUPABASE_SERVICE_ROLE_KEY', label: 'Supabase secret key (legacy: service_role)' },
   { name: 'UPLOADTHING_TOKEN',           required: true,  label: 'UploadThing token' },
   { name: 'RESEND_API_KEY',              required: true,  label: 'Resend (email) API key' },
   { name: 'NEXT_PUBLIC_BASE_URL',        required: false, label: 'Public base URL' },
@@ -25,13 +29,23 @@ const KEYS = [
 ];
 
 export async function GET() {
-  const status = KEYS.map(({ name, required, label }) => {
+  const status = KEYS.map(({ name, required, label, fallback }) => {
     const value = process.env[name];
+    const fallbackValue = fallback ? process.env[fallback] : undefined;
     const present = typeof value === 'string' && value.length > 0;
-    return { name, label, required, present, length: value?.length ?? 0 };
+    const fallbackPresent = typeof fallbackValue === 'string' && fallbackValue.length > 0;
+    const satisfied = present || fallbackPresent;
+    return {
+      name,
+      label,
+      required,
+      present,
+      length: value?.length ?? 0,
+      ...(fallback ? { fallback, fallback_present: fallbackPresent, fallback_length: fallbackValue?.length ?? 0, satisfied } : {}),
+    };
   });
 
-  const missingRequired = status.filter((s) => s.required && !s.present);
+  const missingRequired = status.filter((s) => s.required && !(s.present || s.fallback_present));
   const ready = missingRequired.length === 0;
 
   return Response.json({

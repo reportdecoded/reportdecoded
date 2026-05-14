@@ -22,9 +22,14 @@ export async function middleware(request) {
 
   let response = NextResponse.next({ request });
 
+  // May 2026 migration: prefer the new "publishable" key, fall back to the
+  // legacy "anon" key. See lib/supabase.js header for context.
+  const publishableKey =
+    process.env.NEXT_PUBLIC_SUPABASE_PUBLISHABLE_KEY ||
+    process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY;
   const supabase = createServerClient(
     process.env.NEXT_PUBLIC_SUPABASE_URL,
-    process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY,
+    publishableKey,
     {
       cookies: {
         getAll() {
