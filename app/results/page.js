@@ -11,6 +11,7 @@ const LOAD_STEPS = [
   'Classifying minor defects…',
   'Assessing pest and termite findings…',
   'Estimating repair costs (AU rates)…',
+  'Checking state rental compliance…',
   'Generating negotiation position…',
   'Drafting conveyancer questions…',
   'Building your report…',
@@ -659,6 +660,71 @@ function ResultsView({ analysis, tradies, expanded, toggle, copied, setCopied, r
               </div>
             </div>
           )}
+
+          {/* Investor-only: rental compliance gaps */}
+          {Array.isArray(analysis.rental_compliance_gaps) &&
+            analysis.rental_compliance_gaps.length > 0 && (
+              <div className="panel-card">
+                <div className="panel-title">🏠 Rental Compliance Gaps</div>
+                <div style={{ color: 'var(--muted)', fontSize: 12, marginBottom: 12, lineHeight: 1.5 }}>
+                  Items from this inspection that may block legal letting or breach state minimum rental standards. Fix before signing a lease.
+                </div>
+                {analysis.rental_compliance_gaps.map((g, i) => {
+                  const sev = g.severity === 'blocks_letting' ? { bg: 'var(--red-bg)', fg: 'var(--red)', label: 'BLOCKS LETTING' }
+                            : g.severity === 'risk' ? { bg: 'var(--gold-bg)', fg: 'var(--gold)', label: 'RISK' }
+                            : { bg: 'var(--cream2)', fg: 'var(--muted)', label: 'RECOMMENDED' };
+                  const pages = Array.isArray(g.source_pages) ? g.source_pages.filter(Number.isFinite) : [];
+                  const pageLabel = pages.length === 0 ? null : pages.length === 1 ? `p.${pages[0]}` : `pp.${pages.join(', ')}`;
+                  return (
+                    <div key={i} style={{ marginBottom: 14, paddingBottom: 12, borderBottom: i === analysis.rental_compliance_gaps.length - 1 ? 'none' : '1px solid var(--border)' }}>
+                      <div style={{ display: 'flex', alignItems: 'flex-start', justifyContent: 'space-between', gap: 10, marginBottom: 4 }}>
+                        <div style={{ fontWeight: 600, fontSize: 13.5, color: 'var(--navy)', flex: 1 }}>{g.item}</div>
+                        <span style={{
+                          fontSize: 9.5, fontWeight: 700, padding: '2px 7px', borderRadius: 4,
+                          background: sev.bg, color: sev.fg, letterSpacing: 0.3, whiteSpace: 'nowrap',
+                        }}>{sev.label}</span>
+                      </div>
+                      {g.regulation && <div style={{ fontSize: 12, color: 'var(--muted)', fontStyle: 'italic', marginBottom: 4 }}>{g.regulation}</div>}
+                      {pageLabel && (
+                        <span style={{
+                          display: 'inline-block', fontSize: 10.5, fontWeight: 600,
+                          color: 'var(--navy)', background: 'var(--slate)', border: '1px solid var(--border)',
+                          borderRadius: 4, padding: '1px 6px', fontFamily: "'DM Mono',monospace", marginBottom: 6,
+                        }}>📄 Inspector ref: {pageLabel}</span>
+                      )}
+                      {g.rectification_action && <div style={{ fontSize: 12.5, lineHeight: 1.55, color: '#374151', marginTop: 4 }}>{g.rectification_action}</div>}
+                      {Number.isFinite(g.estimated_cost_low) && g.estimated_cost_low > 0 && (
+                        <div style={{ fontSize: 11.5, fontFamily: "'DM Mono',monospace", color: 'var(--navy)', marginTop: 5 }}>
+                          Cost: {fmt$(g.estimated_cost_low)} – {fmt$(g.estimated_cost_high)}
+                        </div>
+                      )}
+                    </div>
+                  );
+                })}
+              </div>
+            )}
+
+          {/* Investor-only: separate inspections to commission */}
+          {Array.isArray(analysis.compliance_inspections_recommended) &&
+            analysis.compliance_inspections_recommended.length > 0 && (
+              <div className="panel-card">
+                <div className="panel-title">📋 Commission separately before letting</div>
+                <div style={{ color: 'var(--muted)', fontSize: 12, marginBottom: 12, lineHeight: 1.5 }}>
+                  Compliance checks the building/pest inspection does NOT cover — but you still need before legally letting this property.
+                </div>
+                {analysis.compliance_inspections_recommended.map((c, i) => (
+                  <div key={i} style={{ marginBottom: 12, paddingBottom: 10, borderBottom: i === analysis.compliance_inspections_recommended.length - 1 ? 'none' : '1px solid var(--border)' }}>
+                    <div style={{ fontWeight: 600, fontSize: 13.5, color: 'var(--navy)', marginBottom: 3 }}>{c.type}</div>
+                    {c.why_needed && <div style={{ fontSize: 12, color: '#374151', lineHeight: 1.5, marginBottom: 4 }}>{c.why_needed}</div>}
+                    <div style={{ display: 'flex', gap: 12, flexWrap: 'wrap', fontSize: 11.5, color: 'var(--muted)' }}>
+                      {c.who_performs && <span>👤 {c.who_performs}</span>}
+                      {c.typical_cost && <span>💰 {c.typical_cost}</span>}
+                      {c.frequency && <span>🔄 {c.frequency}</span>}
+                    </div>
+                  </div>
+                ))}
+              </div>
+            )}
 
           {Array.isArray(analysis.conveyancer_questions) &&
             analysis.conveyancer_questions.length > 0 && (
