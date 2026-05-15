@@ -17,8 +17,11 @@
 import { after } from 'next/server';
 import { getCurrentUser } from '@/lib/auth-server';
 import { getServiceSupabase } from '@/lib/supabase';
-import { runAnalysisForReport } from '@/lib/runAnalysis';
 import { countAgentReportsLast30Days, maybeReportOverage } from '@/lib/usage';
+// runAnalysisForReport lazy-imported inside after() so the agent-upload
+// route's cold-start bundle stays slim — runAnalysis transitively pulls
+// in @react-pdf/renderer, the Anthropic SDK, places.js, etc. which we
+// don't need available until the background job actually runs.
 
 export const maxDuration = 300;
 
@@ -132,6 +135,7 @@ export async function POST(request) {
   // -- Kick off analysis after responding.
   after(async () => {
     try {
+      const { runAnalysisForReport } = await import('@/lib/runAnalysis');
       await runAnalysisForReport(report.id);
     } catch (err) {
       console.error(`[agent-upload] background analysis failed for ${report.id}:`, err);
