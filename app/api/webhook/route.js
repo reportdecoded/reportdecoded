@@ -12,7 +12,10 @@
 import { after } from 'next/server';
 import { getStripe } from '@/lib/stripe';
 import { getServiceSupabase } from '@/lib/supabase';
-import { runAnalysisForReport } from '@/lib/runAnalysis';
+// runAnalysisForReport lazy-imported inside after() — same fix as
+// /api/agent-upload. Static import previously bloated the webhook's
+// cold-start bundle with @react-pdf/renderer (~30MB) which risks Stripe
+// retries when the webhook can't respond inside its 10s timeout.
 
 // Allow up to 5 minutes for the post-response analysis to finish.
 export const maxDuration = 300;
@@ -113,6 +116,7 @@ export async function POST(request) {
       // Schedule the slow Claude call AFTER we respond to Stripe.
       after(async () => {
         try {
+          const { runAnalysisForReport } = await import('@/lib/runAnalysis');
           await runAnalysisForReport(reportId);
         } catch (err) {
           console.error(`[webhook] background analysis failed for ${reportId}:`, err);
