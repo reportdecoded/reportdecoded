@@ -20,6 +20,18 @@ export default function sitemap() {
       priority: 0.9,
     },
     {
+      url: `${BASE}/yarraville-building-inspection-help`,
+      lastModified: today,
+      changeFrequency: 'monthly',
+      priority: 0.8,
+    },
+    {
+      url: `${BASE}/contact`,
+      lastModified: today,
+      changeFrequency: 'monthly',
+      priority: 0.4,
+    },
+    {
       url: `${BASE}/signin`,
       lastModified: today,
       changeFrequency: 'monthly',
