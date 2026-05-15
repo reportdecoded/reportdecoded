@@ -661,6 +661,35 @@ function ResultsView({ analysis, tradies, expanded, toggle, copied, setCopied, r
             </div>
           )}
 
+          {/* 5-year capex forecast — universal (home + investor both benefit) */}
+          {analysis.capex_forecast && (
+            <div className="panel-card">
+              <div className="panel-title">📅 5-Year Cost Forecast</div>
+              <div style={{ color: 'var(--muted)', fontSize: 12, marginBottom: 14, lineHeight: 1.5 }}>
+                Forward-looking budget so you know what to set aside — not just the urgent stuff.
+              </div>
+              {[
+                { key: 'year_1_urgent', label: 'Year 1 — urgent', color: 'var(--red)' },
+                { key: 'year_1_to_3', label: 'Year 1–3 — planned', color: 'var(--gold)' },
+                { key: 'year_3_to_5', label: 'Year 3–5 — anticipated', color: 'var(--teal)' },
+              ].map(({ key, label, color }) => {
+                const b = analysis.capex_forecast[key];
+                if (!b) return null;
+                return (
+                  <div key={key} style={{ marginBottom: 14, paddingBottom: 12, borderBottom: key === 'year_3_to_5' ? 'none' : '1px solid var(--border)' }}>
+                    <div style={{ display: 'flex', alignItems: 'flex-start', justifyContent: 'space-between', gap: 10, marginBottom: 4 }}>
+                      <div style={{ fontWeight: 600, fontSize: 13, color: 'var(--navy)' }}>{label}</div>
+                      <div style={{ fontFamily: "'DM Mono',monospace", fontSize: 13, color, fontWeight: 700, whiteSpace: 'nowrap' }}>
+                        {fmt$(b.low)} – {fmt$(b.high)}
+                      </div>
+                    </div>
+                    {b.summary && <div style={{ fontSize: 12, color: '#374151', lineHeight: 1.5 }}>{b.summary}</div>}
+                  </div>
+                );
+              })}
+            </div>
+          )}
+
           {/* Investor-only: rental compliance gaps */}
           {Array.isArray(analysis.rental_compliance_gaps) &&
             analysis.rental_compliance_gaps.length > 0 && (
