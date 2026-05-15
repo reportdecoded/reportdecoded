@@ -1206,6 +1206,7 @@ export default function App() {
   const [uploadedFile, setUploadedFile] = useState(null); // { url, name }
   const [buyerEmail, setBuyerEmail]   = useState("");
   const [purchasePrice, setPurchasePrice] = useState("");
+  const [propertyAddress, setPropertyAddress] = useState("");
   const [pack, setPack]               = useState("single");
   const [reportType, setReportType]   = useState("pre_purchase");
   const [purchaseIntent, setPurchaseIntent] = useState("home");
@@ -1269,6 +1270,7 @@ export default function App() {
           reportUrl: uploadedFile.url,
           buyerEmail,
           purchasePrice: purchasePrice ? Number(purchasePrice) : null,
+          propertyAddress: propertyAddress.trim() || null,
           pack,
           reportType,
           purchaseIntent,
@@ -1294,6 +1296,7 @@ export default function App() {
     setUploadedFile(null);
     setBuyerEmail("");
     setPurchasePrice("");
+    setPropertyAddress("");
     setReportType("pre_purchase");
     setPurchaseIntent("home");
     setUploadError(null);
@@ -1557,6 +1560,20 @@ export default function App() {
                       placeholder="785000"
                       style={{display:"block",width:"100%",padding:"12px 14px",fontSize:15,border:"1px solid var(--border)",borderRadius:10,marginTop:6,fontFamily:"inherit",background:"#fff",color:"var(--text)"}}
                     />
+                  </label>
+
+                  <label style={{fontSize:13,color:"var(--muted)",textAlign:"left"}}>
+                    Property address — <span style={{color:"var(--amber)"}}>recommended for local tradie matching</span>
+                    <input
+                      type="text"
+                      value={propertyAddress}
+                      onChange={e => setPropertyAddress(e.target.value)}
+                      placeholder="123 Main Street, Suburb VIC 3000"
+                      style={{display:"block",width:"100%",padding:"12px 14px",fontSize:15,border:"1px solid var(--border)",borderRadius:10,marginTop:6,fontFamily:"inherit",background:"#fff",color:"var(--text)"}}
+                    />
+                    <div style={{fontSize:11.5,color:"var(--subtle)",marginTop:5,lineHeight:1.5}}>
+                      If left blank we&apos;ll try to extract from the PDF — but some inspectors omit it.
+                    </div>
                   </label>
 
                   <label style={{fontSize:13,color:"var(--muted)",textAlign:"left"}}>

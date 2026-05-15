@@ -17,6 +17,7 @@ export async function POST(request) {
       reportUrl,
       buyerEmail,
       purchasePrice,
+      propertyAddress,
       pack = 'single',
       reportType = 'pre_purchase',
       purchaseIntent = 'home',
@@ -47,6 +48,9 @@ export async function POST(request) {
         report_url: reportUrl,
         buyer_email: buyerEmail,
         purchase_price: purchasePrice ? Number(purchasePrice) : null,
+        property_address: (propertyAddress && typeof propertyAddress === 'string' && propertyAddress.trim().length >= 4)
+          ? propertyAddress.trim().slice(0, 250)
+          : null,
         pack,
         report_type: reportType,
         purchase_intent: purchaseIntent,
