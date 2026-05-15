@@ -1387,7 +1387,7 @@ export default function App() {
             <p className="hero-sub">
               Upload your inspection report and get a plain-English verdict — what's serious, what it costs to fix, local tradies in your area to call, and exactly how much to negotiate off the price.
             </p>
-            <div style={{marginTop:18}}>
+            <div style={{marginTop:18, display:"flex", gap:24, justifyContent:"center", flexWrap:"wrap"}}>
               <a
                 href="/results?reportId=f3ef0ce1-5443-4e91-a420-5e8bf7d8713d&sample=1"
                 style={{
@@ -1399,8 +1399,24 @@ export default function App() {
                   fontSize:14,
                   letterSpacing:0.2,
                 }}
+                onClick={() => { try { track('sample_link_clicked', { type: 'view' }); } catch {} }}
               >
                 See a sample report →
+              </a>
+              <a
+                href="/api/report-pdf?reportId=f3ef0ce1-5443-4e91-a420-5e8bf7d8713d"
+                style={{
+                  display:"inline-block",
+                  color:"rgba(255,255,255,0.72)",
+                  textDecoration:"none",
+                  borderBottom:"1px solid rgba(255,255,255,0.25)",
+                  paddingBottom:2,
+                  fontSize:14,
+                  letterSpacing:0.2,
+                }}
+                onClick={() => { try { track('sample_link_clicked', { type: 'pdf' }); } catch {} }}
+              >
+                ⬇ Download sample PDF
               </a>
             </div>
           </div>
