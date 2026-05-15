@@ -466,6 +466,13 @@ function ResultsView({ analysis, tradies, expanded, toggle, copied, setCopied, r
   const totalDefects = majors.length + minors.length + pests.length;
   const tradiesBy = tradies || {};
   const tradieCount = Object.values(tradiesBy).reduce((n, list) => n + (list?.length || 0), 0);
+  // True when the analysis surfaced defects with trade categories but we
+  // couldn't return any tradies for them. Almost always means the address
+  // didn't geocode (typo, made-up address, or no street-level detail). We
+  // surface a friendly note so the user understands what's missing.
+  const hasTradeableDefects =
+    [...majors, ...minors, ...pests].some((d) => d?.trade_category);
+  const tradiesMissingButExpected = hasTradeableDefects && tradieCount === 0;
 
   const copyText = analysis.builder_rectification_letter || analysis.negotiation_language || '';
   const handleCopy = async () => {
@@ -594,6 +601,32 @@ function ResultsView({ analysis, tradies, expanded, toggle, copied, setCopied, r
               insurance before engaging. Verified Report Decoded partners will replace these
               listings in your region as our marketplace rolls out.
               <span style={{ display: 'block', marginTop: 6 }}>Powered by HERE Maps</span>
+            </div>
+          )}
+
+          {tradiesMissingButExpected && (
+            <div
+              style={{
+                marginTop: 8,
+                padding: '14px 18px',
+                background: 'var(--cream2)',
+                border: '1px dashed var(--border)',
+                borderRadius: 10,
+                fontSize: 13,
+                color: 'var(--muted)',
+                lineHeight: 1.55,
+              }}
+            >
+              <div style={{ fontWeight: 600, color: 'var(--ink)', marginBottom: 4 }}>
+                🔍 Local tradies couldn't be matched
+              </div>
+              We couldn't find tradies near{' '}
+              <strong style={{ color: 'var(--ink)' }}>
+                {analysis.property_address || 'this property'}
+              </strong>
+              . This usually means the address didn't include a recognisable street or
+              suburb — try editing the upload with a full address (e.g. "12 Smith St,
+              Yarraville VIC 3013") to get local matches.
             </div>
           )}
         </div>
