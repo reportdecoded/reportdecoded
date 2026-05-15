@@ -138,7 +138,24 @@ export async function POST(request) {
       const { runAnalysisForReport } = await import('@/lib/runAnalysis');
       await runAnalysisForReport(report.id);
     } catch (err) {
+      // runAnalysisForReport now has its own try/catch that marks the row
+      // 'failed' on uncaught errors, but belt-and-braces: if the dynamic
+      // import itself fails (or anything else here), make sure the row
+      // doesn't sit in 'processing' forever.
+      const msg = err?.message || String(err) || 'unknown error';
       console.error(`[agent-upload] background analysis failed for ${report.id}:`, err);
+      try {
+        await admin
+          .from('reports')
+          .update({
+            status: 'failed',
+            failure_reason: `Background job crashed before analysis: ${msg.slice(0, 400)}`,
+          })
+          .eq('id', report.id)
+          .eq('status', 'processing');
+      } catch (e2) {
+        console.error(`[agent-upload] also failed to mark row failed for ${report.id}:`, e2);
+      }
     }
   });
 

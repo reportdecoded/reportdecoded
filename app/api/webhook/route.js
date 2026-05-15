@@ -119,7 +119,23 @@ export async function POST(request) {
           const { runAnalysisForReport } = await import('@/lib/runAnalysis');
           await runAnalysisForReport(reportId);
         } catch (err) {
+          // runAnalysisForReport now self-marks 'failed' on its own
+          // uncaught errors. Belt-and-braces in case the dynamic import
+          // itself fails so a buyer never sits paid-but-stuck forever.
+          const msg = err?.message || String(err) || 'unknown error';
           console.error(`[webhook] background analysis failed for ${reportId}:`, err);
+          try {
+            await supabase
+              .from('reports')
+              .update({
+                status: 'failed',
+                failure_reason: `Background job crashed before analysis: ${msg.slice(0, 400)}`,
+              })
+              .eq('id', reportId)
+              .eq('status', 'processing');
+          } catch (e2) {
+            console.error(`[webhook] also failed to mark row failed for ${reportId}:`, e2);
+          }
         }
       });
       break;
