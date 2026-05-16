@@ -161,6 +161,37 @@ export async function POST(request) {
       } else {
         console.log(`[webhook] subscription ${sub.id} (${sub.status}, tier=${tier}) -> ${count} agent rows updated`);
       }
+
+      // Send the "your subscription is active" welcome — ONLY on the
+      // .created event (skip .updated which fires on every renewal +
+      // metadata change). Wrapped in after() so a Resend hiccup doesn't
+      // block our 2xx back to Stripe (would trigger Stripe to retry the
+      // same event and double-fire the welcome email).
+      if (event.type === 'customer.subscription.created' && tier) {
+        after(async () => {
+          try {
+            const { data: agent } = await supabase
+              .from('agents')
+              .select('email, full_name, business_name')
+              .or(`stripe_customer_id.eq.${sub.customer},stripe_subscription_id.eq.${sub.id}`)
+              .maybeSingle();
+            if (!agent?.email) {
+              console.warn(`[webhook] welcome: no agent email found for sub ${sub.id}`);
+              return;
+            }
+            const { sendAgentSubscriptionActivatedEmail } = await import('@/lib/email');
+            await sendAgentSubscriptionActivatedEmail({
+              to: agent.email,
+              fullName: agent.full_name,
+              tier,
+              businessName: agent.business_name,
+            });
+            console.log(`[webhook] welcome email sent to ${agent.email} (tier=${tier})`);
+          } catch (e) {
+            console.error(`[webhook] welcome email failed for sub ${sub.id}:`, e?.message || e);
+          }
+        });
+      }
       break;
     }
 
