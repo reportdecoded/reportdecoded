@@ -3,11 +3,16 @@
 // URL is already public via /results?reportId=X, and the PDF is just an
 // alternative rendering of the same data.
 //
-//   GET /api/report-pdf?reportId=<uuid>&agent=<agent_uuid>
+//   GET /api/report-pdf?reportId=<uuid>&agent=<agent_uuid>&preview=1
 //
 // If ?agent= is provided AND that agent has white-label settings (logo +
 // accent color), the PDF is rebranded with their identity. Otherwise it
 // uses the default Report Decoded branding.
+//
+// If ?preview=1 is set, the PDF opens INLINE in the browser tab instead
+// of triggering a download — used by /dashboard/branding's "Preview
+// branded PDF" button so agents can see their logo + accent colour on
+// a sample PDF before running a real client report.
 
 import { renderToBuffer } from '@react-pdf/renderer';
 import { getServiceSupabase } from '@/lib/supabase';
@@ -21,6 +26,8 @@ export async function GET(request) {
   const { searchParams } = new URL(request.url);
   const reportId = searchParams.get('reportId');
   const agentId = searchParams.get('agent');
+  // preview=1 → render INLINE in a browser tab. Default → attachment (download).
+  const isPreview = searchParams.get('preview') === '1';
 
   if (!reportId) {
     return Response.json({ error: 'reportId is required' }, { status: 400 });
@@ -84,7 +91,7 @@ export async function GET(request) {
     status: 200,
     headers: {
       'Content-Type': 'application/pdf',
-      'Content-Disposition': `attachment; filename="${filename}"`,
+      'Content-Disposition': `${isPreview ? 'inline' : 'attachment'}; filename="${filename}"`,
       'Cache-Control': 'private, no-cache, no-store, must-revalidate',
     },
   });

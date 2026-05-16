@@ -254,8 +254,8 @@ function ActiveSubscriberView({ agent, isFirstRun = false }) {
           title="👀 Preview your branding"
           body={
             agent.logo_url
-              ? "See how a sample client report renders with your logo and accent colour applied."
-              : "Once you upload your logo below, click here to see how a client report will look — your logo at the top, your accent colour on every button."
+              ? 'See exactly how a client will receive your reports — either the shared web view, or the downloadable PDF, both rendered with your logo + accent colour.'
+              : 'Upload your logo below, then preview a sample report rendered with your branding — both the web view and the downloadable PDF.'
           }
           customCta={
             <ShareLinkActions
