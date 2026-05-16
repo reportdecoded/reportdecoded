@@ -146,37 +146,134 @@ export default async function DashboardReportsPage({ searchParams }) {
   );
 }
 
+// Sample report ID rendered live on production — same one linked from the
+// homepage hero + agent welcome email. Lets a brand-new agent preview the
+// output before they upload a real client PDF for the first time.
+const SAMPLE_REPORT_ID = 'f3ef0ce1-5443-4e91-a420-5e8bf7d8713d';
+
 function EmptyState() {
+  const steps = [
+    {
+      n: 1,
+      t: 'Upload an inspection PDF',
+      d: 'Drag in any AS4349.1 building / pest report — your subscription covers the analysis. Most PDFs process in 60–120 seconds.',
+    },
+    {
+      n: 2,
+      t: 'We extract everything that matters',
+      d: 'Verdict (PROCEED / NEGOTIATE / WALK AWAY), every defect with cost ranges, suggested negotiation amount, local tradies, 5-year capex forecast.',
+    },
+    {
+      n: 3,
+      t: 'Share the branded report with your client',
+      d: 'One link or branded PDF, carrying your logo + accent colour. They can open it on their phone the same day.',
+    },
+  ];
+
   return (
     <div
       style={{
         background: '#fff',
-        border: '1px dashed var(--border)',
+        border: '1px solid var(--border)',
         borderRadius: 12,
-        padding: '40px 24px',
-        textAlign: 'center',
+        padding: '36px 30px',
       }}
     >
-      <div style={{ fontSize: 16, fontWeight: 600, marginBottom: 8 }}>
-        No reports yet
+      <div style={{ textAlign: 'center', marginBottom: 28 }}>
+        <div style={{ fontSize: 38, marginBottom: 10, lineHeight: 1 }} aria-hidden="true">📋</div>
+        <h2
+          style={{
+            fontFamily: "'Fraunces',serif",
+            fontSize: 26,
+            margin: '0 0 8px',
+            color: 'var(--text)',
+          }}
+        >
+          Your client reports will appear here.
+        </h2>
+        <p style={{ color: 'var(--muted)', fontSize: 14, margin: 0, maxWidth: 480, marginLeft: 'auto', marginRight: 'auto', lineHeight: 1.55 }}>
+          Once you upload an inspection PDF, every report you run — with its sharing link
+          and branded PDF — shows up on this page.
+        </p>
       </div>
-      <div style={{ color: 'var(--muted)', fontSize: 14, marginBottom: 18 }}>
-        Upload your first inspection PDF and you'll see it here.
+
+      <div style={{ display: 'flex', flexDirection: 'column', gap: 14, marginBottom: 28 }}>
+        {steps.map((s) => (
+          <div
+            key={s.n}
+            style={{
+              display: 'flex',
+              gap: 14,
+              padding: '14px 16px',
+              background: 'var(--cream2)',
+              border: '1px solid var(--border)',
+              borderRadius: 10,
+            }}
+          >
+            <div
+              style={{
+                flexShrink: 0,
+                width: 28,
+                height: 28,
+                borderRadius: '50%',
+                background: 'var(--amber)',
+                color: '#fff',
+                display: 'flex',
+                alignItems: 'center',
+                justifyContent: 'center',
+                fontWeight: 700,
+                fontSize: 14,
+              }}
+            >
+              {s.n}
+            </div>
+            <div>
+              <div style={{ fontWeight: 600, fontSize: 14, marginBottom: 3, color: 'var(--text)' }}>{s.t}</div>
+              <div style={{ color: 'var(--muted)', fontSize: 13, lineHeight: 1.5 }}>{s.d}</div>
+            </div>
+          </div>
+        ))}
       </div>
-      <Link
-        href="/dashboard/upload"
-        style={{
-          background: 'var(--amber)',
-          color: '#fff',
-          padding: '10px 18px',
-          borderRadius: 8,
-          fontWeight: 600,
-          fontSize: 14,
-          textDecoration: 'none',
-        }}
-      >
-        Upload first report →
-      </Link>
+
+      <div style={{ display: 'flex', gap: 12, flexWrap: 'wrap', alignItems: 'center', justifyContent: 'center' }}>
+        <Link
+          href="/dashboard/upload"
+          style={{
+            background: 'var(--amber)',
+            color: '#fff',
+            padding: '12px 22px',
+            borderRadius: 8,
+            fontWeight: 600,
+            fontSize: 14,
+            textDecoration: 'none',
+          }}
+        >
+          Upload your first report →
+        </Link>
+        <Link
+          href={`/results?reportId=${SAMPLE_REPORT_ID}&sample=1`}
+          target="_blank"
+          rel="noopener noreferrer"
+          style={{
+            color: 'var(--muted)',
+            padding: '12px 16px',
+            fontWeight: 600,
+            fontSize: 13,
+            textDecoration: 'none',
+            border: '1px solid var(--border)',
+            borderRadius: 8,
+          }}
+        >
+          See a sample report
+        </Link>
+      </div>
+
+      <div style={{ marginTop: 22, paddingTop: 18, borderTop: '1px solid var(--border)', textAlign: 'center', fontSize: 13, color: 'var(--muted)', lineHeight: 1.55 }}>
+        Want your logo + accent colour on every report?{' '}
+        <Link href="/dashboard#brand-settings" style={{ color: 'var(--amber)', fontWeight: 600, textDecoration: 'none' }}>
+          Set your branding →
+        </Link>
+      </div>
     </div>
   );
 }

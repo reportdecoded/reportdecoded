@@ -63,6 +63,20 @@ export default async function DashboardPage({ searchParams }) {
   const firstName =
     (agent.full_name || user.email?.split('@')[0] || 'there').split(/\s+/)[0];
 
+  // Lightweight count to detect first-run state. Used for the zero-state
+  // onboarding banner — cheaper than fetching the full reports list when
+  // we only care whether there are any. count='exact', head=true asks
+  // PostgREST for the count header without payload.
+  let reportCount = 0;
+  if (hasActiveSub) {
+    const { count } = await admin
+      .from('reports')
+      .select('id', { count: 'exact', head: true })
+      .eq('agent_id', agent.id);
+    reportCount = count || 0;
+  }
+  const isFirstRun = hasActiveSub && reportCount === 0;
+
   return (
     <>
       <style>{STYLES}</style>
@@ -144,7 +158,8 @@ export default async function DashboardPage({ searchParams }) {
 
         {hasActiveSub ? (
           <>
-            <ActiveSubscriberView agent={agent} />
+            {isFirstRun && <FirstRunBanner />}
+            <ActiveSubscriberView agent={agent} isFirstRun={isFirstRun} />
             <div id="brand-settings" style={{ marginTop: 32, scrollMarginTop: 80 }}>
               <BrandSettings initial={{ logo_url: agent.logo_url, accent_color: agent.accent_color }} />
             </div>
@@ -177,7 +192,34 @@ export default async function DashboardPage({ searchParams }) {
   );
 }
 
-function ActiveSubscriberView({ agent }) {
+function FirstRunBanner() {
+  return (
+    <div
+      style={{
+        background: 'linear-gradient(135deg, #FEF3E8 0%, #FDE4CC 100%)',
+        border: '1px solid #F4C9A0',
+        borderRadius: 12,
+        padding: '20px 24px',
+        marginBottom: 24,
+        display: 'flex',
+        flexDirection: 'column',
+        gap: 6,
+      }}
+    >
+      <div style={{ fontWeight: 700, fontSize: 16, color: 'var(--text)' }}>
+        🚀 Let's get your first report up
+      </div>
+      <div style={{ color: 'var(--text)', fontSize: 14, lineHeight: 1.55, opacity: 0.85 }}>
+        Upload an inspection PDF to see Report Decoded in action — analysis, branded
+        client view, and a downloadable PDF in under two minutes. Your subscription
+        covers the cost; you can run it on a sample report first if you want to see
+        what your client receives.
+      </div>
+    </div>
+  );
+}
+
+function ActiveSubscriberView({ agent, isFirstRun = false }) {
   return (
     <>
       <div
@@ -188,15 +230,24 @@ function ActiveSubscriberView({ agent }) {
         }}
       >
         <DashboardCard
-          title="📤 Run a client report"
-          body="Upload an inspection PDF — your subscription covers the analysis. Your client gets a branded report shareable via one link."
+          title={isFirstRun ? '📤 Run your first report' : '📤 Run a client report'}
+          body={
+            isFirstRun
+              ? "Upload an AS4349.1 inspection PDF — analysis takes 60-120 seconds, then it's ready to share with your client."
+              : 'Upload an inspection PDF — your subscription covers the analysis. Your client gets a branded report shareable via one link.'
+          }
           ctaText="Upload PDF →"
           ctaHref="/dashboard/upload"
+          emphasised={isFirstRun}
         />
         <DashboardCard
           title="📋 Your client reports"
-          body="Every report you've generated, with one-click sharing links pre-branded with your logo + accent colour."
-          ctaText="View all reports →"
+          body={
+            isFirstRun
+              ? "Once you run a report it'll appear here, ready to share with your client via link or branded PDF."
+              : "Every report you've generated, with one-click sharing links pre-branded with your logo + accent colour."
+          }
+          ctaText={isFirstRun ? 'See how this page works →' : 'View all reports →'}
           ctaHref="/dashboard/reports"
         />
         <DashboardCard
@@ -250,14 +301,18 @@ function PricingView({ agent }) {
   );
 }
 
-function DashboardCard({ title, body, ctaText, ctaHref, customCta }) {
+function DashboardCard({ title, body, ctaText, ctaHref, customCta, emphasised = false }) {
+  // Emphasised: used during first-run state to lead the eye to "Upload
+  // your first report". Renders the CTA as a filled button instead of a
+  // text link, and adds a subtle accent border.
   return (
     <div
       style={{
         background: '#fff',
-        border: '1px solid var(--border)',
+        border: emphasised ? '1.5px solid var(--amber)' : '1px solid var(--border)',
         borderRadius: 12,
         padding: '20px 22px',
+        boxShadow: emphasised ? '0 4px 16px rgba(201,122,58,0.08)' : 'none',
       }}
     >
       <div style={{ fontWeight: 600, fontSize: 16, marginBottom: 8 }}>{title}</div>
@@ -267,12 +322,30 @@ function DashboardCard({ title, body, ctaText, ctaHref, customCta }) {
       {customCta ? (
         customCta
       ) : ctaHref ? (
-        <Link
-          href={ctaHref}
-          style={{ color: 'var(--amber)', fontWeight: 600, fontSize: 14, textDecoration: 'none' }}
-        >
-          {ctaText}
-        </Link>
+        emphasised ? (
+          <Link
+            href={ctaHref}
+            style={{
+              display: 'inline-block',
+              background: 'var(--amber)',
+              color: '#fff',
+              padding: '8px 16px',
+              borderRadius: 6,
+              fontWeight: 600,
+              fontSize: 14,
+              textDecoration: 'none',
+            }}
+          >
+            {ctaText}
+          </Link>
+        ) : (
+          <Link
+            href={ctaHref}
+            style={{ color: 'var(--amber)', fontWeight: 600, fontSize: 14, textDecoration: 'none' }}
+          >
+            {ctaText}
+          </Link>
+        )
       ) : (
         <span style={{ color: 'var(--subtle)', fontSize: 12, fontStyle: 'italic' }}>{ctaText}</span>
       )}
