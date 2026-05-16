@@ -3,6 +3,7 @@ import { useState, useEffect, useRef } from "react";
 import Link from "next/link";
 import { track } from "@vercel/analytics";
 import { useUploadThing } from "@/lib/uploadthing";
+import AddressAutocomplete from "@/components/AddressAutocomplete";
 
 /* ─────────────────────────────────────────────────────────────
    GLOBAL STYLES — exported so the /results page can share them.
@@ -1580,15 +1581,16 @@ export default function App() {
 
                   <label style={{fontSize:13,color:"var(--muted)",textAlign:"left"}}>
                     Property address — <span style={{color:"var(--amber)"}}>recommended for local tradie matching</span>
-                    <input
-                      type="text"
-                      value={propertyAddress}
-                      onChange={e => setPropertyAddress(e.target.value)}
-                      placeholder="123 Main Street, Suburb VIC 3000"
-                      style={{display:"block",width:"100%",padding:"12px 14px",fontSize:15,border:"1px solid var(--border)",borderRadius:10,marginTop:6,fontFamily:"inherit",background:"#fff",color:"var(--text)"}}
-                    />
+                    <div style={{marginTop:6}}>
+                      <AddressAutocomplete
+                        value={propertyAddress}
+                        onChange={setPropertyAddress}
+                        placeholder="123 Main Street, Suburb VIC 3000"
+                        inputStyle={{display:"block",width:"100%",padding:"12px 14px",fontSize:15,border:"1px solid var(--border)",borderRadius:10,fontFamily:"inherit",background:"#fff",color:"var(--text)"}}
+                      />
+                    </div>
                     <div style={{fontSize:11.5,color:"var(--subtle)",marginTop:5,lineHeight:1.5}}>
-                      If left blank we&apos;ll try to extract from the PDF — but some inspectors omit it.
+                      Start typing and pick a suggestion. If left blank we&apos;ll try to extract from the PDF — but some inspectors omit it.
                     </div>
                   </label>
 

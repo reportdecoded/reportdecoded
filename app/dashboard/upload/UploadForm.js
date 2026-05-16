@@ -4,6 +4,7 @@ import { useRef, useState } from 'react';
 import { useRouter, useSearchParams } from 'next/navigation';
 import { track } from '@vercel/analytics';
 import { useUploadThing } from '@/lib/uploadthing';
+import AddressAutocomplete from '@/components/AddressAutocomplete';
 
 export default function UploadForm({ tier }) {
   const router = useRouter();
@@ -148,16 +149,16 @@ export default function UploadForm({ tier }) {
       <Label>
         2. Property address <span style={{ ...hintStyle, color: 'var(--amber)' }}>*required</span>
       </Label>
-      <input
-        type="text"
-        required
+      <AddressAutocomplete
         value={propertyAddress}
-        onChange={(e) => setPropertyAddress(e.target.value)}
+        onChange={setPropertyAddress}
         placeholder="123 Main Street, Suburb VIC 3000"
-        style={inputStyle}
+        inputStyle={inputStyle}
+        required
       />
       <div style={{ fontSize: 12, color: 'var(--muted)', marginTop: 4, lineHeight: 1.5 }}>
-        We use this to find local tradies for your client. Always required.
+        Start typing — pick a suggestion to lock in a real address. Powers the
+        local tradie matching for your client.
       </div>
 
       {/* --- Purchase price (optional) --- */}
