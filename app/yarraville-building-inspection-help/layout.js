@@ -6,7 +6,7 @@
 export const metadata = {
   title: 'Yarraville Building Inspection Report Help — Plain-English Analysis in 60 Seconds | Report Decoded',
   description:
-    'Got a building & pest inspection report for a Yarraville property? Upload your PDF and get a plain-English verdict, AU repair costs, local tradies, and exactly how much to negotiate — backed by citations to your inspector\'s exact pages.',
+    'Upload your Yarraville inspection PDF and get a plain-English verdict, AU repair costs, local tradies and a negotiation amount — in 60 seconds, with citations.',
   alternates: {
     canonical: 'https://www.reportdecoded.com.au/yarraville-building-inspection-help',
   },

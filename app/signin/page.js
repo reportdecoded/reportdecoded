@@ -377,17 +377,35 @@ const linkBtnStyle = {
   padding: 0,
 };
 
+// Suspense fallback that includes a real H1 so crawlers + screen readers
+// see something meaningful before client-side hydration. Without this,
+// the pre-hydration HTML for /signin is just "Loading…" — no H1, no nav,
+// no semantic content, which counts against SEO + a11y audits.
+function SignInFallback() {
+  return (
+    <SignInLayout>
+      <nav className="nav">
+        <Link href="/" style={{ display: 'flex', alignItems: 'center', textDecoration: 'none' }}>
+          <img src="/logo-dark.png" alt="Report Decoded" width={180} height={42} style={{ height: 36, width: 'auto' }} />
+        </Link>
+        <div className="nav-links">
+          <Link href="/" className="nav-link" style={{ textDecoration: 'none' }}>For Buyers</Link>
+          <Link href="/agents" className="nav-link" style={{ textDecoration: 'none' }}>For Agents</Link>
+        </div>
+      </nav>
+      <div style={{ maxWidth: 460, margin: '64px auto', padding: '32px 24px', textAlign: 'center' }}>
+        <h1 style={{ fontFamily: "'Fraunces',serif", fontSize: 30, marginBottom: 8 }}>
+          Sign in to Report Decoded
+        </h1>
+        <p style={{ color: '#6B7280', fontSize: 14 }}>Loading sign-in form…</p>
+      </div>
+    </SignInLayout>
+  );
+}
+
 export default function SignInPage() {
   return (
-    <Suspense
-      fallback={
-        <SignInLayout>
-          <div style={{ maxWidth: 460, margin: '64px auto', padding: '32px 24px' }}>
-            <p style={{ color: '#6B7280', textAlign: 'center' }}>Loading…</p>
-          </div>
-        </SignInLayout>
-      }
-    >
+    <Suspense fallback={<SignInFallback />}>
       <SignInForm />
     </Suspense>
   );

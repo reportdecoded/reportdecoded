@@ -3,7 +3,7 @@
 export const metadata = {
   title: 'Footscray Building Inspection Report Help — Plain-English Analysis in 60 Seconds | Report Decoded',
   description:
-    'Got a building & pest inspection report for a Footscray (VIC 3011) property? Upload your PDF and get a plain-English verdict, AU repair costs, local tradies, and exactly how much to negotiate — with citations to your inspector\'s exact pages.',
+    'Upload your Footscray (VIC 3011) inspection PDF and get a plain-English verdict, AU repair costs, local tradies and a negotiation amount — in 60 seconds.',
   alternates: {
     canonical: 'https://www.reportdecoded.com.au/footscray-building-inspection-help',
   },

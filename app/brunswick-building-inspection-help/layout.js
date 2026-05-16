@@ -5,7 +5,7 @@
 export const metadata = {
   title: 'Brunswick Building Inspection Report Help — Plain-English Analysis in 60 Seconds | Report Decoded',
   description:
-    'Got a building & pest inspection report for a Brunswick (VIC 3056/3057) property? Upload your PDF and get a plain-English verdict, AU repair costs, local tradies, and exactly how much to negotiate — with citations to your inspector\'s exact pages.',
+    'Upload your Brunswick (VIC 3056/3057) inspection PDF and get a plain-English verdict, AU repair costs, local tradies and a negotiation amount — in 60 seconds.',
   alternates: {
     canonical: 'https://www.reportdecoded.com.au/brunswick-building-inspection-help',
   },

@@ -4,7 +4,7 @@
 export const metadata = {
   title: "For Buyer's Agents & Sales Agents — Report Decoded",
   description:
-    "Report Decoded helps Australian buyer's and sales agents deliver instant, plain-English analyses of their clients' building inspection reports — branded with your logo and accent colour.",
+    "Instant, plain-English analyses of your clients' building inspection reports — branded with your logo and accent colour. From $79/mo.",
   alternates: {
     canonical: 'https://www.reportdecoded.com.au/agents',
   },

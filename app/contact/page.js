@@ -288,18 +288,40 @@ const inputStyle = {
   boxSizing: 'border-box',
 };
 
+// Suspense fallback that mirrors the real page's nav + H1, so server-side
+// HTML always contains those elements for SEO crawlers + screen readers.
+// Without this, /contact's pre-hydration HTML is just "Loading…" and Google
+// sees no H1 → counted as a content-thin page.
+function ContactFallback() {
+  return (
+    <>
+      <style>{STYLES}</style>
+      <nav className="nav">
+        <Link href="/" style={{ display: 'flex', alignItems: 'center', textDecoration: 'none' }}>
+          <img src="/logo-dark.png" alt="Report Decoded" width={180} height={42} style={{ height: 36, width: 'auto' }} />
+        </Link>
+        <div className="nav-links">
+          <Link href="/" className="nav-link" style={{ textDecoration: 'none' }}>For Buyers</Link>
+          <Link href="/agents" className="nav-link" style={{ textDecoration: 'none' }}>For Agents</Link>
+          <Link href="/signin" className="nav-cta" style={{ textDecoration: 'none' }}>Agent Sign In</Link>
+        </div>
+      </nav>
+      <main style={{ maxWidth: 600, margin: '48px auto', padding: '0 24px' }}>
+        <h1 style={{ fontFamily: "'Fraunces',serif", fontSize: 36, marginBottom: 8, letterSpacing: -0.5 }}>
+          Get in touch
+        </h1>
+        <p style={{ color: 'var(--muted)', fontSize: 15, lineHeight: 1.6, marginBottom: 32 }}>
+          Morgan answers personally — usually within 24 hours.
+        </p>
+        <div style={{ color: 'var(--muted)', fontSize: 14 }}>Loading form…</div>
+      </main>
+    </>
+  );
+}
+
 export default function ContactPage() {
   return (
-    <Suspense
-      fallback={
-        <>
-          <style>{STYLES}</style>
-          <div style={{ maxWidth: 600, margin: '64px auto', padding: '0 24px', color: 'var(--muted)' }}>
-            Loading…
-          </div>
-        </>
-      }
-    >
+    <Suspense fallback={<ContactFallback />}>
       <ContactForm />
     </Suspense>
   );

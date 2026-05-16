@@ -3,7 +3,7 @@
 export const metadata = {
   title: 'Geelong Building Inspection Report Help — Plain-English Analysis in 60 Seconds | Report Decoded',
   description:
-    'Got a building & pest inspection report for a Geelong property (Newtown, Belmont, Highton, Armstrong Creek, Lara, Curlewis)? Upload your PDF and get a plain-English verdict, AU repair costs, local tradies, and exactly how much to negotiate — with citations to your inspector\'s exact pages.',
+    'Upload your Geelong / Bellarine inspection PDF (pre-purchase or new-build handover) and get plain-English verdict, costs, tradies and negotiation amount — in 60 seconds.',
   alternates: {
     canonical: 'https://www.reportdecoded.com.au/geelong-building-inspection-help',
   },
