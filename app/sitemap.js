@@ -26,6 +26,24 @@ export default function sitemap() {
       priority: 0.8,
     },
     {
+      url: `${BASE}/brunswick-building-inspection-help`,
+      lastModified: today,
+      changeFrequency: 'monthly',
+      priority: 0.8,
+    },
+    {
+      url: `${BASE}/footscray-building-inspection-help`,
+      lastModified: today,
+      changeFrequency: 'monthly',
+      priority: 0.8,
+    },
+    {
+      url: `${BASE}/geelong-building-inspection-help`,
+      lastModified: today,
+      changeFrequency: 'monthly',
+      priority: 0.8,
+    },
+    {
       url: `${BASE}/contact`,
       lastModified: today,
       changeFrequency: 'monthly',
