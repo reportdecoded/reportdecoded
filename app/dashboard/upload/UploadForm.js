@@ -1,22 +1,28 @@
 'use client';
 
 import { useRef, useState } from 'react';
-import { useRouter } from 'next/navigation';
+import { useRouter, useSearchParams } from 'next/navigation';
 import { track } from '@vercel/analytics';
 import { useUploadThing } from '@/lib/uploadthing';
 
 export default function UploadForm({ tier }) {
   const router = useRouter();
+  // When the user clicks "Try again" on a failed row in /dashboard/reports,
+  // we redirect them here with ?retryFor=<reportId>&addr=...&intent=...&type=...
+  // so they don't have to retype the metadata. The PDF still has to be
+  // selected fresh (UploadThing URLs aren't reusable across submissions).
+  const params = useSearchParams();
   const [file, setFile] = useState(null);
   const [reportUrl, setReportUrl] = useState(null);
-  const [propertyAddress, setPropertyAddress] = useState('');
-  const [purchasePrice, setPurchasePrice] = useState('');
-  const [clientEmail, setClientEmail] = useState('');
-  const [reportType, setReportType] = useState('pre_purchase');
-  const [purchaseIntent, setPurchaseIntent] = useState('home');
+  const [propertyAddress, setPropertyAddress] = useState(params?.get('addr') || '');
+  const [purchasePrice, setPurchasePrice] = useState(params?.get('price') || '');
+  const [clientEmail, setClientEmail] = useState(params?.get('email') || '');
+  const [reportType, setReportType] = useState(params?.get('type') || 'pre_purchase');
+  const [purchaseIntent, setPurchaseIntent] = useState(params?.get('intent') || 'home');
   const [submitting, setSubmitting] = useState(false);
   const [error, setError] = useState(null);
   const fileInputRef = useRef(null);
+  const retryFor = params?.get('retryFor') || null;
 
   const { startUpload, isUploading } = useUploadThing('agentReport', {
     onClientUploadComplete: (res) => {
@@ -97,6 +103,25 @@ export default function UploadForm({ tier }) {
 
   return (
     <form onSubmit={handleSubmit} style={cardStyle}>
+      {retryFor && (
+        <div
+          style={{
+            marginBottom: 18,
+            padding: '12px 14px',
+            background: 'var(--cream2)',
+            border: '1px dashed var(--gold)',
+            borderRadius: 8,
+            fontSize: 13,
+            color: 'var(--ink)',
+            lineHeight: 1.5,
+          }}
+        >
+          <strong>Re-uploading.</strong> Your previous attempt failed —
+          we've pre-filled the address, intent, and report type so you just
+          need to attach the correct inspection PDF and resubmit.
+        </div>
+      )}
+
       {/* --- PDF picker --- */}
       <Label>1. Inspection PDF</Label>
       <input

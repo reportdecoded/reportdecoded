@@ -46,7 +46,7 @@ export default async function DashboardReportsPage({ searchParams }) {
   // Pull this agent's reports, newest first.
   const { data: reports = [] } = await admin
     .from('reports')
-    .select('id, created_at, status, property_address, buyer_email, result_json, report_type, purchase_intent')
+    .select('id, created_at, status, property_address, buyer_email, result_json, report_type, purchase_intent, purchase_price, failure_reason')
     .eq('agent_id', agent.id)
     .order('created_at', { ascending: false })
     .limit(100);
@@ -197,6 +197,17 @@ function ReportRow({ report, agentId, highlighted }) {
   });
   const shareUrl = `/results?reportId=${report.id}&agent=${agentId}`;
 
+  // For failed rows, build a retry URL that pre-fills the upload form
+  // with the same metadata. The agent only needs to re-attach the PDF.
+  const retryUrl = report.status === 'failed'
+    ? `/dashboard/upload?retryFor=${report.id}` +
+      `&addr=${encodeURIComponent(report.property_address || '')}` +
+      `&intent=${encodeURIComponent(report.purchase_intent || 'home')}` +
+      `&type=${encodeURIComponent(report.report_type || 'pre_purchase')}` +
+      (report.buyer_email ? `&email=${encodeURIComponent(report.buyer_email)}` : '') +
+      (report.purchase_price ? `&price=${encodeURIComponent(report.purchase_price)}` : '')
+    : null;
+
   return (
     <div className={`rd-report-row${highlighted ? ' highlighted' : ''}`}>
       <div className="rd-report-main">
@@ -207,6 +218,22 @@ function ReportRow({ report, agentId, highlighted }) {
           {created} · {reportTypeLabel(report.report_type)}
           {report.buyer_email && ` · ${report.buyer_email}`}
         </div>
+        {report.status === 'failed' && report.failure_reason && (
+          <div
+            style={{
+              marginTop: 6,
+              fontSize: 12,
+              color: 'var(--red)',
+              lineHeight: 1.45,
+              maxWidth: 560,
+            }}
+          >
+            <strong>Why it failed:</strong>{' '}
+            {report.failure_reason.length > 180
+              ? report.failure_reason.slice(0, 180) + '…'
+              : report.failure_reason}
+          </div>
+        )}
       </div>
       <div className="rd-report-actions">
         <span
@@ -234,6 +261,19 @@ function ReportRow({ report, agentId, highlighted }) {
             </Link>
             <CopyShareButton shareUrl={shareUrl} />
           </>
+        ) : retryUrl ? (
+          <Link
+            href={retryUrl}
+            style={{
+              color: 'var(--amber)',
+              fontSize: 13,
+              fontWeight: 600,
+              textDecoration: 'none',
+              whiteSpace: 'nowrap',
+            }}
+          >
+            Try again →
+          </Link>
         ) : (
           <span style={{ color: 'var(--subtle)', fontSize: 12 }}>—</span>
         )}
