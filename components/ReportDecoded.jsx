@@ -143,7 +143,11 @@ body{
   display:inline-flex;
   align-items:center;
   gap:6px;
-  background:rgba(201,122,58,0.12);
+  /* Solid pre-blended equivalent of rgba(201,122,58,0.12) over navy
+     (#0A1628). Visually identical on production but contrast-audit
+     tools now compute against the solid color (≈6.6:1) instead of
+     assuming white parent background (≈1.52:1, false-positive fail). */
+  background:#21222A;
   border:1px solid rgba(201,122,58,0.28);
   color:#E8A05A;
   font-size:12.5px;
@@ -918,7 +922,10 @@ body{
   font-weight:700;
   letter-spacing:1px;
   text-transform:uppercase;
-  background:rgba(201,122,58,0.18);
+  /* Solid pre-blended equivalent of rgba(201,122,58,0.18) over the
+     navy→navy3 gradient parent. ≈6.0:1 contrast vs #E8A05A passes AA
+     and stops the audit tool from flagging the rgba as 1.52:1. */
+  background:#2C282B;
   color:#E8A05A;
   border:1px solid rgba(201,122,58,0.35);
   padding:3px 9px;
@@ -1087,7 +1094,10 @@ body{
     border-radius:14px;
     margin-bottom:18px;
   }
-  .pm-roadmap-pill{font-size:10px;margin-bottom:8px;}
+  /* Bumped from 10px to 12px for mobile readability audit (squirrelscan
+     flags anything under 12px on mobile). Uppercase letter-spacing keeps
+     it from feeling visually heavy. */
+  .pm-roadmap-pill{font-size:12px;margin-bottom:8px;}
   .pm-roadmap-h{font-size:17px;letter-spacing:-0.2px;line-height:1.3;margin-bottom:6px;}
   .pm-roadmap-body{font-size:13px;line-height:1.55;}
   .pm-roadmap-cta{
@@ -1337,7 +1347,9 @@ export default function App() {
                 fontWeight:700,
                 letterSpacing:.4,
                 textTransform:"uppercase",
-                background:"rgba(201,122,58,0.18)",
+                /* Solid pre-blended equiv of rgba(201,122,58,0.18) on
+                   nav navy. ≈6:1 vs #E8A05A — passes WCAG AA. */
+                background:"#2C282B",
                 color:"#E8A05A",
                 border:"1px solid rgba(201,122,58,0.35)",
                 padding:"2px 6px",
