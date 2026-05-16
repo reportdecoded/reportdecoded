@@ -17,7 +17,7 @@
 import { after } from 'next/server';
 import { getCurrentUser } from '@/lib/auth-server';
 import { getServiceSupabase } from '@/lib/supabase';
-import { countAgentReportsLast30Days, maybeReportOverage } from '@/lib/usage';
+import { countAgentReportsLast30Days } from '@/lib/usage';
 // runAnalysisForReport lazy-imported inside after() so the agent-upload
 // route's cold-start bundle stays slim — runAnalysis transitively pulls
 // in @react-pdf/renderer, the Anthropic SDK, places.js, etc. which we
@@ -130,23 +130,22 @@ export async function POST(request) {
     return Response.json({ error: 'Could not create report record' }, { status: 500 });
   }
 
-  // -- Overage check (Starter only). Count INCLUDES this just-created row, so
-  //    once an agent's count goes from 12 -> 13 they're on overage.
-  let overageResult = null;
+  // -- Overage pre-check (Starter only).
+  //
+  //    Counting here gives the dashboard an immediate "this one's overage"
+  //    badge for UI feedback. The ACTUAL meter event is NOT fired here —
+  //    that's deferred to runAnalysis after the row flips to 'complete', so
+  //    a failed analysis never bills the agent $15 for a report they didn't
+  //    receive. countAgentReportsLast30Days already excludes status='failed'
+  //    rows so failed attempts never burn an allowance slot.
+  let overagePredicted = false;
+  let currentCount = 0;
   try {
-    const currentCount = await countAgentReportsLast30Days(agent.id);
-    overageResult = await maybeReportOverage({
-      agent,
-      reportId: report.id,
-      currentCount,
-    });
-    if (overageResult.charged) {
-      console.log(`[agent-upload] starter overage billed: agent ${agent.id} report ${report.id} (count ${currentCount})`);
-    }
+    currentCount = await countAgentReportsLast30Days(agent.id);
+    overagePredicted =
+      agent.subscription_tier === 'starter' && currentCount > 12;
   } catch (err) {
-    // Don't block the analysis on a meter event failure — Stripe meter events
-    // can be backfilled, but the agent still expects their report.
-    console.error('[agent-upload] overage check failed (non-fatal):', err?.message || err);
+    console.error('[agent-upload] count check failed (non-fatal):', err?.message || err);
   }
 
   // -- Kick off analysis after responding.
@@ -179,7 +178,11 @@ export async function POST(request) {
   return Response.json({
     ok: true,
     reportId: report.id,
-    overage: overageResult?.charged === true,
-    countInWindow: overageResult?.currentCount,
+    // overage:true means THIS upload WILL incur a $15 overage when it
+    // completes — for the UI to show a heads-up banner. The actual Stripe
+    // meter event is fired inside runAnalysis after status='complete', so
+    // a failing analysis won't be billed.
+    overage: overagePredicted,
+    countInWindow: currentCount,
   });
 }
