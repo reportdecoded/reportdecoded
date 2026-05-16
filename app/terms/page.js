@@ -3,7 +3,10 @@ import { STYLES } from '@/components/ReportDecoded';
 
 export const metadata = {
   title: 'Terms of Service — Report Decoded',
-  description: 'Terms governing your use of Report Decoded.',
+  description: 'The terms governing your use of Report Decoded — buyer subscriptions, agent subscriptions, refunds, and acceptable use.',
+  alternates: {
+    canonical: 'https://www.reportdecoded.com.au/terms',
+  },
 };
 
 export default function TermsPage() {
@@ -12,7 +15,7 @@ export default function TermsPage() {
       <style>{STYLES}</style>
       <nav className="nav">
         <Link href="/" style={{ display: 'flex', alignItems: 'center', textDecoration: 'none' }}>
-          <img src="/logo-dark.png" alt="Report Decoded" style={{ height: 36 }} />
+          <img src="/logo-dark.png" alt="Report Decoded" width={180} height={42} style={{ height: 36, width: 'auto' }} />
         </Link>
         <div className="nav-links">
           <Link href="/" className="nav-link" style={{ textDecoration: 'none' }}>

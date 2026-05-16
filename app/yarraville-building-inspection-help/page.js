@@ -37,7 +37,7 @@ export default function YarravilleLandingPage() {
       {/* ── NAV ────────────────────────────────────────── */}
       <nav className="nav">
         <Link href="/" style={{ display: 'flex', alignItems: 'center', textDecoration: 'none' }}>
-          <img src="/logo-dark.png" alt="Report Decoded" style={{ height: 36 }} />
+          <img src="/logo-dark.png" alt="Report Decoded" width={180} height={42} style={{ height: 36, width: 'auto' }} />
         </Link>
         <div className="nav-links">
           <Link href="/" className="nav-link" style={{ textDecoration: 'none' }}>For Buyers</Link>

@@ -3,7 +3,10 @@ import { STYLES } from '@/components/ReportDecoded';
 
 export const metadata = {
   title: 'Privacy Policy — Report Decoded',
-  description: 'How Report Decoded collects, uses, and stores your data.',
+  description: 'How Report Decoded collects, uses, and stores your personal data when you upload an inspection PDF or manage an agent subscription.',
+  alternates: {
+    canonical: 'https://www.reportdecoded.com.au/privacy',
+  },
 };
 
 export default function PrivacyPage() {
@@ -12,7 +15,7 @@ export default function PrivacyPage() {
       <style>{STYLES}</style>
       <nav className="nav">
         <Link href="/" style={{ display: 'flex', alignItems: 'center', textDecoration: 'none' }}>
-          <img src="/logo-dark.png" alt="Report Decoded" style={{ height: 36 }} />
+          <img src="/logo-dark.png" alt="Report Decoded" width={180} height={42} style={{ height: 36, width: 'auto' }} />
         </Link>
         <div className="nav-links">
           <Link href="/" className="nav-link" style={{ textDecoration: 'none' }}>

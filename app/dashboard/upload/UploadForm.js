@@ -130,6 +130,7 @@ export default function UploadForm({ tier }) {
         type="file"
         accept="application/pdf"
         onChange={handleFileSelect}
+        aria-label="Upload your client's Australian building or pest inspection report PDF"
         style={{ display: 'none' }}
       />
       <div

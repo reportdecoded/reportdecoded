@@ -1430,6 +1430,7 @@ export default function App() {
               type="file"
               accept="application/pdf"
               onChange={handleFileSelect}
+              aria-label="Upload your Australian building or pest inspection report PDF"
               style={{display:"none"}}
             />
 

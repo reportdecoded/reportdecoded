@@ -52,7 +52,7 @@ export default async function DashboardUploadPage() {
             // eslint-disable-next-line @next/next/no-img-element
             <img src={agent.logo_url} alt={agent.business_name || 'Your agency'} style={{ height: 36, maxWidth: 180, objectFit: 'contain' }} />
           ) : (
-            <img src="/logo-dark.png" alt="Report Decoded" style={{ height: 36 }} />
+            <img src="/logo-dark.png" alt="Report Decoded" width={180} height={42} style={{ height: 36, width: 'auto' }} />
           )}
         </Link>
         <div className="nav-links">
