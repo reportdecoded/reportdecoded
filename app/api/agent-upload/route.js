@@ -91,6 +91,23 @@ export async function POST(request) {
     );
   }
 
+  // -- Synchronous pre-screen: catch wrong-document uploads (CMAs, Section 32s,
+  //    contracts of sale, council rates, etc) BEFORE we write a junk row to the
+  //    DB and burn the agent's monthly allowance. Adds ~1-3s to the response
+  //    but saves ~30-60s of round-trip + a "failed" row in the dashboard.
+  //    Lazy-import so the route's cold-start bundle isn't bloated by pdfjs-dist.
+  try {
+    const { prescreenPdfUrl } = await import('@/lib/claude');
+    const pre = await prescreenPdfUrl(reportUrl);
+    if (!pre.ok) {
+      return Response.json({ error: pre.error }, { status: pre.status || 422 });
+    }
+  } catch (err) {
+    // Don't block on a prescreen crash — fall through to the existing
+    // flow, where runAnalysis will still catch a bad PDF and mark failed.
+    console.warn('[agent-upload] prescreen errored (non-fatal):', err?.message || err);
+  }
+
   // -- Create the report row. payment_status='paid' because subscription covers it.
   const { data: report, error: insertErr } = await admin
     .from('reports')

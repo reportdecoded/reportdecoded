@@ -40,6 +40,23 @@ export async function POST(request) {
       return Response.json({ error: 'Valid buyerEmail is required' }, { status: 400 });
     }
 
+    // -- Synchronous pre-screen: refuse wrong-document uploads (CMAs,
+    //    Section 32s, contracts of sale) BEFORE creating a Stripe session.
+    //    Buyer flow has higher stakes than agent flow — they're about to
+    //    be charged $59. Catching a wrong PDF here saves a refund round-
+    //    trip later. Adds ~1-3s to the response.
+    try {
+      const { prescreenPdfUrl } = await import('@/lib/claude');
+      const pre = await prescreenPdfUrl(reportUrl);
+      if (!pre.ok) {
+        return Response.json({ error: pre.error }, { status: pre.status || 422 });
+      }
+    } catch (err) {
+      // Don't block on a prescreen crash — fall through and rely on
+      // runAnalysis to catch + refund as a safety net.
+      console.warn('[payment] prescreen errored (non-fatal):', err?.message || err);
+    }
+
     // 1. Create the report row up front so the webhook has something to update.
     const supabase = getServiceSupabase();
     const { data: report, error: insertErr } = await supabase
