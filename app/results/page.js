@@ -355,17 +355,23 @@ function TradieCard({ tradie }) {
             📞 {tradie.phone}
           </a>
         )}
-        {tradie.website && (
-          <a
-            href={tradie.website}
-            target="_blank"
-            rel="noopener noreferrer"
-            className="tradie-quote-btn"
-            style={{ textDecoration: 'none', display: 'inline-block', background: 'var(--cream2)', color: 'var(--text)' }}
-          >
-            Visit website →
-          </a>
-        )}
+        {/* Replaced direct 'Visit website' (using HERE's stored URL,
+            which goes stale: businesses change domains, servers move,
+            registrations lapse) with a Google search for the business
+            name. Always lands on something useful — Google ranks
+            current website, Google Business Profile, map, reviews,
+            and recent phone number even when HERE's data is months old.
+            Shows for EVERY tradie now, not only those HERE happens to
+            have a www: field for. */}
+        <a
+          href={`https://www.google.com/search?q=${encodeURIComponent(tradie.name)}`}
+          target="_blank"
+          rel="noopener noreferrer"
+          className="tradie-quote-btn"
+          style={{ textDecoration: 'none', display: 'inline-block', background: 'var(--cream2)', color: 'var(--text)' }}
+        >
+          Find them online →
+        </a>
       </div>
     </div>
   );
