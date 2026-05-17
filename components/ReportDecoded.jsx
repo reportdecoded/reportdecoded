@@ -1335,29 +1335,12 @@ export default function App() {
             className="nav-link"
             style={{textDecoration:"none"}}
           >For Agents</Link>
-          <div
-            className={`nav-link nav-link--pm ${navTab==="pm"?"active":""}`}
-            onClick={() => goTo("pm","pm")}
-            style={{display:"inline-flex",alignItems:"center",gap:7}}
-          >
-            For Property Managers
-            <span
-              style={{
-                fontSize:9.5,
-                fontWeight:700,
-                letterSpacing:.4,
-                textTransform:"uppercase",
-                /* Solid pre-blended equiv of rgba(201,122,58,0.18) on
-                   nav navy. ≈6:1 vs #E8A05A — passes WCAG AA. */
-                background:"#2C282B",
-                color:"#E8A05A",
-                border:"1px solid rgba(201,122,58,0.35)",
-                padding:"2px 6px",
-                borderRadius:5,
-                lineHeight:1,
-              }}
-            >Soon</span>
-          </div>
+          {/* "For Property Managers — Soon" nav item removed per design
+              review: signals an unfinished product, undercuts trust.
+              The in-page PM mockup + roadmap state still exist (goTo
+              "pm") so re-enabling is a one-liner once the PM product
+              ships. PMs who land here today can raise their hand at
+              /contact?topic=pm which deep-links the topic dropdown. */}
           <Link href="/signin" className="nav-cta" style={{textDecoration:"none"}}>Agent Sign In</Link>
         </div>
       </nav>
@@ -1663,8 +1646,15 @@ export default function App() {
                 choice reflected in the "Continue to Payment ($X)" CTA. */}
             <div className="pricing-row">
               {[
-                { id: "single", label: "Single Report", price: "$59", desc: "Full analysis, cost estimates & 2 tradie picks per defect", featured: false },
-                { id: "three",  label: "3-Report Pack", price: "$149", desc: "For investors evaluating multiple properties at once", featured: true },
+                // Per design review: "Most Popular" was on the 3-pack
+                // but the target audience (single-property buyers) would
+                // almost never need 3. The badge created cognitive
+                // dissonance. Moved popular:true to the Single Report so
+                // the badge matches what most buyers actually want.
+                // Kept featured (navy gradient styling) on the 3-pack so
+                // the cards still have clear visual hierarchy.
+                { id: "single", label: "Single Report", price: "$59",  desc: "Full analysis, cost estimates & 2 tradie picks per defect", featured: false, popular: true },
+                { id: "three",  label: "3-Report Pack", price: "$149", desc: "For investors evaluating multiple properties at once",     featured: true,  popular: false },
               ].map((p) => {
                 const isSelected = pack === p.id;
                 const handlePick = () => {
@@ -1704,7 +1694,14 @@ export default function App() {
                     <div className="price-label">{p.label}</div>
                     <div className="price-amount">{p.price}</div>
                     <div className="price-desc">{p.desc}</div>
-                    {p.featured && !isSelected && <div className="price-tag">Most Popular</div>}
+                    {/* Show "Most Popular" badge regardless of selection
+                        state. Previously gated on !isSelected because the
+                        old featured card had a competing ✓ SELECTED pill,
+                        but on the new Single card (default-selected) we'd
+                        never see the badge if we hide it when selected.
+                        ✓ SELECTED lives top-right; this pill lives at the
+                        bottom of the card so they don't collide. */}
+                    {p.popular && <div className="price-tag">Most Popular</div>}
                     {/* Next-step hint — only shown when this card is the
                         chosen pack AND a PDF hasn't been uploaded yet.
                         Disappears once they're in the form. */}
