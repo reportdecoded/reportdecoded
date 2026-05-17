@@ -1992,6 +1992,64 @@ export default function App() {
               ))}
             </div>
 
+            {/* ── FOUNDER NOTE ─────────────────────────────────
+                Design review #14: 2-3 sentence founder story. Single
+                biggest trust signal we can add without testimonials.
+                Honest framing (investor, not buyer's agent), dual
+                audience served (regular buyers + buyer's agents
+                subscribing to the dashboard tier). Sits between trust
+                bar and FAQ so it lands AFTER the visitor has seen
+                what the product does, BEFORE they're asked questions. */}
+            <div style={{ marginTop: 56, marginBottom: 8 }}>
+              <div
+                style={{
+                  maxWidth: 720,
+                  margin: "0 auto",
+                  background: "#fff",
+                  border: "1px solid var(--border)",
+                  borderRadius: 14,
+                  padding: "30px 32px",
+                  boxShadow: "0 6px 24px rgba(10,22,40,0.05)",
+                }}
+              >
+                <div className="section-label" style={{ marginBottom: 6 }}>
+                  👋 Behind the product
+                </div>
+                <h2
+                  style={{
+                    fontFamily: "'Fraunces',serif",
+                    fontSize: 26,
+                    margin: "0 0 16px",
+                    color: "var(--text)",
+                    letterSpacing: -0.3,
+                  }}
+                >
+                  Built by someone who needed it
+                </h2>
+                <div style={{ color: "var(--text)", fontSize: 15, lineHeight: 1.7 }}>
+                  <p style={{ margin: "0 0 14px" }}>
+                    I'm Morgan Smith. I've owned six properties over the years — four of them
+                    investments — and read just as many building inspection reports at 11pm wondering
+                    which defects actually mattered and how much to push back on the price. By report
+                    four I'd realised the same questions kept coming up — and that a tool could answer
+                    them in 60 seconds instead of three nights.
+                  </p>
+                  <p style={{ margin: "0 0 14px" }}>
+                    Report Decoded is that tool. 60 seconds to a plain-English verdict, every defect
+                    cited to your inspector's exact PDF page, and a ready-to-send negotiation letter at
+                    the end. <strong>For a regular buyer</strong>, it saves three nights of confusion
+                    and often thousands at the negotiating table. <strong>For a buyer's agent</strong>,
+                    the same engine turns a 2-hour-per-client task into a 2-minute one — letting them
+                    advise on more deals, faster, with a defensible numbers trail behind every
+                    recommendation.
+                  </p>
+                  <p style={{ margin: 0, color: "var(--muted)" }}>
+                    I built it because I needed it. Now you can use it too.
+                  </p>
+                </div>
+              </div>
+            </div>
+
             {/* ── HOMEPAGE FAQ ─────────────────────────────────
                 Design review #11: top 5 buyer objections. Mirrors
                 the accordion style on the suburb landing pages so
