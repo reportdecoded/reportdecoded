@@ -1874,8 +1874,38 @@ export default function App() {
                         </div>
                       </div>
                     ))}
-                    <div style={{ fontSize: 11, color: "var(--muted)", textAlign: "center", margin: "8px 0 14px", fontStyle: "italic" }}>
-                      + 8 more defects, all cited · plus 5-year capex forecast, local tradies, full negotiation letter
+                    <div style={{ fontSize: 11, color: "var(--muted)", textAlign: "center", margin: "8px 0 12px", fontStyle: "italic" }}>
+                      + 8 more defects, all cited
+                    </div>
+
+                    {/* Tradies block — design feedback: the AFTER card
+                        shouldn't suggest the only output is 3 defect
+                        lines. Tradies + phone numbers is one of the
+                        most actionable parts of the product. We don't
+                        show real names/numbers on this marketing
+                        surface (HERE Maps listings are public, but
+                        prominently featuring a specific business on
+                        a high-traffic page is a different exposure
+                        than being one of thousands of map listings).
+                        Categories + counts get the value across; the
+                        'See the full report' link below delivers the
+                        real contacts. */}
+                    <div style={{
+                      background: "var(--cream2)",
+                      border: "1px solid var(--border)",
+                      borderRadius: 8,
+                      padding: "10px 12px",
+                      marginBottom: 12,
+                    }}>
+                      <div style={{ fontSize: 10.5, color: "var(--muted)", fontWeight: 700, letterSpacing: 0.6, textTransform: "uppercase", marginBottom: 4 }}>
+                        🔧 6 local tradies matched
+                      </div>
+                      <div style={{ fontSize: 11.5, color: "var(--text)", lineHeight: 1.5 }}>
+                        Roof plumber · Pest controller · Damp specialist · 2 builders · Gutter plumber
+                      </div>
+                      <div style={{ fontSize: 10.5, color: "var(--muted)", marginTop: 4, fontStyle: "italic" }}>
+                        Names &amp; phone numbers included with every report.
+                      </div>
                     </div>
 
                     {/* Negotiation callout */}
