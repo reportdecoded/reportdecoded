@@ -281,11 +281,19 @@ body{
 .how-desc{font-size:12.5px;color:var(--muted);line-height:1.55;}
 
 /* ── PRICING ─────────────────────────────────────── */
+/* auto-fit grid adapts to whichever number of cards is rendered.
+   - Homepage buyer pricing: 3 cards (Single / 3-Pack / For Agents link)
+   - /agents + /dashboard subscriber pricing: 2 cards (Starter / Pro)
+   max-width: 880px keeps the 2-card layout from stretching into giant
+   cards on wide screens; centred horizontally via auto margins. */
 .pricing-row{
   display:grid;
-  grid-template-columns:repeat(3,1fr);
+  grid-template-columns:repeat(auto-fit,minmax(260px,1fr));
   gap:12px;
   margin-bottom:28px;
+  max-width:880px;
+  margin-left:auto;
+  margin-right:auto;
 }
 .price-card{
   background:white;
