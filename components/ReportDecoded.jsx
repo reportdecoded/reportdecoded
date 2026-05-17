@@ -1773,14 +1773,14 @@ export default function App() {
                   }}
                 >
                   <div><strong style={{ color: "var(--text)" }}>To:</strong> Listing agent</div>
-                  <div><strong style={{ color: "var(--text)" }}>Re:</strong> 18 Loch St, Yarraville VIC</div>
+                  <div><strong style={{ color: "var(--text)" }}>Re:</strong> ███ Loch St, Yarraville VIC</div>
                   <div><strong style={{ color: "var(--text)" }}>Ask:</strong> <span style={{ color: "var(--teal)" }}>$45,000 off price</span></div>
                 </div>
 
                 <p style={{ margin: "0 0 12px" }}>Dear [Agent's Name],</p>
 
                 <p style={{ margin: "0 0 14px" }}>
-                  Thank you for your assistance with our interest in <strong>18 Loch Street, Yarraville</strong>.
+                  Thank you for your assistance with our interest in <strong>███ Loch Street, Yarraville</strong>.
                   We've now received and carefully reviewed our building and timber pest inspection
                   report and wish to formally request a price adjustment before proceeding.
                 </p>
