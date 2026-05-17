@@ -1182,6 +1182,34 @@ const PM_MAINTENANCE = [
   {addr:"5 Dune Ct, Ocean Grove",tenant:"Williams",type:"External Paint Peeling",urgency:"Low",cls:"urg-low",cost:"$800–$2,000",tradie:"Pending"},
 ];
 
+// Top 5 homepage objections (design review #11). Answers grounded in
+// the actual product: AS4349.1-only requirement, combined-report
+// support, citation-backed AI accuracy, encrypted storage, and the
+// auto-refund policy (matches /terms exactly so the homepage doesn't
+// over-promise).
+const HOMEPAGE_FAQS = [
+  {
+    q: "What if my report isn't AS4349.1 format?",
+    a: "Report Decoded is built for Australian Standard AS4349.1 building & pest inspection reports — that's by far the most common format AU buyers receive. If your inspector used a different framework, our pre-screen will detect it before you're charged and auto-refund. You'll get a clear email explaining why and what to upload instead.",
+  },
+  {
+    q: "Does this work for pest-only or combined reports?",
+    a: "Yes — building only, pest only, and combined building + pest reports are all supported. The analysis adapts: a pest-only report won't surface structural defects; a combined one extracts both sections separately and presents them in a single verdict. The Yarraville sample on this page is a combined building + pest report.",
+  },
+  {
+    q: "Is the AI accurate enough for a buying decision?",
+    a: "Every major and minor defect we identify includes a citation to the page in your inspector's PDF where it was discussed — so every claim is verifiable. We don't extract claims we can't anchor. That said, this tool sits AFTER your inspection and interprets what's in it; it doesn't replace the inspector. Think of it as a builder friend translating the 95-page document for you in 60 seconds.",
+  },
+  {
+    q: "Who can see my uploaded PDF?",
+    a: "Only you, anyone you share your unique report link with, and our processing pipeline. Your PDF is stored encrypted on UploadThing (Singapore region, AU-adjacent). The analysis result lives in our Supabase database, scoped to your unique report ID. We never share, sell, or reuse your inspection data. Full details in our Privacy Policy.",
+  },
+  {
+    q: "Can I get a refund?",
+    a: "Yes — if our system can't analyse your PDF (e.g. it's a scanned image with no extractable text, or it's not actually an AS4349.1 inspection report) we automatically refund the $59. Our pre-screen catches most non-inspection uploads (Section 32s, vendor statements, contracts of sale) before you're even charged.",
+  },
+];
+
 const LOAD_STEPS = [
   "Reading inspection report…",
   "Identifying major defects (AS4349.1)…",
@@ -1223,6 +1251,8 @@ export default function App() {
   const [purchaseIntent, setPurchaseIntent] = useState("home");
   const [processing, setProcessing]   = useState(false);
   const [uploadError, setUploadError] = useState(null);
+  // Homepage FAQ accordion — null = all closed; numeric index = that one is open
+  const [openFaq, setOpenFaq]         = useState(null);
 
   const { startUpload, isUploading } = useUploadThing("inspectionReport", {
     onClientUploadComplete: (res) => {
@@ -1915,6 +1945,69 @@ export default function App() {
                   {t}
                 </div>
               ))}
+            </div>
+
+            {/* ── HOMEPAGE FAQ ─────────────────────────────────
+                Design review #11: top 5 buyer objections. Mirrors
+                the accordion style on the suburb landing pages so
+                visitors who arrive via SEO and convert to homepage
+                see a consistent treatment. */}
+            <div style={{ marginTop: 56, marginBottom: 24 }}>
+              <div style={{ textAlign: "center", marginBottom: 22 }}>
+                <div className="section-label" style={{ marginBottom: 8 }}>
+                  ❓ Common questions
+                </div>
+                <h2 style={{ fontFamily: "'Fraunces',serif", fontSize: 28, margin: 0, color: "var(--text)", letterSpacing: -0.3 }}>
+                  Before you upload
+                </h2>
+              </div>
+              <div style={{ maxWidth: 720, margin: "0 auto" }}>
+                {HOMEPAGE_FAQS.map((f, i) => {
+                  const isOpen = openFaq === i;
+                  return (
+                    <div
+                      key={i}
+                      style={{
+                        background: "#fff",
+                        border: "1px solid var(--border)",
+                        borderRadius: 10,
+                        marginBottom: 8,
+                        overflow: "hidden",
+                      }}
+                    >
+                      <button
+                        type="button"
+                        onClick={() => setOpenFaq(isOpen ? null : i)}
+                        aria-expanded={isOpen}
+                        style={{
+                          width: "100%",
+                          background: "transparent",
+                          border: 0,
+                          padding: "14px 18px",
+                          cursor: "pointer",
+                          display: "flex",
+                          justifyContent: "space-between",
+                          alignItems: "center",
+                          gap: 12,
+                          fontFamily: "inherit",
+                          fontWeight: 600,
+                          fontSize: 14.5,
+                          color: "var(--navy)",
+                          textAlign: "left",
+                        }}
+                      >
+                        <span>{f.q}</span>
+                        <span style={{ color: "var(--subtle)", fontSize: 12 }}>{isOpen ? "▲" : "▼"}</span>
+                      </button>
+                      {isOpen && (
+                        <div style={{ padding: "0 18px 16px", fontSize: 13.5, lineHeight: 1.65, color: "#374151" }}>
+                          {f.a}
+                        </div>
+                      )}
+                    </div>
+                  );
+                })}
+              </div>
             </div>
 
           </div>
