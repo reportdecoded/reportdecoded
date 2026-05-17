@@ -280,6 +280,81 @@ body{
 .how-label{font-weight:600;font-size:14px;color:var(--navy);margin-bottom:4px;}
 .how-desc{font-size:12.5px;color:var(--muted);line-height:1.55;}
 
+/* ── BEFORE / AFTER SPLIT ────────────────────────── */
+/* 3-column grid on desktop: left card | arrow | right card.
+   Stacks vertically on mobile via media query below. */
+.ba-grid{
+  display:grid;
+  grid-template-columns:1fr 64px 1fr;
+  gap:14px;
+  align-items:stretch;
+  max-width:880px;
+  margin:0 auto;
+}
+.ba-card{
+  background:#fff;
+  border:1px solid var(--border);
+  border-radius:12px;
+  overflow:hidden;
+  display:flex;
+  flex-direction:column;
+  box-shadow:0 6px 24px rgba(10,22,40,0.05);
+}
+.ba-before{background:#F4F1EA;}
+.ba-after{background:#fff;}
+.ba-card-tag{
+  font-size:10.5px;
+  font-weight:700;
+  letter-spacing:0.8px;
+  text-transform:uppercase;
+  padding:8px 14px;
+  text-align:center;
+}
+/* Faux-document inner panel for the BEFORE card */
+.ba-doc{
+  flex:1;
+  padding:14px 16px 10px;
+  font-family:Georgia,serif;
+  color:#374151;
+  font-size:10.5px;
+  line-height:1.5;
+  position:relative;
+  filter:contrast(0.95);
+}
+.ba-doc-header{padding-bottom:8px;border-bottom:1px solid #D5D0C5;margin-bottom:10px;}
+.ba-doc-h{font-weight:700;font-size:10.5px;color:#1C1917;margin:8px 0 3px;}
+.ba-doc-p{margin:0 0 6px;}
+.ba-doc-footer{
+  font-size:9.5px;color:var(--subtle);text-align:right;padding-top:8px;
+  border-top:1px dashed #D5D0C5;margin-top:6px;font-family:'DM Mono',monospace;
+}
+/* Connecting arrow column */
+.ba-arrow{
+  display:flex;
+  flex-direction:column;
+  align-items:center;
+  justify-content:center;
+  gap:6px;
+}
+.ba-arrow-circle{
+  width:40px;height:40px;border-radius:50%;
+  background:var(--amber);color:#fff;
+  display:flex;align-items:center;justify-content:center;
+  font-size:20px;font-weight:700;
+  box-shadow:0 4px 14px rgba(201,122,58,0.35);
+}
+.ba-arrow-label{
+  font-size:10.5px;color:var(--muted);font-style:italic;
+  text-align:center;line-height:1.3;max-width:64px;
+}
+/* Mobile: stack vertically, hide arrow column (text alone makes the
+   beat clear when stacked). */
+@media (max-width:780px){
+  .ba-grid{grid-template-columns:1fr;gap:16px;}
+  .ba-arrow{flex-direction:row;gap:10px;padding:8px 0;}
+  .ba-arrow-circle{transform:rotate(90deg);width:32px;height:32px;font-size:16px;}
+}
+
 /* ── PRICING ─────────────────────────────────────── */
 /* auto-fit grid adapts to whichever number of cards is rendered.
    - Homepage buyer pricing: 3 cards (Single / 3-Pack / For Agents link)
@@ -1676,6 +1751,149 @@ export default function App() {
                   </div>
                 </div>
               ))}
+            </div>
+
+            {/* ── BEFORE / AFTER VISUAL ──────────────────────────
+                Design review #6: 'the single highest-converting element
+                for this type of product is a split: raw intimidating PDF
+                on the left, clean Report Decoded verdict card on the
+                right.' Built as CSS panels (no screenshots) so it
+                renders crisply at any size and can iterate without
+                source materials. Numbers + categories match the real
+                Yarraville sample for consistency with the letter
+                preview below. */}
+            <div style={{ marginTop: 56, marginBottom: 40 }}>
+              <div style={{ textAlign: "center", marginBottom: 24 }}>
+                <div className="section-label" style={{ marginBottom: 8 }}>
+                  🔄 From overwhelming → decision-ready
+                </div>
+                <h2 style={{ fontFamily: "'Fraunces',serif", fontSize: 28, margin: 0, color: "var(--text)", letterSpacing: -0.3 }}>
+                  80 pages of jargon in. A verdict and a number out.
+                </h2>
+              </div>
+
+              <div className="ba-grid">
+                {/* LEFT: inspector PDF mock */}
+                <div className="ba-card ba-before">
+                  <div className="ba-card-tag" style={{ background: "#E8E4DC", color: "var(--muted)" }}>
+                    BEFORE · Inspector's PDF
+                  </div>
+                  <div className="ba-doc">
+                    <div className="ba-doc-header">
+                      <div style={{ fontFamily: "Georgia, serif", fontWeight: 700, fontSize: 13, color: "#374151", letterSpacing: 0.3 }}>
+                        BUILDING &amp; PEST INSPECTION REPORT
+                      </div>
+                      <div style={{ fontSize: 10, color: "var(--muted)", marginTop: 4, fontFamily: "Georgia, serif" }}>
+                        Property: ███ Loch Street, Yarraville · Inspected: ██ █████ 2020
+                      </div>
+                    </div>
+
+                    <div className="ba-doc-body">
+                      <div className="ba-doc-h">4.2.1 Subfloor Drainage Assessment</div>
+                      <div className="ba-doc-p">
+                        The subfloor area demonstrates evidence consistent with prolonged moisture ingress, with discolouration observed at multiple pier-to-bearer junctions and visible efflorescence on perimeter brickwork. Recommend further investigation by a licensed plumber pursuant to AS3500.3 and consideration of subfloor ventilation augmentation.
+                      </div>
+
+                      <div className="ba-doc-h">4.3.7 Timber Pest Conditions Conducive</div>
+                      <div className="ba-doc-p">
+                        Active termite workings identified in roof void at locations indicated in photographs (Plate 47, Plate 52). No evidence of an installed termite management system pursuant to AS3660 series. Risk assessment: HIGH. Recommendation: engagement of licensed pest controller to conduct full inspection and treatment programme.
+                      </div>
+
+                      <div className="ba-doc-h">5.1.4 Significant Items Continued</div>
+                      <div className="ba-doc-p" style={{ opacity: 0.45 }}>
+                        Widespread Anobium punctatum infestation observed throughout Baltic pine flooring; rectification options include chemical treatment or partial replacement. Refer Section 7 for full scope...
+                      </div>
+                    </div>
+
+                    <div className="ba-doc-footer">
+                      Page 47 of 95
+                    </div>
+                  </div>
+                </div>
+
+                {/* Connecting arrow */}
+                <div className="ba-arrow" aria-hidden="true">
+                  <div className="ba-arrow-circle">→</div>
+                  <div className="ba-arrow-label">we decode it</div>
+                </div>
+
+                {/* RIGHT: Report Decoded output mock */}
+                <div className="ba-card ba-after">
+                  <div className="ba-card-tag" style={{ background: "var(--amber-bg)", color: "var(--amber)" }}>
+                    AFTER · Report Decoded
+                  </div>
+
+                  <div style={{ padding: "18px 20px" }}>
+                    {/* Verdict pill */}
+                    <div style={{
+                      display: "inline-block",
+                      background: "var(--gold-bg)",
+                      color: "var(--gold)",
+                      fontWeight: 700,
+                      fontSize: 11,
+                      letterSpacing: 0.8,
+                      padding: "5px 12px",
+                      borderRadius: 5,
+                      marginBottom: 14,
+                    }}>
+                      NEGOTIATE
+                    </div>
+                    <div style={{ fontFamily: "'Fraunces',serif", fontSize: 17, color: "var(--text)", marginBottom: 14, lineHeight: 1.35 }}>
+                      Genuine issues — real grounds to push back on price.
+                    </div>
+
+                    {/* Defect mini-rows */}
+                    {[
+                      { name: "Termite damage", area: "roof space", cost: "$3,000–$15,000", page: "p. 47" },
+                      { name: "Wood borer attack", area: "Baltic pine floors", cost: "$2,000–$8,000", page: "p. 52" },
+                      { name: "Fungal decay", area: "weatherboards", cost: "$13,000–$33,000", page: "p. 28" },
+                    ].map((d, i) => (
+                      <div
+                        key={i}
+                        style={{
+                          display: "flex",
+                          justifyContent: "space-between",
+                          alignItems: "flex-start",
+                          gap: 10,
+                          padding: "10px 0",
+                          borderTop: i === 0 ? "1px solid var(--border)" : 0,
+                          borderBottom: "1px solid var(--border)",
+                          fontSize: 12.5,
+                        }}
+                      >
+                        <div style={{ flex: 1, minWidth: 0 }}>
+                          <div style={{ fontWeight: 600, color: "var(--text)" }}>{d.name}</div>
+                          <div style={{ color: "var(--muted)", fontSize: 11.5, marginTop: 1 }}>
+                            {d.area} · cited {d.page}
+                          </div>
+                        </div>
+                        <div style={{ fontFamily: "'DM Mono', monospace", fontSize: 11.5, color: "var(--text)", whiteSpace: "nowrap" }}>
+                          {d.cost}
+                        </div>
+                      </div>
+                    ))}
+                    <div style={{ fontSize: 11, color: "var(--muted)", textAlign: "center", margin: "8px 0 14px", fontStyle: "italic" }}>
+                      + 3 more, each cited to a page
+                    </div>
+
+                    {/* Negotiation callout */}
+                    <div style={{
+                      background: "var(--teal-light)",
+                      border: "1px solid var(--teal-border)",
+                      borderRadius: 8,
+                      padding: "10px 14px",
+                      textAlign: "center",
+                    }}>
+                      <div style={{ fontSize: 10.5, color: "var(--teal)", fontWeight: 700, letterSpacing: 0.6, textTransform: "uppercase" }}>
+                        Suggested negotiation
+                      </div>
+                      <div style={{ fontFamily: "'Fraunces',serif", fontSize: 26, color: "var(--text)", marginTop: 2 }}>
+                        $45,000 off
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
             </div>
 
             {/* ── HOW YOU CAN TRUST THE AI ────────────────────────
