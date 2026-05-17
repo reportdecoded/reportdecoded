@@ -1748,6 +1748,26 @@ export default function App() {
               </Link>
             </div>
 
+            {/* Refund line — design review #7. Matches the existing
+                /terms policy exactly (no expansion). Sits right under
+                the pricing cards so buyers see it before clicking
+                Continue to Payment. */}
+            <div
+              style={{
+                marginTop: 16,
+                textAlign: "center",
+                fontSize: 13,
+                color: "var(--muted)",
+                lineHeight: 1.5,
+              }}
+            >
+              <span aria-hidden="true">↩ </span>
+              Auto-refunded if we can't analyse your PDF.{" "}
+              <Link href="/terms" style={{ color: "var(--amber)", textDecoration: "none", fontWeight: 600 }}>
+                Refund policy
+              </Link>
+            </div>
+
             {/* Trust bar */}
             <div className="trust-bar">
               {[
