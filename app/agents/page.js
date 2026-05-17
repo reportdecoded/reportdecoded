@@ -275,7 +275,7 @@ export default function AgentsPage() {
               marginTop: 20,
             }}
           >
-            First report free · 7 days to claim · card on file · 2 months free if you pay annually · Cancel anytime
+            First report free · whenever you need it · card on file · 2 months free if you pay annually · Cancel anytime
           </div>
         </div>
 
@@ -313,7 +313,7 @@ export default function AgentsPage() {
                     Get early access
                   </h2>
                   <p className="upload-sub">
-                    First report free · 7 days to claim · Card on file · Cancel anytime
+                    First report free · Whenever you need it · Card on file · Cancel anytime
                   </p>
                 </div>
 

@@ -102,19 +102,25 @@ export async function POST(request) {
     metadata: { agent_id: agent.id, tier, interval },
     subscription_data: {
       metadata: { agent_id: agent.id, tier, interval },
-      // 7-day trial with card collection required.
+      // Effectively-unlimited trial with card collection required.
       //
-      // Honours the 'First report free · 7 days to claim' promise:
-      // agent provides a card at checkout, has up to 7 days to run
-      // their first report. As SOON as their first report completes
-      // (in runAnalysis), we call stripe.subscriptions.update with
-      // trial_end='now' to end the trial early. So billing starts
-      // on whichever comes first: report #1 completion, or day 8.
+      // Honours the 'First report free · whenever you need it'
+      // promise: agent provides a card at checkout and can claim
+      // their first report any time. The trial is ended via Stripe
+      // API the moment their first report completes (see runAnalysis
+      // section 5d) — that's the real billing trigger.
+      //
+      // 730 days is Stripe's hard maximum for trial_period_days
+      // (2 years). Practically: any agent who signs up and never
+      // runs a report within 2 years has churned. The auto-bill at
+      // year 2 is a non-event for active metrics, though we should
+      // add a 'still want this?' cancellation reminder before then
+      // in a future iteration.
       //
       // Webhook treats 'trialing' as active (ACTIVE_STATUSES) so
       // dashboard access works during the window with no extra
       // gating. Allowance counting also handles trial naturally.
-      trial_period_days: 7,
+      trial_period_days: 730,
     },
     // Allow the customer to apply promo codes (later if you set them up)
     allow_promotion_codes: true,
