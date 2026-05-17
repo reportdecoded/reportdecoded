@@ -17,17 +17,19 @@ export async function POST(request) {
     return Response.json({ error: 'Invalid request body' }, { status: 400 });
   }
 
-  const fullName = (body.fullName || '').trim();
+  // Design review #12: lead-capture form trimmed to 3 fields (email +
+  // role + tier). fullName / businessName / phone are now optional —
+  // collected post-subscription in the dashboard onboarding flow.
+  // Backward-compatible: any older client still sending all 6 fields
+  // continues to work as before.
+  const fullName = (body.fullName || '').trim() || null;
   const businessName = (body.businessName || '').trim() || null;
   const email = (body.email || '').trim().toLowerCase();
   const phone = (body.phone || '').trim() || null;
   const role = body.role;
   const tierInterest = body.tierInterest || null;
 
-  // Validation
-  if (!fullName || fullName.length < 2) {
-    return Response.json({ error: 'Please enter your full name' }, { status: 400 });
-  }
+  // Validation (only email + role required now)
   if (!email || !/.+@.+\..+/.test(email)) {
     return Response.json({ error: 'Please enter a valid email address' }, { status: 400 });
   }

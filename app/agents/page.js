@@ -5,15 +5,13 @@ import { track } from '@vercel/analytics';
 import { STYLES } from '@/components/ReportDecoded';
 
 export default function AgentsPage() {
-  const [fullName, setFullName] = useState('');
-  const [businessName, setBusinessName] = useState('');
+  // Per design review #12: trimmed lead-capture from 6 fields to 3
+  // (Email + Role + Tier). Full name, business name, and phone are
+  // collected post-subscription in the dashboard onboarding flow,
+  // not at the top of the funnel. Every additional form field costs
+  // ~10% completion; 6→3 should meaningfully lift signups.
   const [role, setRole] = useState('buyer_agent');
   const [email, setEmail] = useState('');
-  const [phone, setPhone] = useState('');
-  // Default: no tier explicitly chosen. The dropdown shows "Just exploring"
-  // until the user clicks one of the pricing cards or picks via the dropdown
-  // directly. This keeps the "Most Popular" badge visible on the Pro card
-  // until the user actively decides.
   const [tierInterest, setTierInterest] = useState('exploring');
   const [submitting, setSubmitting] = useState(false);
   const [submitted, setSubmitted] = useState(false);
@@ -22,8 +20,8 @@ export default function AgentsPage() {
   const handleSubmit = async (e) => {
     e.preventDefault();
     setError(null);
-    if (!fullName.trim() || !email.trim() || !role) {
-      setError('Name, email and role are required.');
+    if (!email.trim() || !role) {
+      setError('Email and role are required.');
       return;
     }
     setSubmitting(true);
@@ -31,7 +29,9 @@ export default function AgentsPage() {
       const res = await fetch('/api/agent-signup', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ fullName, businessName, role, email, phone, tierInterest }),
+        // fullName / businessName / phone intentionally omitted —
+        // collected post-subscription, not pre-signup.
+        body: JSON.stringify({ role, email, tierInterest }),
       });
       const data = await res.json();
       if (!res.ok) {
@@ -262,7 +262,7 @@ export default function AgentsPage() {
               <div style={{ textAlign: 'center', padding: '24px 0' }}>
                 <div className="upload-icon">✅</div>
                 <h2 style={{ fontFamily: "'Fraunces',serif", fontSize: 26, marginBottom: 10 }}>
-                  You're on the list, {fullName.split(/\s+/)[0]}.
+                  You're on the list.
                 </h2>
                 <p style={{ color: 'var(--muted)', maxWidth: 480, margin: '0 auto', lineHeight: 1.6 }}>
                   We've sent a confirmation to <strong>{email}</strong>. Morgan will reach
@@ -303,29 +303,10 @@ export default function AgentsPage() {
                     margin: '0 auto',
                   }}
                 >
-                  <div className="rd-two-col-form">
-                    <label style={{ fontSize: 13, color: 'var(--muted)', textAlign: 'left' }}>
-                      Full name *
-                      <input
-                        type="text"
-                        required
-                        value={fullName}
-                        onChange={(e) => setFullName(e.target.value)}
-                        placeholder="Jane Smith"
-                        style={inputStyle}
-                      />
-                    </label>
-                    <label style={{ fontSize: 13, color: 'var(--muted)', textAlign: 'left' }}>
-                      Business name
-                      <input
-                        type="text"
-                        value={businessName}
-                        onChange={(e) => setBusinessName(e.target.value)}
-                        placeholder="Smith Buyers Agency"
-                        style={inputStyle}
-                      />
-                    </label>
-                  </div>
+                  {/* Full name + Business name removed per design review #12 —
+                      collected post-subscription via dashboard onboarding instead.
+                      Form opens straight into the role fieldset to keep the
+                      conversion focus on commitment, not data entry. */}
 
                   <fieldset
                     style={{
@@ -371,29 +352,19 @@ export default function AgentsPage() {
                     ))}
                   </fieldset>
 
-                  <div className="rd-two-col-form">
-                    <label style={{ fontSize: 13, color: 'var(--muted)', textAlign: 'left' }}>
-                      Business email *
-                      <input
-                        type="email"
-                        required
-                        value={email}
-                        onChange={(e) => setEmail(e.target.value)}
-                        placeholder="jane@smithbuyers.com.au"
-                        style={inputStyle}
-                      />
-                    </label>
-                    <label style={{ fontSize: 13, color: 'var(--muted)', textAlign: 'left' }}>
-                      Phone
-                      <input
-                        type="tel"
-                        value={phone}
-                        onChange={(e) => setPhone(e.target.value)}
-                        placeholder="0400 000 000"
-                        style={inputStyle}
-                      />
-                    </label>
-                  </div>
+                  {/* Phone field removed per design review #12 — collected
+                      post-subscription. Email is now standalone, full-width. */}
+                  <label style={{ fontSize: 13, color: 'var(--muted)', textAlign: 'left' }}>
+                    Business email *
+                    <input
+                      type="email"
+                      required
+                      value={email}
+                      onChange={(e) => setEmail(e.target.value)}
+                      placeholder="jane@smithbuyers.com.au"
+                      style={inputStyle}
+                    />
+                  </label>
 
                   <label style={{ fontSize: 13, color: 'var(--muted)', textAlign: 'left' }}>
                     Tier you're considering
