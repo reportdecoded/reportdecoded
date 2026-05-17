@@ -18,8 +18,8 @@ const TIERS = [
   {
     id: 'pro',
     name: 'Pro',
-    monthly: 199,
-    yearly: 1990,
+    monthly: 149,
+    yearly: 1490,
     tagline: 'Unlimited reports',
     features: ['Everything in Starter', 'Agent dashboard', 'Priority support', 'Dedicated onboarding'],
     featured: true,

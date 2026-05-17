@@ -66,7 +66,7 @@ export default function AgentsPage() {
     {
       id: 'pro',
       name: 'Pro',
-      price: '$199',
+      price: '$149',
       tagline: 'Unlimited reports',
       features: ['Everything in Starter', 'Agent dashboard', 'Priority support', 'Dedicated onboarding'],
       featured: true,
@@ -398,7 +398,7 @@ export default function AgentsPage() {
                       style={inputStyle}
                     >
                       <option value="starter">Starter — $79/mo (12 reports, $15 each after)</option>
-                      <option value="pro">Pro — $199/mo (unlimited)</option>
+                      <option value="pro">Pro — $149/mo (unlimited)</option>
                       <option value="exploring">Just exploring</option>
                     </select>
                   </label>
