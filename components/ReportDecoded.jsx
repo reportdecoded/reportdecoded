@@ -365,15 +365,16 @@ body{
 
 /* ── PRICING ─────────────────────────────────────── */
 /* auto-fit grid adapts to whichever number of cards is rendered.
-   - Homepage buyer pricing: 3 cards (Single / 3-Pack / For Agents)
-     in a 780px-wide .upload-area parent → ~252px per card at 240 floor
-   - /agents + /dashboard subscriber pricing: 2 cards (Starter / Pro)
-     in an 880px-wide container → ~434px per card, naturally centered
-   minmax floor lowered from 260 → 240 so the 3-card homepage layout
-   doesn't wrap (3×260+24 gap = 804 > 780 = wrapped; 3×240+24 = 744 fits). */
+   The minmax floor of 220px is constrained by the homepage's
+   .upload-area parent: max-width 780px MINUS 48px horizontal
+   padding = 732px content width. Minus 24px (2× gap) = 708px
+   shared across 3 cards = 236px per card max. Floor must be ≤ 236
+   or the third card wraps. 220 gives a comfortable buffer.
+   On /agents + /dashboard (880px parent) 2 cards render at ~434px
+   each, naturally centered. */
 .pricing-row{
   display:grid;
-  grid-template-columns:repeat(auto-fit,minmax(240px,1fr));
+  grid-template-columns:repeat(auto-fit,minmax(220px,1fr));
   gap:12px;
   margin-bottom:28px;
   max-width:880px;
