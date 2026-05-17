@@ -1640,6 +1640,139 @@ export default function App() {
               ))}
             </div>
 
+            {/* ── NEGOTIATION LETTER PREVIEW ────────────────────────
+                Design review #10: the negotiation letter is arguably
+                the most differentiated feature of the product — a
+                ready-to-send email back to the vendor's agent with
+                specific defects + cost ranges + a recommended ask.
+                Until now it lived as a bullet point under the upload
+                area. This panel renders the actual letter from our
+                public Yarraville sample ($45K ask) so visitors can
+                see exactly what they'll get before paying. */}
+            <div style={{ margin: "56px 0 40px" }}>
+              <div style={{ textAlign: "center", marginBottom: 28 }}>
+                <div className="section-label" style={{ marginBottom: 8 }}>
+                  ✉️ Built into every report
+                </div>
+                <h2 style={{ fontFamily: "'Fraunces',serif", fontSize: 30, margin: "0 0 10px", color: "var(--text)", letterSpacing: -0.3 }}>
+                  Walk into the negotiation with a letter already written.
+                </h2>
+                <p style={{ color: "var(--muted)", fontSize: 15, lineHeight: 1.55, maxWidth: 560, margin: "0 auto" }}>
+                  Every pre-purchase report includes a ready-to-send email to the vendor's agent
+                  — with specific defects, cost ranges, and a recommended adjustment. Most buyers
+                  copy-paste and send within minutes.
+                </p>
+              </div>
+
+              {/* Letter card — styled like a printed letter on paper */}
+              <div
+                style={{
+                  background: "#fff",
+                  border: "1px solid var(--border)",
+                  borderRadius: 12,
+                  boxShadow: "0 10px 40px rgba(10,22,40,0.08)",
+                  padding: "28px 32px",
+                  maxWidth: 720,
+                  margin: "0 auto",
+                  position: "relative",
+                  fontFamily: "Georgia, 'Times New Roman', serif",
+                  lineHeight: 1.6,
+                  color: "var(--text)",
+                  fontSize: 14.5,
+                }}
+              >
+                {/* Letter envelope-style header strip */}
+                <div
+                  style={{
+                    display: "flex",
+                    gap: 18,
+                    flexWrap: "wrap",
+                    paddingBottom: 14,
+                    borderBottom: "1px solid var(--border)",
+                    marginBottom: 18,
+                    fontFamily: "'DM Mono', monospace",
+                    fontSize: 11,
+                    color: "var(--muted)",
+                    textTransform: "uppercase",
+                    letterSpacing: 0.5,
+                  }}
+                >
+                  <div><strong style={{ color: "var(--text)" }}>To:</strong> Listing agent</div>
+                  <div><strong style={{ color: "var(--text)" }}>Re:</strong> 18 Loch St, Yarraville VIC</div>
+                  <div><strong style={{ color: "var(--text)" }}>Ask:</strong> <span style={{ color: "var(--teal)" }}>$45,000 off price</span></div>
+                </div>
+
+                <p style={{ margin: "0 0 12px" }}>Dear [Agent's Name],</p>
+
+                <p style={{ margin: "0 0 14px" }}>
+                  Thank you for your assistance with our interest in <strong>18 Loch Street, Yarraville</strong>.
+                  We've now received and carefully reviewed our building and timber pest inspection
+                  report and wish to formally request a price adjustment before proceeding.
+                </p>
+
+                <p style={{ margin: "0 0 14px" }}>
+                  While we remain genuinely interested in the property, the inspection has identified
+                  a number of significant defects that we are unable to overlook without a corresponding
+                  adjustment to the purchase price:
+                </p>
+
+                <ol style={{ margin: "0 0 14px", paddingLeft: 22 }}>
+                  <li style={{ marginBottom: 10 }}>
+                    <strong>Termite damage (roof space &amp; internal areas):</strong> Evidence of termite
+                    workings and damage in both the roof space and internal areas. No termite management
+                    system has ever been installed. <em>Estimated cost: $3,000–$15,000.</em>
+                  </li>
+                  <li style={{ marginBottom: 10 }}>
+                    <strong>Widespread wood borer attack:</strong> Baltic pine floorboards throughout the
+                    home show widespread <em>Anobium punctatum</em> infestation. Treatment or partial
+                    board replacement required. <em>Estimated cost: $2,000–$8,000.</em>
+                  </li>
+                  <li style={{ color: "var(--muted)", fontStyle: "italic" }}>
+                    ... 4 more defects, each cited to the inspector's PDF page
+                  </li>
+                </ol>
+
+                <p style={{ margin: "0 0 14px" }}>
+                  Based on the above, we are formally requesting a price reduction of{" "}
+                  <strong style={{ color: "var(--teal)" }}>$45,000</strong>, bringing our offer to $805,000.
+                  We are in a position to exchange promptly if we can reach agreement.
+                </p>
+
+                <p style={{ margin: "0", color: "var(--muted)" }}>Kind regards,<br/>[Your Name]</p>
+
+                {/* Footer attribution + CTA */}
+                <div
+                  style={{
+                    marginTop: 22,
+                    paddingTop: 16,
+                    borderTop: "1px solid var(--border)",
+                    display: "flex",
+                    gap: 16,
+                    flexWrap: "wrap",
+                    alignItems: "center",
+                    justifyContent: "space-between",
+                    fontFamily: "'DM Sans', sans-serif",
+                    fontSize: 12.5,
+                    color: "var(--muted)",
+                    lineHeight: 1.5,
+                  }}
+                >
+                  <div>
+                    Generated from a real Report Decoded analysis. Yours will be tailored to your
+                    property and defects.
+                  </div>
+                  <Link
+                    href="/results?reportId=f3ef0ce1-5443-4e91-a420-5e8bf7d8713d&sample=1"
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    style={{ color: "var(--amber)", fontWeight: 600, textDecoration: "none", whiteSpace: "nowrap" }}
+                  >
+                    See the full report →
+                  </Link>
+                </div>
+              </div>
+            </div>
+
             {/* Pricing — buyer side. Cards are clickable and sync the pack
                 state used inside the upload form above. Clicking smooth-
                 scrolls back to the upload area so the user sees their
