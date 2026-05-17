@@ -111,7 +111,7 @@ export default function YarravilleLandingPage() {
             }}
           >
             <div style={{ fontWeight: 600, fontSize: 16, color: 'var(--navy)', marginBottom: 4 }}>
-              ███ Loch Street, Yarraville VIC 3013
+              <span className="redact-soft">███</span> Loch Street, Yarraville VIC 3013
             </div>
             <div style={{ fontSize: 13, color: 'var(--muted)', marginBottom: 18 }}>
               c.1940 timber weatherboard on stumps · pre-purchase building & pest inspection
@@ -321,7 +321,7 @@ export default function YarravilleLandingPage() {
 const FAQS = [
   {
     q: 'Why do you have a Yarraville-specific page?',
-    a: "Yarraville housing stock is overwhelmingly pre-1960s — 1900s to 1950s weatherboards and brick veneer on stumps. That era is exactly where the defect-rich, jargon-heavy inspection reports come from. Our public sample is a real Yarraville analysis (███ Loch Street) so you can see how the tool handles the kind of report you'll get on the property you're considering.",
+    a: "Yarraville housing stock is overwhelmingly pre-1960s — 1900s to 1950s weatherboards and brick veneer on stumps. That era is exactly where the defect-rich, jargon-heavy inspection reports come from. Our public sample is a real Yarraville analysis (Loch Street — specific number redacted for owner privacy) so you can see how the tool handles the kind of report you'll get on the property you're considering.",
   },
   {
     q: 'Is the AI actually accurate?',

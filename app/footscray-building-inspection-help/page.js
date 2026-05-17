@@ -113,7 +113,7 @@ export default function FootscrayLandingPage() {
             }}
           >
             <div style={{ fontWeight: 600, fontSize: 16, color: 'var(--navy)', marginBottom: 4 }}>
-              Public sample: ███ Loch Street, Yarraville VIC 3013 (next suburb over)
+              Public sample: <span className="redact-soft">███</span> Loch Street, Yarraville VIC 3013 (next suburb over)
             </div>
             <div style={{ fontSize: 13, color: 'var(--muted)', marginBottom: 18 }}>
               c.1940 timber weatherboard on stumps · the exact same housing stock you'll see on Barkly St, Footscray West, and Maidstone

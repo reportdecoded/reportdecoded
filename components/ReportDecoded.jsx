@@ -280,6 +280,14 @@ body{
 .how-label{font-weight:600;font-size:14px;color:var(--navy);margin-bottom:4px;}
 .how-desc{font-size:12.5px;color:var(--muted);line-height:1.55;}
 
+/* Soft redaction blocks — used wherever we want a 'this field is
+   intentionally hidden' visual placeholder without the eye-grabbing
+   black censored-bar effect. Renders at very low opacity in the
+   current text colour so it blends with cream/white/navy parents
+   alike. Reads as 'subtle placeholder texture' rather than
+   'CENSORED HERE'. */
+.redact-soft{color:rgba(0,0,0,0.10);letter-spacing:0.04em;}
+
 /* ── BEFORE / AFTER SPLIT ────────────────────────── */
 /* 3-column grid on desktop: left card | arrow | right card.
    Stacks vertically on mobile via media query below. */
@@ -1786,7 +1794,7 @@ export default function App() {
                         BUILDING &amp; PEST INSPECTION REPORT
                       </div>
                       <div style={{ fontSize: 10, color: "var(--muted)", marginTop: 4, fontFamily: "Georgia, serif" }}>
-                        Property: ███ Loch Street, Yarraville · Inspected: ██ █████ 2020
+                        Property: <span className="redact-soft">███</span> Loch Street, Yarraville · Inspected: <span className="redact-soft">██ █████</span> 2020
                       </div>
                     </div>
 
@@ -2051,14 +2059,14 @@ export default function App() {
                   }}
                 >
                   <div><strong style={{ color: "var(--text)" }}>To:</strong> Listing agent</div>
-                  <div><strong style={{ color: "var(--text)" }}>Re:</strong> ███ Loch St, Yarraville VIC</div>
+                  <div><strong style={{ color: "var(--text)" }}>Re:</strong> <span className="redact-soft">███</span> Loch St, Yarraville VIC</div>
                   <div><strong style={{ color: "var(--text)" }}>Ask:</strong> <span style={{ color: "var(--teal)" }}>$45,000 off price</span></div>
                 </div>
 
                 <p style={{ margin: "0 0 12px" }}>Dear [Agent's Name],</p>
 
                 <p style={{ margin: "0 0 14px" }}>
-                  Thank you for your assistance with our interest in <strong>███ Loch Street, Yarraville</strong>.
+                  Thank you for your assistance with our interest in <strong><span className="redact-soft">███</span> Loch Street, Yarraville</strong>.
                   We've now received and carefully reviewed our building and timber pest inspection
                   report and wish to formally request a price adjustment before proceeding.
                 </p>

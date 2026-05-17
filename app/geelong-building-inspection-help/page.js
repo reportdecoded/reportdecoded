@@ -113,7 +113,7 @@ export default function GeelongLandingPage() {
             }}
           >
             <div style={{ fontWeight: 600, fontSize: 16, color: 'var(--navy)', marginBottom: 4 }}>
-              Public sample: ███ Loch Street, Yarraville VIC 3013
+              Public sample: <span className="redact-soft">███</span> Loch Street, Yarraville VIC 3013
             </div>
             <div style={{ fontSize: 13, color: 'var(--muted)', marginBottom: 18 }}>
               c.1940 timber weatherboard · same era as much of Newtown, Geelong West, and East Geelong
