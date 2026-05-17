@@ -275,7 +275,7 @@ export default function AgentsPage() {
               marginTop: 20,
             }}
           >
-            First report is free · 2 months free if you pay annually · No card required to sign up
+            First report free · card on file · 2 months free if you pay annually · Cancel anytime
           </div>
         </div>
 
@@ -313,7 +313,7 @@ export default function AgentsPage() {
                     Get early access
                   </h2>
                   <p className="upload-sub">
-                    First report free · No card required · Cancel anytime
+                    First report free · Card on file · Cancel anytime
                   </p>
                 </div>
 

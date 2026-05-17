@@ -102,6 +102,14 @@ export async function POST(request) {
     metadata: { agent_id: agent.id, tier, interval },
     subscription_data: {
       metadata: { agent_id: agent.id, tier, interval },
+      // 2-day trial with card collection required. Honours the
+      // 'First report free · card on file · cancel anytime' promise
+      // on /agents: the agent provides a card at checkout, has 48h
+      // of full Pro/Starter access (enough to run 1-3 reports and
+      // decide), then the first billing cycle starts on day 3.
+      // Webhook handler already treats 'trialing' as active (via
+      // ACTIVE_STATUSES) so dashboard access works during the trial.
+      trial_period_days: 2,
     },
     // Allow the customer to apply promo codes (later if you set them up)
     allow_promotion_codes: true,
