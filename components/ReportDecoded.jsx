@@ -1670,6 +1670,51 @@ export default function App() {
               ))}
             </div>
 
+            {/* ── HOW YOU CAN TRUST THE AI ────────────────────────
+                Design review #15: addresses the "can I trust AI with
+                a $600k decision?" objection by surfacing the actual
+                trust mechanics — citations to PDF pages, no-claims-
+                we-can't-anchor rule, auto-refund on wrong document.
+                Reuses .how-strip grid so it visually matches the
+                step strip above and reads as a natural continuation. */}
+            <div style={{ marginTop: 48 }}>
+              <div style={{ textAlign: "center", marginBottom: 18 }}>
+                <div className="section-label" style={{ marginBottom: 8 }}>
+                  🔍 Built to be verified
+                </div>
+                <h2 style={{ fontFamily: "'Fraunces',serif", fontSize: 26, margin: 0, color: "var(--text)", letterSpacing: -0.3 }}>
+                  How you can trust the AI
+                </h2>
+              </div>
+              <div className="how-strip">
+                {[
+                  {
+                    n: "01",
+                    label: "Cited to your inspector's PDF",
+                    desc: "Every defect we list points to the exact page in your inspector's report. Flip to the cited page to verify any finding.",
+                  },
+                  {
+                    n: "02",
+                    label: "Anchored, not invented",
+                    desc: "We don't extract claims we can't anchor to your inspector's text. If the AI can't find evidence, the finding is left out.",
+                  },
+                  {
+                    n: "03",
+                    label: "Wrong document → auto-refund",
+                    desc: "If your PDF isn't an AS4349.1 inspection report, our pre-screen detects it before you're charged. Zero risk of paying for an analysis that can't run.",
+                  },
+                ].map(({ n, label, desc }) => (
+                  <div className="how-step" key={n}>
+                    <div className="how-num">{n}</div>
+                    <div>
+                      <div className="how-label">{label}</div>
+                      <div className="how-desc">{desc}</div>
+                    </div>
+                  </div>
+                ))}
+              </div>
+            </div>
+
             {/* ── NEGOTIATION LETTER PREVIEW ────────────────────────
                 Design review #10: the negotiation letter is arguably
                 the most differentiated feature of the product — a
