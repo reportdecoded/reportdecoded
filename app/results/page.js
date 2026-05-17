@@ -325,7 +325,12 @@ function formatDistance(meters) {
   return `${(meters / 1000).toFixed(1)} km away`;
 }
 
-function TradieCard({ tradie }) {
+function TradieCard({ tradie, suburb }) {
+  // Compose Google search query: business name + suburb when available.
+  // Disambiguates generic names ('Matrix Bathrooms', 'Plumb Point') so
+  // results land on the local branch rather than a Sydney/Brisbane one.
+  const searchQuery = suburb ? `${tradie.name} ${suburb}` : tradie.name;
+  const googleUrl = `https://www.google.com/search?q=${encodeURIComponent(searchQuery)}`;
   const dist = formatDistance(tradie.distance_m);
   return (
     <div className="tradie-card">
@@ -364,7 +369,7 @@ function TradieCard({ tradie }) {
             Shows for EVERY tradie now, not only those HERE happens to
             have a www: field for. */}
         <a
-          href={`https://www.google.com/search?q=${encodeURIComponent(tradie.name)}`}
+          href={googleUrl}
           target="_blank"
           rel="noopener noreferrer"
           className="tradie-quote-btn"
@@ -377,7 +382,7 @@ function TradieCard({ tradie }) {
   );
 }
 
-function DefectCard({ kind, defect, index, expanded, toggle, tradiesForCategory }) {
+function DefectCard({ kind, defect, index, expanded, toggle, tradiesForCategory, suburb }) {
   const key = `${kind}-${index}`;
   const badge =
     kind === 'major' ? 'MAJOR DEFECT' : kind === 'minor' ? 'MINOR DEFECT' : 'PEST RISK';
@@ -453,7 +458,7 @@ function DefectCard({ kind, defect, index, expanded, toggle, tradiesForCategory 
               <div className="tradies-label">✅ Recommended Local Tradies</div>
               <div className="tradie-cards">
                 {tradies.map((t) => (
-                  <TradieCard key={t.id} tradie={t} />
+                  <TradieCard key={t.id} tradie={t} suburb={suburb} />
                 ))}
               </div>
             </div>
@@ -464,6 +469,17 @@ function DefectCard({ kind, defect, index, expanded, toggle, tradiesForCategory 
   );
 }
 
+// Extract suburb from an AU address by matching the word(s) just before
+// an AU state code. Used to scope tradie Google searches to the right
+// city so generic business names ('Matrix Bathrooms', 'Plumb Point')
+// land on the correct branch. Returns null when no state code present,
+// in which case the tradie button falls back to name-only search.
+function extractSuburb(address) {
+  if (!address || typeof address !== 'string') return null;
+  const m = address.match(/([A-Za-z][A-Za-z\s]*?)\s+(VIC|NSW|QLD|WA|SA|TAS|NT|ACT)\b/);
+  return m ? m[1].trim() : null;
+}
+
 function ResultsView({ analysis, tradies, expanded, toggle, copied, setCopied, reportId, agentId }) {
   if (!analysis) return null;
   const majors = analysis.major_defects || [];
@@ -472,6 +488,7 @@ function ResultsView({ analysis, tradies, expanded, toggle, copied, setCopied, r
   const totalDefects = majors.length + minors.length + pests.length;
   const tradiesBy = tradies || {};
   const tradieCount = Object.values(tradiesBy).reduce((n, list) => n + (list?.length || 0), 0);
+  const suburb = extractSuburb(analysis.property_address);
   // True when the analysis surfaced defects with trade categories but we
   // couldn't return any tradies for them. Almost always means the address
   // didn't geocode (typo, made-up address, or no street-level detail). We
@@ -552,6 +569,7 @@ function ResultsView({ analysis, tradies, expanded, toggle, copied, setCopied, r
                   expanded={expanded}
                   toggle={toggle}
                   tradiesForCategory={tradiesBy[d.trade_category]}
+                  suburb={suburb}
                 />
               ))}
             </div>
@@ -568,6 +586,7 @@ function ResultsView({ analysis, tradies, expanded, toggle, copied, setCopied, r
                   expanded={expanded}
                   toggle={toggle}
                   tradiesForCategory={tradiesBy[d.trade_category]}
+                  suburb={suburb}
                 />
               ))}
             </div>
@@ -584,6 +603,7 @@ function ResultsView({ analysis, tradies, expanded, toggle, copied, setCopied, r
                   expanded={expanded}
                   toggle={toggle}
                   tradiesForCategory={tradiesBy[d.trade_category]}
+                  suburb={suburb}
                 />
               ))}
             </div>
