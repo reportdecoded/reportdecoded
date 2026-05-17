@@ -357,13 +357,15 @@ body{
 
 /* ── PRICING ─────────────────────────────────────── */
 /* auto-fit grid adapts to whichever number of cards is rendered.
-   - Homepage buyer pricing: 3 cards (Single / 3-Pack / For Agents link)
+   - Homepage buyer pricing: 3 cards (Single / 3-Pack / For Agents)
+     in a 780px-wide .upload-area parent → ~252px per card at 240 floor
    - /agents + /dashboard subscriber pricing: 2 cards (Starter / Pro)
-   max-width: 880px keeps the 2-card layout from stretching into giant
-   cards on wide screens; centred horizontally via auto margins. */
+     in an 880px-wide container → ~434px per card, naturally centered
+   minmax floor lowered from 260 → 240 so the 3-card homepage layout
+   doesn't wrap (3×260+24 gap = 804 > 780 = wrapped; 3×240+24 = 744 fits). */
 .pricing-row{
   display:grid;
-  grid-template-columns:repeat(auto-fit,minmax(260px,1fr));
+  grid-template-columns:repeat(auto-fit,minmax(240px,1fr));
   gap:12px;
   margin-bottom:28px;
   max-width:880px;
@@ -1873,7 +1875,7 @@ export default function App() {
                       </div>
                     ))}
                     <div style={{ fontSize: 11, color: "var(--muted)", textAlign: "center", margin: "8px 0 14px", fontStyle: "italic" }}>
-                      + 3 more, each cited to a page
+                      + 8 more defects, all cited · plus 5-year capex forecast, local tradies, full negotiation letter
                     </div>
 
                     {/* Negotiation callout */}
@@ -1890,6 +1892,26 @@ export default function App() {
                       <div style={{ fontFamily: "'Fraunces',serif", fontSize: 26, color: "var(--text)", marginTop: 2 }}>
                         $45,000 off
                       </div>
+                    </div>
+
+                    {/* CTA to the real sample — makes clear this card is
+                        an abridged preview, not the full output. */}
+                    <div style={{ textAlign: "center", marginTop: 14 }}>
+                      <Link
+                        href="/results?reportId=f3ef0ce1-5443-4e91-a420-5e8bf7d8713d&sample=1"
+                        target="_blank"
+                        rel="noopener noreferrer"
+                        style={{
+                          color: "var(--amber)",
+                          fontWeight: 600,
+                          fontSize: 13,
+                          textDecoration: "none",
+                          borderBottom: "1px solid var(--amber-border)",
+                          paddingBottom: 1,
+                        }}
+                      >
+                        See the full 5-page analysis →
+                      </Link>
                     </div>
                   </div>
                 </div>
