@@ -112,9 +112,40 @@ export default async function DashboardPage({ searchParams }) {
                 fontWeight: 600,
               }}
             >
-              ✅ Subscription active. Welcome to Report Decoded — let's go.
+              {agent.subscription_status === 'trialing' ? (
+                <>
+                  🎁 You're in! Your first report is on us — billing starts when you complete your first analysis.
+                </>
+              ) : (
+                <>✅ Subscription active. Welcome to Report Decoded — let's go.</>
+              )}
             </div>
           </>
+        )}
+
+        {/* Persistent trial banner (not just on the post-Checkout
+            return). Shows for any agent whose subscription is in
+            'trialing' status, every time they land on /dashboard.
+            Makes the 'first report free' mechanic continuously
+            visible so they don't forget what they're getting. Goes
+            away the moment their first report completes and the
+            webhook flips status to 'active'. */}
+        {hasActiveSub && agent.subscription_status === 'trialing' && !justSubscribed && (
+          <div
+            style={{
+              background: 'var(--teal-light)',
+              border: '1px solid var(--teal-border)',
+              color: 'var(--text)',
+              padding: '12px 18px',
+              borderRadius: 10,
+              marginBottom: 24,
+              fontSize: 14,
+              lineHeight: 1.55,
+            }}
+          >
+            <strong style={{ color: 'var(--teal)' }}>🎁 Free trial active.</strong>{' '}
+            Your first report is on us. Billing starts when you complete your first analysis — no deadline.
+          </div>
         )}
         {subscribeCancelled && (
           <div

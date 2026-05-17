@@ -185,6 +185,13 @@ export async function POST(request) {
               fullName: agent.full_name,
               tier,
               businessName: agent.business_name,
+              // Surface the 'first report free' trial banner when the
+              // subscription was created in trialing status (which is
+              // every new subscription now that trial_period_days: 730
+              // is in /api/subscribe). The email reads identically
+              // post-trial for any unusual cases (e.g. someone who
+              // already paid manually) — banner just disappears.
+              isTrialing: sub.status === 'trialing',
             });
             console.log(`[webhook] welcome email sent to ${agent.email} (tier=${tier})`);
           } catch (e) {
