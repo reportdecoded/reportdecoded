@@ -3,16 +3,16 @@
 // goes on a route-segment layout.
 
 export const metadata = {
-  title: 'Brunswick Building Inspection Report Help — Plain-English Analysis in 60 Seconds | Report Decoded',
+  title: 'Brunswick Building Inspection Report Help — Plain-English Analysis in Under 2 Minutes | Report Decoded',
   description:
-    'Upload your Brunswick (VIC 3056/3057) inspection PDF and get a plain-English verdict, AU repair costs, local tradies and a negotiation amount — in 60 seconds.',
+    'Upload your Brunswick (VIC 3056/3057) inspection PDF and get a plain-English verdict, AU repair costs, local tradies and a negotiation amount — in under 2 minutes.',
   alternates: {
     canonical: 'https://www.reportdecoded.com.au/brunswick-building-inspection-help',
   },
   openGraph: {
     title: 'Brunswick Building Inspection Report Help',
     description:
-      'Plain-English analysis of your Brunswick building & pest inspection PDF in 60 seconds. Verdict, costs, tradies, negotiation.',
+      'Plain-English analysis of your Brunswick building & pest inspection PDF in under 2 minutes. Verdict, costs, tradies, negotiation.',
     url: 'https://www.reportdecoded.com.au/brunswick-building-inspection-help',
     siteName: 'Report Decoded',
     locale: 'en_AU',

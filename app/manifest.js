@@ -8,7 +8,7 @@ export default function manifest() {
     name: 'Report Decoded',
     short_name: 'Report Decoded',
     description:
-      'AI-powered Australian building & pest inspection report interpreter. Plain-English verdicts, repair cost ranges, negotiation language, and local tradies in 60 seconds.',
+      'AI-powered Australian building & pest inspection report interpreter. Plain-English verdicts, repair cost ranges, negotiation language, and local tradies in under 2 minutes.',
     start_url: '/',
     scope: '/',
     display: 'standalone',

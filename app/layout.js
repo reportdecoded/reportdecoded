@@ -16,7 +16,7 @@ export const metadata = {
   openGraph: {
     title: 'Report Decoded — Your Building Report, Decoded',
     description:
-      'Upload your Australian building and pest inspection PDF. Get a plain-English verdict, repair cost estimates, and exactly how much to negotiate — in 60 seconds.',
+      'Upload your Australian building and pest inspection PDF. Get a plain-English verdict, repair cost estimates, and exactly how much to negotiate — in under 2 minutes.',
     url: 'https://www.reportdecoded.com.au',
     siteName: 'Report Decoded',
     locale: 'en_AU',

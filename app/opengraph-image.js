@@ -45,7 +45,7 @@ export default async function OpenGraphImage() {
             Your building report, decoded.
           </div>
           <div style={{ display: 'flex', fontSize: 24, color: 'rgba(255,255,255,0.7)', maxWidth: 900, lineHeight: 1.4 }}>
-            Upload your AS4349.1 inspection PDF. Plain-English verdict, repair costs, local tradies, and how much to negotiate — in 60 seconds.
+            Upload your AS4349.1 inspection PDF. Plain-English verdict, repair costs, local tradies, and how much to negotiate — in under 2 minutes.
           </div>
         </div>
 

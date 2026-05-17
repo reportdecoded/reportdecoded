@@ -258,7 +258,7 @@ function LoadingState({ loadStep }) {
         <div className="loading-ring-inner" />
       </div>
       <h2 className="loading-h">Analysing your report…</h2>
-      <p className="loading-sub">This usually takes 30–60 seconds.</p>
+      <p className="loading-sub">This usually takes 1–2 minutes.</p>
       <div className="loading-steps">
         {LOAD_STEPS.map((s, i) => (
           <div

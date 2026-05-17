@@ -104,7 +104,7 @@ export default function AgentsPage() {
         <p className="hero-sub">
           Upload any AS4349.1 building & pest inspection PDF. Get a plain-English verdict,
           repair-cost ranges in AUD, ready-to-send negotiation language, and verified local
-          tradies — in 60 seconds. White-label, with your agency's branding.
+          tradies — in under 2 minutes. White-label, with your agency's branding.
         </p>
       </div>
 
@@ -124,7 +124,7 @@ export default function AgentsPage() {
           >
             {[
               {
-                title: 'Read any inspection in 60 seconds',
+                title: 'Read any inspection in under 2 minutes',
                 body: 'Claude AI parses every defect in the PDF and classifies severity per AS4349.1 — no more guessing which items matter.',
               },
               {

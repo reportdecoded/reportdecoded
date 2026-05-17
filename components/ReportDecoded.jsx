@@ -1198,7 +1198,7 @@ const HOMEPAGE_FAQS = [
   },
   {
     q: "Is the AI accurate enough for a buying decision?",
-    a: "Every major and minor defect we identify includes a citation to the page in your inspector's PDF where it was discussed — so every claim is verifiable. We don't extract claims we can't anchor. That said, this tool sits AFTER your inspection and interprets what's in it; it doesn't replace the inspector. Think of it as a builder friend translating the 95-page document for you in 60 seconds.",
+    a: "Every major and minor defect we identify includes a citation to the page in your inspector's PDF where it was discussed — so every claim is verifiable. We don't extract claims we can't anchor. That said, this tool sits AFTER your inspection and interprets what's in it; it doesn't replace the inspector. Think of it as a builder friend translating the 95-page document for you in under 2 minutes.",
   },
   {
     q: "Who can see my uploaded PDF?",
@@ -1473,7 +1473,7 @@ export default function App() {
                   Choose PDF →
                 </button>
                 <div className="upload-filetypes">
-                  PDF format · End-to-end encrypted · Results in under 60 seconds
+                  PDF format · End-to-end encrypted · Results in under 2 minutes
                 </div>
                 {uploadError && (
                   <div style={{marginTop:16,color:"var(--red)",fontSize:14}}>{uploadError}</div>
@@ -1647,7 +1647,7 @@ export default function App() {
                   )}
 
                   <div className="upload-filetypes" style={{marginTop:0,textAlign:"center"}}>
-                    Secured by Stripe · 60-second analysis · Refund if we can't read your PDF
+                    Secured by Stripe · 2-minute analysis · Refund if we can't read your PDF
                   </div>
                 </div>
               </div>
@@ -1980,7 +1980,7 @@ export default function App() {
             <div className="trust-bar">
               {[
                 "No subscription required",
-                "Results in under 60 seconds",
+                "Results in under 2 minutes",
                 "Australian Standard AS4349.1",
                 "Local tradies matched to your area",
                 "Your report stays private",
@@ -2032,10 +2032,10 @@ export default function App() {
                     investments — and read just as many building inspection reports at 11pm wondering
                     which defects actually mattered and how much to push back on the price. By report
                     four I'd realised the same questions kept coming up — and that a tool could answer
-                    them in 60 seconds instead of three nights.
+                    them in under 2 minutes instead of three nights.
                   </p>
                   <p style={{ margin: "0 0 14px" }}>
-                    Report Decoded is that tool. 60 seconds to a plain-English verdict, every defect
+                    Report Decoded is that tool. Under 2 minutes to a plain-English verdict, every defect
                     cited to your inspector's exact PDF page, and a ready-to-send negotiation letter at
                     the end. <strong>For a regular buyer</strong>, it saves three nights of confusion
                     and often thousands at the negotiating table. <strong>For a buyer's agent</strong>,
@@ -2127,7 +2127,7 @@ export default function App() {
             <div className="loading-ring-inner"/>
           </div>
           <h2 className="loading-h">Analysing your report…</h2>
-          <p className="loading-sub">This usually takes 30–60 seconds</p>
+          <p className="loading-sub">This usually takes 1–2 minutes</p>
           <div className="loading-steps">
             {LOAD_STEPS.map((s, i) => (
               <div

@@ -120,7 +120,7 @@ export default async function DashboardReportsPage({ searchParams }) {
               fontWeight: 600,
             }}
           >
-            ✅ Report uploaded. Claude is analysing it now — refresh in ~60 seconds.
+            ✅ Report uploaded. Claude is analysing it now — refresh in ~2 minutes.
             {overageBanner && (
               <div style={{ marginTop: 6, fontWeight: 400, fontSize: 13, color: 'var(--text)' }}>
                 Heads up: this one's over your monthly allowance, so $15 will be added to

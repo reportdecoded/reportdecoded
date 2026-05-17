@@ -57,7 +57,7 @@ export default function FootscrayLandingPage() {
         <p className="hero-sub">
           Upload any AS4349.1 building & pest inspection PDF for a Footscray property and get a
           plain-English verdict, AU repair costs, local tradies, and exactly how much to negotiate —
-          in 60 seconds. Every claim cites the inspector's page so nothing's made up.
+          in under 2 minutes. Every claim cites the inspector's page so nothing's made up.
         </p>
         <div style={{ marginTop: 22, display: 'flex', gap: 20, justifyContent: 'center', flexWrap: 'wrap' }}>
           <Link
@@ -83,7 +83,7 @@ export default function FootscrayLandingPage() {
           <div className="upload-icon">📄</div>
           <div className="upload-title">Got your own Footscray inspection report?</div>
           <div className="upload-sub">
-            Upload it on the homepage. Single report $59 AUD · results in 60 seconds · branded PDF emailed to you.
+            Upload it on the homepage. Single report $59 AUD · results in under 2 minutes · branded PDF emailed to you.
           </div>
           <Link
             href="/#buyer-upload"
@@ -270,7 +270,7 @@ export default function FootscrayLandingPage() {
             Ready to decode your Footscray report?
           </div>
           <div style={{ color: 'rgba(255,255,255,0.65)', fontSize: 15, marginBottom: 22, maxWidth: 520, margin: '0 auto 22px' }}>
-            Upload your PDF and have a plain-English analysis in 60 seconds. No account needed. $59 single, refunded if we can't read your PDF.
+            Upload your PDF and have a plain-English analysis in under 2 minutes. No account needed. $59 single, refunded if we can't read your PDF.
           </div>
           <Link
             href="/#buyer-upload"
@@ -339,7 +339,7 @@ const FAQS = [
   },
   {
     q: 'Will this replace getting a building inspection?',
-    a: "No — and it shouldn't. You should always commission a licensed AS4349.1 inspector for the actual inspection. This tool sits AFTER the inspection: it interprets the report you receive. Think of it as having a builder friend translate the 95-page document for you in 60 seconds.",
+    a: "No — and it shouldn't. You should always commission a licensed AS4349.1 inspector for the actual inspection. This tool sits AFTER the inspection: it interprets the report you receive. Think of it as having a builder friend translate the 95-page document for you in under 2 minutes.",
   },
   {
     q: "The previous owner did a major renovation. Does that change things?",

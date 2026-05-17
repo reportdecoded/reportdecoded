@@ -4,16 +4,16 @@
 // Next.js App Router pattern for adding SEO metadata to client pages.
 
 export const metadata = {
-  title: 'Yarraville Building Inspection Report Help — Plain-English Analysis in 60 Seconds | Report Decoded',
+  title: 'Yarraville Building Inspection Report Help — Plain-English Analysis in Under 2 Minutes | Report Decoded',
   description:
-    'Upload your Yarraville inspection PDF and get a plain-English verdict, AU repair costs, local tradies and a negotiation amount — in 60 seconds, with citations.',
+    'Upload your Yarraville inspection PDF and get a plain-English verdict, AU repair costs, local tradies and a negotiation amount — in under 2 minutes, with citations.',
   alternates: {
     canonical: 'https://www.reportdecoded.com.au/yarraville-building-inspection-help',
   },
   openGraph: {
     title: 'Yarraville Building Inspection Report Help',
     description:
-      'Plain-English analysis of your Yarraville building & pest inspection PDF in 60 seconds. Verdict, costs, tradies, negotiation.',
+      'Plain-English analysis of your Yarraville building & pest inspection PDF in under 2 minutes. Verdict, costs, tradies, negotiation.',
     url: 'https://www.reportdecoded.com.au/yarraville-building-inspection-help',
     siteName: 'Report Decoded',
     locale: 'en_AU',
