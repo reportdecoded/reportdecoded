@@ -1,6 +1,11 @@
 'use client';
 import { useState } from 'react';
+import Link from 'next/link';
 
+// Agency tier sunset for v1 (see app/agents/page.js for full rationale).
+// Two of its three differentiators — team seats + public API — are
+// unbuilt. We surface a 'contact us' enterprise line below the cards
+// for agencies that need bespoke integration or seat licensing.
 const TIERS = [
   {
     id: 'starter',
@@ -16,16 +21,8 @@ const TIERS = [
     monthly: 199,
     yearly: 1990,
     tagline: 'Unlimited reports',
-    features: ['Everything in Starter', 'Agent dashboard', 'Priority support'],
+    features: ['Everything in Starter', 'Agent dashboard', 'Priority support', 'Dedicated onboarding'],
     featured: true,
-  },
-  {
-    id: 'agency',
-    name: 'Agency',
-    monthly: 399,
-    yearly: 3990,
-    tagline: 'Team accounts (up to 5)',
-    features: ['Everything in Pro', 'API access', 'Dedicated onboarding'],
   },
 ];
 
@@ -132,6 +129,28 @@ export default function SubscribeButtons() {
           );
         })}
       </div>
+
+      {/* Enterprise contact line — Agency tier sunset for v1. */}
+      <div
+        style={{
+          textAlign: 'center',
+          fontSize: 14,
+          color: 'var(--muted)',
+          marginTop: 18,
+          padding: '12px 16px',
+          background: 'var(--cream2)',
+          border: '1px dashed var(--border)',
+          borderRadius: 10,
+          lineHeight: 1.6,
+        }}
+      >
+        <strong style={{ color: 'var(--text)' }}>Need team accounts or API integration?</strong>{' '}
+        We build those bespoke for agencies.{' '}
+        <Link href="/contact?topic=agent" style={{ color: 'var(--amber)', fontWeight: 600, textDecoration: 'none' }}>
+          Tell us what you need →
+        </Link>
+      </div>
+
       {error && (
         <div
           style={{

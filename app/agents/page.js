@@ -48,6 +48,13 @@ export default function AgentsPage() {
     }
   };
 
+  // Agency tier sunset for v1: two of its three differentiators (team
+  // seats + public API) are unbuilt — selling them would be the same
+  // trust-undermining pattern the design review flagged for "white-
+  // label coming soon". When team accounts ship (~12-15h of work) we
+  // can bring Agency back with honest features. For now, the
+  // "Need team accounts / enterprise?" line at the bottom of the
+  // pricing row gives interested agencies a path to contact us.
   const tiers = [
     {
       id: 'starter',
@@ -61,15 +68,8 @@ export default function AgentsPage() {
       name: 'Pro',
       price: '$199',
       tagline: 'Unlimited reports',
-      features: ['Everything in Starter', 'Agent dashboard', 'Priority support'],
+      features: ['Everything in Starter', 'Agent dashboard', 'Priority support', 'Dedicated onboarding'],
       featured: true,
-    },
-    {
-      id: 'agency',
-      name: 'Agency',
-      price: '$399',
-      tagline: 'Team accounts (up to 5)',
-      features: ['Everything in Pro', 'API access', 'Dedicated onboarding'],
     },
   ];
 
@@ -243,6 +243,30 @@ export default function AgentsPage() {
               );
             })}
           </div>
+          {/* Enterprise contact line — replaces the Agency tier card.
+              When agencies needing team seats or API integration land
+              here, they have a path to raise their hand. Deep-links
+              to /contact with a pre-filled topic so the form is one
+              click less work. */}
+          <div
+            style={{
+              textAlign: 'center',
+              fontSize: 14,
+              color: 'var(--muted)',
+              marginTop: 18,
+              padding: '12px 16px',
+              background: 'var(--cream2)',
+              border: '1px dashed var(--border)',
+              borderRadius: 10,
+              lineHeight: 1.6,
+            }}
+          >
+            <strong style={{ color: 'var(--text)' }}>Need team accounts or API integration?</strong>{' '}
+            We build those bespoke for agencies.{' '}
+            <Link href="/contact?topic=agent" style={{ color: 'var(--amber)', fontWeight: 600, textDecoration: 'none' }}>
+              Tell us what you need →
+            </Link>
+          </div>
           <div
             style={{
               textAlign: 'center',
@@ -375,7 +399,6 @@ export default function AgentsPage() {
                     >
                       <option value="starter">Starter — $79/mo (12 reports, $15 each after)</option>
                       <option value="pro">Pro — $199/mo (unlimited)</option>
-                      <option value="agency">Agency — $399/mo (team)</option>
                       <option value="exploring">Just exploring</option>
                     </select>
                   </label>
