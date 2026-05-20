@@ -300,13 +300,48 @@ function ActiveSubscriberView({ agent, isFirstRun = false }) {
             />
           }
         />
-        <DashboardCard
-          title="💳 Billing"
-          body={`You're on ${tierLabel(agent.subscription_tier)}. Update card, swap tier, or cancel via Stripe's secure portal.`}
-          customCta={<ManageBillingButton />}
-        />
       </div>
+      {/* Billing used to sit as a 4th card in the workflow grid above,
+          but billing is configuration, not a daily action — having it
+          there made the card row look orphaned when it wrapped to its
+          own line at narrow viewports, and visually competed with the
+          actual workflow CTAs. Moved here as a quieter settings row
+          that lives WITH branding + password (also settings), not
+          alongside the upload/view-reports actions. */}
+      <BillingStrip tier={agent.subscription_tier} />
     </>
+  );
+}
+
+function BillingStrip({ tier }) {
+  return (
+    <div
+      style={{
+        background: '#fff',
+        border: '1px solid var(--border)',
+        borderRadius: 12,
+        padding: '18px 22px',
+        marginTop: 16,
+        display: 'flex',
+        alignItems: 'center',
+        justifyContent: 'space-between',
+        gap: 16,
+        flexWrap: 'wrap',
+      }}
+    >
+      <div style={{ minWidth: 0, flex: '1 1 280px' }}>
+        <div style={{ fontWeight: 600, fontSize: 15, marginBottom: 3 }}>
+          💳 Billing
+        </div>
+        <div style={{ color: 'var(--muted)', fontSize: 13, lineHeight: 1.5 }}>
+          You&rsquo;re on <strong style={{ color: 'var(--text)' }}>{tierLabel(tier)}</strong>.
+          Update card, swap tier, or cancel via Stripe&rsquo;s secure portal.
+        </div>
+      </div>
+      <div style={{ flexShrink: 0 }}>
+        <ManageBillingButton />
+      </div>
+    </div>
   );
 }
 
