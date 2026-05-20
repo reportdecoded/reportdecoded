@@ -4,7 +4,7 @@ import { useSearchParams } from 'next/navigation';
 import Link from 'next/link';
 import { track } from '@vercel/analytics';
 import { STYLES } from '@/components/ReportDecoded';
-import { topTradesForDefect, googleMapsSearchUrl } from '@/lib/trades';
+import { topTradesForDefect, googleMapsSearchUrl, filterTradiesByInferredTrades } from '@/lib/trades';
 
 const LOAD_STEPS = [
   'Reading inspection report…',
@@ -457,7 +457,7 @@ function DefectCard({ kind, defect, index, expanded, toggle, tradiesForCategory,
   const key = `${kind}-${index}`;
   const badge =
     kind === 'major' ? 'MAJOR DEFECT' : kind === 'minor' ? 'MINOR DEFECT' : 'PEST RISK';
-  const tradies = Array.isArray(tradiesForCategory) ? tradiesForCategory : [];
+  const allTradies = Array.isArray(tradiesForCategory) ? tradiesForCategory : [];
 
   // Schema tolerance: pest_findings sometimes return pest_type/damage_description
   // instead of the defect-standard name/plain_english. Show whatever's present.
@@ -482,6 +482,20 @@ function DefectCard({ kind, defect, index, expanded, toggle, tradiesForCategory,
   const inferredTrades = topTradesForDefect(defect);
   const primaryTrade = inferredTrades[0] || null;
   const secondaryTrade = inferredTrades[1] || null;
+
+  // Filter the cached HERE Maps tradies to only those whose business
+  // names actually match the inferred trade(s). HERE often returns
+  // off-specialty listings for the broad trade_category Claude assigns
+  // (e.g. "A1 Bathroom Renovations" surfacing under a concrete defect
+  // because both technically live under 'building'). When the inferred
+  // trade is clear, suppress the mismatches — the buyer is better
+  // served by the Google Maps fallback above than by misleading cards.
+  // If we have no inferred trade at all, fall back to showing everything.
+  const tradies = primaryTrade
+    ? filterTradiesByInferredTrades(allTradies, inferredTrades)
+    : allTradies;
+  const hadTradiesButNoneMatched =
+    primaryTrade && allTradies.length > 0 && tradies.length === 0;
 
   return (
     <div className={`defect-card ${kind}`}>
@@ -569,7 +583,7 @@ function DefectCard({ kind, defect, index, expanded, toggle, tradiesForCategory,
             <div className="tradies-section">
               <div className="tradies-label">
                 {primaryTrade
-                  ? `📍 Nearby HERE Maps results — verify specialty before engaging`
+                  ? `📍 Nearby ${primaryTrade.label.toLowerCase()}s — verify before engaging`
                   : `📍 Nearby tradies — verify specialty before engaging`}
               </div>
               <div className="tradie-cards">
@@ -577,6 +591,24 @@ function DefectCard({ kind, defect, index, expanded, toggle, tradiesForCategory,
                   <TradieCard key={t.id} tradie={t} suburb={suburb} />
                 ))}
               </div>
+            </div>
+          )}
+          {hadTradiesButNoneMatched && (
+            <div
+              style={{
+                marginTop: 10,
+                padding: '10px 14px',
+                background: 'var(--cream2)',
+                border: '1px dashed var(--border)',
+                borderRadius: 8,
+                fontSize: 12.5,
+                color: 'var(--muted)',
+                lineHeight: 1.5,
+              }}
+            >
+              No nearby <strong style={{ color: 'var(--text)' }}>{primaryTrade.label.toLowerCase()}</strong>{' '}
+              found in our HERE Maps cache — use the Google Maps search above to find a local
+              specialist.
             </div>
           )}
         </div>
