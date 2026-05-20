@@ -25,6 +25,7 @@ import Link from 'next/link';
 import { useState } from 'react';
 import { track } from '@vercel/analytics';
 import { STYLES } from '@/components/ReportDecoded';
+import { faqPageSchema, breadcrumbSchema, serviceSchema, JsonLd } from '@/lib/schema';
 
 // Same Yarraville sample — we don't have a Brunswick sample yet, so we
 // link to the live Yarraville one as a worked example. Inner-west and
@@ -40,6 +41,14 @@ export default function BrunswickLandingPage() {
   return (
     <>
       <style>{STYLES}</style>
+
+      {/* SEO: FAQPage / BreadcrumbList / Service JSON-LD. */}
+      <JsonLd data={faqPageSchema(FAQS)} />
+      <JsonLd data={breadcrumbSchema([
+        { name: 'Home', url: '/' },
+        { name: 'Brunswick Building Inspection Help', url: '/brunswick-building-inspection-help' },
+      ])} />
+      <JsonLd data={serviceSchema({ suburb: 'Brunswick', state: 'VIC' })} />
 
       {/* ── NAV ────────────────────────────────────────── */}
       <nav className="nav">

@@ -21,6 +21,7 @@ import Link from 'next/link';
 import { useState } from 'react';
 import { track } from '@vercel/analytics';
 import { STYLES } from '@/components/ReportDecoded';
+import { faqPageSchema, breadcrumbSchema, serviceSchema, JsonLd } from '@/lib/schema';
 
 // Public Yarraville sample — same one linked from homepage
 const SAMPLE_REPORT_ID = 'f3ef0ce1-5443-4e91-a420-5e8bf7d8713d';
@@ -33,6 +34,17 @@ export default function YarravilleLandingPage() {
   return (
     <>
       <style>{STYLES}</style>
+
+      {/* SEO: page-specific JSON-LD schemas. FAQPage unlocks Google's
+          expandable-FAQ rich result. BreadcrumbList enables the
+          breadcrumb trail above the page title in SERPs. Service tells
+          Google this page offers a service to Yarraville buyers. */}
+      <JsonLd data={faqPageSchema(FAQS)} />
+      <JsonLd data={breadcrumbSchema([
+        { name: 'Home', url: '/' },
+        { name: 'Yarraville Building Inspection Help', url: '/yarraville-building-inspection-help' },
+      ])} />
+      <JsonLd data={serviceSchema({ suburb: 'Yarraville', state: 'VIC' })} />
 
       {/* ── NAV ────────────────────────────────────────── */}
       <nav className="nav">

@@ -1,12 +1,19 @@
 // Next.js auto-serves this as /sitemap.xml
 // Lists every public, indexable page. Private pages (/dashboard, /results)
 // are deliberately excluded.
+//
+// May 2026: programmatic SEO expansion. All suburb landing pages are
+// generated from lib/suburbs.js — so adding a suburb auto-adds it to
+// the sitemap. No manual list to keep in sync.
+
+import { allSuburbSlugs } from '@/lib/suburbs';
 
 const BASE = 'https://www.reportdecoded.com.au';
 
 export default function sitemap() {
   const today = new Date().toISOString().split('T')[0];
-  return [
+
+  const staticPages = [
     {
       url: `${BASE}/`,
       lastModified: today,
@@ -18,30 +25,6 @@ export default function sitemap() {
       lastModified: today,
       changeFrequency: 'weekly',
       priority: 0.9,
-    },
-    {
-      url: `${BASE}/yarraville-building-inspection-help`,
-      lastModified: today,
-      changeFrequency: 'monthly',
-      priority: 0.8,
-    },
-    {
-      url: `${BASE}/brunswick-building-inspection-help`,
-      lastModified: today,
-      changeFrequency: 'monthly',
-      priority: 0.8,
-    },
-    {
-      url: `${BASE}/footscray-building-inspection-help`,
-      lastModified: today,
-      changeFrequency: 'monthly',
-      priority: 0.8,
-    },
-    {
-      url: `${BASE}/geelong-building-inspection-help`,
-      lastModified: today,
-      changeFrequency: 'monthly',
-      priority: 0.8,
     },
     {
       url: `${BASE}/contact`,
@@ -68,4 +51,23 @@ export default function sitemap() {
       priority: 0.2,
     },
   ];
+
+  const suburbPages = allSuburbSlugs().map((slug) => ({
+    url: `${BASE}/${slug}-building-inspection-help`,
+    lastModified: today,
+    changeFrequency: 'monthly',
+    priority: 0.8,
+  }));
+
+  // Public sample report is intentionally surfaced as an indexable
+  // URL so Google can crawl the live analysis output as a working
+  // example — strong proof-of-concept for ranking + dwell time.
+  const sampleReport = {
+    url: `${BASE}/results?reportId=f3ef0ce1-5443-4e91-a420-5e8bf7d8713d&sample=1`,
+    lastModified: today,
+    changeFrequency: 'monthly',
+    priority: 0.7,
+  };
+
+  return [...staticPages, ...suburbPages, sampleReport];
 }

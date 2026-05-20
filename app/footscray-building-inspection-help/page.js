@@ -24,6 +24,7 @@ import Link from 'next/link';
 import { useState } from 'react';
 import { track } from '@vercel/analytics';
 import { STYLES } from '@/components/ReportDecoded';
+import { faqPageSchema, breadcrumbSchema, serviceSchema, JsonLd } from '@/lib/schema';
 
 const SAMPLE_REPORT_ID = 'f3ef0ce1-5443-4e91-a420-5e8bf7d8713d';
 const SAMPLE_URL = `/results?reportId=${SAMPLE_REPORT_ID}&sample=1`;
@@ -35,6 +36,14 @@ export default function FootscrayLandingPage() {
   return (
     <>
       <style>{STYLES}</style>
+
+      {/* SEO: FAQPage / BreadcrumbList / Service JSON-LD. */}
+      <JsonLd data={faqPageSchema(FAQS)} />
+      <JsonLd data={breadcrumbSchema([
+        { name: 'Home', url: '/' },
+        { name: 'Footscray Building Inspection Help', url: '/footscray-building-inspection-help' },
+      ])} />
+      <JsonLd data={serviceSchema({ suburb: 'Footscray', state: 'VIC' })} />
 
       {/* ── NAV ────────────────────────────────────────── */}
       <nav className="nav">

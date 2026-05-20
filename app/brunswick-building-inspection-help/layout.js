@@ -1,35 +1,7 @@
-// Server-side metadata for the Brunswick SEO landing page. The page
-// itself is a client component (FAQ accordion + analytics) so metadata
-// goes on a route-segment layout.
-
-export const metadata = {
-  title: 'Brunswick Building Inspection Report Help — Plain-English Analysis in Under 2 Minutes | Report Decoded',
-  description:
-    'Upload your Brunswick (VIC 3056/3057) inspection PDF and get a plain-English verdict, AU repair costs, local tradies and a negotiation amount — in under 2 minutes.',
-  alternates: {
-    canonical: 'https://www.reportdecoded.com.au/brunswick-building-inspection-help',
-  },
-  openGraph: {
-    title: 'Brunswick Building Inspection Report Help',
-    description:
-      'Plain-English analysis of your Brunswick building & pest inspection PDF in under 2 minutes. Verdict, costs, tradies, negotiation.',
-    url: 'https://www.reportdecoded.com.au/brunswick-building-inspection-help',
-    siteName: 'Report Decoded',
-    locale: 'en_AU',
-    type: 'website',
-  },
-  keywords: [
-    'Brunswick building inspection',
-    'building inspection report Brunswick',
-    'pre-purchase inspection Brunswick',
-    'building and pest inspection Brunswick',
-    'AS4349.1 Brunswick',
-    'Brunswick property report help',
-    'Brunswick heritage home inspection',
-    'building inspection analysis Melbourne inner-north',
-  ],
-};
-
-export default function BrunswickLayout({ children }) {
-  return children;
-}
+// Per-suburb metadata — added May 2026 SEO pass. Previously these
+// pages inherited the homepage's <title> and <meta description>,
+// making them look like near-duplicates to Google. Each suburb now
+// gets its own metadata via lib/suburbs.js > suburbMetadata().
+import { suburbMetadata } from '@/lib/suburbs';
+export const metadata = suburbMetadata('brunswick');
+export default function Layout({ children }) { return children; }

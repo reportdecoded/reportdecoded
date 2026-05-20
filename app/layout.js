@@ -1,5 +1,11 @@
 import { Analytics } from '@vercel/analytics/next';
 import { SpeedInsights } from '@vercel/speed-insights/next';
+import {
+  organizationSchema,
+  websiteSchema,
+  softwareApplicationSchema,
+  JsonLd,
+} from '@/lib/schema';
 
 export const metadata = {
   title: 'Report Decoded',
@@ -57,6 +63,18 @@ export default function RootLayout({ children }) {
             this hint just frontloads the network warm-up. */}
         <link rel="preconnect" href="https://fonts.googleapis.com" />
         <link rel="preconnect" href="https://fonts.gstatic.com" crossOrigin="anonymous" />
+
+        {/* JSON-LD structured data — site-wide schemas.
+            Organization gives Google our knowledge-panel data + logo.
+            WebSite enables the sitelinks-search-box rich result.
+            SoftwareApplication (WebApplication) marks us as a SaaS
+            tool with pricing tiers so Google can show pricing + offer
+            data in rich results.
+            Per-page schemas (FAQPage, BreadcrumbList, Service) are
+            injected on individual pages. */}
+        <JsonLd data={organizationSchema()} />
+        <JsonLd data={websiteSchema()} />
+        <JsonLd data={softwareApplicationSchema()} />
       </head>
       <body style={{ margin: 0, padding: 0 }}>
         {children}

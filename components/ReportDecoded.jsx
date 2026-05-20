@@ -4,6 +4,7 @@ import Link from "next/link";
 import { track } from "@vercel/analytics";
 import { useUploadThing } from "@/lib/uploadthing";
 import AddressAutocomplete from "@/components/AddressAutocomplete";
+import { faqPageSchema, JsonLd } from "@/lib/schema";
 
 /* ─────────────────────────────────────────────────────────────
    GLOBAL STYLES — exported so the /results page can share them.
@@ -2719,7 +2720,13 @@ export default function App() {
                 Design review #11: top 5 buyer objections. Mirrors
                 the accordion style on the suburb landing pages so
                 visitors who arrive via SEO and convert to homepage
-                see a consistent treatment. */}
+                see a consistent treatment.
+
+                SEO: FAQPage JSON-LD schema injected here so Google
+                can render the questions as expandable rich snippets
+                directly in search results. Content marked up matches
+                what the user sees on the page (best-practice). */}
+            <JsonLd data={faqPageSchema(HOMEPAGE_FAQS)} />
             <div style={{ marginTop: 56, marginBottom: 24 }}>
               <div style={{ textAlign: "center", marginBottom: 22 }}>
                 <div className="section-label" style={{ marginBottom: 8 }}>
