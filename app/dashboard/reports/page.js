@@ -82,15 +82,17 @@ export default async function DashboardReportsPage({ searchParams }) {
         </Link>
 
         <div style={{ display: 'flex', alignItems: 'flex-end', justifyContent: 'space-between', marginTop: 12, gap: 16, flexWrap: 'wrap' }}>
-          <div>
+          <div style={{ flex: '1 1 320px', minWidth: 260 }}>
             <h1 style={{ fontFamily: "'Fraunces',serif", fontSize: 34, marginBottom: 6 }}>
               Your client reports
             </h1>
-            <p style={{ color: 'var(--muted)', fontSize: 14, lineHeight: 1.6 }}>
-              {agent.subscription_tier === 'starter'
-                ? `${countInWindow} of ${STARTER_INCLUDED_REPORTS} reports used in the past 30 days`
-                : `${countInWindow} report${countInWindow === 1 ? '' : 's'} in the past 30 days · unlimited`}
-            </p>
+            {agent.subscription_tier === 'starter' ? (
+              <UsageBar used={countInWindow} limit={STARTER_INCLUDED_REPORTS} />
+            ) : (
+              <p style={{ color: 'var(--muted)', fontSize: 14, lineHeight: 1.6 }}>
+                {countInWindow} report{countInWindow === 1 ? '' : 's'} in the past 30 days · unlimited
+              </p>
+            )}
           </div>
           <Link
             href="/dashboard/upload"
@@ -400,4 +402,98 @@ function verdictDisplay(verdict, status) {
 
 function reportTypeLabel(t) {
   return t === 'new_build_handover' ? 'New build handover' : 'Pre-purchase';
+}
+
+// UsageBar — visual progress indicator for Starter-tier agents.
+// Renders a thin progress bar that fills as the agent approaches
+// their 12-report monthly cap. Three colour states:
+//   - Green/teal (0-79% used)  — plenty of headroom
+//   - Gold (80-99% used)       — approaching limit, soft upgrade nudge
+//   - Red (≥100% used)         — overage active, $15 per extra on next invoice
+//
+// Pro agents don't see this component — they have unlimited reports
+// so a progress bar makes no sense (no denominator).
+function UsageBar({ used, limit }) {
+  const pct = Math.min(100, Math.round((used / limit) * 100));
+  const isWarning = used >= limit * 0.8 && used < limit;
+  const isOverage = used >= limit;
+  const remaining = Math.max(0, limit - used);
+  const overage = Math.max(0, used - limit);
+
+  // Fill colour reflects state. Track stays neutral cream so the
+  // colour-shift on the fill alone signals the change of state.
+  const fillColor = isOverage
+    ? 'var(--red)'
+    : isWarning
+      ? 'var(--gold)'
+      : 'var(--teal)';
+
+  // Count colour matches the fill for overage so the number itself
+  // visually screams "you're over". Warning state keeps neutral text
+  // (the bar colour alone signals it).
+  const countColor = isOverage ? 'var(--red)' : 'var(--text)';
+
+  return (
+    <div style={{ maxWidth: 360, marginTop: 4 }}>
+      {/* Header row: label left, count right */}
+      <div
+        style={{
+          display: 'flex',
+          justifyContent: 'space-between',
+          alignItems: 'baseline',
+          marginBottom: 6,
+          fontSize: 13,
+        }}
+      >
+        <span style={{ color: 'var(--muted)' }}>Reports this month</span>
+        <span
+          className="tabular"
+          style={{ fontWeight: 600, color: countColor, fontSize: 13 }}
+        >
+          {used} <span style={{ color: 'var(--muted)', fontWeight: 400 }}>of {limit}</span>
+        </span>
+      </div>
+
+      {/* The bar itself — fixed-height track + animated fill */}
+      <div
+        style={{
+          height: 6,
+          background: 'var(--cream2)',
+          borderRadius: 3,
+          overflow: 'hidden',
+          position: 'relative',
+        }}
+        role="progressbar"
+        aria-valuenow={used}
+        aria-valuemin={0}
+        aria-valuemax={limit}
+        aria-label={`${used} of ${limit} reports used this month`}
+      >
+        <div
+          style={{
+            width: `${pct}%`,
+            height: '100%',
+            background: fillColor,
+            transition: 'width 0.4s ease-out, background-color 0.3s ease-out',
+          }}
+        />
+      </div>
+
+      {/* Contextual footer — only shows at warning or overage thresholds */}
+      {isOverage ? (
+        <div style={{ marginTop: 8, fontSize: 12, color: 'var(--red)', fontWeight: 500, lineHeight: 1.5 }}>
+          {overage > 0
+            ? `${overage} extra report${overage === 1 ? '' : 's'} this month · $15 each on next invoice`
+            : `At your monthly limit · next report is +$15`}
+        </div>
+      ) : isWarning ? (
+        <div style={{ marginTop: 8, fontSize: 12, color: 'var(--muted)', lineHeight: 1.5 }}>
+          {remaining} report{remaining === 1 ? '' : 's'} left ·{' '}
+          <Link href="/dashboard#upgrade" style={{ color: 'var(--amber)', fontWeight: 500, textDecoration: 'none' }}>
+            Upgrade to Pro
+          </Link>
+        </div>
+      ) : null}
+    </div>
+  );
 }
