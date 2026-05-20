@@ -453,11 +453,10 @@ function TradeChip({ trade, suburb, accent }) {
   );
 }
 
-function DefectCard({ kind, defect, index, expanded, toggle, tradiesForCategory, suburb }) {
+function DefectCard({ kind, defect, index, expanded, toggle, tradiesByKey, suburb }) {
   const key = `${kind}-${index}`;
   const badge =
     kind === 'major' ? 'MAJOR DEFECT' : kind === 'minor' ? 'MINOR DEFECT' : 'PEST RISK';
-  const allTradies = Array.isArray(tradiesForCategory) ? tradiesForCategory : [];
 
   // Schema tolerance: pest_findings sometimes return pest_type/damage_description
   // instead of the defect-standard name/plain_english. Show whatever's present.
@@ -483,19 +482,32 @@ function DefectCard({ kind, defect, index, expanded, toggle, tradiesForCategory,
   const primaryTrade = inferredTrades[0] || null;
   const secondaryTrade = inferredTrades[1] || null;
 
-  // Filter the cached HERE Maps tradies to only those whose business
-  // names actually match the inferred trade(s). HERE often returns
-  // off-specialty listings for the broad trade_category Claude assigns
-  // (e.g. "A1 Bathroom Renovations" surfacing under a concrete defect
-  // because both technically live under 'building'). When the inferred
-  // trade is clear, suppress the mismatches — the buyer is better
-  // served by the Google Maps fallback above than by misleading cards.
-  // If we have no inferred trade at all, fall back to showing everything.
+  // Build the tradie list for this defect. Preferred path: HERE Maps
+  // was queried for each inferred trade specifically (Carpenter,
+  // Concreter, Stair specialist, etc) — so `tradiesByKey[primaryTrade.key]`
+  // contains real specialists for that trade. Fallback path (legacy
+  // reports cached before the per-trade refactor, or defects that
+  // didn't infer cleanly): merge the broad trade_category bucket.
+  const byKey = tradiesByKey || {};
+  const primaryList = primaryTrade ? (byKey[primaryTrade.key] || []) : [];
+  const secondaryList = secondaryTrade ? (byKey[secondaryTrade.key] || []) : [];
+  const legacyList = defect?.trade_category ? (byKey[defect.trade_category] || []) : [];
+  // Merge per-trade first (best matches first), then legacy as backfill.
+  const seenIds = new Set();
+  const merged = [];
+  for (const t of [...primaryList, ...secondaryList, ...legacyList]) {
+    const id = t?.id || t?.business_name;
+    if (!id || seenIds.has(id)) continue;
+    seenIds.add(id);
+    merged.push(t);
+  }
+  // Still apply the trade-name filter as a safety net (in case a legacy
+  // bucket carries an off-specialty listing through).
   const tradies = primaryTrade
-    ? filterTradiesByInferredTrades(allTradies, inferredTrades)
-    : allTradies;
+    ? filterTradiesByInferredTrades(merged, inferredTrades)
+    : merged;
   const hadTradiesButNoneMatched =
-    primaryTrade && allTradies.length > 0 && tradies.length === 0;
+    primaryTrade && merged.length > 0 && tradies.length === 0;
 
   return (
     <div className={`defect-card ${kind}`}>
@@ -734,7 +746,7 @@ function ResultsView({ analysis, tradies, reportType, expanded, toggle, copied, 
                   index={i}
                   expanded={expanded}
                   toggle={toggle}
-                  tradiesForCategory={tradiesBy[d.trade_category]}
+                  tradiesByKey={tradiesBy}
                   suburb={suburb}
                 />
               ))}
@@ -751,7 +763,7 @@ function ResultsView({ analysis, tradies, reportType, expanded, toggle, copied, 
                   index={i}
                   expanded={expanded}
                   toggle={toggle}
-                  tradiesForCategory={tradiesBy[d.trade_category]}
+                  tradiesByKey={tradiesBy}
                   suburb={suburb}
                 />
               ))}
@@ -768,7 +780,7 @@ function ResultsView({ analysis, tradies, reportType, expanded, toggle, copied, 
                   index={i}
                   expanded={expanded}
                   toggle={toggle}
-                  tradiesForCategory={tradiesBy[d.trade_category]}
+                  tradiesByKey={tradiesBy}
                   suburb={suburb}
                 />
               ))}
