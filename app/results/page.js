@@ -471,7 +471,15 @@ function DefectCard({ kind, defect, index, expanded, toggle, tradiesForCategory,
           )}
           {tradies.length > 0 && (
             <div className="tradies-section">
-              <div className="tradies-label">✅ Recommended Local Tradies</div>
+              {/* Reframed from 'Recommended Local Tradies' to a softer
+                  label after May 2026 audit. HERE Maps' Discover API
+                  returns the nearest businesses matching broad trade
+                  keywords, not specialists matched to specific defect
+                  types. For a slab vapour-barrier defect we don't
+                  reliably get a concreter; for brickwork mortar we
+                  don't reliably get a bricklayer. So the section is
+                  honest: starting points, not endorsements. */}
+              <div className="tradies-label">📍 Nearby tradies — verify specialty before engaging</div>
               <div className="tradie-cards">
                 {tradies.map((t) => (
                   <TradieCard key={t.id} tradie={t} suburb={suburb} />
