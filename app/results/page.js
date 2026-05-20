@@ -4,6 +4,7 @@ import { useSearchParams } from 'next/navigation';
 import Link from 'next/link';
 import { track } from '@vercel/analytics';
 import { STYLES } from '@/components/ReportDecoded';
+import { bestTradeForDefect, googleMapsSearchUrl } from '@/lib/trades';
 
 const LOAD_STEPS = [
   'Reading inspection report…',
@@ -415,6 +416,21 @@ function DefectCard({ kind, defect, index, expanded, toggle, tradiesForCategory,
 
   const hasCosts = Number.isFinite(defect.repair_cost_low) && defect.repair_cost_low > 0;
 
+  // Infer the specific trade needed for THIS defect from its text (name,
+  // description, why-it-matters, location). Mapping rules live in
+  // lib/trades.js. When inferred, we surface the specific label
+  // ("Bricklayer needed") + a Google Maps fallback link — this works
+  // even when HERE Maps returned the wrong specialty or no result at
+  // all in this region. The 'tradies' from HERE remain visible below
+  // as nearby starting-points the buyer can verify.
+  const inferredTrade = bestTradeForDefect(defect);
+  const googleSearchUrl =
+    inferredTrade && suburb
+      ? googleMapsSearchUrl(inferredTrade.label, suburb)
+      : inferredTrade
+        ? googleMapsSearchUrl(inferredTrade.label)
+        : null;
+
   return (
     <div className={`defect-card ${kind}`}>
       <div className="defect-header" onClick={() => toggle(key)}>
@@ -469,17 +485,61 @@ function DefectCard({ kind, defect, index, expanded, toggle, tradiesForCategory,
               </strong>
             </div>
           )}
+          {/* Trade-specific advisory. When we can infer the trade from the
+              defect text (bricklayer for mortar, concreter for slab, etc),
+              surface it explicitly + give a Google Maps fallback link so
+              the buyer always has a way to find the right specialist even
+              if HERE Maps returned the wrong category for this region.
+              The HERE results below remain as nearby starting points. */}
+          {inferredTrade && (
+            <div className="tradies-section" style={{ marginBottom: tradies.length > 0 ? 12 : 0 }}>
+              <div
+                style={{
+                  display: 'flex',
+                  flexWrap: 'wrap',
+                  alignItems: 'center',
+                  gap: 12,
+                  padding: '10px 14px',
+                  background: 'var(--cream2)',
+                  border: '1px solid var(--border)',
+                  borderRadius: 8,
+                  fontSize: 13.5,
+                }}
+              >
+                <div style={{ flex: '1 1 auto', minWidth: 200 }}>
+                  <span style={{ color: 'var(--muted)', fontWeight: 500 }}>Trade needed:</span>{' '}
+                  <strong style={{ color: 'var(--navy)' }}>{inferredTrade.label}</strong>
+                </div>
+                {googleSearchUrl && (
+                  <a
+                    href={googleSearchUrl}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    style={{
+                      background: 'var(--amber)',
+                      color: '#fff',
+                      padding: '6px 12px',
+                      borderRadius: 6,
+                      fontSize: 12.5,
+                      fontWeight: 600,
+                      textDecoration: 'none',
+                      whiteSpace: 'nowrap',
+                      flexShrink: 0,
+                    }}
+                  >
+                    Search Google Maps →
+                  </a>
+                )}
+              </div>
+            </div>
+          )}
           {tradies.length > 0 && (
             <div className="tradies-section">
-              {/* Reframed from 'Recommended Local Tradies' to a softer
-                  label after May 2026 audit. HERE Maps' Discover API
-                  returns the nearest businesses matching broad trade
-                  keywords, not specialists matched to specific defect
-                  types. For a slab vapour-barrier defect we don't
-                  reliably get a concreter; for brickwork mortar we
-                  don't reliably get a bricklayer. So the section is
-                  honest: starting points, not endorsements. */}
-              <div className="tradies-label">📍 Nearby tradies — verify specialty before engaging</div>
+              <div className="tradies-label">
+                {inferredTrade
+                  ? `📍 Nearby HERE Maps results — verify specialty before engaging`
+                  : `📍 Nearby tradies — verify specialty before engaging`}
+              </div>
               <div className="tradie-cards">
                 {tradies.map((t) => (
                   <TradieCard key={t.id} tradie={t} suburb={suburb} />
