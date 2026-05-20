@@ -1755,36 +1755,34 @@ export default function App() {
 
             {!uploadedFile && !isUploading && (
               /* Pre-upload state: the hero button above is the primary
-                 "Upload your PDF →" action (opens file picker). This
-                 drop zone is the secondary path — drag-and-drop OR a
-                 backup click target. Visual hierarchy softened (icon
-                 smaller, no large button) so it doesn't compete with
-                 the hero CTA above. */
+                 "Upload your PDF →" action. This drop zone supports
+                 THREE ways to upload — drag-and-drop, click anywhere
+                 in the dashed area, or click the explicit "Choose PDF"
+                 button. Visual treatment softened (less padding, no
+                 shadow) so it sits as the secondary path under the
+                 hero CTA. */
               <div className="upload-zone upload-zone-secondary" onClick={() => fileInputRef.current?.click()}>
-                <div className="upload-icon" style={{fontSize:26, opacity:0.7}}>📄</div>
-                <div className="upload-title" style={{fontSize:17, color:"var(--text)"}}>
-                  Or drag a PDF anywhere on this card
+                <div className="upload-icon" style={{fontSize:28, opacity:0.75}}>📄</div>
+                <div className="upload-title" style={{fontSize:18, color:"var(--text)"}}>
+                  Drop a PDF here — or click anywhere to choose
                 </div>
-                <div className="upload-sub" style={{marginBottom:0}}>
-                  Building, pest &amp; combined reports · AS4349.1 ·{" "}
-                  <button
-                    type="button"
-                    onClick={e => { e.stopPropagation(); fileInputRef.current?.click(); }}
-                    style={{
-                      background:"none",
-                      border:0,
-                      padding:0,
-                      color:"var(--amber)",
-                      fontWeight:600,
-                      cursor:"pointer",
-                      textDecoration:"underline",
-                      font:"inherit",
-                    }}
-                  >
-                    or choose a file →
-                  </button>
+                <div className="upload-sub" style={{marginBottom:14}}>
+                  Building, pest &amp; combined reports · AS4349.1 compliant
                 </div>
-                <div className="upload-filetypes" style={{marginTop:10}}>
+                <button
+                  type="button"
+                  className="upload-btn"
+                  onClick={e => { e.stopPropagation(); fileInputRef.current?.click(); }}
+                  style={{
+                    padding:"10px 22px",
+                    fontSize:14,
+                    background:"var(--navy)",
+                    color:"#fff",
+                  }}
+                >
+                  Choose PDF
+                </button>
+                <div className="upload-filetypes" style={{marginTop:14}}>
                   PDF format · End-to-end encrypted · Results in under 2 minutes
                 </div>
                 {uploadError && (
