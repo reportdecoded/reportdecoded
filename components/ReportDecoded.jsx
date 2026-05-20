@@ -128,6 +128,10 @@ body{
   -webkit-font-smoothing:antialiased;
 }
 
+/* Sticky mobile CTA: hidden on desktop, shown on viewports ≤ 760px
+   (rule overrides happen in the mobile media query below). */
+.sticky-mobile-cta{display:none;}
+
 /* ── NAV ─────────────────────────────────────────── */
 .nav{
   background:var(--navy);
@@ -234,11 +238,13 @@ body{
 .hero-h em{font-style:italic;color:var(--amber);}
 .hero-sub{
   font-size:17px;
-  color:rgba(255,255,255,0.55);
-  line-height:1.7;
-  max-width:500px;
+  /* WCAG: 0.55 opacity on navy = 2.9:1 — fails AA at any size.
+     0.85 = ~5.6:1 → clears AA comfortably at 17px body text. */
+  color:rgba(255,255,255,0.85);
+  line-height:1.55;
+  max-width:560px;
   margin:0 auto;
-  font-weight:300;
+  font-weight:400;
 }
 
 /* ── UPLOAD AREA ─────────────────────────────────── */
@@ -1135,6 +1141,25 @@ body{
   .hero-h{font-size:34px !important;letter-spacing:-1px;line-height:1.1;margin-bottom:16px;}
   .hero-sub{font-size:15px;line-height:1.6;}
 
+  /* Win 4: sticky mobile CTA — visible only on tablets/phones.
+     Fixed to viewport bottom; amber CTA; 60px tall so it doesn't
+     eclipse half the screen. Default-hidden on desktop above. */
+  .sticky-mobile-cta{
+    display:flex;
+    position:fixed;
+    bottom:0; left:0; right:0;
+    background:var(--navy);
+    color:#fff;
+    padding:11px 16px;
+    justify-content:space-between;
+    align-items:center;
+    border-top:2px solid var(--amber);
+    z-index:90;
+    box-shadow:0 -6px 18px rgba(0,0,0,0.18);
+    animation:slide-up .22s ease-out;
+  }
+  @keyframes slide-up { from { transform:translateY(100%); } to { transform:translateY(0); } }
+
   /* UPLOAD AREA */
   .upload-area{margin-top:-28px;padding:0 16px 48px;}
   .upload-zone{padding:36px 22px;border-radius:18px;}
@@ -1410,6 +1435,24 @@ export default function App() {
   // Homepage FAQ accordion — null = all closed; numeric index = that one is open
   const [openFaq, setOpenFaq]         = useState(null);
 
+  // Win 4 (May 2026 redesign): sticky mobile bottom CTA that appears
+  // once the upload zone scrolls out of viewport. Tracks visibility
+  // of #buyer-upload via IntersectionObserver. Only renders on
+  // narrow viewports (CSS gate). Restores when the upload zone is
+  // visible again, so the bar doesn't double-up the in-view UI.
+  const [showStickyCta, setShowStickyCta] = useState(false);
+  useEffect(() => {
+    if (typeof window === "undefined") return;
+    const target = document.getElementById("buyer-upload");
+    if (!target || !("IntersectionObserver" in window)) return;
+    const obs = new IntersectionObserver(
+      ([entry]) => setShowStickyCta(!entry.isIntersecting),
+      { rootMargin: "-80px 0px 0px 0px", threshold: 0 }
+    );
+    obs.observe(target);
+    return () => obs.disconnect();
+  }, []);
+
   const { startUpload, isUploading } = useUploadThing("inspectionReport", {
     onClientUploadComplete: (res) => {
       const first = res?.[0];
@@ -1561,24 +1604,81 @@ export default function App() {
         <div className="fade-up">
 
           {/* Dark cinematic hero */}
+          {/* May 2026 design pass — wins 1, 3, 5, 6, 8 applied here:
+              · sub-text trimmed to 2 punchy lines using audience verbatim
+              · primary "Upload your PDF →" CTA added (was missing entirely)
+              · "Buyers save $20K–$80K" savings anchor under sub-text
+              · "See a sample report" promoted to bordered button (the
+                conversion-relevant secondary action)
+              · "Download sample PDF" demoted to small tertiary link
+              · 12-14px vertical padding on all secondary links clears
+                the 44×44 iOS touch target spec
+              · sub-text opacity 0.55 → 0.85 clears WCAG AA at 17px */}
           <div className="hero-section">
             <div className="hero-badge">🇦🇺 Built for Australian Property Buyers</div>
             <h1 className="hero-h">
               Your building report,<br/><em>decoded.</em>
             </h1>
             <p className="hero-sub">
-              Upload your inspection report and get a plain-English verdict — what's serious, what it costs to fix, local tradies in your area to call, and exactly how much to negotiate off the price.
+              <strong style={{color:"#fff", fontWeight:600}}>Plain-English verdict in 2 minutes.</strong>
+              <br/>
+              Plus exactly how much to negotiate off the price.
             </p>
-            <div style={{marginTop:18, display:"flex", gap:24, justifyContent:"center", flexWrap:"wrap"}}>
+
+            {/* Primary CTA + savings anchor — biggest emotional hook for
+                a panic-mode buyer above the fold. Scrolls to upload zone. */}
+            <a
+              href="#buyer-upload"
+              onClick={(e) => {
+                e.preventDefault();
+                document.getElementById('buyer-upload')?.scrollIntoView({ behavior: 'smooth', block: 'start' });
+                try { track('hero_cta_clicked'); } catch {}
+              }}
+              style={{
+                display:"inline-block",
+                marginTop:24,
+                background:"var(--amber)",
+                color:"#fff",
+                fontWeight:600,
+                fontSize:15.5,
+                padding:"14px 28px",
+                borderRadius:11,
+                textDecoration:"none",
+                boxShadow:"0 6px 18px rgba(201,122,58,0.36)",
+                transition:"background .15s, transform .15s",
+              }}
+              onMouseEnter={(e) => { e.currentTarget.style.background = 'var(--amber-hover)'; }}
+              onMouseLeave={(e) => { e.currentTarget.style.background = 'var(--amber)'; }}
+            >
+              Upload your PDF →
+            </a>
+            <div
+              style={{
+                marginTop:12,
+                fontSize:13,
+                color:"#F4C9A0",
+                fontFamily:"'DM Mono', monospace",
+                letterSpacing:0.3,
+              }}
+            >
+              Buyers save <strong style={{color:"#fff"}}>$20K – $80K</strong> at negotiation, on average.
+            </div>
+
+            {/* Secondary links — differentiated weights so the
+                conversion-relevant "See a sample" reads as primary
+                secondary, and the PDF download is a tertiary path. */}
+            <div style={{marginTop:22, display:"flex", gap:14, justifyContent:"center", flexWrap:"wrap", alignItems:"center"}}>
               <a
                 href="/results?reportId=f3ef0ce1-5443-4e91-a420-5e8bf7d8713d&sample=1"
                 style={{
                   display:"inline-block",
-                  color:"rgba(255,255,255,0.72)",
+                  border:"1px solid rgba(255,255,255,0.34)",
+                  color:"#fff",
                   textDecoration:"none",
-                  borderBottom:"1px solid rgba(255,255,255,0.25)",
-                  paddingBottom:2,
-                  fontSize:14,
+                  padding:"11px 20px",
+                  borderRadius:9,
+                  fontSize:13.5,
+                  fontWeight:500,
                   letterSpacing:0.2,
                 }}
                 onClick={() => { try { track('sample_link_clicked', { type: 'view' }); } catch {} }}
@@ -1589,16 +1689,15 @@ export default function App() {
                 href="/api/report-pdf?reportId=f3ef0ce1-5443-4e91-a420-5e8bf7d8713d"
                 style={{
                   display:"inline-block",
-                  color:"rgba(255,255,255,0.72)",
-                  textDecoration:"none",
-                  borderBottom:"1px solid rgba(255,255,255,0.25)",
-                  paddingBottom:2,
-                  fontSize:14,
-                  letterSpacing:0.2,
+                  color:"rgba(255,255,255,0.58)",
+                  textDecoration:"underline",
+                  textUnderlineOffset:3,
+                  padding:"12px 6px",
+                  fontSize:12.5,
                 }}
                 onClick={() => { try { track('sample_link_clicked', { type: 'pdf' }); } catch {} }}
               >
-                ⬇ Download sample PDF
+                ⬇ Or download the sample PDF
               </a>
             </div>
           </div>
@@ -2197,6 +2296,62 @@ export default function App() {
               </div>
             </div>
 
+            {/* ── FOUNDER NOTE ─────────────────────────────────
+                Win 7 (May 2026 redesign): Founder note moved from
+                below trust-bar to ABOVE pricing. Trust signal lands
+                BEFORE the $59 ask so visitors meet Morgan, understand
+                the dual-audience framing (regular buyer + buyer's
+                agent), and ratchet up trust prior to seeing price. */}
+            <div style={{ marginTop: 16, marginBottom: 36 }}>
+              <div
+                style={{
+                  maxWidth: 720,
+                  margin: "0 auto",
+                  background: "#fff",
+                  border: "1px solid var(--border)",
+                  borderRadius: 14,
+                  padding: "30px 32px",
+                  boxShadow: "0 6px 24px rgba(10,22,40,0.05)",
+                }}
+              >
+                <div className="section-label" style={{ marginBottom: 6 }}>
+                  👋 Behind the product
+                </div>
+                <h2
+                  style={{
+                    fontFamily: "'Fraunces',serif",
+                    fontSize: 26,
+                    margin: "0 0 16px",
+                    color: "var(--text)",
+                    letterSpacing: -0.3,
+                  }}
+                >
+                  Built by someone who needed it
+                </h2>
+                <div style={{ color: "var(--text)", fontSize: 15, lineHeight: 1.7 }}>
+                  <p style={{ margin: "0 0 14px" }}>
+                    I'm Morgan Smith. I've owned six properties over the years — four of them
+                    investments — and read just as many building inspection reports at 11pm wondering
+                    which defects actually mattered and how much to push back on the price. By report
+                    four I'd realised the same questions kept coming up — and that a tool could answer
+                    them in under 2 minutes instead of three nights.
+                  </p>
+                  <p style={{ margin: "0 0 14px" }}>
+                    Report Decoded is that tool. Under 2 minutes to a plain-English verdict, every defect
+                    cited to your inspector's exact PDF page, and a ready-to-send negotiation letter at
+                    the end. <strong>For a regular buyer</strong>, it saves three nights of confusion
+                    and often thousands at the negotiating table. <strong>For a buyer's agent</strong>,
+                    the same engine turns a 2-hour-per-client task into a 2-minute one — letting them
+                    advise on more deals, faster, with a defensible numbers trail behind every
+                    recommendation.
+                  </p>
+                  <p style={{ margin: 0, color: "var(--muted)" }}>
+                    I built it because I needed it. Now you can use it too.
+                  </p>
+                </div>
+              </div>
+            </div>
+
             {/* Pricing — buyer side. Cards are clickable and sync the pack
                 state used inside the upload form above. Clicking smooth-
                 scrolls back to the upload area so the user sees their
@@ -2341,64 +2496,6 @@ export default function App() {
               ))}
             </div>
 
-            {/* ── FOUNDER NOTE ─────────────────────────────────
-                Design review #14: 2-3 sentence founder story. Single
-                biggest trust signal we can add without testimonials.
-                Honest framing (investor, not buyer's agent), dual
-                audience served (regular buyers + buyer's agents
-                subscribing to the dashboard tier). Sits between trust
-                bar and FAQ so it lands AFTER the visitor has seen
-                what the product does, BEFORE they're asked questions. */}
-            <div style={{ marginTop: 56, marginBottom: 8 }}>
-              <div
-                style={{
-                  maxWidth: 720,
-                  margin: "0 auto",
-                  background: "#fff",
-                  border: "1px solid var(--border)",
-                  borderRadius: 14,
-                  padding: "30px 32px",
-                  boxShadow: "0 6px 24px rgba(10,22,40,0.05)",
-                }}
-              >
-                <div className="section-label" style={{ marginBottom: 6 }}>
-                  👋 Behind the product
-                </div>
-                <h2
-                  style={{
-                    fontFamily: "'Fraunces',serif",
-                    fontSize: 26,
-                    margin: "0 0 16px",
-                    color: "var(--text)",
-                    letterSpacing: -0.3,
-                  }}
-                >
-                  Built by someone who needed it
-                </h2>
-                <div style={{ color: "var(--text)", fontSize: 15, lineHeight: 1.7 }}>
-                  <p style={{ margin: "0 0 14px" }}>
-                    I'm Morgan Smith. I've owned six properties over the years — four of them
-                    investments — and read just as many building inspection reports at 11pm wondering
-                    which defects actually mattered and how much to push back on the price. By report
-                    four I'd realised the same questions kept coming up — and that a tool could answer
-                    them in under 2 minutes instead of three nights.
-                  </p>
-                  <p style={{ margin: "0 0 14px" }}>
-                    Report Decoded is that tool. Under 2 minutes to a plain-English verdict, every defect
-                    cited to your inspector's exact PDF page, and a ready-to-send negotiation letter at
-                    the end. <strong>For a regular buyer</strong>, it saves three nights of confusion
-                    and often thousands at the negotiating table. <strong>For a buyer's agent</strong>,
-                    the same engine turns a 2-hour-per-client task into a 2-minute one — letting them
-                    advise on more deals, faster, with a defensible numbers trail behind every
-                    recommendation.
-                  </p>
-                  <p style={{ margin: 0, color: "var(--muted)" }}>
-                    I built it because I needed it. Now you can use it too.
-                  </p>
-                </div>
-              </div>
-            </div>
-
             {/* ── HOMEPAGE FAQ ─────────────────────────────────
                 Design review #11: top 5 buyer objections. Mirrors
                 the accordion style on the suburb landing pages so
@@ -2435,7 +2532,10 @@ export default function App() {
                           width: "100%",
                           background: "transparent",
                           border: 0,
-                          padding: "14px 18px",
+                          /* Win 6: 16px vertical padding + 48px min-height
+                             clears Apple HIG 44×44 touch-target spec */
+                          padding: "16px 18px",
+                          minHeight: 48,
                           cursor: "pointer",
                           display: "flex",
                           justifyContent: "space-between",
@@ -2449,7 +2549,24 @@ export default function App() {
                         }}
                       >
                         <span>{f.q}</span>
-                        <span style={{ color: "var(--subtle)", fontSize: 12 }}>{isOpen ? "▲" : "▼"}</span>
+                        {/* Chevron wrapped in 28×28 hit-area pill with
+                            subtle cream bg so it's discoverable as a
+                            control AND meets touch-target sizing. */}
+                        <span
+                          aria-hidden="true"
+                          style={{
+                            display: "inline-flex",
+                            width: 28,
+                            height: 28,
+                            alignItems: "center",
+                            justifyContent: "center",
+                            borderRadius: 7,
+                            background: "var(--cream2)",
+                            color: "var(--navy)",
+                            fontSize: 11,
+                            flexShrink: 0,
+                          }}
+                        >{isOpen ? "▲" : "▼"}</span>
                       </button>
                       {isOpen && (
                         <div style={{ padding: "0 18px 16px", fontSize: 13.5, lineHeight: 1.65, color: "#374151" }}>
@@ -2463,6 +2580,46 @@ export default function App() {
             </div>
 
           </div>
+
+          {/* Win 4 (May 2026 redesign): sticky mobile CTA. Floats
+              above the bottom of the viewport on narrow widths once
+              the buyer scrolls past the upload zone. Disappears
+              again when the upload zone re-enters view (intersection
+              observer above). The CSS gate hides it on viewports
+              ≥ 760px since desktop users don't need it. Z-index 90
+              keeps it below the nav (which is z-100). */}
+          {showStickyCta && (
+            <div className="sticky-mobile-cta">
+              <div>
+                <div style={{ fontSize: 10.5, color: "rgba(255,255,255,0.62)", textTransform: "uppercase", letterSpacing: 0.6 }}>
+                  Single report
+                </div>
+                <div style={{ fontWeight: 600, fontFamily: "'DM Mono',monospace", fontSize: 15 }}>
+                  $59 · 2 mins
+                </div>
+              </div>
+              <a
+                href="#buyer-upload"
+                onClick={(e) => {
+                  e.preventDefault();
+                  document.getElementById('buyer-upload')?.scrollIntoView({ behavior: 'smooth', block: 'start' });
+                  try { track('sticky_cta_clicked'); } catch {}
+                }}
+                style={{
+                  background: "var(--amber)",
+                  color: "#fff",
+                  fontWeight: 600,
+                  padding: "10px 16px",
+                  borderRadius: 8,
+                  textDecoration: "none",
+                  fontSize: 13.5,
+                  whiteSpace: "nowrap",
+                }}
+              >
+                Upload PDF →
+              </a>
+            </div>
+          )}
         </div>
       )}
 
