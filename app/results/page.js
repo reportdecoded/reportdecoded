@@ -143,7 +143,17 @@ function ResultsBody() {
               Analysis by Report Decoded
             </span>
           )}
-          <Link href="/" className="nav-link" style={{ textDecoration: 'none' }}>
+          {/* Branded view = agent's own dashboard. 'Run another' for an
+              agent must go to /dashboard/upload (their unlimited
+              subscription flow), NOT to / (the public consumer flow
+              which would charge $59 + show a logged-out nav, making it
+              look like the agent has been logged out).
+              Consumer ($59 one-off) view goes back to / to start fresh. */}
+          <Link
+            href={brand ? '/dashboard/upload' : '/'}
+            className="nav-link"
+            style={{ textDecoration: 'none' }}
+          >
             {brand ? '↑ Run another' : '← Upload Another'}
           </Link>
         </div>
