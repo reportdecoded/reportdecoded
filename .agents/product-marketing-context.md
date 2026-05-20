@@ -1,11 +1,13 @@
 # Product Marketing Context
 
-*Last updated: 15 May 2026*
-*Status: V1 auto-draft from codebase + project memory. To be reviewed and corrected by Morgan.*
+*Last updated: 18 May 2026*
+*Status: V2 — refreshed after Stripe Live launch, Pro pricing drop ($199→$149), Agency tier sunset, and confirmed consumer money-back scope.*
+
+**⚠️ CANONICAL SOURCE OF TRUTH FOR ALL COPY.** Always check this file before writing any marketing copy, ad text, email content, or website language. The earlier conversation produced incorrect pricing assumptions ($20 vs actual $59, "First report free" misapplied to consumer flow). Discipline: read this first, write copy second.
 
 ## Product Overview
 
-**One-liner:** AI-powered Australian building & pest inspection report interpreter — turn a 95-page inspection PDF into a plain-English verdict, repair costs, local tradies, and negotiation language in 60 seconds.
+**One-liner:** AI-powered Australian building & pest inspection report interpreter — turn a 95-page inspection PDF into a plain-English verdict, repair costs, local tradies, and negotiation language in **under 2 minutes**.
 
 **What it does:** A buyer or buyer's agent uploads an AS4349.1 inspection PDF. Claude AI analyses every defect, classifies severity, estimates Australian repair costs, generates ready-to-send negotiation language (or a builder rectification letter for new builds), surfaces a 5-year capex forecast, and attaches local tradies for major defects. Every defect is anchored to its page in the original inspector's report so nothing is hallucinated.
 
@@ -13,16 +15,45 @@
 
 **Product type:** Web SaaS — buyer pay-per-report + agent monthly subscription (two-sided product).
 
-**Business model & pricing:**
-- **Buyer side** (one-off, anonymous, no account):
-  - Single report — **$59 AUD**
-  - 3-Report Pack — **$149 AUD**
-  - 10-Report Pack — **$390 AUD**
-- **Agent side** (monthly subscription, white-label, dashboard):
-  - **Starter $79/mo** — 12 reports/month, then $15 per extra (metered via Stripe)
-  - **Pro $199/mo** — unlimited reports + agent dashboard + priority support
-  - **Agency $399/mo** — Pro + team accounts (5 users) + API access + dedicated onboarding
+**Business model & pricing (current as of 18 May 2026, Stripe Live):**
+
+**Consumer / Buyer side** (one-off, anonymous, no account):
+- Single report — **$59 AUD** (the canonical consumer price)
+- **No subscription**. Pay-per-report only.
+- **Money-back guarantee scope:** ONLY refunded if Report Decoded cannot analyse the PDF (e.g., parsing failure). NOT refunded for "I didn't find anything to negotiate" or similar outcome-based requests. Do not market a generic money-back promise.
+- Multi-report packs (3-pack, 10-pack) may exist but treat the **$59 single-report** as the canonical headline price for all consumer ads.
+
+**Agent side** (monthly subscription, white-label):
+- **Starter $79/mo** — 12 reports/month, $15 per extra report (metered via Stripe overage)
+- **Pro $149/mo** — unlimited reports + agent dashboard + priority support + dedicated onboarding ⚠️ DROPPED FROM $199 ON 18 May 2026
+- **Agency tier: SUNSETTED.** Do not mention or market an Agency tier. The product currently goes Starter → Pro only.
+- **First-report-free trial mechanic:** New agents get a 730-day Stripe trial. The trial automatically ends the moment they upload their first completed report — they're charged for that month only after their first successful analysis. This means "First report free" is a TRUE, honest claim for the agent funnel.
 - 2 months free on annual billing.
+
+## ⚠️ Copy traps to avoid
+
+These mistakes have happened in marketing drafts. Don't repeat them:
+
+- ❌ **Never write "First report free" on a CONSUMER ad.** That trial mechanic is agent-only. Consumers always pay $59 per report.
+- ❌ **Never imply "free trial" for consumers.** No free trial exists on the consumer side.
+- ❌ **Never market a generic money-back guarantee** for the consumer side. The narrow "we couldn't analyse it" refund isn't an ad hook.
+- ❌ **Never mention Pro at $199.** Pro is $149/mo as of 18 May 2026.
+- ❌ **Never mention an Agency tier.** It's sunsetted.
+- ❌ **Never say "60 seconds" for analysis time.** Real measurements are 50-120 seconds typical; canonical copy is **"under 2 minutes"**.
+
+## Canonical CTA framings
+
+**Consumer ad CTA:**
+```
+reportdecoded.com.au  ·  $59 analysis  ·  Save thousands
+```
+or variations: `Full analysis · $59` / `Pay $59. Save thousands.` / `$59 per inspection · No subscription`
+
+**Buyer's-agent ad CTA:**
+```
+reportdecoded.com.au  ·  For buyer's agents  ·  $149/mo  ·  First report free
+```
+or variations: `$149/mo unlimited · For buyer's agents · First report free`
 
 ## Target Audience
 

@@ -59,6 +59,68 @@ export const STYLES = `
   --slate:  #F0EDE8;
 }
 
+/* ── TYPOGRAPHY POLISH ────────────────────────────
+   Two 95%-confidence wins from the May 2026 design pass.
+   Pure CSS, no JS, no layout-engine side effects.
+
+   1. text-wrap: balance on headings
+      Prevents orphan words (e.g. a single dangling word on its
+      own line) when headings wrap on narrow viewports. Browser
+      computes an even line-length distribution. Falls back to
+      normal wrap on browsers that don't support it. Universally
+      a small upgrade, zero downside.
+
+   2. tabular-nums on price / stat / cost displays
+      Forces every digit to occupy the same horizontal space, so
+      animated counters don't jitter and aligned columns of prices
+      stay column-aligned. Critical for the "$45,000 saved" verdict
+      and any animated stat counters we add later. */
+h1, h2, h3, h4, h5, h6 {
+  text-wrap: balance;
+}
+.tabular,
+.price-amount,
+.price-row,
+.stat-val,
+.cost,
+.amount,
+.verdict-amount,
+.repair-cost,
+[class*="price-"],
+[class*="-price"] {
+  font-variant-numeric: tabular-nums;
+}
+
+/* 3. Smooth anchor-link scrolling. When buyers click FAQ/pricing nav links,
+      the page eases into position instead of jump-cutting. Tiny but cumulatively
+      feels more polished. Browsers without support fall back to instant. */
+html {
+  scroll-behavior: smooth;
+}
+
+/* 4. Visible focus ring for keyboard users — critical a11y baseline. Default
+      browser focus rings are inconsistent; this provides a branded, on-brand
+      amber outline that's visible regardless of background. Only triggers on
+      keyboard nav (not mouse clicks) thanks to :focus-visible. */
+:focus-visible {
+  outline: 2px solid var(--amber);
+  outline-offset: 2px;
+  border-radius: 3px;
+}
+
+/* 5. Respect prefers-reduced-motion. Users with vestibular disorders, motion
+      sensitivity, or low-spec devices set this OS-level. We honour it by
+      collapsing all transitions and animations to ~0. WCAG 2.3.3 best practice.
+      Implemented as universal rule so it covers every future animation too. */
+@media (prefers-reduced-motion: reduce) {
+  *, *::before, *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+    scroll-behavior: auto !important;
+  }
+}
+
 body{
   font-family:'DM Sans',sans-serif;
   background:var(--cream);
