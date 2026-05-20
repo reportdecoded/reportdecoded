@@ -278,6 +278,21 @@ body{
   margin-bottom:24px;
   box-shadow:0 8px 40px rgba(10,22,40,0.12);
 }
+/* Pre-upload state: softened visual so it reads as the secondary
+   path (drag/drop OR fallback click), with the hero CTA above
+   carrying the primary upload action. Less padding, no shadow,
+   lighter border so it sits quietly under the hero. */
+.upload-zone-secondary{
+  padding:28px 32px;
+  box-shadow:none;
+  border-style:dashed;
+  border-width:1.5px;
+  background:rgba(255,255,255,0.6);
+}
+.upload-zone-secondary:hover{
+  border-color:var(--amber);
+  background:#fff;
+}
 .upload-zone:hover{
   border-color:var(--amber);
   background:#FFFAF6;
@@ -1642,11 +1657,17 @@ export default function App() {
             </p>
 
             {/* Primary CTA + savings anchor — biggest emotional hook for
-                a panic-mode buyer above the fold. Scrolls to upload zone. */}
-            <a
-              href="#buyer-upload"
-              onClick={(e) => {
-                e.preventDefault();
+                a panic-mode buyer above the fold. Clicking opens the
+                native file picker directly (same fileInputRef used by
+                the drop-zone Choose-PDF button below). This makes the
+                hero CTA and the drop zone functionally distinct: hero
+                = "click to upload", drop zone = "or drag a PDF here".
+                Scrolls to the form section so when the file's selected
+                the user sees the form fields immediately. */}
+            <button
+              type="button"
+              onClick={() => {
+                fileInputRef.current?.click();
                 document.getElementById('buyer-upload')?.scrollIntoView({ behavior: 'smooth', block: 'start' });
                 try { track('hero_cta_clicked'); } catch {}
               }}
@@ -1659,7 +1680,9 @@ export default function App() {
                 fontSize:15.5,
                 padding:"14px 28px",
                 borderRadius:11,
-                textDecoration:"none",
+                border:"none",
+                cursor:"pointer",
+                fontFamily:"'DM Sans', sans-serif",
                 boxShadow:"0 6px 18px rgba(201,122,58,0.36)",
                 transition:"background .15s, transform .15s",
               }}
@@ -1667,7 +1690,7 @@ export default function App() {
               onMouseLeave={(e) => { e.currentTarget.style.background = 'var(--amber)'; }}
             >
               Upload your PDF →
-            </a>
+            </button>
             <div
               style={{
                 marginTop:12,
@@ -1731,19 +1754,37 @@ export default function App() {
             />
 
             {!uploadedFile && !isUploading && (
-              <div className="upload-zone" onClick={() => fileInputRef.current?.click()}>
-                <div className="upload-icon">📄</div>
-                <div className="upload-title">Drop your inspection report here</div>
-                <div className="upload-sub">
-                  Supports building, pest & combined reports · AS4349.1 compliant reports
+              /* Pre-upload state: the hero button above is the primary
+                 "Upload your PDF →" action (opens file picker). This
+                 drop zone is the secondary path — drag-and-drop OR a
+                 backup click target. Visual hierarchy softened (icon
+                 smaller, no large button) so it doesn't compete with
+                 the hero CTA above. */
+              <div className="upload-zone upload-zone-secondary" onClick={() => fileInputRef.current?.click()}>
+                <div className="upload-icon" style={{fontSize:26, opacity:0.7}}>📄</div>
+                <div className="upload-title" style={{fontSize:17, color:"var(--text)"}}>
+                  Or drag a PDF anywhere on this card
                 </div>
-                <button
-                  className="upload-btn"
-                  onClick={e => { e.stopPropagation(); fileInputRef.current?.click(); }}
-                >
-                  Choose PDF →
-                </button>
-                <div className="upload-filetypes">
+                <div className="upload-sub" style={{marginBottom:0}}>
+                  Building, pest &amp; combined reports · AS4349.1 ·{" "}
+                  <button
+                    type="button"
+                    onClick={e => { e.stopPropagation(); fileInputRef.current?.click(); }}
+                    style={{
+                      background:"none",
+                      border:0,
+                      padding:0,
+                      color:"var(--amber)",
+                      fontWeight:600,
+                      cursor:"pointer",
+                      textDecoration:"underline",
+                      font:"inherit",
+                    }}
+                  >
+                    or choose a file →
+                  </button>
+                </div>
+                <div className="upload-filetypes" style={{marginTop:10}}>
                   PDF format · End-to-end encrypted · Results in under 2 minutes
                 </div>
                 {uploadError && (
@@ -2778,10 +2819,10 @@ export default function App() {
                   $59 · 2 mins
                 </div>
               </div>
-              <a
-                href="#buyer-upload"
-                onClick={(e) => {
-                  e.preventDefault();
+              <button
+                type="button"
+                onClick={() => {
+                  fileInputRef.current?.click();
                   document.getElementById('buyer-upload')?.scrollIntoView({ behavior: 'smooth', block: 'start' });
                   try { track('sticky_cta_clicked'); } catch {}
                 }}
@@ -2791,13 +2832,15 @@ export default function App() {
                   fontWeight: 600,
                   padding: "10px 16px",
                   borderRadius: 8,
-                  textDecoration: "none",
+                  border: "none",
+                  cursor: "pointer",
+                  fontFamily: "'DM Sans', sans-serif",
                   fontSize: 13.5,
                   whiteSpace: "nowrap",
                 }}
               >
                 Upload PDF →
-              </a>
+              </button>
             </div>
           )}
         </div>
