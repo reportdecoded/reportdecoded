@@ -11,6 +11,11 @@ export default function ShareLinkActions({ agentId, hasBranding }) {
   // branded sample without having to save + open a local file.
   const pdfPreviewUrl = `/api/report-pdf?reportId=${SAMPLE_REPORT_ID}&agent=${agentId}&preview=1`;
   return (
+    /* Branding preview is a one-time-and-done task (set up your branding,
+       sanity-check it looks right, move on). It should NOT compete visually
+       with the "Run a client report" primary CTA. Both previews here are
+       rendered as quiet outline buttons. The primary amber CTA stays on
+       the "Run a client report" card where the daily action lives. */
     <div style={{ display: 'flex', flexDirection: 'column', gap: 6 }}>
       <a
         href={webPreviewUrl}
@@ -18,15 +23,15 @@ export default function ShareLinkActions({ agentId, hasBranding }) {
         rel="noopener noreferrer"
         style={{
           display: 'inline-block',
-          background: hasBranding ? 'var(--amber)' : 'var(--cream2)',
-          color: hasBranding ? '#fff' : 'var(--muted)',
+          background: '#fff',
+          color: hasBranding ? 'var(--text)' : 'var(--muted)',
           textDecoration: 'none',
-          padding: '10px 14px',
+          padding: '8px 14px',
           borderRadius: 8,
           fontWeight: 600,
           fontSize: 14,
           textAlign: 'center',
-          border: hasBranding ? 0 : '1px solid var(--border)',
+          border: '1px solid var(--border)',
         }}
       >
         {hasBranding ? 'Preview branded web view →' : 'Preview web view (set up branding first) →'}

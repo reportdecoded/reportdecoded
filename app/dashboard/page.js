@@ -269,7 +269,12 @@ function ActiveSubscriberView({ agent, isFirstRun = false }) {
           }
           ctaText="Upload PDF →"
           ctaHref="/dashboard/upload"
-          emphasised={isFirstRun}
+          /* Always emphasised — this is the primary daily action for a
+             buyer's agent. Previously only emphasised on first run, which
+             meant the LOUD amber CTA in the dashboard row was the Preview
+             branding button (a one-time setup task). Hierarchy was inverted.
+             Now the upload button is always the visual lead. */
+          emphasised={true}
         />
         <DashboardCard
           title="📋 Your client reports"

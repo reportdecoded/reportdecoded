@@ -283,10 +283,20 @@ function EmptyState() {
 function ReportRow({ report, agentId, highlighted }) {
   const verdict = report.result_json?.overall_verdict;
   const verdictMeta = verdictDisplay(verdict, report.status);
-  const address =
+
+  // Detect sample/template reports. We've seen the property_address field
+  // populated with the full disclaimer string ("Not specified — this is a
+  // SAMPLE/template report with no property address populated"), which
+  // makes the row visually broken — disclaimer text rendering as the title.
+  // Match any of the canonical sample-disclaimer phrasings and replace the
+  // address with a clean tag, and surface a SAMPLE badge separately.
+  const rawAddress =
     report.property_address ||
     report.result_json?.property_address ||
-    'Address not detected';
+    '';
+  const isSampleReport = /\b(sample|template)\b.*?(report|address|property)/i.test(rawAddress) ||
+    /\bnot\s+(specified|disclosed|populated)\b/i.test(rawAddress);
+  const address = isSampleReport ? 'Sample report' : (rawAddress || 'Address not detected');
   const created = new Date(report.created_at).toLocaleString('en-AU', {
     day: 'numeric',
     month: 'short',
@@ -310,8 +320,40 @@ function ReportRow({ report, agentId, highlighted }) {
   return (
     <div className={`rd-report-row${highlighted ? ' highlighted' : ''}`}>
       <div className="rd-report-main">
-        <div style={{ fontWeight: 600, fontSize: 15, marginBottom: 2, overflow: 'hidden', textOverflow: 'ellipsis', whiteSpace: 'nowrap' }}>
-          {address}
+        {/* Address row: long addresses ellipsis-truncate (flex:1 child),
+            the SAMPLE badge stays visible on the right of the flex row. */}
+        <div style={{ display: 'flex', alignItems: 'center', gap: 8, marginBottom: 2, minWidth: 0 }}>
+          <div
+            style={{
+              fontWeight: 600,
+              fontSize: 15,
+              overflow: 'hidden',
+              textOverflow: 'ellipsis',
+              whiteSpace: 'nowrap',
+              flex: 1,
+              minWidth: 0,
+            }}
+          >
+            {address}
+          </div>
+          {isSampleReport && (
+            <span
+              style={{
+                background: 'var(--cream2)',
+                color: 'var(--muted)',
+                fontSize: 10,
+                fontWeight: 700,
+                letterSpacing: '0.05em',
+                padding: '2px 7px',
+                borderRadius: 4,
+                border: '1px solid var(--border)',
+                textTransform: 'uppercase',
+                flexShrink: 0,
+              }}
+            >
+              Sample
+            </span>
+          )}
         </div>
         <div style={{ color: 'var(--muted)', fontSize: 12 }}>
           {created} · {reportTypeLabel(report.report_type)}
@@ -350,11 +392,23 @@ function ReportRow({ report, agentId, highlighted }) {
         </span>
         {report.status === 'complete' ? (
           <>
+            {/* View is the primary action (opens the actual report).
+                Copy link is secondary (sends to client). Visually weight
+                View heavier so the eye lands there first. */}
             <Link
               href={shareUrl}
               target="_blank"
               rel="noopener noreferrer"
-              style={{ color: 'var(--amber)', fontSize: 13, fontWeight: 600, textDecoration: 'none', whiteSpace: 'nowrap' }}
+              style={{
+                background: 'var(--amber)',
+                color: '#fff',
+                fontSize: 13,
+                fontWeight: 600,
+                textDecoration: 'none',
+                whiteSpace: 'nowrap',
+                padding: '6px 14px',
+                borderRadius: 6,
+              }}
             >
               View →
             </Link>
