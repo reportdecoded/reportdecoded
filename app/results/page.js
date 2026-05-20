@@ -551,15 +551,26 @@ function ResultsView({ analysis, tradies, reportType, expanded, toggle, copied, 
           <div className="stat-sub">Independent tradie estimates</div>
         </div>
         <div className="stat-card">
-          <div className="stat-label">
-            {isHandover ? 'Rectification Value' : 'Negotiation Target'}
-          </div>
-          <div className="stat-val">{fmt$(analysis.negotiation_amount)}</div>
-          <div className="stat-sub">
-            {isHandover
-              ? 'Outstanding work the builder must complete'
-              : 'Based on repair cost midpoint'}
-          </div>
+          {isHandover ? (
+            <>
+              {/* Handover: leverage is the COUNT of items the builder must
+                  rectify, not a dollar value (builder pays under contract).
+                  The dollar amount is still available in the letter card
+                  below as a reference figure, but it's not what the buyer
+                  actions on. */}
+              <div className="stat-label">Items to Rectify</div>
+              <div className="stat-val">{totalDefects}</div>
+              <div className="stat-sub">
+                Builder must complete before sign-off
+              </div>
+            </>
+          ) : (
+            <>
+              <div className="stat-label">Negotiation Target</div>
+              <div className="stat-val">{fmt$(analysis.negotiation_amount)}</div>
+              <div className="stat-sub">Based on repair cost midpoint</div>
+            </>
+          )}
         </div>
         <div className="stat-card">
           <div className="stat-label">Verdict</div>
@@ -710,13 +721,57 @@ function ResultsView({ analysis, tradies, reportType, expanded, toggle, copied, 
           {analysis.builder_rectification_letter && (
             <div className="panel-card">
               <div className="panel-title">🔧 Rectification Letter to Builder</div>
-              <div className="negs-amount">
-                {fmt$(analysis.negotiation_amount)}
+
+              {/* Action metadata box — what to do, who to send to, when.
+                  These are the FIRST things a buyer needs to act on; the
+                  dollar value (which the BUILDER pays under contract) is
+                  reference information that lives below as a small line. */}
+              <div
+                style={{
+                  display: 'grid',
+                  gridTemplateColumns: 'repeat(auto-fit, minmax(120px, 1fr))',
+                  gap: 12,
+                  margin: '12px 0 16px',
+                  padding: '14px 16px',
+                  background: 'var(--gold-bg)',
+                  border: '1px solid var(--gold-border)',
+                  borderRadius: 10,
+                }}
+              >
+                <div>
+                  <div style={{ fontSize: 10.5, textTransform: 'uppercase', letterSpacing: '0.05em', color: 'var(--gold)', fontWeight: 700, marginBottom: 3 }}>
+                    Send to
+                  </div>
+                  <div style={{ fontSize: 13.5, color: 'var(--text)', fontWeight: 600, lineHeight: 1.35 }}>
+                    Site supervisor /<br />Builder rep
+                  </div>
+                </div>
+                <div>
+                  <div style={{ fontSize: 10.5, textTransform: 'uppercase', letterSpacing: '0.05em', color: 'var(--gold)', fontWeight: 700, marginBottom: 3 }}>
+                    Rectify within
+                  </div>
+                  <div style={{ fontSize: 13.5, color: 'var(--text)', fontWeight: 600, lineHeight: 1.35 }}>
+                    21 days
+                  </div>
+                </div>
+                <div>
+                  <div style={{ fontSize: 10.5, textTransform: 'uppercase', letterSpacing: '0.05em', color: 'var(--gold)', fontWeight: 700, marginBottom: 3 }}>
+                    Items
+                  </div>
+                  <div className="tabular" style={{ fontSize: 13.5, color: 'var(--text)', fontWeight: 600, lineHeight: 1.35, fontFamily: "'DM Mono',monospace" }}>
+                    {totalDefects} defects
+                  </div>
+                </div>
               </div>
-              <div className="negs-sub">
-                Estimated value of rectification work outstanding. Send to your builder /
-                site supervisor before signing off practical completion.
+
+              <div style={{ fontSize: 12.5, color: 'var(--muted)', lineHeight: 1.6, marginBottom: 14 }}>
+                Builder pays for rectification under your contract.{' '}
+                <span style={{ color: 'var(--text)' }}>
+                  Estimated value: <strong>{fmt$(analysis.negotiation_amount)}</strong>
+                </span>{' '}
+                — for your reference only.
               </div>
+
               <div className="negs-text">{analysis.builder_rectification_letter}</div>
               <button className="copy-btn" onClick={handleCopy}>
                 {copied ? '✓ Copied to clipboard' : 'Copy to Clipboard'}
