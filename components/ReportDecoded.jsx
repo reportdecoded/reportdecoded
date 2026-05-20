@@ -132,6 +132,18 @@ body{
    (rule overrides happen in the mobile media query below). */
 .sticky-mobile-cta{display:none;}
 
+/* Trade-example grid (homepage "Right tradie, every defect" section).
+   Force 3 columns on desktop so all three example cards sit on one
+   row instead of wrapping to 2+1. Mobile overrides to 1 column in
+   the media query below. */
+.trade-example-grid{
+  display:grid;
+  grid-template-columns:repeat(3, 1fr);
+  gap:14px;
+  max-width:960px;
+  margin:0 auto;
+}
+
 /* ── NAV ─────────────────────────────────────────── */
 .nav{
   background:var(--navy);
@@ -1140,6 +1152,10 @@ body{
   .hero-badge{font-size:11.5px;padding:4px 13px;margin-bottom:20px;}
   .hero-h{font-size:34px !important;letter-spacing:-1px;line-height:1.1;margin-bottom:16px;}
   .hero-sub{font-size:15px;line-height:1.6;}
+
+  /* Trade-example grid — stack to single column on narrow viewports
+     so the 3 example cards don't squash. */
+  .trade-example-grid{grid-template-columns:1fr;}
 
   /* Win 4: sticky mobile CTA — visible only on tablets/phones.
      Fixed to viewport bottom; amber CTA; 60px tall so it doesn't
@@ -2320,21 +2336,15 @@ export default function App() {
                 </p>
               </div>
 
-              {/* Three example defect-tradie matches. Each card mirrors
-                  the actual results-page Trade Needed chip — same amber
-                  primary, same outline secondary — so visitors recognise
-                  the UI when they get their analysis. The middle example
-                  showcases the secondary-trade feature for defects that
-                  span two specialties. */}
-              <div
-                style={{
-                  display: "grid",
-                  gridTemplateColumns: "repeat(auto-fit, minmax(260px, 1fr))",
-                  gap: 14,
-                  maxWidth: 960,
-                  margin: "0 auto",
-                }}
-              >
+              {/* Three example defect-tradie matches. className
+                  "trade-example-grid" so we can force 3-cols on
+                  desktop + 1-col on narrow screens via the STYLES
+                  media query. Each card uses flex-column with the
+                  trade chip(s) at the bottom (margin-top:auto on
+                  the chip block) so all three cards share a
+                  consistent baseline regardless of whether the
+                  middle card has a secondary chip. */}
+              <div className="trade-example-grid">
                 {[
                   {
                     defectLabel: "Defect example",
@@ -2364,13 +2374,15 @@ export default function App() {
                       background: "#fff",
                       border: "1px solid var(--border)",
                       borderRadius: 12,
-                      padding: "18px 18px 14px",
+                      padding: "18px 18px 16px",
                       boxShadow: "0 4px 14px rgba(10,22,40,0.04)",
                       display: "flex",
                       flexDirection: "column",
                     }}
                   >
-                    {/* Defect example header */}
+                    {/* Defect example header — amber for the "spans two
+                        trades" card so visitors notice it as the key
+                        example, muted for the standard ones. */}
                     <div
                       style={{
                         fontSize: 10.5,
@@ -2378,7 +2390,7 @@ export default function App() {
                         letterSpacing: 0.6,
                         fontWeight: 700,
                         color: card.secondary ? "var(--amber)" : "var(--muted)",
-                        marginBottom: 6,
+                        marginBottom: 8,
                       }}
                     >
                       {card.defectLabel}
@@ -2387,16 +2399,16 @@ export default function App() {
                       style={{
                         fontWeight: 600,
                         color: "var(--navy)",
-                        fontSize: 14,
+                        fontSize: 14.5,
                         lineHeight: 1.4,
-                        marginBottom: 6,
+                        marginBottom: 4,
                       }}
                     >
                       {card.defectName}
                     </div>
                     <div
                       style={{
-                        fontSize: 11.5,
+                        fontSize: 11,
                         color: "var(--muted)",
                         fontFamily: "'DM Mono', monospace",
                         marginBottom: 14,
@@ -2405,78 +2417,37 @@ export default function App() {
                       {card.standardRef}
                     </div>
 
-                    {/* Arrow */}
-                    <div style={{ fontSize: 13, color: "var(--subtle)", marginBottom: 8 }}>
-                      ↓
-                    </div>
-
-                    {/* Primary trade chip — matches results page styling */}
-                    <div
-                      style={{
-                        background: "var(--cream2)",
-                        border: "1px solid var(--border)",
-                        borderRadius: 8,
-                        padding: "10px 12px",
-                        marginBottom: card.secondary ? 6 : 0,
-                        display: "flex",
-                        justifyContent: "space-between",
-                        alignItems: "center",
-                        gap: 10,
-                      }}
-                    >
-                      <div style={{ fontSize: 12.5, flex: 1 }}>
+                    {/* Trade chip block — pushed to the bottom of the
+                        card via marginTop:auto so all three cards
+                        align their chips at the same baseline. */}
+                    <div style={{ marginTop: "auto" }}>
+                      <div
+                        style={{
+                          background: "var(--cream2)",
+                          border: "1px solid var(--border)",
+                          borderRadius: 8,
+                          padding: "9px 12px",
+                          fontSize: 12.5,
+                        }}
+                      >
                         <span style={{ color: "var(--muted)" }}>Trade needed: </span>
                         <strong style={{ color: "var(--navy)" }}>{card.primary}</strong>
                       </div>
-                      <span
-                        style={{
-                          background: "var(--amber)",
-                          color: "#fff",
-                          padding: "4px 8px",
-                          borderRadius: 5,
-                          fontSize: 10.5,
-                          fontWeight: 700,
-                          letterSpacing: 0.4,
-                          whiteSpace: "nowrap",
-                        }}
-                      >
-                        MAPS →
-                      </span>
-                    </div>
-
-                    {/* Secondary trade chip — only on the "spans two trades" example */}
-                    {card.secondary && (
-                      <div
-                        style={{
-                          border: "1px solid var(--border)",
-                          borderRadius: 8,
-                          padding: "8px 12px",
-                          display: "flex",
-                          justifyContent: "space-between",
-                          alignItems: "center",
-                          gap: 10,
-                        }}
-                      >
-                        <div style={{ fontSize: 12, flex: 1 }}>
+                      {card.secondary && (
+                        <div
+                          style={{
+                            border: "1px solid var(--border)",
+                            borderRadius: 8,
+                            padding: "7px 12px",
+                            fontSize: 12,
+                            marginTop: 6,
+                          }}
+                        >
                           <span style={{ color: "var(--muted)" }}>Also verify with: </span>
                           <strong style={{ color: "var(--navy)" }}>{card.secondary}</strong>
                         </div>
-                        <span
-                          style={{
-                            border: "1px solid var(--border)",
-                            color: "var(--navy)",
-                            padding: "3px 7px",
-                            borderRadius: 5,
-                            fontSize: 10.5,
-                            fontWeight: 600,
-                            letterSpacing: 0.3,
-                            whiteSpace: "nowrap",
-                          }}
-                        >
-                          MAPS →
-                        </span>
-                      </div>
-                    )}
+                      )}
+                    </div>
                   </div>
                 ))}
               </div>
