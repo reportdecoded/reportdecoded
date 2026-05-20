@@ -139,6 +139,31 @@ glazier + waterproofer). The matcher should support multi-trade defects.
 
 ---
 
+## 3b. Stair specialist
+
+- **Label:** Stair specialist
+- **HERE queries:** `stair builder`, `staircase specialist`, `stair installer`, `stair manufacturer`
+- **Defect keywords:**
+  - `stair`, `stairs`, `staircase`, `stair builder`
+  - `step`, `step nosing`, `step riser`, `step tread`
+  - `nosing`, `stair nosing`, `non-slip nosing`
+  - `tread`, `stair tread`, `riser`, `open riser`
+  - `stringer` (the side support of a stair), `closed stringer`, `open stringer`
+  - `newel`, `newel post` (vertical end-of-run post)
+  - `spindle`, `baluster`, `balustrade` (when stair-related — also overlaps Metalworker for steel ones)
+  - `handrail` (when stair-related)
+  - `slip-resistant`, `non-slip`, `anti-slip` (on stair surface)
+  - `spiral stair`, `winder`, `stair winder`, `stair landing`
+  - `compliant stair`, `non-compliant stair`
+  - Standards: `NCC Part 3.9.1` (residential stairs), `BCA Part D2`, `AS 1657` (industrial), `AS 1428.1` (accessible stairs)
+- **Common defect types:**
+  - Missing slip-resistant treatment / nosing strips (NCC 3.9.1.4)
+  - Riser height / tread depth non-compliant
+  - Newel post out of plumb
+  - Balustrade height < 1m (NCC compliance)
+  - Open risers > 125mm gap (child fall hazard)
+  - Stair winder geometry non-compliant
+
 ## 4. Plasterer
 
 - **Label:** Plasterer
