@@ -4,7 +4,7 @@ import { useSearchParams } from 'next/navigation';
 import Link from 'next/link';
 import { track } from '@vercel/analytics';
 import { STYLES } from '@/components/ReportDecoded';
-import { bestTradeForDefect, googleMapsSearchUrl } from '@/lib/trades';
+import { topTradesForDefect, googleMapsSearchUrl } from '@/lib/trades';
 
 const LOAD_STEPS = [
   'Reading inspection report…',
@@ -399,6 +399,60 @@ function TradieCard({ tradie, suburb }) {
   );
 }
 
+// Renders a single trade advisory chip (Trade needed: X + Google Maps
+// CTA). `accent='primary'` is the dominant amber CTA for the main
+// inferred trade; `accent='secondary'` is muted (outline) so the buyer
+// understands it's an additional specialty to consider, not a
+// duplicate. The secondary chip carries the smaller phrase "Also
+// verify with" so the hierarchy reads correctly.
+function TradeChip({ trade, suburb, accent }) {
+  const isPrimary = accent === 'primary';
+  const url = suburb
+    ? googleMapsSearchUrl(trade.label, suburb)
+    : googleMapsSearchUrl(trade.label);
+  return (
+    <div
+      style={{
+        display: 'flex',
+        flexWrap: 'wrap',
+        alignItems: 'center',
+        gap: 12,
+        padding: isPrimary ? '10px 14px' : '8px 14px',
+        background: isPrimary ? 'var(--cream2)' : 'transparent',
+        border: '1px solid var(--border)',
+        borderRadius: 8,
+        fontSize: isPrimary ? 13.5 : 12.5,
+      }}
+    >
+      <div style={{ flex: '1 1 auto', minWidth: 200 }}>
+        <span style={{ color: 'var(--muted)', fontWeight: 500 }}>
+          {isPrimary ? 'Trade needed:' : 'Also verify with:'}
+        </span>{' '}
+        <strong style={{ color: 'var(--navy)' }}>{trade.label}</strong>
+      </div>
+      <a
+        href={url}
+        target="_blank"
+        rel="noopener noreferrer"
+        style={{
+          background: isPrimary ? 'var(--amber)' : 'transparent',
+          color: isPrimary ? '#fff' : 'var(--navy)',
+          border: isPrimary ? 'none' : '1px solid var(--border)',
+          padding: '6px 12px',
+          borderRadius: 6,
+          fontSize: 12.5,
+          fontWeight: 600,
+          textDecoration: 'none',
+          whiteSpace: 'nowrap',
+          flexShrink: 0,
+        }}
+      >
+        Search Google Maps →
+      </a>
+    </div>
+  );
+}
+
 function DefectCard({ kind, defect, index, expanded, toggle, tradiesForCategory, suburb }) {
   const key = `${kind}-${index}`;
   const badge =
@@ -416,20 +470,18 @@ function DefectCard({ kind, defect, index, expanded, toggle, tradiesForCategory,
 
   const hasCosts = Number.isFinite(defect.repair_cost_low) && defect.repair_cost_low > 0;
 
-  // Infer the specific trade needed for THIS defect from its text (name,
-  // description, why-it-matters, location). Mapping rules live in
-  // lib/trades.js. When inferred, we surface the specific label
-  // ("Bricklayer needed") + a Google Maps fallback link — this works
-  // even when HERE Maps returned the wrong specialty or no result at
-  // all in this region. The 'tradies' from HERE remain visible below
-  // as nearby starting-points the buyer can verify.
-  const inferredTrade = bestTradeForDefect(defect);
-  const googleSearchUrl =
-    inferredTrade && suburb
-      ? googleMapsSearchUrl(inferredTrade.label, suburb)
-      : inferredTrade
-        ? googleMapsSearchUrl(inferredTrade.label)
-        : null;
+  // Infer the specific trade(s) needed for THIS defect from its text
+  // (name, description, why-it-matters, location). Mapping rules live
+  // in lib/trades.js. We use topTradesForDefect which returns 1-2
+  // entries — the second only when the defect genuinely spans two
+  // trades (e.g. a slab edge blowout affecting brickwork DPC
+  // compliance: concreter grinds the slab, bricklayer verifies the
+  // masonry-side compliance). Each trade gets its own Google Maps
+  // fallback link so the buyer can call whoever is easier to reach.
+  // HERE results remain below as nearby starting-points to verify.
+  const inferredTrades = topTradesForDefect(defect);
+  const primaryTrade = inferredTrades[0] || null;
+  const secondaryTrade = inferredTrades[1] || null;
 
   return (
     <div className={`defect-card ${kind}`}>
@@ -485,58 +537,38 @@ function DefectCard({ kind, defect, index, expanded, toggle, tradiesForCategory,
               </strong>
             </div>
           )}
-          {/* Trade-specific advisory. When we can infer the trade from the
-              defect text (bricklayer for mortar, concreter for slab, etc),
-              surface it explicitly + give a Google Maps fallback link so
-              the buyer always has a way to find the right specialist even
-              if HERE Maps returned the wrong category for this region.
-              The HERE results below remain as nearby starting points. */}
-          {inferredTrade && (
+          {/* Trade-specific advisory. When we can infer the trade(s) from
+              the defect text (bricklayer for mortar, concreter for slab,
+              etc), surface them explicitly + give a Google Maps fallback
+              link so the buyer always has a way to find the right
+              specialist even if HERE Maps returned the wrong category
+              for this region. When a defect spans two trades (slab edge
+              affecting brickwork DPC, framing carrying a glazed
+              balustrade, etc), both are shown — the buyer picks
+              whichever is easier to reach. HERE results remain below as
+              nearby starting points. */}
+          {primaryTrade && (
             <div className="tradies-section" style={{ marginBottom: tradies.length > 0 ? 12 : 0 }}>
-              <div
-                style={{
-                  display: 'flex',
-                  flexWrap: 'wrap',
-                  alignItems: 'center',
-                  gap: 12,
-                  padding: '10px 14px',
-                  background: 'var(--cream2)',
-                  border: '1px solid var(--border)',
-                  borderRadius: 8,
-                  fontSize: 13.5,
-                }}
-              >
-                <div style={{ flex: '1 1 auto', minWidth: 200 }}>
-                  <span style={{ color: 'var(--muted)', fontWeight: 500 }}>Trade needed:</span>{' '}
-                  <strong style={{ color: 'var(--navy)' }}>{inferredTrade.label}</strong>
+              <TradeChip
+                trade={primaryTrade}
+                suburb={suburb}
+                accent="primary"
+              />
+              {secondaryTrade && (
+                <div style={{ marginTop: 8 }}>
+                  <TradeChip
+                    trade={secondaryTrade}
+                    suburb={suburb}
+                    accent="secondary"
+                  />
                 </div>
-                {googleSearchUrl && (
-                  <a
-                    href={googleSearchUrl}
-                    target="_blank"
-                    rel="noopener noreferrer"
-                    style={{
-                      background: 'var(--amber)',
-                      color: '#fff',
-                      padding: '6px 12px',
-                      borderRadius: 6,
-                      fontSize: 12.5,
-                      fontWeight: 600,
-                      textDecoration: 'none',
-                      whiteSpace: 'nowrap',
-                      flexShrink: 0,
-                    }}
-                  >
-                    Search Google Maps →
-                  </a>
-                )}
-              </div>
+              )}
             </div>
           )}
           {tradies.length > 0 && (
             <div className="tradies-section">
               <div className="tradies-label">
-                {inferredTrade
+                {primaryTrade
                   ? `📍 Nearby HERE Maps results — verify specialty before engaging`
                   : `📍 Nearby tradies — verify specialty before engaging`}
               </div>
