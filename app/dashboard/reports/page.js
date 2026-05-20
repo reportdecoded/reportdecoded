@@ -282,7 +282,7 @@ function EmptyState() {
 
 function ReportRow({ report, agentId, highlighted }) {
   const verdict = report.result_json?.overall_verdict;
-  const verdictMeta = verdictDisplay(verdict, report.status);
+  const verdictMeta = verdictDisplay(verdict, report.status, report.report_type);
 
   // Detect sample/template reports. We've seen the property_address field
   // populated with the full disclaimer string ("Not specified — this is a
@@ -435,21 +435,42 @@ function ReportRow({ report, agentId, highlighted }) {
   );
 }
 
-function verdictDisplay(verdict, status) {
+// Verdict labels are vocabulary-sensitive: the same underlying verdict
+// means different things to a pre-purchase buyer vs. a new-build handover
+// buyer. For a handover, there's no "negotiate" — the contract price is
+// locked, leverage is rectification before sign-off / payment release.
+// Adversarial language ('NEGOTIATE', 'WALK AWAY') would also damage the
+// builder relationship the buyer still depends on for completion.
+function verdictDisplay(verdict, status, reportType) {
   if (status === 'failed') {
     return { label: 'FAILED', bg: 'var(--red-bg)', fg: 'var(--red)' };
   }
   if (status !== 'complete') {
     return { label: 'PROCESSING', bg: 'var(--cream2)', fg: 'var(--muted)' };
   }
+
+  const isHandover = reportType === 'new_build_handover';
+
   if (verdict === 'PROCEED') {
-    return { label: 'PROCEED', bg: 'var(--teal-light)', fg: 'var(--teal)' };
+    return {
+      label: isHandover ? 'READY' : 'PROCEED',
+      bg: 'var(--teal-light)',
+      fg: 'var(--teal)',
+    };
   }
   if (verdict === 'NEGOTIATE') {
-    return { label: 'NEGOTIATE', bg: 'var(--gold-bg)', fg: 'var(--gold)' };
+    return {
+      label: isHandover ? 'RECTIFY' : 'NEGOTIATE',
+      bg: 'var(--gold-bg)',
+      fg: 'var(--gold)',
+    };
   }
   if (verdict === 'WALK_AWAY') {
-    return { label: 'WALK AWAY', bg: 'var(--red-bg)', fg: 'var(--red)' };
+    return {
+      label: isHandover ? 'ESCALATE' : 'WALK AWAY',
+      bg: 'var(--red-bg)',
+      fg: 'var(--red)',
+    };
   }
   return { label: 'COMPLETE', bg: 'var(--cream2)', fg: 'var(--muted)' };
 }

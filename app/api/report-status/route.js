@@ -21,7 +21,7 @@ export async function GET(request) {
   const { data, error } = await supabase
     .from('reports')
     .select(
-      'id, status, payment_status, property_address, result_json, tradies_json, failure_reason, created_at'
+      'id, status, payment_status, property_address, report_type, result_json, tradies_json, failure_reason, created_at'
     )
     .eq('id', reportId)
     .single();
@@ -31,11 +31,14 @@ export async function GET(request) {
   }
 
   // Only surface result_json when complete — keeps response small while polling.
+  // report_type is exposed so the results page can vary verdict + amount
+  // labels for new build handover reports (e.g. RECTIFY instead of NEGOTIATE).
   const payload = {
     id: data.id,
     status: data.status,
     payment_status: data.payment_status,
     property_address: data.property_address,
+    report_type: data.report_type,
     created_at: data.created_at,
   };
   if (data.status === 'complete') {

@@ -183,6 +183,7 @@ function ResultsBody() {
         <ResultsView
           analysis={report.analysis}
           tradies={report.tradies}
+          reportType={report.report_type}
           expanded={expanded}
           toggle={toggle}
           copied={copied}
@@ -276,25 +277,30 @@ function LoadingState({ loadStep }) {
   );
 }
 
-function VerdictBadge({ verdict }) {
+// VerdictBadge accepts an optional reportType so we can show
+// rectification-appropriate language for new build handovers — there's
+// no "negotiate" or "walk away" when the buyer is already in contract;
+// they need to "rectify" defects or "escalate" to the VBA.
+function VerdictBadge({ verdict, reportType }) {
+  const isHandover = reportType === 'new_build_handover';
   if (verdict === 'PROCEED')
     return (
       <div className="verdict-left">
         <span className="verdict-emoji">✅</span>
-        <div className="verdict-badge">Proceed</div>
+        <div className="verdict-badge">{isHandover ? 'Ready for Sign-off' : 'Proceed'}</div>
       </div>
     );
   if (verdict === 'WALK AWAY')
     return (
       <div className="verdict-left">
         <span className="verdict-emoji">🛑</span>
-        <div className="verdict-badge">Walk Away</div>
+        <div className="verdict-badge">{isHandover ? 'Escalate' : 'Walk Away'}</div>
       </div>
     );
   return (
     <div className="verdict-left">
       <span className="verdict-emoji">⚖️</span>
-      <div className="verdict-badge">Negotiate</div>
+      <div className="verdict-badge">{isHandover ? 'Rectify' : 'Negotiate'}</div>
     </div>
   );
 }
@@ -480,7 +486,8 @@ function extractSuburb(address) {
   return m ? m[1].trim() : null;
 }
 
-function ResultsView({ analysis, tradies, expanded, toggle, copied, setCopied, reportId, agentId }) {
+function ResultsView({ analysis, tradies, reportType, expanded, toggle, copied, setCopied, reportId, agentId }) {
+  const isHandover = reportType === 'new_build_handover';
   if (!analysis) return null;
   const majors = analysis.major_defects || [];
   const minors = analysis.minor_defects || [];
@@ -524,7 +531,7 @@ function ResultsView({ analysis, tradies, expanded, toggle, copied, setCopied, r
       </div>
 
       <div className={verdictCardClass(analysis.overall_verdict)}>
-        <VerdictBadge verdict={analysis.overall_verdict} />
+        <VerdictBadge verdict={analysis.overall_verdict} reportType={reportType} />
         <div className="verdict-text">{analysis.verdict_summary}</div>
       </div>
 
@@ -544,9 +551,15 @@ function ResultsView({ analysis, tradies, expanded, toggle, copied, setCopied, r
           <div className="stat-sub">Independent tradie estimates</div>
         </div>
         <div className="stat-card">
-          <div className="stat-label">Negotiation Target</div>
+          <div className="stat-label">
+            {isHandover ? 'Rectification Value' : 'Negotiation Target'}
+          </div>
           <div className="stat-val">{fmt$(analysis.negotiation_amount)}</div>
-          <div className="stat-sub">Based on repair cost midpoint</div>
+          <div className="stat-sub">
+            {isHandover
+              ? 'Outstanding work the builder must complete'
+              : 'Based on repair cost midpoint'}
+          </div>
         </div>
         <div className="stat-card">
           <div className="stat-label">Verdict</div>
