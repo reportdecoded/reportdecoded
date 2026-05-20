@@ -2296,6 +2296,215 @@ export default function App() {
               </div>
             </div>
 
+            {/* ── TRADIES MATCHED SECTION ──────────────────────────
+                Right tradie, every defect. Showcases the trade-
+                inference engine (22 trades, weighted scoring,
+                secondary-trade chip for trade-interface defects,
+                Google Maps fallback) that the homepage previously
+                only mentioned in passing. Sits between negotiation-
+                letter preview and founder note so it continues the
+                "here's what you get" narrative before transitioning
+                to "meet the founder → pick a pack". */}
+            <div style={{ margin: "56px 0 40px" }}>
+              <div style={{ textAlign: "center", marginBottom: 28 }}>
+                <div className="section-label" style={{ marginBottom: 8 }}>
+                  🔧 Plus we tell you who to call
+                </div>
+                <h2 style={{ fontFamily: "'Fraunces',serif", fontSize: 30, margin: "0 0 10px", color: "var(--text)", letterSpacing: -0.3 }}>
+                  Right tradie, every defect.
+                </h2>
+                <p style={{ color: "var(--muted)", fontSize: 15, lineHeight: 1.55, maxWidth: 580, margin: "0 auto" }}>
+                  Every defect gets matched to the specialist who actually fixes it — not just
+                  "a builder". Concreter for slab edges. Bricklayer for mortar. Stair specialist
+                  for nosing compliance.
+                </p>
+              </div>
+
+              {/* Three example defect-tradie matches. Each card mirrors
+                  the actual results-page Trade Needed chip — same amber
+                  primary, same outline secondary — so visitors recognise
+                  the UI when they get their analysis. The middle example
+                  showcases the secondary-trade feature for defects that
+                  span two specialties. */}
+              <div
+                style={{
+                  display: "grid",
+                  gridTemplateColumns: "repeat(auto-fit, minmax(260px, 1fr))",
+                  gap: 14,
+                  maxWidth: 960,
+                  margin: "0 auto",
+                }}
+              >
+                {[
+                  {
+                    defectLabel: "Defect example",
+                    defectName: "Stair treads — no slip-resistant nosing",
+                    standardRef: "NCC 3.9.1 / AS 1657",
+                    primary: "Stair specialist",
+                    secondary: null,
+                  },
+                  {
+                    defectLabel: "Spans two trades",
+                    defectName: "Concrete slab edge blowout affecting brick DPC",
+                    standardRef: "AS 2870 + AS 4773",
+                    primary: "Concreter",
+                    secondary: "Bricklayer",
+                  },
+                  {
+                    defectLabel: "Defect example",
+                    defectName: "Mortar voids letting water into wall cavity",
+                    standardRef: "AS 3700",
+                    primary: "Bricklayer",
+                    secondary: null,
+                  },
+                ].map((card, i) => (
+                  <div
+                    key={i}
+                    style={{
+                      background: "#fff",
+                      border: "1px solid var(--border)",
+                      borderRadius: 12,
+                      padding: "18px 18px 14px",
+                      boxShadow: "0 4px 14px rgba(10,22,40,0.04)",
+                      display: "flex",
+                      flexDirection: "column",
+                    }}
+                  >
+                    {/* Defect example header */}
+                    <div
+                      style={{
+                        fontSize: 10.5,
+                        textTransform: "uppercase",
+                        letterSpacing: 0.6,
+                        fontWeight: 700,
+                        color: card.secondary ? "var(--amber)" : "var(--muted)",
+                        marginBottom: 6,
+                      }}
+                    >
+                      {card.defectLabel}
+                    </div>
+                    <div
+                      style={{
+                        fontWeight: 600,
+                        color: "var(--navy)",
+                        fontSize: 14,
+                        lineHeight: 1.4,
+                        marginBottom: 6,
+                      }}
+                    >
+                      {card.defectName}
+                    </div>
+                    <div
+                      style={{
+                        fontSize: 11.5,
+                        color: "var(--muted)",
+                        fontFamily: "'DM Mono', monospace",
+                        marginBottom: 14,
+                      }}
+                    >
+                      {card.standardRef}
+                    </div>
+
+                    {/* Arrow */}
+                    <div style={{ fontSize: 13, color: "var(--subtle)", marginBottom: 8 }}>
+                      ↓
+                    </div>
+
+                    {/* Primary trade chip — matches results page styling */}
+                    <div
+                      style={{
+                        background: "var(--cream2)",
+                        border: "1px solid var(--border)",
+                        borderRadius: 8,
+                        padding: "10px 12px",
+                        marginBottom: card.secondary ? 6 : 0,
+                        display: "flex",
+                        justifyContent: "space-between",
+                        alignItems: "center",
+                        gap: 10,
+                      }}
+                    >
+                      <div style={{ fontSize: 12.5, flex: 1 }}>
+                        <span style={{ color: "var(--muted)" }}>Trade needed: </span>
+                        <strong style={{ color: "var(--navy)" }}>{card.primary}</strong>
+                      </div>
+                      <span
+                        style={{
+                          background: "var(--amber)",
+                          color: "#fff",
+                          padding: "4px 8px",
+                          borderRadius: 5,
+                          fontSize: 10.5,
+                          fontWeight: 700,
+                          letterSpacing: 0.4,
+                          whiteSpace: "nowrap",
+                        }}
+                      >
+                        MAPS →
+                      </span>
+                    </div>
+
+                    {/* Secondary trade chip — only on the "spans two trades" example */}
+                    {card.secondary && (
+                      <div
+                        style={{
+                          border: "1px solid var(--border)",
+                          borderRadius: 8,
+                          padding: "8px 12px",
+                          display: "flex",
+                          justifyContent: "space-between",
+                          alignItems: "center",
+                          gap: 10,
+                        }}
+                      >
+                        <div style={{ fontSize: 12, flex: 1 }}>
+                          <span style={{ color: "var(--muted)" }}>Also verify with: </span>
+                          <strong style={{ color: "var(--navy)" }}>{card.secondary}</strong>
+                        </div>
+                        <span
+                          style={{
+                            border: "1px solid var(--border)",
+                            color: "var(--navy)",
+                            padding: "3px 7px",
+                            borderRadius: 5,
+                            fontSize: 10.5,
+                            fontWeight: 600,
+                            letterSpacing: 0.3,
+                            whiteSpace: "nowrap",
+                          }}
+                        >
+                          MAPS →
+                        </span>
+                      </div>
+                    )}
+                  </div>
+                ))}
+              </div>
+
+              {/* Bottom strip — quantifies the feature so visitors
+                  know the depth: 22 trades, automatic fallback for
+                  regional areas. Calm one-line treatment so it
+                  doesn't compete with the cards above. */}
+              <div
+                style={{
+                  maxWidth: 720,
+                  margin: "20px auto 0",
+                  padding: "14px 20px",
+                  background: "var(--cream2)",
+                  border: "1px solid var(--border)",
+                  borderRadius: 10,
+                  fontSize: 13,
+                  color: "var(--muted)",
+                  textAlign: "center",
+                  lineHeight: 1.55,
+                }}
+              >
+                <strong style={{ color: "var(--text)" }}>22 trade categories matched against your defects.</strong>{" "}
+                Nearby tradies from public listings when available; Google Maps fallback ready
+                to click when local data is thin (great for regional buyers).
+              </div>
+            </div>
+
             {/* ── FOUNDER NOTE ─────────────────────────────────
                 Win 7 (May 2026 redesign): Founder note moved from
                 below trust-bar to ABOVE pricing. Trust signal lands
