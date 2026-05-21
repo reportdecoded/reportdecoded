@@ -733,38 +733,21 @@ function ResultsView({ analysis, tradies, reportType, expanded, toggle, copied, 
             {majors.length} major · {minors.length} minor · {pests.length} pest
           </div>
         </div>
-        <div className="stat-card">
-          {isHandover ? (
-            <>
-              {/* Handover: the dollar amount is reference-only — the
-                  builder pays under contract. De-emphasise (smaller,
-                  muted) so the buyer's eye lands on Items to Rectify
-                  instead. Label changed from "Est. Repair Cost" (sounds
-                  like buyer pays) to "Builder reference cost" (clearly
-                  the builder's cost). */}
-              <div className="stat-label">Builder Reference Cost</div>
-              <div
-                className="stat-val"
-                style={{
-                  fontSize: 19,
-                  color: 'var(--muted)',
-                  fontWeight: 500,
-                }}
-              >
-                {fmt$(analysis.total_repair_cost_low)} – {fmt$(analysis.total_repair_cost_high)}
-              </div>
-              <div className="stat-sub">For your reference only — builder pays</div>
-            </>
-          ) : (
-            <>
-              <div className="stat-label">Est. Repair Cost</div>
-              <div className="stat-val">
-                {fmt$(analysis.total_repair_cost_low)} – {fmt$(analysis.total_repair_cost_high)}
-              </div>
-              <div className="stat-sub">Independent tradie estimates</div>
-            </>
-          )}
-        </div>
+        {/* Handover: the dollar amount is reference-only (builder pays
+            under contract) so it's removed from the stats row entirely.
+            It still lives — at small size — at the bottom of the
+            Rectification Letter card below. Stats row becomes 3 tiles
+            (Defects Found · Items to Rectify · Verdict) → buyer's eye
+            lands on actionable counts, not dollar amounts. */}
+        {!isHandover && (
+          <div className="stat-card">
+            <div className="stat-label">Est. Repair Cost</div>
+            <div className="stat-val">
+              {fmt$(analysis.total_repair_cost_low)} – {fmt$(analysis.total_repair_cost_high)}
+            </div>
+            <div className="stat-sub">Independent tradie estimates</div>
+          </div>
+        )}
         <div className="stat-card">
           {isHandover ? (
             <>
@@ -988,12 +971,11 @@ function ResultsView({ analysis, tradies, reportType, expanded, toggle, copied, 
                 </div>
               </div>
 
-              <div style={{ fontSize: 12.5, color: 'var(--muted)', lineHeight: 1.6, marginBottom: 14 }}>
-                Builder pays for rectification under your contract.{' '}
-                <span style={{ color: 'var(--text)' }}>
-                  Estimated value: <strong>{fmt$(analysis.negotiation_amount)}</strong>
-                </span>{' '}
-                — for your reference only.
+              <div style={{ fontSize: 11.5, color: 'var(--muted)', lineHeight: 1.5, marginBottom: 14, fontStyle: 'italic' }}>
+                Builder pays for rectification under your contract.
+                <span style={{ marginLeft: 4 }}>
+                  Reference value <span style={{ fontFamily: "'DM Mono',monospace", color: 'var(--muted)' }}>{fmt$(analysis.negotiation_amount)}</span>.
+                </span>
               </div>
 
               <div className="negs-text">{analysis.builder_rectification_letter}</div>
@@ -1009,35 +991,6 @@ function ResultsView({ analysis, tradies, reportType, expanded, toggle, copied, 
               <div style={{ color: '#374151', fontSize: 14, lineHeight: 1.6, whiteSpace: 'pre-wrap' }}>
                 {analysis.if_builder_refuses_note}
               </div>
-            </div>
-          )}
-
-          {/* 5-year capex forecast — universal (home + investor both benefit) */}
-          {analysis.capex_forecast && (
-            <div className="panel-card">
-              <div className="panel-title">📅 5-Year Cost Forecast</div>
-              <div style={{ color: 'var(--muted)', fontSize: 12, marginBottom: 14, lineHeight: 1.5 }}>
-                Forward-looking budget so you know what to set aside — not just the urgent stuff.
-              </div>
-              {[
-                { key: 'year_1_urgent', label: 'Year 1 — urgent', color: 'var(--red)' },
-                { key: 'year_1_to_3', label: 'Year 1–3 — planned', color: 'var(--gold)' },
-                { key: 'year_3_to_5', label: 'Year 3–5 — anticipated', color: 'var(--teal)' },
-              ].map(({ key, label, color }) => {
-                const b = analysis.capex_forecast[key];
-                if (!b) return null;
-                return (
-                  <div key={key} style={{ marginBottom: 14, paddingBottom: 12, borderBottom: key === 'year_3_to_5' ? 'none' : '1px solid var(--border)' }}>
-                    <div style={{ display: 'flex', alignItems: 'flex-start', justifyContent: 'space-between', gap: 10, marginBottom: 4 }}>
-                      <div style={{ fontWeight: 600, fontSize: 13, color: 'var(--navy)' }}>{label}</div>
-                      <div style={{ fontFamily: "'DM Mono',monospace", fontSize: 13, color, fontWeight: 700, whiteSpace: 'nowrap' }}>
-                        {fmt$(b.low)} – {fmt$(b.high)}
-                      </div>
-                    </div>
-                    {b.summary && <div style={{ fontSize: 12, color: '#374151', lineHeight: 1.5 }}>{b.summary}</div>}
-                  </div>
-                );
-              })}
             </div>
           )}
 
@@ -1125,6 +1078,38 @@ function ResultsView({ analysis, tradies, reportType, expanded, toggle, copied, 
               <div style={{ color: '#374151', fontSize: 14, lineHeight: 1.6 }}>
                 {analysis.what_report_does_not_cover}
               </div>
+            </div>
+          )}
+
+          {/* 5-year capex forecast — moved to the END of the page.
+              It's forward-looking planning info (not an immediate
+              action), so it makes more sense as the closing content
+              card. Universal (home + investor both benefit). */}
+          {analysis.capex_forecast && (
+            <div className="panel-card">
+              <div className="panel-title">📅 5-Year Cost Forecast</div>
+              <div style={{ color: 'var(--muted)', fontSize: 12, marginBottom: 14, lineHeight: 1.5 }}>
+                Forward-looking budget so you know what to set aside — not just the urgent stuff.
+              </div>
+              {[
+                { key: 'year_1_urgent', label: 'Year 1 — urgent', color: 'var(--red)' },
+                { key: 'year_1_to_3', label: 'Year 1–3 — planned', color: 'var(--gold)' },
+                { key: 'year_3_to_5', label: 'Year 3–5 — anticipated', color: 'var(--teal)' },
+              ].map(({ key, label, color }) => {
+                const b = analysis.capex_forecast[key];
+                if (!b) return null;
+                return (
+                  <div key={key} style={{ marginBottom: 14, paddingBottom: 12, borderBottom: key === 'year_3_to_5' ? 'none' : '1px solid var(--border)' }}>
+                    <div style={{ display: 'flex', alignItems: 'flex-start', justifyContent: 'space-between', gap: 10, marginBottom: 4 }}>
+                      <div style={{ fontWeight: 600, fontSize: 13, color: 'var(--navy)' }}>{label}</div>
+                      <div style={{ fontFamily: "'DM Mono',monospace", fontSize: 13, color, fontWeight: 700, whiteSpace: 'nowrap' }}>
+                        {fmt$(b.low)} – {fmt$(b.high)}
+                      </div>
+                    </div>
+                    {b.summary && <div style={{ fontSize: 12, color: '#374151', lineHeight: 1.5 }}>{b.summary}</div>}
+                  </div>
+                );
+              })}
             </div>
           )}
 
