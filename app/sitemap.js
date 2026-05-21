@@ -75,15 +75,13 @@ export default function sitemap() {
     })),
   ];
 
-  // Public sample report is intentionally surfaced as an indexable
-  // URL so Google can crawl the live analysis output as a working
-  // example — strong proof-of-concept for ranking + dwell time.
-  const sampleReport = {
-    url: `${BASE}/results?reportId=f3ef0ce1-5443-4e91-a420-5e8bf7d8713d&sample=1`,
-    lastModified: today,
-    changeFrequency: 'monthly',
-    priority: 0.7,
-  };
+  // Public sample report URL is intentionally NOT listed in the
+  // sitemap. The bare `&` in `?reportId=...&sample=1` is invalid XML
+  // (would need to be encoded as `&amp;`) and breaks the sitemap.xml
+  // parse. Google still discovers + indexes the sample via the
+  // homepage link + the explicit allow rule in robots.txt, so we
+  // don't need it in the sitemap. Better to keep the sitemap clean
+  // and let Google crawl the sample through normal link discovery.
 
-  return [...staticPages, ...suburbPages, ...articlePages, sampleReport];
+  return [...staticPages, ...suburbPages, ...articlePages];
 }
