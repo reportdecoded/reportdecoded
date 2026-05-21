@@ -7,6 +7,7 @@
 // the sitemap. No manual list to keep in sync.
 
 import { allSuburbSlugs } from '@/lib/suburbs';
+import { allArticleSlugs } from '@/lib/articles';
 
 const BASE = 'https://www.reportdecoded.com.au';
 
@@ -59,6 +60,21 @@ export default function sitemap() {
     priority: 0.8,
   }));
 
+  const articlePages = [
+    {
+      url: `${BASE}/resources`,
+      lastModified: today,
+      changeFrequency: 'weekly',
+      priority: 0.7,
+    },
+    ...allArticleSlugs().map((slug) => ({
+      url: `${BASE}/resources/${slug}`,
+      lastModified: today,
+      changeFrequency: 'monthly',
+      priority: 0.75,
+    })),
+  ];
+
   // Public sample report is intentionally surfaced as an indexable
   // URL so Google can crawl the live analysis output as a working
   // example — strong proof-of-concept for ranking + dwell time.
@@ -69,5 +85,5 @@ export default function sitemap() {
     priority: 0.7,
   };
 
-  return [...staticPages, ...suburbPages, sampleReport];
+  return [...staticPages, ...suburbPages, ...articlePages, sampleReport];
 }
