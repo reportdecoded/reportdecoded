@@ -453,10 +453,17 @@ function TradeChip({ trade, suburb, accent }) {
   );
 }
 
-function DefectCard({ kind, defect, index, expanded, toggle, tradiesByKey, suburb }) {
+function DefectCard({ kind, defect, index, expanded, toggle, tradiesByKey, suburb, reportType }) {
   const key = `${kind}-${index}`;
-  const badge =
-    kind === 'major' ? 'MAJOR DEFECT' : kind === 'minor' ? 'MINOR DEFECT' : 'PEST RISK';
+  // New-build handover reports go through a builder who will rectify
+  // under contract — the framing should be calmer and less adversarial.
+  // "MAJOR DEFECT" is fine for a pre-purchase negotiation; for a buyer
+  // working WITH their builder it reads as inflammatory. Soften the
+  // badge labels + repair-cost prominence + "why it matters" wording.
+  const isHandover = reportType === 'new_build_handover';
+  const badge = isHandover
+    ? (kind === 'major' ? 'TO RECTIFY' : kind === 'minor' ? 'COSMETIC ITEM' : 'PEST FINDING')
+    : (kind === 'major' ? 'MAJOR DEFECT' : kind === 'minor' ? 'MINOR DEFECT' : 'PEST RISK');
 
   // Schema tolerance: pest_findings sometimes return pest_type/damage_description
   // instead of the defect-standard name/plain_english. Show whatever's present.
@@ -510,7 +517,7 @@ function DefectCard({ kind, defect, index, expanded, toggle, tradiesByKey, subur
     primaryTrade && merged.length > 0 && tradies.length === 0;
 
   return (
-    <div className={`defect-card ${kind}`}>
+    <div className={`defect-card ${kind}${isHandover ? ' handover' : ''}`}>
       <div className="defect-header" onClick={() => toggle(key)}>
         <div className="defect-title-row">
           <div className="severity-dot" />
@@ -552,16 +559,45 @@ function DefectCard({ kind, defect, index, expanded, toggle, tradiesByKey, subur
           {description && <p className="defect-desc">{description}</p>}
           {whyItMatters && (
             <p className="defect-desc" style={{ marginTop: 12, fontStyle: 'italic' }}>
-              <strong>{defect.why_it_matters ? 'Why it matters:' : 'Recommendation:'}</strong> {whyItMatters}
+              <strong>
+                {isHandover
+                  ? 'Why include for sign-off:'
+                  : defect.why_it_matters ? 'Why it matters:' : 'Recommendation:'}
+              </strong>{' '}
+              {whyItMatters}
             </p>
           )}
           {hasCosts && (
-            <div className="cost-chip">
-              💰 Estimated repair cost:{' '}
-              <strong>
-                {fmt$(defect.repair_cost_low)} – {fmt$(defect.repair_cost_high)}
-              </strong>
-            </div>
+            isHandover ? (
+              // Handover: builder pays under contract. Cost is reference-only.
+              // Render as a tiny muted right-aligned line so it doesn't
+              // dominate the card or read as the buyer's "ask number".
+              <div
+                style={{
+                  display: 'flex',
+                  justifyContent: 'flex-end',
+                  marginTop: 6,
+                  marginBottom: 8,
+                  fontSize: 11.5,
+                  color: 'var(--muted)',
+                  fontStyle: 'italic',
+                  fontFamily: "'DM Mono', monospace",
+                }}
+              >
+                Builder reference cost:&nbsp;
+                <span style={{ color: 'var(--text)' }}>
+                  {fmt$(defect.repair_cost_low)}–{fmt$(defect.repair_cost_high)}
+                </span>
+              </div>
+            ) : (
+              // Pre-purchase: cost is the negotiation lever. Keep prominent.
+              <div className="cost-chip">
+                💰 Estimated repair cost:{' '}
+                <strong>
+                  {fmt$(defect.repair_cost_low)} – {fmt$(defect.repair_cost_high)}
+                </strong>
+              </div>
+            )
           )}
           {/* Trade-specific advisory. When we can infer the trade(s) from
               the defect text (bricklayer for mortar, concreter for slab,
@@ -698,11 +734,36 @@ function ResultsView({ analysis, tradies, reportType, expanded, toggle, copied, 
           </div>
         </div>
         <div className="stat-card">
-          <div className="stat-label">Est. Repair Cost</div>
-          <div className="stat-val">
-            {fmt$(analysis.total_repair_cost_low)} – {fmt$(analysis.total_repair_cost_high)}
-          </div>
-          <div className="stat-sub">Independent tradie estimates</div>
+          {isHandover ? (
+            <>
+              {/* Handover: the dollar amount is reference-only — the
+                  builder pays under contract. De-emphasise (smaller,
+                  muted) so the buyer's eye lands on Items to Rectify
+                  instead. Label changed from "Est. Repair Cost" (sounds
+                  like buyer pays) to "Builder reference cost" (clearly
+                  the builder's cost). */}
+              <div className="stat-label">Builder Reference Cost</div>
+              <div
+                className="stat-val"
+                style={{
+                  fontSize: 19,
+                  color: 'var(--muted)',
+                  fontWeight: 500,
+                }}
+              >
+                {fmt$(analysis.total_repair_cost_low)} – {fmt$(analysis.total_repair_cost_high)}
+              </div>
+              <div className="stat-sub">For your reference only — builder pays</div>
+            </>
+          ) : (
+            <>
+              <div className="stat-label">Est. Repair Cost</div>
+              <div className="stat-val">
+                {fmt$(analysis.total_repair_cost_low)} – {fmt$(analysis.total_repair_cost_high)}
+              </div>
+              <div className="stat-sub">Independent tradie estimates</div>
+            </>
+          )}
         </div>
         <div className="stat-card">
           {isHandover ? (
@@ -737,7 +798,9 @@ function ResultsView({ analysis, tradies, reportType, expanded, toggle, copied, 
         <div>
           {majors.length > 0 && (
             <div style={{ marginBottom: 28 }}>
-              <div className="section-label">🔴  Major Defects</div>
+              <div className="section-label">
+                {isHandover ? '🔧  Rectification Items' : '🔴  Major Defects'}
+              </div>
               {majors.map((d, i) => (
                 <DefectCard
                   key={i}
@@ -747,6 +810,7 @@ function ResultsView({ analysis, tradies, reportType, expanded, toggle, copied, 
                   expanded={expanded}
                   toggle={toggle}
                   tradiesByKey={tradiesBy}
+                  reportType={reportType}
                   suburb={suburb}
                 />
               ))}
@@ -754,7 +818,9 @@ function ResultsView({ analysis, tradies, reportType, expanded, toggle, copied, 
           )}
           {minors.length > 0 && (
             <div style={{ marginBottom: 28 }}>
-              <div className="section-label">🟡  Minor Defects</div>
+              <div className="section-label">
+                {isHandover ? '✨  Cosmetic Items' : '🟡  Minor Defects'}
+              </div>
               {minors.map((d, i) => (
                 <DefectCard
                   key={i}
@@ -764,6 +830,7 @@ function ResultsView({ analysis, tradies, reportType, expanded, toggle, copied, 
                   expanded={expanded}
                   toggle={toggle}
                   tradiesByKey={tradiesBy}
+                  reportType={reportType}
                   suburb={suburb}
                 />
               ))}
@@ -771,7 +838,9 @@ function ResultsView({ analysis, tradies, reportType, expanded, toggle, copied, 
           )}
           {pests.length > 0 && (
             <div style={{ marginBottom: 28 }}>
-              <div className="section-label">🟤  Pest Findings</div>
+              <div className="section-label">
+                {isHandover ? '🐜  Pest Findings' : '🟤  Pest Findings'}
+              </div>
               {pests.map((d, i) => (
                 <DefectCard
                   key={i}
@@ -781,6 +850,7 @@ function ResultsView({ analysis, tradies, reportType, expanded, toggle, copied, 
                   expanded={expanded}
                   toggle={toggle}
                   tradiesByKey={tradiesBy}
+                  reportType={reportType}
                   suburb={suburb}
                 />
               ))}

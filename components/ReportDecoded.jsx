@@ -779,6 +779,14 @@ body{
 .major .severity-badge{background:var(--red-bg);color:var(--red);}
 .minor .severity-badge{background:var(--gold-bg);color:var(--gold);}
 .pest  .severity-badge{background:var(--brown-bg);color:var(--brown);}
+
+/* Handover variant — softer palette so the relationship with the
+   builder stays cooperative. "TO RECTIFY" in teal reads as "needs
+   attention" rather than "this is a disaster". Override the kind-
+   specific colours when the surrounding card is in handover mode. */
+.defect-card.handover.major .severity-badge{background:var(--teal-light);color:var(--teal);}
+.defect-card.handover.minor .severity-badge{background:var(--cream2);color:var(--muted);}
+.defect-card.handover.pest  .severity-badge{background:var(--brown-bg);color:var(--brown);}
 .defect-chevron{color:var(--subtle);font-size:12px;margin-top:4px;}
 .defect-body{border-top:1px solid var(--border);padding:22px;}
 .defect-desc{font-size:14px;line-height:1.75;color:#374151;margin-bottom:18px;}
