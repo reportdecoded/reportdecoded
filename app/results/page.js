@@ -676,6 +676,43 @@ function extractSuburb(address) {
   return m ? m[1].trim() : null;
 }
 
+// Shared 5-year capex forecast card. Same content rendered in two
+// different positions depending on report type — pre-purchase shows
+// it higher up (forward planning sits with negotiation guidance);
+// handover shows it as the closing content card (action first,
+// planning last). Extracting to a single component keeps the
+// markup in sync if either position is later restyled.
+function CapexForecastCard({ forecast }) {
+  if (!forecast) return null;
+  return (
+    <div className="panel-card">
+      <div className="panel-title">📅 5-Year Cost Forecast</div>
+      <div style={{ color: 'var(--muted)', fontSize: 12, marginBottom: 14, lineHeight: 1.5 }}>
+        Forward-looking budget so you know what to set aside — not just the urgent stuff.
+      </div>
+      {[
+        { key: 'year_1_urgent', label: 'Year 1 — urgent', color: 'var(--red)' },
+        { key: 'year_1_to_3', label: 'Year 1–3 — planned', color: 'var(--gold)' },
+        { key: 'year_3_to_5', label: 'Year 3–5 — anticipated', color: 'var(--teal)' },
+      ].map(({ key, label, color }) => {
+        const b = forecast[key];
+        if (!b) return null;
+        return (
+          <div key={key} style={{ marginBottom: 14, paddingBottom: 12, borderBottom: key === 'year_3_to_5' ? 'none' : '1px solid var(--border)' }}>
+            <div style={{ display: 'flex', alignItems: 'flex-start', justifyContent: 'space-between', gap: 10, marginBottom: 4 }}>
+              <div style={{ fontWeight: 600, fontSize: 13, color: 'var(--navy)' }}>{label}</div>
+              <div style={{ fontFamily: "'DM Mono',monospace", fontSize: 13, color, fontWeight: 700, whiteSpace: 'nowrap' }}>
+                {fmt$(b.low)} – {fmt$(b.high)}
+              </div>
+            </div>
+            {b.summary && <div style={{ fontSize: 12, color: '#374151', lineHeight: 1.5 }}>{b.summary}</div>}
+          </div>
+        );
+      })}
+    </div>
+  );
+}
+
 function ResultsView({ analysis, tradies, reportType, expanded, toggle, copied, setCopied, reportId, agentId }) {
   const isHandover = reportType === 'new_build_handover';
   if (!analysis) return null;
@@ -994,6 +1031,16 @@ function ResultsView({ analysis, tradies, reportType, expanded, toggle, copied, 
             </div>
           )}
 
+          {/* 5-year capex forecast — PRE-PURCHASE position. Sits here in
+              the flow so pre-purchase buyers see forward maintenance
+              planning right after the negotiation guidance. The handover
+              variant renders this same block at the BOTTOM of the page
+              instead (see below) because new-build buyers care about
+              builder-rectification first and planning last. */}
+          {!isHandover && analysis.capex_forecast && (
+            <CapexForecastCard forecast={analysis.capex_forecast} />
+          )}
+
           {/* Investor-only: rental compliance gaps */}
           {Array.isArray(analysis.rental_compliance_gaps) &&
             analysis.rental_compliance_gaps.length > 0 && (
@@ -1081,36 +1128,13 @@ function ResultsView({ analysis, tradies, reportType, expanded, toggle, copied, 
             </div>
           )}
 
-          {/* 5-year capex forecast — moved to the END of the page.
-              It's forward-looking planning info (not an immediate
-              action), so it makes more sense as the closing content
-              card. Universal (home + investor both benefit). */}
-          {analysis.capex_forecast && (
-            <div className="panel-card">
-              <div className="panel-title">📅 5-Year Cost Forecast</div>
-              <div style={{ color: 'var(--muted)', fontSize: 12, marginBottom: 14, lineHeight: 1.5 }}>
-                Forward-looking budget so you know what to set aside — not just the urgent stuff.
-              </div>
-              {[
-                { key: 'year_1_urgent', label: 'Year 1 — urgent', color: 'var(--red)' },
-                { key: 'year_1_to_3', label: 'Year 1–3 — planned', color: 'var(--gold)' },
-                { key: 'year_3_to_5', label: 'Year 3–5 — anticipated', color: 'var(--teal)' },
-              ].map(({ key, label, color }) => {
-                const b = analysis.capex_forecast[key];
-                if (!b) return null;
-                return (
-                  <div key={key} style={{ marginBottom: 14, paddingBottom: 12, borderBottom: key === 'year_3_to_5' ? 'none' : '1px solid var(--border)' }}>
-                    <div style={{ display: 'flex', alignItems: 'flex-start', justifyContent: 'space-between', gap: 10, marginBottom: 4 }}>
-                      <div style={{ fontWeight: 600, fontSize: 13, color: 'var(--navy)' }}>{label}</div>
-                      <div style={{ fontFamily: "'DM Mono',monospace", fontSize: 13, color, fontWeight: 700, whiteSpace: 'nowrap' }}>
-                        {fmt$(b.low)} – {fmt$(b.high)}
-                      </div>
-                    </div>
-                    {b.summary && <div style={{ fontSize: 12, color: '#374151', lineHeight: 1.5 }}>{b.summary}</div>}
-                  </div>
-                );
-              })}
-            </div>
+          {/* 5-year capex forecast — HANDOVER position. Sits at the
+              bottom of the right panel because new-build buyers care
+              about builder-rectification action items first; forward
+              planning is the closing content card. Pre-purchase
+              variant renders this same block higher up (see above). */}
+          {isHandover && analysis.capex_forecast && (
+            <CapexForecastCard forecast={analysis.capex_forecast} />
           )}
 
           {analysis.disclaimer && (
