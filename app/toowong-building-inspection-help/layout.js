@@ -1,0 +1,5 @@
+// Per-suburb metadata + canonical URL + OG tags. Server-rendered so
+// Next emits metadata to <head> before the client component takes over.
+import { suburbMetadata } from '@/lib/suburbs';
+export const metadata = suburbMetadata('toowong');
+export default function Layout({ children }) { return children; }
