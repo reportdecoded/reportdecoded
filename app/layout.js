@@ -34,6 +34,16 @@ export const metadata = {
     description:
       'AI-powered plain-English interpretation of Australian building inspection reports.',
   },
+  // Site-ownership verification meta tags.
+  // - Google Search Console: verified via DNS (no meta tag needed)
+  // - Bing Webmaster Tools: meta-tag method (GSC-import API path failed
+  //   during the May 2026 launch admin sprint; we fell back to manual
+  //   verification, which only needs this meta tag in <head>).
+  verification: {
+    other: {
+      'msvalidate.01': 'C249E57F4650E3A6C0744BFC0235FA54',
+    },
+  },
 };
 
 // Next 16 separates viewport/theme-color into their own export so they're
