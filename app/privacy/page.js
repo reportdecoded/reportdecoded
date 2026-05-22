@@ -26,7 +26,7 @@ export default function PrivacyPage() {
 
       <main style={{ maxWidth: 760, margin: '48px auto', padding: '0 24px', color: 'var(--text)', lineHeight: 1.7 }}>
         <h1 style={{ fontFamily: "'Fraunces',serif", fontSize: 40, marginBottom: 8 }}>Privacy Policy</h1>
-        <p style={{ color: 'var(--muted)', marginBottom: 32 }}>Last updated: 12 May 2026</p>
+        <p style={{ color: 'var(--muted)', marginBottom: 32 }}>Last updated: 22 May 2026</p>
 
         <h2 style={{ marginTop: 28, marginBottom: 10 }}>Who we are</h2>
         <p>
@@ -52,6 +52,37 @@ export default function PrivacyPage() {
           <li><strong>Resend:</strong> sends you the "your report is ready" email.</li>
           <li><strong>Supabase:</strong> stores the analysis output linked to your email so we can deliver and re-show your report.</li>
         </ul>
+
+        <h2 style={{ marginTop: 28, marginBottom: 10 }}>Where your data is processed</h2>
+        <p>
+          Several of the services we use to deliver your analysis are based outside
+          Australia. By using Report Decoded you consent to your personal data being
+          transferred to and processed in the following countries:
+        </p>
+        <ul style={{ paddingLeft: 24 }}>
+          <li>
+            <strong>United States:</strong> Anthropic (Claude AI inference), Stripe
+            (payment processing), Resend (transactional email delivery), Vercel
+            (web hosting + serverless functions).
+          </li>
+          <li>
+            <strong>Singapore:</strong> UploadThing (where your uploaded inspection
+            PDF is temporarily stored for processing) and Supabase (where your
+            analysis result is stored so we can deliver and re-show your report).
+          </li>
+        </ul>
+        <p>
+          Each of these providers is contractually required under their service
+          agreements with us to protect your data to standards equivalent to the
+          Australian Privacy Principles. Both the United States and Singapore have
+          mature data-protection frameworks. We do not sell, lease, or otherwise
+          transfer your data to any third party for marketing purposes.
+        </p>
+        <p>
+          If you would prefer your data not be transferred outside Australia, you
+          should not use this service — the analysis cannot be performed without
+          sending the inspection PDF to Anthropic for AI processing.
+        </p>
 
         <h2 style={{ marginTop: 28, marginBottom: 10 }}>How long we keep it</h2>
         <p>

@@ -26,14 +26,22 @@ export default function TermsPage() {
 
       <main style={{ maxWidth: 760, margin: '48px auto', padding: '0 24px', color: 'var(--text)', lineHeight: 1.7 }}>
         <h1 style={{ fontFamily: "'Fraunces',serif", fontSize: 40, marginBottom: 8 }}>Terms of Service</h1>
-        <p style={{ color: 'var(--muted)', marginBottom: 32 }}>Last updated: 12 May 2026</p>
+        <p style={{ color: 'var(--muted)', marginBottom: 32 }}>Last updated: 22 May 2026</p>
 
         <h2 style={{ marginTop: 28, marginBottom: 10 }}>1. What we do</h2>
         <p>
           Report Decoded uses AI to interpret Australian building and pest inspection
           reports prepared under AS4349.1. We extract defects, estimate repair costs in
           AUD, recommend negotiation language or builder-rectification language, and
-          suggest local tradespeople. Reports cost $59 each (or volume packs at $149/$390).
+          suggest local tradespeople.
+        </p>
+        <p>
+          <strong>Pricing.</strong> Individual buyer reports are $59 each (one-off, no
+          subscription). Buyer's agents and selling agents can subscribe for ongoing
+          access on either the Starter plan ($79/month, 12 reports included) or the Pro
+          plan ($149/month, unlimited reports plus the agent dashboard, priority support,
+          and white-label PDFs branded with the agency's logo and accent colour).
+          Subscription terms are in section 4 below.
         </p>
 
         <h2 style={{ marginTop: 28, marginBottom: 10 }}>2. This is not professional advice</h2>
@@ -63,7 +71,65 @@ export default function TermsPage() {
           {' '}and we will review your case in good faith.
         </p>
 
-        <h2 style={{ marginTop: 28, marginBottom: 10 }}>4. Tradesperson suggestions</h2>
+        <h2 style={{ marginTop: 28, marginBottom: 10 }}>4. Agent subscriptions</h2>
+        <p>
+          Buyer's agents and selling agents may subscribe for ongoing access:
+        </p>
+        <ul style={{ paddingLeft: 24 }}>
+          <li>
+            <strong>Starter ($79/month):</strong> includes 12 reports per calendar month.
+            Additional reports above the monthly quota are billed at $15 each via
+            metered Stripe billing in the same monthly invoice.
+          </li>
+          <li>
+            <strong>Pro ($149/month):</strong> unlimited reports, plus the agent
+            dashboard, priority support, and white-label PDFs branded with your
+            agency.
+          </li>
+          <li>
+            Subscriptions auto-renew monthly on the same date as sign-up. You authorise
+            us (via Stripe) to charge your nominated payment method each billing cycle.
+          </li>
+          <li>
+            You can cancel at any time from your dashboard or by emailing us. Cancellation
+            takes effect at the end of the current billing period; you retain access
+            until then.
+          </li>
+          <li>
+            No refunds are issued for partial months or for unused report quota. If
+            Stripe is unable to charge your card, your subscription will be paused until
+            you update your billing method.
+          </li>
+          <li>
+            New agents are given a Stripe trial that ends the moment you upload your
+            first completed report — meaning you are not billed until you have used the
+            service. Trial terms are set at Stripe checkout.
+          </li>
+          <li>
+            We may change pricing with at least 30 days written notice to your registered
+            email address. Existing subscribers continue at their current rate until the
+            next renewal after the notice period ends.
+          </li>
+        </ul>
+
+        <h2 style={{ marginTop: 28, marginBottom: 10 }}>5. Negotiation letters and rectification letters</h2>
+        <p>
+          Where your analysis includes an auto-generated negotiation letter (pre-purchase
+          reports) or builder rectification letter (new-build handover reports), these
+          are <strong>drafted templates intended as a starting point</strong>. They are
+          not legal correspondence and have not been reviewed by a solicitor.
+        </p>
+        <p>
+          Before sending any generated letter to a vendor, vendor's agent, builder, or
+          other party, you should: (a) review the letter for factual accuracy against
+          your inspection report; (b) adjust the wording to suit your tone, context,
+          and relationship with the recipient; and (c) seek legal advice if you are
+          unsure about phrasing that could affect your contractual position. Report
+          Decoded is not responsible for the outcome of any communication you send
+          based on a template we have generated.
+        </p>
+
+        <h2 style={{ marginTop: 28, marginBottom: 10 }}>6. Tradesperson suggestions</h2>
         <p>
           Tradies shown in your report are sourced from public business listings via HERE
           Maps. They are not endorsed, vetted, employed, or warranted by Report Decoded.
@@ -71,7 +137,7 @@ export default function TermsPage() {
           insurance, references, and quotes independently.
         </p>
 
-        <h2 style={{ marginTop: 28, marginBottom: 10 }}>5. Your data</h2>
+        <h2 style={{ marginTop: 28, marginBottom: 10 }}>7. Your data</h2>
         <p>
           Our handling of your data is covered by our{' '}
           <Link href="/privacy" style={{ color: 'var(--amber)' }}>
@@ -80,7 +146,7 @@ export default function TermsPage() {
           . By using the service you consent to that handling.
         </p>
 
-        <h2 style={{ marginTop: 28, marginBottom: 10 }}>6. Limitation of liability</h2>
+        <h2 style={{ marginTop: 28, marginBottom: 10 }}>8. Limitation of liability</h2>
         <p>
           To the maximum extent permitted by Australian law, Report Decoded is not liable
           for any indirect, incidental, or consequential loss arising from your use of the
@@ -94,20 +160,20 @@ export default function TermsPage() {
           cannot be lawfully excluded.
         </p>
 
-        <h2 style={{ marginTop: 28, marginBottom: 10 }}>7. Acceptable use</h2>
+        <h2 style={{ marginTop: 28, marginBottom: 10 }}>9. Acceptable use</h2>
         <p>
           You may use Report Decoded only for your own property purchasing or management
           decisions, or those of clients you represent. You may not redistribute, resell,
           or commercialise the output of our service without a written agreement with us.
         </p>
 
-        <h2 style={{ marginTop: 28, marginBottom: 10 }}>8. Governing law</h2>
+        <h2 style={{ marginTop: 28, marginBottom: 10 }}>10. Governing law</h2>
         <p>
           These terms are governed by the laws of Victoria, Australia. Any dispute is
           subject to the non-exclusive jurisdiction of the courts of Victoria.
         </p>
 
-        <h2 style={{ marginTop: 28, marginBottom: 10 }}>9. Contact</h2>
+        <h2 style={{ marginTop: 28, marginBottom: 10 }}>11. Contact</h2>
         <p>
           <a href="mailto:info@reportdecoded.com.au" style={{ color: 'var(--amber)' }}>
             info@reportdecoded.com.au
