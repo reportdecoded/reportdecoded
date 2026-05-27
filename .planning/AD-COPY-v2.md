@@ -321,36 +321,93 @@ reportdecoded.com.au
 
 ## Testing protocol
 
-### Phase 1 — Validate (Days 1–3 after launch)
+> **Revised May 2026** after correcting an earlier mistake: spreading
+> $40/day across 8 ads keeps every ad stuck in Meta's learning phase
+> (~50 conversions needed per ad before the algo optimises). Better
+> to consolidate spend on fewer ads, prove a winner, then expand.
 
-- Run all 4 ads at $5/day each on Meta (1080×1080 placement)
-- Kill anything with CTR < 1.0% by day 2
-- Survivors get more budget on day 3
+### Phase 1 — Organic first (Launch week, Days 1–7)
 
-### Phase 2 — Scale (Days 4–7)
+**$0 ad spend.** Run the Show HN, Product Hunt, Reddit and LinkedIn
+organic launch posts from `LAUNCH-COPY.md` instead.
 
-- Take the 2 best ads from Phase 1
-- Run them at $20/day each
-- Test the IG portrait (1080×1350) and Reels (1080×1920) versions
-- Run LinkedIn for Ad 4 at $10/day targeting "Buyer's Agent" job title in AU
+Why: free, gives you product-market feedback you can't buy, and the
+first 10–50 customers from organic give you the data you need to
+target paid ads precisely later.
 
-### Phase 3 — Variant testing (Week 2+)
+### Phase 2 — Validate ad creative (Week 2, ~$30–40/day)
 
-- Test the suburb-rotation variants of Ad 3 against their respective geos
-- Test Google Search ads against the AU "building inspection help" keyword cluster
+Run **only 2 ads** at $15–20/day each to learn which hook converts:
+
+- **Ad 2 Dark** — the keeper, your strongest cold-audience hook
+  ("Then we read page 47.")
+- **Ad 1 Dark** — kitchen guy, solo male buyers
+  ("He just realised he can ask $42K off.")
+
+Total: $30–40/day, ~$210–280 for the validation week.
+
+Format: 1080×1080 for Meta + IG feed only (don't fragment spend
+across placements during validation).
+
+**Win criteria (either ad):**
+- CTR > 2.0% sustained over 5 days
+- CPA < $25
+- ROAS > 1.5× ($1 in → $1.50+ out — break-even acceptable in validation)
+
+**Kill criteria (either ad):**
+- CTR < 0.8% after 48 hours
+- CPC > $3.50
+- CPA > $40 after 72 hours
+
+If both ads fail criteria after a week, the hook isn't the problem —
+it's the audience targeting. Test a different audience (e.g. "first
+home buyer Australia" interest → "investment property" interest)
+before swapping creatives.
+
+### Phase 3 — Scale + A/B light variants (Week 3+)
+
+Once Phase 2 gives you a winner:
+
+1. **Scale the winning ad** to $40–60/day
+2. **Introduce its light variant** alongside as the A/B partner
+   (same hook, same image, only theme differs)
+3. **Add Ad 3 (friends)** for Instagram + Pinterest at $15/day —
+   different audience than feed ads
+4. **Add Ad 4 (agent)** for LinkedIn at $15–20/day targeting
+   "Buyers Agent" job title — completely different funnel
+
+Total Week 3+ budget: ~$80–120/day if all four channels firing.
+
+### Phase 4 — Geographic + format expansion (Month 2+)
+
+- Test the suburb-rotation variants of Ad 3 against their respective
+  geos ("Brunswick" in Melbourne inner-north, "Paddington" in Sydney
+  eastern suburbs, etc.)
+- Test Google Search ads against the AU "building inspection help"
+  keyword cluster
 - Test TikTok organic before paid — caption + audio is the experiment
 
-### Kill criteria (any single ad)
+### Why you have 24 creatives but only run 2 first
 
-- CPC > $3.50
-- CTR < 0.8% after 48 hours
-- Cost per upload > $15
+Creating creatives is the cheap part (we did 24 in a few hours via
+`scripts/compose-ads.mjs`). Once Phase 2 gives you data on Ads 1 + 2,
+you know:
+- Which hook angle works (permission / urgency / social proof / status)
+- Whether dark or light theme converts
+- Which audience to push (cold metros vs. retargeting)
 
-### Win criteria (any single ad)
+The other 22 creatives become **pre-loaded ammunition** ready to
+deploy without another design sprint. Phases 3 + 4 burn through them
+as A/B partners and channel-specific creatives.
 
-- CTR > 2.0% sustained
-- Cost per upload < $8
-- ROAS > 3× ($1 ad spend → $3+ in $59 reports)
+### Quick reference — total weekly spend by phase
+
+| Phase | Daily | Weekly | Ads running |
+|---|---|---|---|
+| 1 (Launch week — organic) | $0 | $0 | 0 |
+| 2 (Validation) | $30–40 | $210–280 | 2 |
+| 3 (Scale + A/B) | $80–120 | $560–840 | 4–6 |
+| 4 (Expansion) | $120–200 | $840–1,400 | 8–12 |
 
 ---
 
