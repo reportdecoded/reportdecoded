@@ -37,7 +37,7 @@ A few things I'm proud of technically:
   nothing is hallucinated. The model is constrained to anchor every
   claim to extracted PDF text or the finding is dropped.
 
-- 22-trade taxonomy maps each defect to the right specialist (Stair
+- 29-trade taxonomy maps each defect to the right specialist (Stair
   specialist for NCC 3.9.1 nosing compliance, Concreter for slab edge
   defects, etc) — not just "a builder". When a defect spans two
   trades (e.g. concrete edge blowout affecting brick DPC compliance),
@@ -117,7 +117,7 @@ A few details for the PH crowd:
 → Every defect cites the inspector's PDF page. No hallucinations.
   If we can't anchor a claim, we don't make it.
 
-→ 22-trade taxonomy. Stair compliance defects route to a stair
+→ 29-trade taxonomy. Stair compliance defects route to a stair
   specialist. Slab-edge issues to a concreter. Mortar defects to a
   bricklayer. Not generic "find a builder".
 
@@ -278,7 +278,7 @@ upload it and see what you've been missing.
 
 ## 5. Network email blast
 
-**Subject:** I just launched Report Decoded
+**Subject:** Today I'm launching the tool I wish I'd had 12 months ago
 
 **Body:**
 
@@ -340,7 +340,7 @@ inspector's PDF page so it's verifiable.
 Average finding: $20K–$80K of legitimate negotiation room hidden in
 your inspection.
 
-[4/6] The 22-trade taxonomy is the bit I'm most proud of. Stair
+[4/6] The 29-trade taxonomy is the bit I'm most proud of. Stair
 compliance defects route to a stair specialist. Slab-edge issues to
 a concreter. Mortar defects to a bricklayer. Not generic "find a
 builder".
@@ -364,7 +364,119 @@ Happy to answer questions in replies.
 
 ---
 
-## 7. Launch day timeline (Wednesday 28 May)
+## 7. Whirlpool forum reply (Template D)
+
+Whirlpool's `forum.whirlpool.net.au` has property + real-estate sub-forums
+with a more analytical, technical audience than Reddit. Lots of acronym
+usage (FHB = first home buyer, PPOR = principal place of residence, IP
+= investment property). Find a thread asking about post-inspection
+negotiation or report interpretation. Reply like a fellow forum nerd
+who happens to have built a tool — never lead with the tool.
+
+```
+The trick with AS4349.1 reports is they're written for the inspector's
+liability protection, not your decision-making. Three things help:
+
+1. Cross-reference every "further investigation recommended" item
+against state-specific rental minimum standards if you're going IP.
+NSW Schedule 5, VIC 2021 Standards, QLD MHS — the inspector won't
+flag breaches because they're not in scope. But they'll bite you
+at first lease.
+
+2. Look at the photos section, not just the text. Photos are
+unedited evidence. The narrative text is hedged.
+
+3. For Major Defects: add up rough AU repair costs, that's your
+floor for negotiation. For Minor: 30-50% of the total gets accepted
+in most contracts because vendors expect haggle-down on cosmetics.
+
+(Full disclosure: I built reportdecoded.com.au which automates the
+defect → AU cost → trade → negotiation letter pipeline from any
+AS4349.1 PDF. $59 per buyer report, $79/mo for buyer's agents.
+Built it because I had to do this manually for my own PPOR + 2 IPs
+last year and was sick of it. The above steps work without the tool
+if you've got the time though.)
+```
+
+---
+
+## 8. Instagram launch post (@reportdecoded)
+
+**Format**: single-image post (use Enhanced-Ad2 1080×1080 from your
+ads folder — the "Then we read page 47" creative is your strongest).
+
+**Caption**:
+
+```
+Today I'm launching Report Decoded.
+
+It reads any Australian building or pest inspection PDF and gives
+you, in 2 minutes:
+
+→ Plain-English defect breakdown
+→ Repair cost estimates in 2026 AU dollars
+→ The right local tradie for each defect
+→ A drafted negotiation letter
+
+$59. No subscription.
+
+Built for buyers, investors, and buyers' agents who are sick of
+reading 47-page inspection reports at 11pm.
+
+If you've got a recent inspection PDF, link in bio. Send me feedback
+— I'll fix what's broken in v1.1.
+
+🇦🇺 Made in Australia.
+
+#australianproperty #buildinginspection #firsthomebuyer #aushousing
+#propertyinvestor #buyersagent #propertynegotiation #propertytips
+#realestateaustralia #propertyaustralia
+```
+
+**Story sequence (4 slides, post throughout launch day)**:
+
+```
+Slide 1: "Launching today 👇" + sample report screenshot
+Slide 2: Behind-the-scenes — your face + "12 months in the making"
+Slide 3: First customer screenshot (if you get one before 7pm)
+Slide 4: Day 1 metrics — "X reports decoded today" with link sticker
+```
+
+---
+
+## 9. TikTok launch video (@reportdecoded)
+
+**Format**: vertical 1080×1920 (Enhanced-Ad2 1080×1920 from your ads
+folder works). 7–15 seconds. Native phone vibe — no slick production.
+
+**Caption** (TikTok caption ≤ 150 chars cleanly hits FYP):
+
+```
+POV: it's 11pm and the auction's in 4 days. The building report is
+47 pages of jargon. There's an easier way 👇
+
+Link in bio · $59 · 2 minutes
+
+#fhb #ausproperty #buildinginspection #realestateaustralia #propertytok
+```
+
+**Voiceover script (if you record a quick 15-sec talking-head)**:
+
+```
+G'day. I'm Morgan. I built Report Decoded because I read way too
+many Australian building inspection PDFs at 11pm trying to figure
+out which defects actually matter.
+
+Upload your PDF. Two minutes later you get every defect explained
+in plain English, repair costs, the right tradie, and a drafted
+negotiation letter.
+
+$59. No subscription. Link in bio.
+```
+
+---
+
+## 10. Launch day timeline (Wednesday 28 May)
 
 | AEST time | Action | Channel |
 |---|---|---|
@@ -373,15 +485,21 @@ Happy to answer questions in replies.
 | 10:00 AM | LinkedIn personal post + company page | LinkedIn |
 | 10:30 AM | Network email blast | Your contacts |
 | 11:00 AM | Twitter/X launch thread | Your handle + brand handle |
-| 11:30 AM | Whirlpool forum reply (property finance) | forum.whirlpool.net.au |
-| 12:30 PM | Lunch break — monitor HN comment activity |  |
+| 11:30 AM | Whirlpool forum reply (Template D) | forum.whirlpool.net.au |
+| 12:30 PM | Instagram launch post + Story | @reportdecoded |
+| 1:00 PM | Lunch break — monitor HN comment activity |  |
 | 2:00 PM | Reddit Template B reply | /r/AusFinance (different thread) |
-| 4:00 PM | Higgsfield ads go live across Meta + TikTok | Facebook Ads / TikTok Ads |
+| 3:30 PM | TikTok launch video | @reportdecoded |
 | 5:00 PM | Product Hunt launch goes live | producthunt.com |
 | 5:30 PM | Maker comment on PH | producthunt.com |
 | 6:00 PM | Twitter/X retweet + Reddit re-engage | Both |
+| 7:00 PM | Instagram Story update — early metrics screenshot | @reportdecoded |
 | 9:00 PM | Reddit Template C reply | /r/AustralianProperty (third thread) |
 | 11:00 PM | Final HN comment sweep, head to bed |  |
+
+**No paid ads launch week.** Per the revised testing protocol in
+`AD-COPY-v2.md`, paid ads start Week 2 once we have organic-channel
+data on what hooks resonate. Spend launch week on free distribution.
 
 The pattern: every 2-3 hours, a different channel. Don't dump
 everything in the first hour — sustained activity over 12 hours
