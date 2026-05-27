@@ -14,6 +14,7 @@
 // Usage: node scripts/compose-ads.mjs
 
 import sharp from 'sharp';
+import { mkdirSync } from 'node:fs';
 
 const NAVY = '#0A1628';
 const AMBER = '#C97A3A';
@@ -21,7 +22,14 @@ const CREAM = '#F7F3EE';
 const FAINT_AMBER = '#F4C9A0';
 
 const SRC_DIR = 'C:\\Users\\morga\\OneDrive\\Desktop\\Report Decoded';
-const OUT_DIR = 'C:\\Users\\morga\\OneDrive\\Desktop\\Report Decoded\\Ads-v2';
+
+// Variant: 'dark' (default — navy band + white/amber text over photo) or
+// 'light' (cream band + navy text, softer gradient — better for some Meta
+// audiences and Pinterest). Pass via argv: `node compose-ads.mjs light`.
+const VARIANT = (process.argv[2] || 'dark').toLowerCase();
+const OUT_DIR = VARIANT === 'light'
+  ? 'C:\\Users\\morga\\OneDrive\\Desktop\\Report Decoded\\Ads-v2-Light'
+  : 'C:\\Users\\morga\\OneDrive\\Desktop\\Report Decoded\\Ads-v2';
 
 // Three aspect ratios per ad: square (Meta feed), portrait (IG feed), vertical (Stories/Reels).
 const SIZES = [
@@ -77,17 +85,51 @@ const ADS = [
 // All positions scale with H so the same layout works for square,
 // portrait, and vertical.
 
+// Palette resolves per variant. Light variant inverts to cream-band +
+// navy-text scheme; dark variant keeps the original navy-band aesthetic.
+const P = VARIANT === 'light'
+  ? {
+      bandFill:        CREAM,                       // bottom band background
+      headlineFill:    NAVY,                        // main headline (was white)
+      italicAccent:    AMBER,                       // amber stays for accent
+      bandText:        NAVY,                        // body in band
+      bandTextDim:     'rgba(10,22,40,0.62)',       // dimmer body in band
+      bandTextFaint:   'rgba(10,22,40,0.48)',       // refund line / smallest text
+      topAccent:       NAVY,                        // top-left text: navy reads on cream-tinted gradient
+      scrimFill:       CREAM,                       // headline scrim (Ad 2 + Ad 3 light only)
+      scrimOpacity:    0.82,
+      bottomGradFrom:  CREAM,
+      topGradFrom:     CREAM,
+      topGradOpacity:  0.78,                        // boosted from 0.65 so top text reads
+      photoLightener:  true,                        // overlay subtle cream wash on photo
+    }
+  : {
+      bandFill:        NAVY,
+      headlineFill:    '#ffffff',
+      italicAccent:    AMBER,
+      bandText:        '#ffffff',
+      bandTextDim:     'rgba(255,255,255,0.70)',
+      bandTextFaint:   'rgba(255,255,255,0.55)',
+      topAccent:       FAINT_AMBER,
+      scrimFill:       NAVY,
+      scrimOpacity:    0.62,
+      bottomGradFrom:  NAVY,
+      topGradFrom:     NAVY,
+      topGradOpacity:  0.78,
+      photoLightener:  false,
+    };
+
 function commonDefs() {
   return `
     <defs>
       <linearGradient id="topGrad" x1="0%" y1="0%" x2="0%" y2="100%">
-        <stop offset="0%" stop-color="${NAVY}" stop-opacity="0.78"/>
-        <stop offset="100%" stop-color="${NAVY}" stop-opacity="0"/>
+        <stop offset="0%" stop-color="${P.topGradFrom}" stop-opacity="${P.topGradOpacity}"/>
+        <stop offset="100%" stop-color="${P.topGradFrom}" stop-opacity="0"/>
       </linearGradient>
       <linearGradient id="bottomGrad" x1="0%" y1="100%" x2="0%" y2="0%">
-        <stop offset="0%" stop-color="${NAVY}" stop-opacity="0.96"/>
-        <stop offset="60%" stop-color="${NAVY}" stop-opacity="0.55"/>
-        <stop offset="100%" stop-color="${NAVY}" stop-opacity="0"/>
+        <stop offset="0%" stop-color="${P.bottomGradFrom}" stop-opacity="${VARIANT === 'light' ? 0.78 : 0.96}"/>
+        <stop offset="60%" stop-color="${P.bottomGradFrom}" stop-opacity="${VARIANT === 'light' ? 0.35 : 0.55}"/>
+        <stop offset="100%" stop-color="${P.bottomGradFrom}" stop-opacity="0"/>
       </linearGradient>
       <linearGradient id="hairline" x1="0%" y1="0%" x2="100%" y2="0%">
         <stop offset="0%" stop-color="${AMBER}" stop-opacity="0"/>
@@ -137,28 +179,34 @@ function makeAd1Overlay(W, H) {
       <rect width="${W}" height="${H * 0.18}" fill="url(#topGrad)"/>
       <rect y="${H * 0.45}" width="${W}" height="${H * 0.55}" fill="url(#bottomGrad)"/>
 
-      ${topPlainBadge(56, 64, 'SUNDAY 5:07 PM.')}
+      ${topPlainBadge(56, 64, 'SUNDAY 5:07 PM.', { fill: P.topAccent })}
       ${topBadge(W - 56 - 280, 36, 280, 44, '$59 · NO SUBSCRIPTION')}
 
+      ${VARIANT === 'light' ? `
+        <!-- Cream scrim behind headline so amber italic reads against warm kitchen tones -->
+        <rect x="0" y="${headlineY - headlineFontSize * 0.95}" width="${W * 0.85}" height="${headlineFontSize * 2.7}"
+              fill="${CREAM}" opacity="${P.scrimOpacity}"/>
+      ` : ''}
+
       <text x="56" y="${headlineY}" font-family="Fraunces, Georgia, serif"
-            font-size="${headlineFontSize}" font-weight="500" fill="#ffffff"
+            font-size="${headlineFontSize}" font-weight="500" fill="${P.headlineFill}"
             letter-spacing="-1.0">He just realised</text>
       <text x="56" y="${headlineY + headlineFontSize * 1.05}" font-family="Fraunces, Georgia, serif"
-            font-style="italic" font-size="${headlineFontSize}" font-weight="500" fill="${AMBER}"
+            font-style="italic" font-size="${headlineFontSize}" font-weight="500" fill="${P.italicAccent}"
             letter-spacing="-1.0">he can ask $42K off.</text>
 
       <text x="56" y="${headlineY + headlineFontSize * 2.4}" font-family="DM Sans, Helvetica, Arial, sans-serif"
-            font-size="${subFontSize}" font-weight="400" fill="rgba(255,255,255,0.86)"
+            font-size="${subFontSize}" font-weight="400" fill="${VARIANT === 'light' ? 'rgba(10,22,40,0.82)' : 'rgba(255,255,255,0.86)'}"
             letter-spacing="0.1">Without sounding crazy. Verdict, repair costs,</text>
       <text x="56" y="${headlineY + headlineFontSize * 2.4 + subFontSize * 1.5}" font-family="DM Sans, Helvetica, Arial, sans-serif"
-            font-size="${subFontSize}" font-weight="400" fill="rgba(255,255,255,0.86)"
+            font-size="${subFontSize}" font-weight="400" fill="${VARIANT === 'light' ? 'rgba(10,22,40,0.82)' : 'rgba(255,255,255,0.86)'}"
             letter-spacing="0.1">and a drafted negotiation letter — sent in 2 minutes.</text>
 
       <rect x="0" y="${footerY - 16}" width="${W}" height="2" fill="url(#hairline)"/>
       <text x="56" y="${footerY + 16}" font-family="DM Sans, Helvetica, Arial, sans-serif"
-            font-size="24" font-weight="600" fill="#ffffff" letter-spacing="0.3">reportdecoded.com.au</text>
+            font-size="24" font-weight="600" fill="${P.bandText}" letter-spacing="0.3">reportdecoded.com.au</text>
       <text x="${W - 56}" y="${footerY + 16}" text-anchor="end" font-family="DM Sans, Helvetica, Arial, sans-serif"
-            font-size="16" font-weight="400" fill="rgba(255,255,255,0.6)" letter-spacing="0.3">Join 2,000+ Australian buyers</text>
+            font-size="16" font-weight="400" fill="${P.bandTextDim}" letter-spacing="0.3">Join 2,000+ Australian buyers</text>
     </svg>
   `;
 }
@@ -180,28 +228,28 @@ function makeAd2Overlay(W, H) {
       ${commonDefs()}
       <rect width="${W}" height="${H * 0.18}" fill="url(#topGrad)"/>
 
-      ${topPlainBadge(56, 64, 'WE WON THE AUCTION.', { fill: '#ffffff' })}
+      ${topPlainBadge(56, 64, 'WE WON THE AUCTION.', { fill: VARIANT === 'light' ? CREAM : '#ffffff' })}
       ${topBadge(W - 56 - 260, 36, 260, 44, '📋 AS4349.1 COMPLIANT')}
 
       <!-- Subtle scrim panel (left-aligned, behind headline only) for legibility -->
-      <rect x="0" y="${scrimY}" width="${scrimW}" height="${scrimH}" fill="${NAVY}" opacity="0.62"/>
+      <rect x="0" y="${scrimY}" width="${scrimW}" height="${scrimH}" fill="${P.scrimFill}" opacity="${P.scrimOpacity}"/>
 
       <text x="56" y="${headlineY}" font-family="Fraunces, Georgia, serif"
-            font-style="italic" font-size="${headlineFontSize}" font-weight="500" fill="${AMBER}"
+            font-style="italic" font-size="${headlineFontSize}" font-weight="500" fill="${VARIANT === 'light' ? NAVY : AMBER}"
             letter-spacing="-0.8">Then we read</text>
       <text x="56" y="${headlineY + headlineFontSize * 1.05}" font-family="Fraunces, Georgia, serif"
-            font-style="italic" font-size="${headlineFontSize}" font-weight="500" fill="${AMBER}"
+            font-style="italic" font-size="${headlineFontSize}" font-weight="500" fill="${VARIANT === 'light' ? AMBER : AMBER}"
             letter-spacing="-0.8">page 47.</text>
 
-      <rect x="0" y="${bandY}" width="${W}" height="${H - bandY}" fill="${NAVY}"/>
+      <rect x="0" y="${bandY}" width="${W}" height="${H - bandY}" fill="${P.bandFill}"/>
       <text x="56" y="${bandY + 38}" font-family="DM Sans, Helvetica, Arial, sans-serif"
-            font-size="20" font-weight="400" fill="rgba(255,255,255,0.7)" letter-spacing="0.2">Plain English defects · Repair costs · Local tradies · Negotiation letter</text>
+            font-size="20" font-weight="400" fill="${P.bandTextDim}" letter-spacing="0.2">Plain English defects · Repair costs · Local tradies · Negotiation letter</text>
       <text x="56" y="${bandY + 80}" font-family="DM Sans, Helvetica, Arial, sans-serif"
-            font-size="26" font-weight="600" fill="#ffffff" letter-spacing="0.1">Results in <tspan fill="${AMBER}">2 minutes.</tspan></text>
+            font-size="26" font-weight="600" fill="${P.bandText}" letter-spacing="0.1">Results in <tspan fill="${AMBER}">2 minutes.</tspan></text>
       <text x="56" y="${bandY + 130}" font-family="DM Sans, Helvetica, Arial, sans-serif"
-            font-size="22" font-weight="500" fill="#ffffff" letter-spacing="0.2">$59 per report · No subscription · reportdecoded.com.au</text>
+            font-size="22" font-weight="500" fill="${P.bandText}" letter-spacing="0.2">$59 per report · No subscription · reportdecoded.com.au</text>
       <text x="56" y="${bandY + 168}" font-family="DM Sans, Helvetica, Arial, sans-serif"
-            font-size="16" font-style="italic" font-weight="400" fill="rgba(255,255,255,0.55)" letter-spacing="0.2">Not useful? Full refund, no questions.</text>
+            font-size="16" font-style="italic" font-weight="400" fill="${P.bandTextFaint}" letter-spacing="0.2">Not useful? Full refund, no questions.</text>
     </svg>
   `;
 }
@@ -220,23 +268,29 @@ function makeAd3Overlay(W, H) {
 
       ${topBadge(56, 36, 260, 44, '📋 AS4349.1 COMPLIANT')}
 
+      ${VARIANT === 'light' ? `
+        <!-- Cream scrim behind headline so navy text reads against dark cafe interior -->
+        <rect x="0" y="${headlineY - headlineFontSize * 0.95}" width="${W * 0.78}" height="${headlineFontSize * 2.8}"
+              fill="${CREAM}" opacity="${P.scrimOpacity}"/>
+      ` : ''}
+
       <text x="56" y="${headlineY}" font-family="Fraunces, Georgia, serif"
-            font-size="${headlineFontSize}" font-weight="500" fill="#ffffff"
+            font-size="${headlineFontSize}" font-weight="500" fill="${P.headlineFill}"
             letter-spacing="-1.0">$32K off her</text>
       <text x="56" y="${headlineY + headlineFontSize * 1.05}" font-family="Fraunces, Georgia, serif"
-            font-style="italic" font-size="${headlineFontSize}" font-weight="500" fill="${AMBER}"
+            font-style="italic" font-size="${headlineFontSize}" font-weight="500" fill="${P.italicAccent}"
             letter-spacing="-1.0">Brunswick terrace.</text>
       <text x="56" y="${headlineY + headlineFontSize * 1.05 + 50}" font-family="DM Sans, Helvetica, Arial, sans-serif"
-            font-size="${Math.round(W * 0.026)}" font-style="italic" font-weight="400" fill="rgba(255,255,255,0.85)"
+            font-size="${Math.round(W * 0.026)}" font-style="italic" font-weight="400" fill="${VARIANT === 'light' ? 'rgba(10,22,40,0.78)' : 'rgba(255,255,255,0.85)'}"
             letter-spacing="0.2">Then her friends wanted in.</text>
 
-      <rect x="0" y="${bandY}" width="${W}" height="${H - bandY}" fill="${NAVY}"/>
+      <rect x="0" y="${bandY}" width="${W}" height="${H - bandY}" fill="${P.bandFill}"/>
       <text x="56" y="${bandY + 38}" font-family="DM Sans, Helvetica, Arial, sans-serif"
-            font-size="18" font-weight="400" fill="rgba(255,255,255,0.7)" letter-spacing="0.2">Plain English defects · Repair costs · Local tradies · Negotiation letter</text>
+            font-size="18" font-weight="400" fill="${P.bandTextDim}" letter-spacing="0.2">Plain English defects · Repair costs · Local tradies · Negotiation letter</text>
       <text x="56" y="${bandY + 80}" font-family="DM Sans, Helvetica, Arial, sans-serif"
             font-size="26" font-weight="700" fill="${AMBER}" letter-spacing="0.2">From $59 · reportdecoded.com.au</text>
       <text x="56" y="${bandY + 124}" font-family="DM Sans, Helvetica, Arial, sans-serif"
-            font-size="16" font-weight="400" fill="rgba(255,255,255,0.55)" letter-spacing="0.2">No subscription · Results in 60 seconds · AU Standard AS4349.1</text>
+            font-size="16" font-weight="400" fill="${P.bandTextFaint}" letter-spacing="0.2">No subscription · Results in 60 seconds · AU Standard AS4349.1</text>
     </svg>
   `;
 }
@@ -257,22 +311,22 @@ function makeAd4Overlay(W, H) {
       <rect width="${W}" height="${H * 0.22}" fill="url(#topGrad)"/>
 
       ${topPlainBadge(56, 56, 'FOR BUYER’S AGENTS', { fill: AMBER, fontSize: 22 })}
-      ${topPlainBadge(56, 88, 'COMPETITORS READ. YOU DECODE.', { fill: 'rgba(255,255,255,0.85)', fontSize: 16 })}
+      ${topPlainBadge(56, 88, 'COMPETITORS READ. YOU DECODE.', { fill: VARIANT === 'light' ? 'rgba(10,22,40,0.78)' : 'rgba(255,255,255,0.85)', fontSize: 16 })}
 
-      <rect x="0" y="${bandY}" width="${W}" height="${H - bandY}" fill="${NAVY}"/>
+      <rect x="0" y="${bandY}" width="${W}" height="${H - bandY}" fill="${P.bandFill}"/>
 
       <text x="56" y="${headlineY}" font-family="Fraunces, Georgia, serif"
-            font-size="${headlineFontSize}" font-weight="500" fill="#ffffff"
+            font-size="${headlineFontSize}" font-weight="500" fill="${P.headlineFill}"
             letter-spacing="-1.0">12 reports a week?</text>
       <text x="56" y="${headlineY + headlineFontSize * 1.05}" font-family="Fraunces, Georgia, serif"
-            font-style="italic" font-size="${headlineFontSize}" font-weight="500" fill="${AMBER}"
+            font-style="italic" font-size="${headlineFontSize}" font-weight="500" fill="${P.italicAccent}"
             letter-spacing="-1.0">You’re reading 564 pages.</text>
 
       <text x="56" y="${headlineY + headlineFontSize * 2.4}" font-family="DM Sans, Helvetica, Arial, sans-serif"
-            font-size="${subFontSize}" font-weight="400" fill="rgba(255,255,255,0.78)"
+            font-size="${subFontSize}" font-weight="400" fill="${VARIANT === 'light' ? 'rgba(10,22,40,0.78)' : 'rgba(255,255,255,0.78)'}"
             letter-spacing="0.1">Verdict, cost forecast, and a drafted negotiation letter —</text>
       <text x="56" y="${headlineY + headlineFontSize * 2.4 + subFontSize * 1.5}" font-family="DM Sans, Helvetica, Arial, sans-serif"
-            font-size="${subFontSize}" font-weight="400" fill="rgba(255,255,255,0.78)"
+            font-size="${subFontSize}" font-weight="400" fill="${VARIANT === 'light' ? 'rgba(10,22,40,0.78)' : 'rgba(255,255,255,0.78)'}"
             letter-spacing="0.1">sent to your client in under 2 minutes. Every report.</text>
 
       <g transform="translate(56, ${headlineY + headlineFontSize * 2.4 + subFontSize * 4.2})">
@@ -282,9 +336,9 @@ function makeAd4Overlay(W, H) {
       </g>
 
       <text x="${W - 56}" y="${H - 64}" text-anchor="end" font-family="DM Sans, Helvetica, Arial, sans-serif"
-            font-size="20" font-weight="600" fill="#ffffff" letter-spacing="0.2">reportdecoded.com.au</text>
+            font-size="20" font-weight="600" fill="${P.bandText}" letter-spacing="0.2">reportdecoded.com.au</text>
       <text x="${W - 56}" y="${H - 36}" text-anchor="end" font-family="DM Sans, Helvetica, Arial, sans-serif"
-            font-size="14" font-weight="400" fill="rgba(255,255,255,0.55)" letter-spacing="0.2">$79/mo · 25 reports | $149/mo · unlimited</text>
+            font-size="14" font-weight="400" fill="${P.bandTextFaint}" letter-spacing="0.2">$79/mo · 25 reports | $149/mo · unlimited</text>
     </svg>
   `;
 }
@@ -314,7 +368,8 @@ async function compose(ad, size) {
   console.log(`✓ ${ad.slug} ${size.name}`);
 }
 
-console.log('Composing 4 ads × 3 sizes = 12 PNGs...\n');
+mkdirSync(OUT_DIR, { recursive: true });
+console.log(`Composing 4 ads × 3 sizes = 12 PNGs (variant: ${VARIANT})...\n`);
 for (const ad of ADS) {
   for (const size of SIZES) {
     await compose(ad, size);
