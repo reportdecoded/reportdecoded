@@ -191,17 +191,20 @@ function ResultsBody() {
         <FailedState reason={report.failure_reason} />
       )}
       {reportId && !error && report?.status === 'complete' && (
-        <ResultsView
-          analysis={report.analysis}
-          tradies={report.tradies}
-          reportType={report.report_type}
-          expanded={expanded}
-          toggle={toggle}
-          copied={copied}
-          setCopied={setCopied}
-          reportId={reportId}
-          agentId={agentId}
-        />
+        <>
+          <ResultsView
+            analysis={report.analysis}
+            tradies={report.tradies}
+            reportType={report.report_type}
+            expanded={expanded}
+            toggle={toggle}
+            copied={copied}
+            setCopied={setCopied}
+            reportId={reportId}
+            agentId={agentId}
+          />
+          <FeedbackPrompt reportId={reportId} propertyAddress={report.property_address} />
+        </>
       )}
 
       <footer
@@ -238,6 +241,80 @@ function NoReportId() {
         Head back home and upload an inspection report to get started.
       </p>
     </div>
+  );
+}
+
+/**
+ * FeedbackPrompt — appears at the bottom of every completed report.
+ * Lets a buyer flag a defect that's miscategorised, a cost that looks
+ * off, or a tradie that doesn't match — turning customer frustration
+ * into product feedback Morgan can fix in the next release. Pre-fills
+ * the email subject with the report ID so each piece of feedback is
+ * traceable back to the exact analysis the buyer saw.
+ */
+function FeedbackPrompt({ reportId, propertyAddress }) {
+  const shortId = reportId ? reportId.slice(0, 8) : 'unknown';
+  const subject = encodeURIComponent(`Report feedback — ${shortId}`);
+  const body = encodeURIComponent(
+    `Report ID: ${reportId || '(none)'}\n` +
+      `Property: ${propertyAddress || '(none)'}\n` +
+      `\n` +
+      `What looked wrong:\n` +
+      `(e.g. "the kitchen defect was routed to a plumber, should be cabinetmaker", ` +
+      `or "the $20K cost estimate for the cracked window seems way too high", ` +
+      `or "the tradies returned don't operate in my suburb")\n` +
+      `\n` +
+      `\n` +
+      `Anything else we should know:\n` +
+      `\n`,
+  );
+  const mailto = `mailto:info@reportdecoded.com.au?subject=${subject}&body=${body}`;
+
+  return (
+    <section
+      style={{
+        maxWidth: 760,
+        margin: '32px auto 0',
+        padding: '20px 24px',
+        background: 'var(--cream, #F7F3EE)',
+        border: '1px solid rgba(201,122,58,0.22)',
+        borderRadius: 12,
+        display: 'flex',
+        gap: 16,
+        alignItems: 'center',
+        justifyContent: 'space-between',
+        flexWrap: 'wrap',
+      }}
+    >
+      <div style={{ flex: '1 1 320px', minWidth: 240 }}>
+        <div style={{ fontWeight: 600, color: 'var(--navy, #0A1628)', fontSize: 15, marginBottom: 4 }}>
+          Spot something that looks wrong?
+        </div>
+        <div style={{ fontSize: 13, color: 'rgba(10,22,40,0.65)', lineHeight: 1.55 }}>
+          Wrong trade chip, cost looks off, tradie not in your area — we want to know. Each report
+          we hear from gets better the next time someone uploads.
+        </div>
+      </div>
+      <a
+        href={mailto}
+        style={{
+          display: 'inline-flex',
+          alignItems: 'center',
+          gap: 6,
+          padding: '10px 18px',
+          background: 'var(--navy, #0A1628)',
+          color: '#fff',
+          borderRadius: 8,
+          fontSize: 14,
+          fontWeight: 600,
+          textDecoration: 'none',
+          letterSpacing: 0.2,
+          whiteSpace: 'nowrap',
+        }}
+      >
+        Tell us →
+      </a>
+    </section>
   );
 }
 
