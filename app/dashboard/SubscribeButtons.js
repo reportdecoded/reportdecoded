@@ -1,6 +1,7 @@
 'use client';
 import { useState } from 'react';
 import Link from 'next/link';
+import { trackInitiateCheckout } from '@/lib/metaPixelEvents';
 
 // Agency tier sunset for v1 (see app/agents/page.js for full rationale).
 // Two of its three differentiators — team seats + public API — are
@@ -46,6 +47,21 @@ export default function SubscribeButtons() {
         setLoading(null);
         return;
       }
+      // Fire Meta Pixel InitiateCheckout event before redirecting to
+      // Stripe. The buyer hasn't paid yet but has committed enough to
+      // hand over to Stripe Checkout — Meta uses this as a mid-funnel
+      // optimization signal.
+      const selectedTier = TIERS.find((x) => x.id === tier);
+      const value = selectedTier
+        ? interval === 'monthly'
+          ? selectedTier.monthly
+          : selectedTier.yearly
+        : undefined;
+      trackInitiateCheckout({
+        value,
+        currency: 'AUD',
+        contentName: `${tier}_${interval}`,
+      });
       window.location.href = data.url;
     } catch (err) {
       setError(err?.message || 'Network error');

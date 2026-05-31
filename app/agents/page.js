@@ -2,6 +2,7 @@
 import { useState } from 'react';
 import Link from 'next/link';
 import { track } from '@vercel/analytics';
+import { trackLead } from '@/lib/metaPixelEvents';
 import { STYLES } from '@/components/ReportDecoded';
 
 export default function AgentsPage() {
@@ -42,6 +43,10 @@ export default function AgentsPage() {
       }
       setSubmitted(true);
       track('agent_signup_submitted', { role, tier_interest: tierInterest });
+      // Meta Pixel Lead event — B2B funnel signal. Use this as a
+      // conversion optimization target for B2B ads. No monetary value
+      // here (true value lands later at InitiateCheckout/Purchase).
+      trackLead({ contentName: `agent_signup_${role}_${tierInterest}` });
     } catch (err) {
       setError(err.message || 'Network error');
       setSubmitting(false);

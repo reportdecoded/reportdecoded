@@ -17,8 +17,9 @@
 'use client';
 
 import Link from 'next/link';
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import { track } from '@vercel/analytics';
+import { trackViewContent } from '@/lib/metaPixelEvents';
 import { STYLES } from '@/components/ReportDecoded';
 import { articleSchema, faqPageSchema, breadcrumbSchema, JsonLd } from '@/lib/schema';
 import { SUBURBS } from '@/lib/suburbs';
@@ -39,6 +40,18 @@ export default function ArticleLayout({
   related_suburbs = [],
 }) {
   const [openFaq, setOpenFaq] = useState(null);
+
+  // Meta Pixel ViewContent — fires once per article view. High-intent
+  // signal for content-marketing audiences (people who read the long-
+  // form articles are warmer than homepage visitors). Lookalike-seed
+  // candidate for Meta ad targeting.
+  useEffect(() => {
+    trackViewContent({
+      contentName: slug || title,
+      contentCategory: category,
+    });
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, []);
 
   return (
     <>
