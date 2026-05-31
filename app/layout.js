@@ -1,5 +1,6 @@
 import { Analytics } from '@vercel/analytics/next';
 import { SpeedInsights } from '@vercel/speed-insights/next';
+import MetaPixel from '@/components/MetaPixel';
 import {
   organizationSchema,
   websiteSchema,
@@ -87,6 +88,7 @@ export default function RootLayout({ children }) {
         <JsonLd data={softwareApplicationSchema()} />
       </head>
       <body style={{ margin: 0, padding: 0 }}>
+        <MetaPixel />
         {children}
         <Analytics />
         <SpeedInsights />
