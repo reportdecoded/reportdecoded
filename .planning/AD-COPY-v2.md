@@ -258,7 +258,7 @@ Link in bio 👉
 - **Sub-headline (Fraunces, amber)**: `You're reading 564 pages.`
 - **Sub (Inter)**: `Verdict, cost forecast, and a drafted negotiation letter — sent to your client in under 2 minutes. Every report.`
 - **CTA badge (amber)**: `🎁 FIRST REPORT FREE`
-- **Footer**: `reportdecoded.com.au · $79/mo for 25 reports · $149/mo unlimited`
+- **Footer**: `reportdecoded.com.au · $79/mo Starter (12 reports + $15 per extra) · $149/mo unlimited`
 
 ### Meta primary text
 
@@ -272,7 +272,7 @@ Upload the PDF. In 2 minutes you get a client-ready summary:
 
 Same hour, every report. AS 4349.1 compliant.
 
-First report free. $79/month covers 25 reports. $149/month unlimited.
+First report free. $79/month Starter (12 reports + $15 per extra). $149/month Pro unlimited.
 
 👉 Get the first one free
 ```
@@ -297,7 +297,7 @@ Upload the PDF. Out comes:
 
 It's AS 4349.1 compliant. It cites the source page of every claim. You can edit the letter before it goes out.
 
-We're offering the first report free, no card required. After that it's $79/month for 25 reports or $149/month unlimited.
+We're offering the first report free, no card required. After that it's $79/month Starter (12 reports + $15 per extra) or $149/month Pro unlimited.
 
 If you do 10+ reports a week, the math is obvious. If you do fewer, the time you save on each one is still worth more than the subscription.
 

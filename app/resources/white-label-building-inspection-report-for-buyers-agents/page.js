@@ -15,7 +15,7 @@ const faqs = [
   },
   {
     q: 'How much does a white-label property report tool cost in Australia?',
-    a: '2026 pricing for the main AU options: Report Decoded $79/month for 25 reports with white-label included, $149/month unlimited. Generic AI tools with custom prompting (Claude/ChatGPT) can technically be configured for white-label output via a custom Notion or Google Docs template — total cost $20-$50/month plus your setup time. Bespoke developer-built solutions (build your own PDF generator) typically $5,000-$25,000 setup + ongoing maintenance. Most independent buyer\'s agents start with a SaaS option then evaluate bespoke when they\'re past 200+ reports/month.',
+    a: '2026 pricing for the main AU options: Report Decoded $79/month Starter (12 reports included, $15 per extra report auto-billed) with white-label included, or $149/month Pro unlimited. Generic AI tools with custom prompting (Claude/ChatGPT) can technically be configured for white-label output via a custom Notion or Google Docs template — total cost $20-$50/month plus your setup time. Bespoke developer-built solutions (build your own PDF generator) typically $5,000-$25,000 setup + ongoing maintenance. Most independent buyer\'s agents start with a SaaS option then evaluate bespoke when they\'re past 200+ reports/month.',
   },
   {
     q: 'Will my clients know I used a tool to generate the report?',
@@ -348,7 +348,7 @@ export default function Page() {
           <strong>Monthly SaaS subscription (most common):</strong>{' '}
           Typically $79-$149/month for tiered or unlimited report
           allowances WITH white-label included. Report Decoded sits
-          here — $79/mo for 25 reports, $149/mo unlimited. Most cost-
+          here — $79/mo Starter (12 reports + $15 per extra), $149/mo Pro unlimited. Most cost-
           effective for agents at 4+ reports/month.
         </li>
         <li>
@@ -395,7 +395,7 @@ export default function Page() {
       <p>
         First report is free for new buyer&apos;s agent accounts so
         you can preview the white-label output before committing. After
-        that, $79/month for 25 reports or $149/month unlimited. Cancel
+        that, $79/month Starter (12 reports + $15 per extra) or $149/month Pro unlimited. Cancel
         any time, no contract.
       </p>
       <p>

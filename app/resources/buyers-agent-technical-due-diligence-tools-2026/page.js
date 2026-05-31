@@ -266,8 +266,8 @@ export default function Page() {
           → plain-English verdict + defect-by-defect AU repair cost
           estimates + the right specialist trade per defect + drafted
           negotiation letter. $59 per buyer report; agent plans at{' '}
-          <strong>$79/month for 25 reports</strong> or{' '}
-          <strong>$149/month unlimited</strong> with white-label
+          <strong>$79/month Starter (12 reports + $15 per extra report)</strong> or{' '}
+          <strong>$149/month Pro unlimited</strong> with white-label
           branding (your logo + accent colour on the output). Built
           specifically for AU AS4349.1 + state rental compliance.
           Disclosure: this is our tool — we&apos;d list it neutrally
@@ -407,8 +407,9 @@ export default function Page() {
         </li>
         <li>
           <strong>$59 buyer rate or $79/$149 monthly</strong> — at
-          $79/month for 25 reports ($3.16/report), the unit economics
-          are dominant if you do more than 3 reports per month.
+          $79/month for 12 reports ($6.58/report) on Starter, scaling
+          to $149/month unlimited on Pro, the unit economics are
+          dominant if you do more than 3 reports per month.
         </li>
         <li>
           <strong>AS4349.1 + AS4349.3 pest grounding</strong> — every
@@ -423,7 +424,8 @@ export default function Page() {
       </ul>
       <p>
         First report is free for new buyer&apos;s agent accounts. After
-        that, $79/month for 25 reports or $149/month for unlimited.
+        that, $79/month Starter (12 reports + $15 per extra report) or
+        $149/month Pro unlimited.
       </p>
       <p>
         Whether Report Decoded is your pick or not, the broader point:
