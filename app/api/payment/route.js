@@ -21,6 +21,12 @@ export async function POST(request) {
       pack = 'single',
       reportType = 'pre_purchase',
       purchaseIntent = 'home',
+      // Rewardful affiliate referral ID (UUID). Frontend pulls this
+      // from window.Rewardful.referral before posting. Stripe stores it
+      // on the session via client_reference_id; Rewardful's webhook
+      // matches it back to the affiliate for commission attribution.
+      // Null/undefined when no affiliate cookie present — totally fine.
+      rewardfulReferral,
     } = await request.json();
 
     const price = PRICES[pack];
@@ -89,10 +95,14 @@ export async function POST(request) {
     const base = process.env.NEXT_PUBLIC_BASE_URL || 'http://localhost:3000';
 
     // 2. Create the Stripe Checkout session, tagging it with reportId so the
-    //    webhook can flip the correct row to paid.
+    //    webhook can flip the correct row to paid. If a Rewardful affiliate
+    //    referral is present, pass it via client_reference_id — Rewardful's
+    //    Stripe webhook picks it up and attributes commission to the
+    //    referring affiliate.
     const session = await getStripe().checkout.sessions.create({
       payment_method_types: ['card'],
       customer_email: buyerEmail,
+      ...(rewardfulReferral ? { client_reference_id: rewardfulReferral } : {}),
       line_items: [
         {
           price_data: {
@@ -106,7 +116,7 @@ export async function POST(request) {
       mode: 'payment',
       success_url: `${base}/results?reportId=${reportId}&session_id={CHECKOUT_SESSION_ID}`,
       cancel_url: base,
-      metadata: { reportId, pack },
+      metadata: { reportId, pack, ...(rewardfulReferral ? { rewardful_referral: rewardfulReferral } : {}) },
     });
 
     return Response.json({ url: session.url, reportId });

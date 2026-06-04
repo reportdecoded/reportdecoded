@@ -1543,6 +1543,15 @@ export default function App() {
     setProcessing(true);
     setUploadError(null);
     try {
+      // Rewardful affiliate referral — set by the Rewardful tracking
+      // script after a user lands via ?via=<handle>. Undefined when no
+      // affiliate cookie is set, which is the majority case. Stripe
+      // accepts undefined client_reference_id fine; the API route
+      // strips it out before passing to Stripe.
+      const rewardfulReferral =
+        typeof window !== "undefined" && window.Rewardful && window.Rewardful.referral
+          ? window.Rewardful.referral
+          : undefined;
       const res = await fetch("/api/payment", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
@@ -1554,6 +1563,7 @@ export default function App() {
           pack,
           reportType,
           purchaseIntent,
+          rewardfulReferral,
         }),
       });
       const data = await res.json();

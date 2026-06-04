@@ -36,10 +36,18 @@ export default function SubscribeButtons() {
     setError(null);
     setLoading(`${tier}_${interval}`);
     try {
+      // Rewardful affiliate referral — Stripe will pick it up via
+      // client_reference_id and Rewardful's webhook attributes the
+      // commission. Undefined when no affiliate cookie set, which is
+      // the majority of agent signups.
+      const rewardfulReferral =
+        typeof window !== 'undefined' && window.Rewardful && window.Rewardful.referral
+          ? window.Rewardful.referral
+          : undefined;
       const res = await fetch('/api/subscribe', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ tier, interval }),
+        body: JSON.stringify({ tier, interval, rewardfulReferral }),
       });
       const data = await res.json();
       if (!res.ok || !data.url) {

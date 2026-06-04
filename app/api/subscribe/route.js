@@ -24,7 +24,13 @@ export async function POST(request) {
     return Response.json({ error: 'Invalid request body' }, { status: 400 });
   }
 
-  const { tier, interval } = body;
+  // rewardfulReferral is a UUID set by the Rewardful tracking script
+  // when an agent lands via ?via=<handle>. Frontend pulls it from
+  // window.Rewardful.referral before posting. Passed to Stripe via
+  // client_reference_id so Rewardful's webhook attributes commission
+  // to the referring affiliate. Undefined/null when no affiliate
+  // cookie present — that's the common case.
+  const { tier, interval, rewardfulReferral } = body;
   const key = `${tier}_${interval}`;
   const priceEnv = TIER_INTERVAL_TO_PRICE_ENV[key];
   if (!priceEnv) {
@@ -96,10 +102,11 @@ export async function POST(request) {
   const session = await stripe.checkout.sessions.create({
     mode: 'subscription',
     customer: customerId,
+    ...(rewardfulReferral ? { client_reference_id: rewardfulReferral } : {}),
     line_items: lineItems,
     success_url: `${base}/dashboard?subscribed=1&session_id={CHECKOUT_SESSION_ID}`,
     cancel_url: `${base}/dashboard?subscribe_cancelled=1`,
-    metadata: { agent_id: agent.id, tier, interval },
+    metadata: { agent_id: agent.id, tier, interval, ...(rewardfulReferral ? { rewardful_referral: rewardfulReferral } : {}) },
     subscription_data: {
       metadata: { agent_id: agent.id, tier, interval },
       // Effectively-unlimited trial with card collection required.
