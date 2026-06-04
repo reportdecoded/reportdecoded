@@ -36,18 +36,20 @@ export default function SubscribeButtons() {
     setError(null);
     setLoading(`${tier}_${interval}`);
     try {
-      // Rewardful affiliate referral — Stripe will pick it up via
-      // client_reference_id and Rewardful's webhook attributes the
-      // commission. Undefined when no affiliate cookie set, which is
-      // the majority of agent signups.
-      const rewardfulReferral =
-        typeof window !== 'undefined' && window.Rewardful && window.Rewardful.referral
-          ? window.Rewardful.referral
+      // DIY affiliate handle — Stripe metadata captures it for payout
+      // attribution. Agent side has NO customer discount (the
+      // first-report-free trial is the introductory mechanism) — but
+      // the affiliate still earns 30% recurring on each renewal.
+      // Undefined when no affiliate cookie set, which is the majority
+      // of agent signups.
+      const affiliateRef =
+        typeof window !== 'undefined' && window.affiliateRef
+          ? window.affiliateRef
           : undefined;
       const res = await fetch('/api/subscribe', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ tier, interval, rewardfulReferral }),
+        body: JSON.stringify({ tier, interval, affiliateRef }),
       });
       const data = await res.json();
       if (!res.ok || !data.url) {

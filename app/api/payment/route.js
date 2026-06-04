@@ -21,12 +21,15 @@ export async function POST(request) {
       pack = 'single',
       reportType = 'pre_purchase',
       purchaseIntent = 'home',
-      // Rewardful affiliate referral ID (UUID). Frontend pulls this
-      // from window.Rewardful.referral before posting. Stripe stores it
-      // on the session via client_reference_id; Rewardful's webhook
-      // matches it back to the affiliate for commission attribution.
+      // DIY affiliate handle (e.g. 'jase'). Frontend pulls this from
+      // window.affiliateRef (set by AffiliateTracker from the ?via=
+      // URL param + 30-day cookie). When present:
+      //  • we apply the creator $10-off coupon at Stripe Checkout, so
+      //    the buyer pays $49 not $59
+      //  • we store the handle in Stripe metadata + client_reference_id
+      //    so payouts can be calculated from a Stripe charges export
       // Null/undefined when no affiliate cookie present — totally fine.
-      rewardfulReferral,
+      affiliateRef,
     } = await request.json();
 
     const price = PRICES[pack];
@@ -95,14 +98,23 @@ export async function POST(request) {
     const base = process.env.NEXT_PUBLIC_BASE_URL || 'http://localhost:3000';
 
     // 2. Create the Stripe Checkout session, tagging it with reportId so the
-    //    webhook can flip the correct row to paid. If a Rewardful affiliate
-    //    referral is present, pass it via client_reference_id — Rewardful's
-    //    Stripe webhook picks it up and attributes commission to the
-    //    referring affiliate.
+    //    webhook can flip the correct row to paid. If an affiliate handle is
+    //    present, attach the creator $10-off coupon AND tag the session for
+    //    payout attribution.
+    //
+    //    The coupon must be pre-created in Stripe (one-time setup via
+    //    dashboard.stripe.com → Coupons): id = 'creator_buyer_10off',
+    //    amount_off = 1000, currency = aud, duration = once, applies to
+    //    one-time payments. Personalised codes per affiliate (JASE10,
+    //    MADDIE10) all redeem this same underlying coupon — the affiliate
+    //    handle in metadata is what drives commission attribution, not the
+    //    code itself.
+    const COUPON_ID = process.env.STRIPE_CREATOR_COUPON_ID || 'creator_buyer_10off';
     const session = await getStripe().checkout.sessions.create({
       payment_method_types: ['card'],
       customer_email: buyerEmail,
-      ...(rewardfulReferral ? { client_reference_id: rewardfulReferral } : {}),
+      ...(affiliateRef ? { client_reference_id: affiliateRef } : {}),
+      ...(affiliateRef ? { discounts: [{ coupon: COUPON_ID }] } : {}),
       line_items: [
         {
           price_data: {
@@ -116,7 +128,7 @@ export async function POST(request) {
       mode: 'payment',
       success_url: `${base}/results?reportId=${reportId}&session_id={CHECKOUT_SESSION_ID}`,
       cancel_url: base,
-      metadata: { reportId, pack, ...(rewardfulReferral ? { rewardful_referral: rewardfulReferral } : {}) },
+      metadata: { reportId, pack, ...(affiliateRef ? { affiliate_ref: affiliateRef } : {}) },
     });
 
     return Response.json({ url: session.url, reportId });

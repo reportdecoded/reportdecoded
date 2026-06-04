@@ -5,17 +5,14 @@ import { STYLES } from '@/components/ReportDecoded';
 
 // Public-facing affiliate program landing page.
 //
-// Rewardful's hosted signup form lives at:
-//   reportdecoded.getrewardful.com/signup/affiliate
-// (auto-generated when Rewardful is connected to the Stripe account).
-//
-// This page sells the program first, then sends interested creators to
-// the Rewardful signup. The "Apply now" button URL is set via
-// NEXT_PUBLIC_REWARDFUL_SIGNUP_URL so it can be swapped without a redeploy.
+// DIY model — no hosted affiliate platform. Creators apply via email,
+// Morgan onboards them manually (creates a row in the affiliates table
+// in Supabase, assigns a handle + personalised coupon code, replies
+// with their tracking link). Payouts are calculated monthly from the
+// Stripe charges export grouped by metadata.affiliate_ref.
 
-const REWARDFUL_SIGNUP_URL =
-  process.env.NEXT_PUBLIC_REWARDFUL_SIGNUP_URL ||
-  'mailto:morgan@reportdecoded.com.au?subject=Affiliate%20program%20interest';
+const APPLY_URL =
+  'mailto:morgan@reportdecoded.com.au?subject=Affiliate%20program%20interest&body=Hi%20Morgan%2C%0A%0AI%27d%20like%20to%20apply%20for%20the%20Report%20Decoded%20affiliate%20program.%0A%0AHandle%3A%20%40%0AAudience%20size%3A%0AContent%20niche%3A%0A%0AThanks%2C%0A';
 
 export default function AffiliatesPage() {
   return (
@@ -390,7 +387,7 @@ export default function AffiliatesPage() {
             $50 in commissions.
           </p>
           <a
-            href={REWARDFUL_SIGNUP_URL}
+            href={APPLY_URL}
             target="_blank"
             rel="noopener noreferrer"
             className="upload-btn"

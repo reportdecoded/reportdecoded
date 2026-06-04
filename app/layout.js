@@ -1,7 +1,7 @@
 import { Analytics } from '@vercel/analytics/next';
 import { SpeedInsights } from '@vercel/speed-insights/next';
 import MetaPixel from '@/components/MetaPixel';
-import RewardfulScript from '@/components/RewardfulScript';
+import AffiliateTracker from '@/components/AffiliateTracker';
 import {
   organizationSchema,
   websiteSchema,
@@ -90,7 +90,7 @@ export default function RootLayout({ children }) {
       </head>
       <body style={{ margin: 0, padding: 0 }}>
         <MetaPixel />
-        <RewardfulScript />
+        <AffiliateTracker />
         {children}
         <Analytics />
         <SpeedInsights />
