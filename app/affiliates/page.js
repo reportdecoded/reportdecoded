@@ -41,10 +41,10 @@ export default function AffiliatesPage() {
           <em>a tool your audience needs.</em>
         </h1>
         <p className="hero-sub">
-          Earn <strong>$25 cash</strong> for every buyer report sold via your link, plus{' '}
-          <strong>30% commission</strong> on agent subscriptions. No subscription required to
-          join. No content quota. No exclusivity. Built for property + finance creators in
-          Australia.
+          Earn <strong>$15</strong> for every buyer report sold via your code — and your audience{' '}
+          <strong>saves $10</strong> with the same code. Plus <strong>30% recurring</strong> on
+          agent subscriptions. No content quota. No exclusivity. Built for property + finance
+          creators in Australia.
         </p>
       </div>
 
@@ -69,7 +69,7 @@ export default function AffiliatesPage() {
               },
               {
                 title: 'Cash, fast',
-                body: '$25 per buyer report sold via your unique link. Recurring 30% on agent subscriptions ($24-45/month per subscriber while they stay). Paid monthly. PayID or bank transfer. $50 minimum payout threshold.',
+                body: '$15 per buyer report sold via your code, and your audience saves $10 with the same code. Plus 30% recurring on agent subscriptions ($24/month per subscriber while they stay). Paid monthly. PayID or bank transfer. $50 minimum payout threshold.',
               },
               {
                 title: 'No content quotas',
@@ -144,13 +144,13 @@ export default function AffiliatesPage() {
           <div
             style={{
               display: 'grid',
-              gridTemplateColumns: 'repeat(auto-fit, minmax(240px, 1fr))',
+              gridTemplateColumns: 'repeat(auto-fit, minmax(220px, 1fr))',
               gap: 24,
             }}
           >
             <div>
               <div style={{ fontSize: 13, color: 'rgba(247,243,238,0.55)', letterSpacing: 1.5, marginBottom: 6 }}>
-                BUYER REPORTS
+                BUYER REPORTS — YOU EARN
               </div>
               <div
                 style={{
@@ -161,16 +161,36 @@ export default function AffiliatesPage() {
                   color: 'var(--amber)',
                 }}
               >
-                $25
+                $15
               </div>
               <div style={{ fontSize: 14, color: 'rgba(247,243,238,0.78)', marginTop: 6 }}>
-                Flat per single report sold via your link
+                Per report sold via your code
               </div>
             </div>
 
             <div>
               <div style={{ fontSize: 13, color: 'rgba(247,243,238,0.55)', letterSpacing: 1.5, marginBottom: 6 }}>
-                AGENT SUBSCRIPTIONS
+                YOUR AUDIENCE SAVES
+              </div>
+              <div
+                style={{
+                  fontFamily: 'Fraunces, Georgia, serif',
+                  fontSize: 44,
+                  fontWeight: 500,
+                  letterSpacing: -1,
+                  color: 'var(--amber)',
+                }}
+              >
+                $10
+              </div>
+              <div style={{ fontSize: 14, color: 'rgba(247,243,238,0.78)', marginTop: 6 }}>
+                Off every report with your code ($49 instead of $59)
+              </div>
+            </div>
+
+            <div>
+              <div style={{ fontSize: 13, color: 'rgba(247,243,238,0.55)', letterSpacing: 1.5, marginBottom: 6 }}>
+                AGENT SUBS — RECURRING
               </div>
               <div
                 style={{
@@ -184,7 +204,7 @@ export default function AffiliatesPage() {
                 30%
               </div>
               <div style={{ fontSize: 14, color: 'rgba(247,243,238,0.78)', marginTop: 6 }}>
-                Recurring while they stay subscribed
+                Every month they stay subscribed
               </div>
             </div>
 
@@ -224,10 +244,10 @@ export default function AffiliatesPage() {
             }}
           >
             {[
-              { label: '5 buyer reports / month', value: '$125', sub: 'A single TikTok that pops' },
-              { label: '15 buyer reports / month', value: '$375', sub: 'Consistent posting + 5K+ followers' },
-              { label: '50 buyer reports / month', value: '$1,250', sub: 'Built a strong audience around AU property' },
-              { label: '1 agent subscriber / month', value: '$24-45/mo recurring', sub: 'Stacks each month they stay' },
+              { label: '5 buyer reports / month', value: '$75', sub: 'A single TikTok that pops' },
+              { label: '15 buyer reports / month', value: '$225', sub: 'Consistent posting + 5K+ followers' },
+              { label: '50 buyer reports / month', value: '$750', sub: 'Built a strong audience around AU property' },
+              { label: '1 agent subscriber / month', value: '$24/mo recurring', sub: 'Stacks each month they stay' },
             ].map((item) => (
               <div
                 key={item.label}
