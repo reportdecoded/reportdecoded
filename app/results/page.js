@@ -185,7 +185,7 @@ function ResultsBody() {
       {!reportId && <NoReportId />}
       {reportId && error && <ErrorState message={error} />}
       {reportId && !error && (!report || report.status === 'pending' || report.status === 'processing') && (
-        <LoadingState loadStep={loadStep} />
+        <LoadingState loadStep={loadStep} buyerEmail={report?.buyer_email} createdAt={report?.created_at} />
       )}
       {reportId && !error && report?.status === 'failed' && (
         <FailedState reason={report.failure_reason} />
@@ -339,7 +339,33 @@ function FailedState({ reason }) {
   );
 }
 
-function LoadingState({ loadStep }) {
+function LoadingState({ loadStep, buyerEmail, createdAt }) {
+  // Track wall-clock since the report was created so we can reassure
+  // the buyer when analysis runs longer than the 1–2 min headline
+  // estimate (large PDFs or busy times → 3–4 min is normal).
+  //
+  // Why this exists: on Jun 5 2026 a buyer paid $59 with his work
+  // email, waited ~5 min without seeing the analysis email (work mail
+  // server quarantined the new-sender transactional email), assumed
+  // the upload had failed, and re-uploaded the SAME PDF with his
+  // personal Gmail → got charged $59 a second time. The fix has two
+  // sides: (1) show the buyer email on screen so a typo is caught
+  // before payment fails to land, (2) reassure during the longer
+  // tail of the analysis so they don't bail and re-pay.
+  const [extendedWait, setExtendedWait] = useState(false);
+  useEffect(() => {
+    if (!createdAt) return;
+    const ageMs = Date.now() - new Date(createdAt).getTime();
+    if (ageMs > 180_000) {
+      // Already 3+ min in (e.g. user closed and re-opened the tab).
+      setExtendedWait(true);
+      return;
+    }
+    const remaining = Math.max(0, 180_000 - ageMs);
+    const t = setTimeout(() => setExtendedWait(true), remaining);
+    return () => clearTimeout(t);
+  }, [createdAt]);
+
   return (
     <div className="loading-screen">
       <div className="loading-ring">
@@ -347,7 +373,52 @@ function LoadingState({ loadStep }) {
         <div className="loading-ring-inner" />
       </div>
       <h2 className="loading-h">Analysing your report…</h2>
-      <p className="loading-sub">This usually takes 1–2 minutes.</p>
+      <p className="loading-sub">This usually takes 2–4 minutes. You can close this tab — we&apos;ll email it.</p>
+
+      {/* Where we're sending it. The single most important piece of
+          information during the wait — confirms the email is correct
+          (catches typos before the buyer assumes delivery failed) and
+          gives a clear recovery path that isn't "pay again with a
+          different email". */}
+      {buyerEmail && (
+        <div
+          style={{
+            maxWidth: 520,
+            margin: '24px auto 0',
+            padding: '14px 18px',
+            background: 'var(--cream2, #F0E9DE)',
+            border: '1px solid var(--border, rgba(10,22,40,0.12))',
+            borderRadius: 10,
+            fontSize: 13.5,
+            lineHeight: 1.55,
+            color: 'var(--navy, #0A1628)',
+            textAlign: 'left',
+          }}
+        >
+          <div style={{ fontWeight: 600, marginBottom: 4 }}>
+            📧 We&apos;ll email your report to:
+          </div>
+          <div
+            style={{
+              fontFamily: "'DM Mono', monospace",
+              fontSize: 14,
+              color: 'var(--navy, #0A1628)',
+              fontWeight: 600,
+              marginBottom: 8,
+              wordBreak: 'break-all',
+            }}
+          >
+            {buyerEmail}
+          </div>
+          <div style={{ fontSize: 12.5, color: 'rgba(10,22,40,0.65)' }}>
+            Wrong email or doesn&apos;t arrive in 10 minutes? Reply to your Stripe
+            receipt or email <a href="mailto:info@reportdecoded.com.au" style={{ color: 'var(--amber, #C97A3A)', textDecoration: 'underline' }}>info@reportdecoded.com.au</a>{' '}
+            with your report ID and we&apos;ll resend within an hour —{' '}
+            <strong>please don&apos;t re-upload</strong>, you&apos;ll be charged again.
+          </div>
+        </div>
+      )}
+
       <div className="loading-steps">
         {LOAD_STEPS.map((s, i) => (
           <div
@@ -361,6 +432,26 @@ function LoadingState({ loadStep }) {
           </div>
         ))}
       </div>
+
+      {/* After 3 minutes — when the step animation has long finished
+          and the buyer is staring at a static spinner — drop in a
+          reassuring note so they don't bail and re-pay. */}
+      {extendedWait && (
+        <p
+          style={{
+            maxWidth: 520,
+            margin: '20px auto 0',
+            fontSize: 13,
+            lineHeight: 1.55,
+            color: 'rgba(10,22,40,0.6)',
+            fontStyle: 'italic',
+            textAlign: 'center',
+          }}
+        >
+          Still working — large PDFs sometimes take 3–4 minutes. Your report is
+          safe and will be emailed when ready. No need to refresh or re-upload.
+        </p>
+      )}
     </div>
   );
 }

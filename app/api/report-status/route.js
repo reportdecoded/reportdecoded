@@ -21,7 +21,7 @@ export async function GET(request) {
   const { data, error } = await supabase
     .from('reports')
     .select(
-      'id, status, payment_status, property_address, report_type, result_json, tradies_json, failure_reason, created_at'
+      'id, status, payment_status, property_address, report_type, result_json, tradies_json, failure_reason, created_at, buyer_email'
     )
     .eq('id', reportId)
     .single();
@@ -41,6 +41,17 @@ export async function GET(request) {
     report_type: data.report_type,
     created_at: data.created_at,
   };
+  // buyer_email is returned ONLY during the pending/processing window so the
+  // /results LoadingState can show "we're sending it to b***@example.com" —
+  // catches typo'd or wrong-inbox uploads BEFORE the buyer panics and pays
+  // again with a different email. (Bill case, Jun 2026: same PDF uploaded
+  // twice 5 min apart under work email then personal Gmail because the
+  // work email got quarantined and he assumed delivery failed.) Once
+  // complete, the email is omitted — the analysis is already on-screen,
+  // no need to leak the address to anyone the /results URL is shared with.
+  if (data.status !== 'complete' && data.buyer_email) {
+    payload.buyer_email = data.buyer_email;
+  }
   if (data.status === 'complete') {
     payload.analysis = data.result_json;
     payload.tradies = data.tradies_json || null;
