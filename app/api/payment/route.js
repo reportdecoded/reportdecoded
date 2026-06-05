@@ -49,6 +49,73 @@ export async function POST(request) {
       return Response.json({ error: 'Valid buyerEmail is required' }, { status: 400 });
     }
 
+    const supabase = getServiceSupabase();
+
+    // -- Duplicate-charge prevention. The buyer can land back on the
+    //    upload form via browser-back from Stripe Checkout (or by
+    //    opening the site in a second tab) and re-click "Continue to
+    //    Payment". Without this guard each click creates a NEW Stripe
+    //    session and the buyer can pay $59 twice for the same PDF.
+    //
+    //    Strategy: within the last 15 minutes, look up the most recent
+    //    report row for this (buyer_email, report_url) pair.
+    //      • Already paid → return 409 with a friendly "you've already
+    //        purchased this report" message
+    //      • Has a still-open Stripe session → reuse its URL instead
+    //        of minting a new one (Stripe sessions are valid 24h)
+    //      • Otherwise fall through and create a new session
+    //
+    //    15 min window covers the realistic re-click scenarios without
+    //    blocking a genuine retry an hour or a day later.
+    const FIFTEEN_MIN_AGO = new Date(Date.now() - 15 * 60 * 1000).toISOString();
+    const { data: existingReports } = await supabase
+      .from('reports')
+      .select('id, payment_status, stripe_session_id')
+      .eq('buyer_email', buyerEmail)
+      .eq('report_url', reportUrl)
+      .gte('created_at', FIFTEEN_MIN_AGO)
+      .order('created_at', { ascending: false })
+      .limit(1);
+
+    if (existingReports && existingReports.length > 0) {
+      const existing = existingReports[0];
+
+      if (existing.payment_status === 'paid') {
+        return Response.json(
+          {
+            error:
+              "You've already purchased this report. Check your email for the link — if it hasn't arrived in 10 minutes, reply to your Stripe receipt and we'll resend it.",
+          },
+          { status: 409 }
+        );
+      }
+
+      // Existing unpaid attempt has a Stripe session — try to reuse it
+      // so the buyer doesn't get a second one charged on top of the first.
+      if (existing.stripe_session_id) {
+        try {
+          const existingSession = await getStripe().checkout.sessions.retrieve(
+            existing.stripe_session_id
+          );
+          if (existingSession.status === 'open' && existingSession.url) {
+            return Response.json({
+              url: existingSession.url,
+              reportId: existing.id,
+              reused: true,
+            });
+          }
+        } catch (err) {
+          // Session might have been deleted in Stripe — fall through
+          // and create a new one. Log so we can spot abnormal patterns.
+          console.warn(
+            '[payment] could not retrieve existing session, creating new:',
+            err?.message || err
+          );
+        }
+      }
+      // No reusable session — fall through to create new.
+    }
+
     // -- Synchronous pre-screen: refuse wrong-document uploads (CMAs,
     //    Section 32s, contracts of sale) BEFORE creating a Stripe session.
     //    Buyer flow has higher stakes than agent flow — they're about to
@@ -67,7 +134,6 @@ export async function POST(request) {
     }
 
     // 1. Create the report row up front so the webhook has something to update.
-    const supabase = getServiceSupabase();
     const { data: report, error: insertErr } = await supabase
       .from('reports')
       .insert({
@@ -130,6 +196,16 @@ export async function POST(request) {
       cancel_url: base,
       metadata: { reportId, pack, ...(affiliateRef ? { affiliate_ref: affiliateRef } : {}) },
     });
+
+    // Persist the session ID on the report row immediately so the
+    // dedupe check at the top of POST can find + reuse this session
+    // if the buyer re-submits via browser-back. Webhook will also
+    // write this field on payment_intent.succeeded (idempotent — same
+    // value, no race).
+    await supabase
+      .from('reports')
+      .update({ stripe_session_id: session.id })
+      .eq('id', reportId);
 
     return Response.json({ url: session.url, reportId });
   } catch (error) {
