@@ -327,13 +327,35 @@ function ErrorState({ message }) {
   );
 }
 
+// Sanitise failure_reason before showing to buyers — raw API errors
+// (e.g. Anthropic JSON with "credit balance is too low") must never
+// reach the UI. Map to a friendly buyer-facing string.
+function sanitiseFailureReason(reason) {
+  if (!reason) return null;
+  // If it looks like JSON or contains internal API language, suppress it.
+  if (
+    reason.startsWith('{') ||
+    reason.startsWith('[') ||
+    reason.toLowerCase().includes('credit balance') ||
+    reason.toLowerCase().includes('api key') ||
+    reason.toLowerCase().includes('invalid_request_error') ||
+    reason.toLowerCase().includes('anthropic') ||
+    reason.toLowerCase().includes('http 4') ||
+    reason.toLowerCase().includes('http 5')
+  ) {
+    return null; // fall through to default message below
+  }
+  return reason;
+}
+
 function FailedState({ reason }) {
+  const safeReason = sanitiseFailureReason(reason);
   return (
     <div className="loading-screen">
       <h2 className="loading-h">We couldn't analyse this report.</h2>
       <p className="loading-sub">
-        {reason ||
-          'The file may be a scanned image instead of a text PDF. A full refund has been processed.'}
+        {safeReason ||
+          'Something went wrong on our end. If you were charged, a full refund will be processed — reply to your Stripe receipt or email info@reportdecoded.com.au and we\'ll sort it within an hour.'}
       </p>
     </div>
   );
