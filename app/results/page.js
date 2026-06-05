@@ -1145,6 +1145,11 @@ function ResultsView({ analysis, tradies, reportType, expanded, toggle, copied, 
                 Recommended price reduction based on repair cost midpoint. Copy and send
                 directly to your agent.
               </div>
+              <div style={{ fontSize: 12, color: 'rgba(10,22,40,0.5)', lineHeight: 1.55, marginBottom: 12, fontStyle: 'italic' }}>
+                ⚠️ If this property appears already priced below comparable sales to reflect
+                its condition, adjust this figure down — negotiating the full repair cost
+                on a discounted listing may not be realistic.
+              </div>
               <div className="negs-text">{analysis.negotiation_language}</div>
               <button className="copy-btn" onClick={handleCopy}>
                 {copied ? '✓ Copied to clipboard' : 'Copy to Clipboard'}
