@@ -4,6 +4,14 @@
     {
       "path": "/api/cron/agent-day3-tips",
       "schedule": "0 22 * * *"
+    },
+    {
+      "path": "/api/cron/buyer-day1",
+      "schedule": "0 22 * * *"
+    },
+    {
+      "path": "/api/cron/buyer-day7",
+      "schedule": "0 22 * * *"
     }
   ]
 }

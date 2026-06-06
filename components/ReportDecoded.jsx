@@ -1475,6 +1475,11 @@ export default function App() {
   // Homepage FAQ accordion — null = all closed; numeric index = that one is open
   const [openFaq, setOpenFaq]         = useState(null);
 
+  // Email capture — for fence-sitters not ready to upload yet.
+  // Form lives below the upload zone, shows only in the initial state.
+  const [emailCapVal, setEmailCapVal] = useState('');
+  const [emailCapState, setEmailCapState] = useState('idle'); // idle|sending|done|error
+
   // Win 4 (May 2026 redesign): sticky mobile bottom CTA that appears
   // once the upload zone scrolls out of viewport. Tracks visibility
   // of #buyer-upload via IntersectionObserver. Only renders on
@@ -1580,6 +1585,23 @@ export default function App() {
       setUploadError(err?.message || "Network error during checkout.");
       track("checkout_failed", { stage: "network", pack });
       setProcessing(false);
+    }
+  };
+
+  const handleEmailCapture = async (e) => {
+    e.preventDefault();
+    if (!emailCapVal || emailCapState === 'sending') return;
+    setEmailCapState('sending');
+    try {
+      const res = await fetch('/api/email-capture', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ email: emailCapVal, source: 'homepage_below_upload' }),
+      });
+      setEmailCapState(res.ok ? 'done' : 'error');
+      if (res.ok) track('email_capture', { source: 'homepage_below_upload' });
+    } catch {
+      setEmailCapState('error');
     }
   };
 
@@ -1980,6 +2002,81 @@ export default function App() {
                     Secured by Stripe · 2-minute analysis · Refund if we can't read your PDF
                   </div>
                 </div>
+              </div>
+            )}
+
+            {/* ── EMAIL CAPTURE ────────────────────────────────
+                For fence-sitters not ready to upload yet.
+                Shows only in the initial state (no file chosen, not uploading).
+                Sends a sample report link via /api/email-capture.
+                Low friction: inline form, no redirect, instant confirmation.
+                Meta Pixel: the 'Lead' event is fired server-side in the
+                email-capture route so we get attribution even if the
+                client FB pixel script hasn't fired yet. */}
+            {!uploadedFile && !isUploading && (
+              <div style={{ textAlign: "center", marginTop: 14, marginBottom: 8 }}>
+                {emailCapState === 'done' ? (
+                  <div style={{ fontSize: 13.5, color: "var(--teal)", fontWeight: 500, padding: "8px 0" }}>
+                    ✓ Check your inbox — we've sent you a free sample report.
+                  </div>
+                ) : (
+                  <form
+                    onSubmit={handleEmailCapture}
+                    style={{ display: "flex", gap: 8, justifyContent: "center", flexWrap: "wrap", alignItems: "center" }}
+                  >
+                    <span style={{ fontSize: 13, color: "var(--muted)", whiteSpace: "nowrap" }}>Not ready?</span>
+                    <input
+                      type="email"
+                      required
+                      placeholder="your@email.com"
+                      value={emailCapVal}
+                      onChange={e => setEmailCapVal(e.target.value)}
+                      style={{
+                        border: "1px solid var(--border)",
+                        borderRadius: 8,
+                        padding: "8px 13px",
+                        fontSize: 13.5,
+                        fontFamily: "'DM Sans',sans-serif",
+                        width: 200,
+                        background: "rgba(255,255,255,0.9)",
+                        color: "var(--text)",
+                      }}
+                    />
+                    <button
+                      type="submit"
+                      disabled={emailCapState === 'sending'}
+                      style={{
+                        background: "var(--navy)",
+                        color: "#fff",
+                        border: "none",
+                        borderRadius: 8,
+                        padding: "8px 16px",
+                        fontSize: 13,
+                        fontWeight: 600,
+                        fontFamily: "'DM Sans',sans-serif",
+                        cursor: emailCapState === 'sending' ? "default" : "pointer",
+                        opacity: emailCapState === 'sending' ? 0.6 : 1,
+                        whiteSpace: "nowrap",
+                        transition: "opacity .15s",
+                      }}
+                    >
+                      {emailCapState === 'sending' ? 'Sending…' : 'Get a free sample →'}
+                    </button>
+                    {emailCapState === 'error' && (
+                      <div style={{ width: "100%", fontSize: 12.5, color: "var(--red)", marginTop: 2, textAlign: "center" }}>
+                        Couldn't send —{' '}
+                        <a
+                          href="/results?reportId=f3ef0ce1-5443-4e91-a420-5e8bf7d8713d&sample=1"
+                          target="_blank"
+                          rel="noopener noreferrer"
+                          style={{ color: "var(--amber)", fontWeight: 600 }}
+                        >
+                          view the sample directly
+                        </a>.
+                      </div>
+                    )}
+                  </form>
+                )}
               </div>
             )}
 
@@ -2716,6 +2813,17 @@ export default function App() {
               Auto-refunded if we can't analyse your PDF.{" "}
               <Link href="/terms" style={{ color: "var(--amber)", textDecoration: "none", fontWeight: 600 }}>
                 Refund policy
+              </Link>
+            </div>
+
+            {/* Affiliate mention — passive one-liner below pricing.
+                Low-friction signal for anyone who knows a buyer/agent.
+                Links to /agents page where they can learn about the
+                creator affiliate programme ($15/report referred). */}
+            <div style={{ textAlign: "center", marginTop: 10, fontSize: 13, color: "var(--muted)" }}>
+              Know someone buying property?{" "}
+              <Link href="/agents" style={{ color: "var(--amber)", fontWeight: 600, textDecoration: "none" }}>
+                Earn $15 per report you refer →
               </Link>
             </div>
 
