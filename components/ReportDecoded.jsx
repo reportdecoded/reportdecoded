@@ -1410,24 +1410,28 @@ const PM_MAINTENANCE = [
 // over-promise).
 const HOMEPAGE_FAQS = [
   {
-    q: "What if my report isn't AS4349.1 format?",
-    a: "Report Decoded is built for Australian Standard AS4349.1 building & pest inspection reports — that's by far the most common format AU buyers receive. If your inspector used a different framework, our pre-screen will detect it before you're charged and auto-refund. You'll get a clear email explaining why and what to upload instead.",
+    q: "I've already paid for a building inspector — why do I need this too?",
+    a: "Your inspector's job is to find every defect, document it in technical language, and protect themselves legally. They're not paid to tell you which items are deal-breakers, what repairs actually cost, or how to use it in negotiation. That's the gap Report Decoded fills. Most buyers get a 60–90 page PDF full of terms like 'spalling', 'efflorescence' and 'rising damp' and have no idea what they're signing up for. We translate it in 2 minutes, with AU dollar cost estimates and a plain-English verdict: Proceed, Negotiate, or Walk Away.",
   },
   {
-    q: "Does this work for pest-only or combined reports?",
-    a: "Yes — building only, pest only, and combined building + pest reports are all supported. The analysis adapts: a pest-only report won't surface structural defects; a combined one extracts both sections separately and presents them in a single verdict. The Yarraville sample on this page is a combined building + pest report.",
+    q: "Is the AI accurate enough to trust for a $500K+ decision?",
+    a: "Every defect we surface includes a citation to the exact page in your inspector's PDF where it was found — so nothing is invented and everything is verifiable. We don't make claims we can't anchor to your document. That said, we're not a second inspector; we're translating what your inspector already found. Think of it as a builder friend reading the 90-page report while you're at work and calling you to say 'here's what matters and here's what I'd offer them.'",
   },
   {
-    q: "Is the AI accurate enough for a buying decision?",
-    a: "Every major and minor defect we identify includes a citation to the page in your inspector's PDF where it was discussed — so every claim is verifiable. We don't extract claims we can't anchor. That said, this tool sits AFTER your inspection and interprets what's in it; it doesn't replace the inspector. Think of it as a builder friend translating the 95-page document for you in under 2 minutes.",
+    q: "What about asking my solicitor or conveyancer to explain the report?",
+    a: "Conveyancers handle the legal title side of the transaction — contract review, Section 32, settlement. Most aren't trade-qualified to assess whether rising damp is a $2,000 or $20,000 repair, or to tell you which defects the vendor is legally required to fix. Report Decoded gives you the trade and cost interpretation your solicitor isn't trained for, in a fraction of the time.",
   },
   {
-    q: "Who can see my uploaded PDF?",
-    a: "Only you, anyone you share your unique report link with, and our processing pipeline. Your PDF is stored encrypted on UploadThing (Singapore region, AU-adjacent). The analysis result lives in our Supabase database, scoped to your unique report ID. We never share, sell, or reuse your inspection data. Full details in our Privacy Policy.",
+    q: "Who can see my uploaded report?",
+    a: "Only you, anyone you share your unique report link with, and our processing pipeline. Your PDF is encrypted on upload (UploadThing, Singapore region). The analysis lives in our database scoped to your report ID — we never share, sell, or re-use your inspection data. Full details in our Privacy Policy.",
   },
   {
     q: "Can I get a refund?",
-    a: "Yes — if our system can't analyse your PDF (e.g. it's a scanned image with no extractable text, or it's not actually an AS4349.1 inspection report) we automatically refund the $59. Our pre-screen catches most non-inspection uploads (Section 32s, vendor statements, contracts of sale) before you're even charged.",
+    a: "Yes — 30-day money-back, no questions asked. If we can't analyse your PDF (e.g. scanned image with no extractable text, or it's not an AS4349.1 inspection report) we automatically refund before charging you. Our pre-screen catches Section 32s, vendor statements and contracts of sale before payment.",
+  },
+  {
+    q: "Does this work for pest-only or combined reports?",
+    a: "Yes — building only, pest only, and combined building + pest reports are all supported. The analysis adapts: a pest-only report surfaces termite and timber pest findings; a combined report extracts both sections and presents them in a single verdict. The Yarraville sample on this page is a combined building + pest report — see what the output looks like before you buy.",
   },
 ];
 
@@ -1479,6 +1483,18 @@ export default function App() {
   // Form lives below the upload zone, shows only in the initial state.
   const [emailCapVal, setEmailCapVal] = useState('');
   const [emailCapState, setEmailCapState] = useState('idle'); // idle|sending|done|error
+
+  // Live report counter — fetched once on mount from /api/report-count.
+  // Only shown in the UI when count >= 10 so we never display an
+  // embarrassingly small number. Increments to the real count so the
+  // number always reflects actual usage.
+  const [reportCount, setReportCount] = useState(0);
+  useEffect(() => {
+    fetch('/api/report-count')
+      .then(r => r.json())
+      .then(d => { if (d.count >= 10) setReportCount(d.count); })
+      .catch(() => {});
+  }, []);
 
   // Win 4 (May 2026 redesign): sticky mobile bottom CTA that appears
   // once the upload zone scrolls out of viewport. Tracks visibility
@@ -1695,7 +1711,7 @@ export default function App() {
             <p className="hero-sub">
               <strong style={{color:"#fff", fontWeight:600}}>Plain-English verdict in 2 minutes.</strong>
               <br/>
-              Plus exactly how much to negotiate off the price.
+              Find out what your report is hiding — before you sign.
             </p>
 
             {/* Primary CTA + savings anchor — biggest emotional hook for
@@ -1744,6 +1760,17 @@ export default function App() {
             >
               Buyers save <strong style={{color:"#fff"}}>$20K – $80K</strong> at negotiation, on average.
             </div>
+            <div
+              style={{
+                marginTop:10,
+                fontSize:12.5,
+                color:"rgba(255,255,255,0.52)",
+                fontFamily:"'DM Mono', monospace",
+                letterSpacing:0.2,
+              }}
+            >
+              Most buyers have 48–72 hrs before settlement. Don't guess.
+            </div>
 
             {/* Secondary links — differentiated weights so the
                 conversion-relevant "See a sample" reads as primary
@@ -1780,6 +1807,13 @@ export default function App() {
               >
                 ⬇ Or download the sample PDF
               </a>
+            </div>
+
+            {/* Trust micro-strip */}
+            <div style={{marginTop:20, display:"flex", gap:20, justifyContent:"center", flexWrap:"wrap"}}>
+              {["✅ 30-day money-back guarantee", "🔒 Your PDF is never stored", "🇦🇺 Australian-specific analysis"].map(t => (
+                <span key={t} style={{fontSize:12, color:"rgba(255,255,255,0.55)", letterSpacing:0.1}}>{t}</span>
+              ))}
             </div>
           </div>
 
@@ -2701,8 +2735,8 @@ export default function App() {
                 // the badge matches what most buyers actually want.
                 // Kept featured (navy gradient styling) on the 3-pack so
                 // the cards still have clear visual hierarchy.
-                { id: "single", label: "Single Report", price: "$59",  desc: "Full analysis, cost estimates & 2 tradie picks per defect", featured: false, popular: true },
-                { id: "three",  label: "3-Report Pack", price: "$149", desc: "For investors evaluating multiple properties at once",     featured: true,  popular: false },
+                { id: "single", label: "Single Report", price: "$59",  sub: null,             desc: "Full analysis, cost estimates & 2 tradie picks per defect", featured: false, popular: true },
+                { id: "three",  label: "3-Report Pack", price: "$149", sub: "$49.67/report",  desc: "For investors or buyers shortlisting multiple properties",    featured: true,  popular: false, save: "Save $28" },
               ].map((p) => {
                 const isSelected = pack === p.id;
                 const handlePick = () => {
@@ -2740,7 +2774,13 @@ export default function App() {
                       >✓ SELECTED</div>
                     )}
                     <div className="price-label">{p.label}</div>
-                    <div className="price-amount">{p.price}</div>
+                    <div style={{display:"flex", alignItems:"baseline", gap:8}}>
+                      <div className="price-amount">{p.price}</div>
+                      {p.save && (
+                        <span style={{fontSize:11, fontWeight:700, background:"rgba(201,122,58,0.22)", color:"#E8A05A", padding:"2px 7px", borderRadius:5, letterSpacing:0.4}}>{p.save}</span>
+                      )}
+                    </div>
+                    {p.sub && <div style={{fontSize:12, color:"rgba(255,255,255,0.45)", marginTop:-4, marginBottom:6}}>{p.sub}</div>}
                     <div className="price-desc">{p.desc}</div>
                     {/* Show "Most Popular" badge regardless of selection
                         state. Previously gated on !isSelected because the
@@ -2826,6 +2866,13 @@ export default function App() {
                 Earn $15 per report you refer →
               </Link>
             </div>
+
+            {/* Live report counter — only shown once 10+ reports complete */}
+            {reportCount >= 10 && (
+              <div style={{ textAlign:"center", marginTop:8, marginBottom:4, fontSize:13, color:"var(--muted)" }}>
+                🇦🇺 <strong style={{color:"var(--text)"}}>{reportCount.toLocaleString()}</strong> building reports decoded for Australian buyers
+              </div>
+            )}
 
             {/* Trust bar */}
             <div className="trust-bar">
