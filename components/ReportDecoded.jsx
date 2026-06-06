@@ -3312,6 +3312,7 @@ export default function App() {
             <a href="/privacy">Privacy Policy</a>
             <a href="/terms">Terms of Service</a>
             <Link href="/contact">Contact</Link>
+            <a href="https://www.facebook.com/profile.php?id=61590529500524" target="_blank" rel="noopener noreferrer">Facebook</a>
             <a href="https://www.instagram.com/reportdecoded" target="_blank" rel="noopener noreferrer">Instagram</a>
             <a href="https://www.tiktok.com/@reportdecoded" target="_blank" rel="noopener noreferrer">TikTok</a>
             <a href="https://twitter.com/reportdecoded" target="_blank" rel="noopener noreferrer">X</a>
