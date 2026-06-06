@@ -10,8 +10,8 @@ import {
 } from '@/lib/schema';
 
 export const metadata = {
-  title: 'Report Decoded',
-  description: 'AI Building Inspection Report Interpreter for Australian Property Buyers',
+  title: 'Report Decoded — Building Inspection Reports, Decoded | Australia',
+  description: 'Upload your building inspection PDF — get a plain-English verdict, repair cost estimates, and exactly how much to negotiate. Results in 2 minutes. From $59.',
   metadataBase: new URL('https://www.reportdecoded.com.au'),
   applicationName: 'Report Decoded',
   // Apple-specific PWA flags so iOS "Add to Home Screen" launches full-screen
@@ -65,7 +65,7 @@ export const viewport = {
 
 export default function RootLayout({ children }) {
   return (
-    <html lang="en">
+    <html lang="en-AU">
       <head>
         {/* Preconnect to Google Fonts so the browser can start the TCP
             + TLS handshake before our CSS @import discovers the font
