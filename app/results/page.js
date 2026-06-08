@@ -698,11 +698,13 @@ function DefectCard({ kind, defect, index, expanded, toggle, tradiesByKey, subur
     seenIds.add(id);
     merged.push(t);
   }
-  // Still apply the trade-name filter as a safety net (in case a legacy
-  // bucket carries an off-specialty listing through).
+  // Always apply the trade-name filter. When we COULDN'T infer a trade from
+  // the defect text, do NOT dump the raw broad trade_category bucket — that's
+  // what surfaced wrong specialties (e.g. a builder + concreter under a
+  // door-weather-seal defect). Better to show nothing than the wrong trade.
   const tradies = primaryTrade
     ? filterTradiesByInferredTrades(merged, inferredTrades)
-    : merged;
+    : [];
   const hadTradiesButNoneMatched =
     primaryTrade && merged.length > 0 && tradies.length === 0;
 
