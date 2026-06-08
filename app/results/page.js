@@ -989,9 +989,11 @@ function ResultsView({ analysis, tradies, reportType, expanded, toggle, copied, 
           <div className="stat-card">
             <div className="stat-label">Est. Repair Cost</div>
             <div className="stat-val">
-              {fmt$(analysis.total_repair_cost_low)} – {fmt$(analysis.total_repair_cost_high)}
+              {fmt$(Math.round(((analysis.total_repair_cost_low || 0) + (analysis.total_repair_cost_high || 0)) / 2))}
             </div>
-            <div className="stat-sub">Independent tradie estimates</div>
+            <div className="stat-sub">
+              most likely · range {fmt$(analysis.total_repair_cost_low)}–{fmt$(analysis.total_repair_cost_high)}
+            </div>
           </div>
         )}
         <div className="stat-card">
