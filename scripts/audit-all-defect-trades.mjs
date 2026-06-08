@@ -1,19 +1,23 @@
 // scripts/audit-all-defect-trades.mjs
 //
-// Run the trade-inference engine across every defect in every report
-// in the database. Flag defects that look mis-classified so we can
-// improve the keyword patterns in lib/trades.js.
+// FREE QA tool (no Claude/API cost — reads Supabase only). Reviews the trade
+// assigned to every defect in every completed report and flags the ones worth
+// a human glance. As of Jun 2026 the trade is CLAUDE-ASSIGNED (defect.trade);
+// the regex engine (topTradesForDefect) is the fallback. This audit compares
+// the two so you can spot-check that Claude is picking well.
 //
-// Flags any of:
-//   • NO_TRADE        — inference returned zero matches (chip won't show)
-//   • LOW_SCORE       — primary trade scored < 3 (single weak signal — could go either way)
-//   • TIE_AT_TOP      — two or more trades tied for first place
-//   • SUSPICIOUS      — heuristic: the defect name contains a strong trade
-//                       hint that disagrees with the inferred primary
-//                       (e.g. defect name says "paint" but inference says Carpenter)
+// Run:  node scripts/audit-all-defect-trades.mjs
 //
-// Output is grouped by flag type, so it's easy to scan for patterns
-// and decide which keyword additions would help.
+// Flags:
+//   • NO_TRADE        — neither Claude nor regex produced a trade (no chip shows)
+//   • INVALID_KEY     — Claude returned a `trade` that isn't a real trade key
+//   • BUILDER_DEFAULT — Claude fell back to the generic "licensed_builder"
+//                       catch-all (often a more specific trade fits — review)
+//   • DISAGREE        — Claude's pick differs from the regex pick (usually
+//                       Claude is right; scan to confirm)
+//   • NAME_MISMATCH   — the defect NAME strongly hints a trade that ISN'T the
+//                       one shown (e.g. name says "paint" but trade is carpenter)
+//   • REGEX_ONLY      — no Claude trade (older report) AND weak regex score (<3)
 
 import { readFileSync, existsSync } from 'node:fs';
 import { join, dirname } from 'node:path';
@@ -41,52 +45,39 @@ const supabase = createClient(
   { auth: { persistSession: false, autoRefreshToken: false } }
 );
 
-const { topTradesForDefect } = await import('../lib/trades.js');
+const { topTradesForDefect, tradeByKey } = await import('../lib/trades.js');
 
-// Heuristic: if the defect NAME contains one of these strong hints,
-// the inferred primary trade SHOULD typically be that one. Mismatches
-// get flagged as SUSPICIOUS for human review.
+// Heuristic: if the defect NAME contains one of these strong hints, the trade
+// SHOWN should typically be that one. Mismatches get flagged for human review.
 const NAME_HINTS = [
-  { rx: /\b(paint|painted|painting|unpainted|repaint|colou?r)\b/i, expected: 'painter' },
-  { rx: /\b(hinge|squeak|gap at top|misaligned door|sliding screen)\b/i, expected: 'handyman' },
-  { rx: /\b(termite|borer|pest|infestation|white ant)\b/i, expected: 'pest_controller' },
-  { rx: /\b(roof tile|roof sheet|rusted roof|gutter|downpipe|colorbond)\b/i, expected: 'roofer' },
+  { rx: /\b(paint|painted|painting|unpainted|repaint|seal(?:ed|ing)? (?:the )?(?:edge|timber|door))\b/i, expected: 'painter' },
+  { rx: /\b(flashing|gutter|downpipe|ridge cap|roof tile|sarking)\b/i, expected: 'roofer' },
+  { rx: /\b(weather seal|hinge|re-?caulk|minor adjustment|sliding (?:robe|door)|touch[- ]?up)\b/i, expected: 'handyman' },
+  { rx: /\b(termite|borer|white ant|infestation)\b/i, expected: 'pest_controller' },
   { rx: /\b(tile|grout|tiling)\b/i, expected: 'tiler' },
-  { rx: /\b(brick|mortar|perpend|bed joint|masonry|blockwork)\b/i, expected: 'bricklayer' },
-  { rx: /\b(concrete|slab|edge beam|footing)\b/i, expected: 'concreter' },
-  { rx: /\b(stair (?:tread|riser|nosing|stringer|landing|winder)|balustrade|newel)\b/i, expected: 'stair_specialist' },
-  { rx: /\b(plumber|tap leak|leaking tap|drainage|stormwater|sewer|water hammer|hot water)\b/i, expected: 'plumber' },
-  { rx: /\b(electric|wiring|switchboard|RCD|smoke alarm|powerpoint|gpo)\b/i, expected: 'electrician' },
-  { rx: /\b(glaz|glass|window pane|shower screen)\b/i, expected: 'glazier' },
-  { rx: /\b(plaster|gyprock|cornice|drywall|nail pop)\b/i, expected: 'plasterer' },
-  { rx: /\b(cabinet|joinery|benchtop|bench ?top|caesarstone)\b/i, expected: 'cabinetmaker' },
+  { rx: /\b(mortar|repoint|brick(?:work)?|masonry|blockwork)\b/i, expected: 'bricklayer' },
+  { rx: /\b(plaster|gyprock|cornice|nail pop)\b/i, expected: 'plasterer' },
+  { rx: /\b(cabinet|joinery|vanity|cupboard)\b/i, expected: 'cabinetmaker' },
+  { rx: /\b(benchtop|caesarstone|stone bench)\b/i, expected: 'benchtop_specialist' },
+  { rx: /\b(plumb|tap|drain|stormwater|sewer|hot water|leak under)\b/i, expected: 'plumber' },
+  { rx: /\b(electric|wiring|switchboard|RCD|smoke alarm|powerpoint|exhaust fan|light fitting)\b/i, expected: 'electrician' },
+  { rx: /\b(glaz|glass|window pane|shower screen|mirror)\b/i, expected: 'glazier' },
   { rx: /\b(render|bagging)\b/i, expected: 'renderer' },
-  { rx: /\b(landscap|paving|garden|retaining wall)\b/i, expected: 'landscaper' },
-  { rx: /\b(carpenter|joist|bearer|stud|truss|rafter|architrave|skirting|fascia|eave)\b/i, expected: 'carpenter' },
-  { rx: /\b(damp|waterproofing|membrane|rising damp|water ingress)\b/i, expected: 'waterproofer' },
+  { rx: /\b(paving|retaining wall|drainage|garden)\b/i, expected: 'landscaper' },
+  { rx: /\b(fence|paling|colorbond|gate)\b/i, expected: 'fencer' },
+  { rx: /\b(asbestos|fibro)\b/i, expected: 'asbestos_remover' },
 ];
 
-const buckets = {
-  NO_TRADE: [],
-  LOW_SCORE: [],
-  TIE_AT_TOP: [],
-  SUSPICIOUS: [],
-};
+const buckets = { NO_TRADE: [], INVALID_KEY: [], BUILDER_DEFAULT: [], DISAGREE: [], NAME_MISMATCH: [], REGEX_ONLY: [] };
 
 const { data: reports, error } = await supabase
   .from('reports')
   .select('id, property_address, result_json, report_type')
   .eq('status', 'complete')
   .order('created_at', { ascending: false });
-if (error) {
-  console.error(error);
-  process.exit(1);
-}
+if (error) { console.error(error); process.exit(1); }
 
-console.log(`Auditing ${reports.length} reports...\n`);
-
-let totalDefects = 0;
-let flagged = 0;
+let totalDefects = 0, claudeAssigned = 0, regexFallback = 0;
 
 for (const r of reports) {
   const a = r.result_json || {};
@@ -99,73 +90,56 @@ for (const r of reports) {
   for (const d of all) {
     totalDefects++;
     const name = d.name || d.pest_type || '(unnamed)';
-    const trades = topTradesForDefect(d);
-    const primary = trades[0];
+    const claude = tradeByKey(d.trade);
+    const regex = topTradesForDefect(d)[0] || null;
+    const effective = claude || regex; // what the user actually sees
+    const source = claude ? 'claude' : (regex ? 'regex' : 'none');
+    if (claude) claudeAssigned++; else if (regex) regexFallback++;
 
     const ctx = {
-      report: `${r.id.slice(0, 8)} · ${(r.property_address || '').slice(0, 50)} · ${r.report_type || 'pre_purchase'}`,
+      report: `${r.id.slice(0, 8)} · ${(r.property_address || '').slice(0, 42)}`,
       defect: name,
-      primary: primary ? `${primary.label} (${primary.score})` : '(none)',
-      runners_up: trades.slice(1, 3).map((t) => `${t.label}:${t.score}`).join(', ') || '—',
+      shown: effective ? `${effective.label} [${source}]` : '(none)',
+      claude: d.trade ? (claude ? claude.key : `${d.trade} ✗invalid`) : '—',
+      regex: regex ? `${regex.key}:${regex.score}` : '—',
     };
 
-    // Flag 1 — no inferred trade at all
-    if (!primary) {
-      buckets.NO_TRADE.push(ctx);
-      flagged++;
-      continue;
-    }
+    if (!effective) { buckets.NO_TRADE.push(ctx); continue; }
+    if (d.trade && !claude) buckets.INVALID_KEY.push(ctx);
+    if (claude && claude.key === 'licensed_builder') buckets.BUILDER_DEFAULT.push(ctx);
+    if (claude && regex && claude.key !== regex.key) buckets.DISAGREE.push(ctx);
+    if (!claude && regex && regex.score < 3) buckets.REGEX_ONLY.push(ctx);
 
-    // Flag 2 — top score is very low (single weak match)
-    if (primary.score < 3) {
-      buckets.LOW_SCORE.push(ctx);
-      flagged++;
-    }
-
-    // Flag 3 — top tie
-    if (trades.length >= 2 && trades[0].score === trades[1].score) {
-      buckets.TIE_AT_TOP.push(ctx);
-      flagged++;
-    }
-
-    // Flag 4 — name hints at a trade that ISN'T the primary
-    for (const hint of NAME_HINTS) {
-      if (hint.rx.test(name) && primary.key !== hint.expected) {
-        // Skip the false alarm when the secondary IS the expected trade
-        if (trades[1]?.key === hint.expected) break;
-        buckets.SUSPICIOUS.push({
-          ...ctx,
-          hint: `name "${name}" suggests ${hint.expected}, inference picked ${primary.key}`,
-        });
-        flagged++;
+    for (const h of NAME_HINTS) {
+      if (h.rx.test(name) && effective.key !== h.expected) {
+        buckets.NAME_MISMATCH.push({ ...ctx, hint: `name hints ${h.expected}, shown ${effective.key}` });
         break;
       }
     }
   }
 }
 
-console.log(`────────────────────────────────────────`);
-console.log(`Total defects: ${totalDefects}`);
-console.log(`Flagged:       ${flagged}`);
-console.log(`────────────────────────────────────────\n`);
+const line = '─'.repeat(64);
+console.log(`\n${line}`);
+console.log(`Reports: ${reports.length} · Defects: ${totalDefects}`);
+console.log(`Trade source: ${claudeAssigned} Claude-assigned · ${regexFallback} regex-fallback (older reports)`);
+console.log(line);
 
-const showBucket = (name, items) => {
-  if (items.length === 0) {
-    console.log(`✓ ${name}: 0 issues\n`);
-    return;
-  }
-  console.log(`⚠ ${name} (${items.length}):`);
-  items.forEach((it) => {
+const show = (name, items, withHint) => {
+  if (!items.length) { console.log(`\n✓ ${name}: 0`); return; }
+  console.log(`\n⚠ ${name} (${items.length}):`);
+  for (const it of items) {
     console.log(`  · ${it.defect}`);
-    console.log(`      report: ${it.report}`);
-    console.log(`      primary: ${it.primary}`);
-    if (it.runners_up !== '—') console.log(`      runners: ${it.runners_up}`);
-    if (it.hint) console.log(`      hint: ${it.hint}`);
-  });
-  console.log('');
+    console.log(`      ${it.report}`);
+    console.log(`      shown: ${it.shown}   claude:${it.claude}  regex:${it.regex}`);
+    if (withHint && it.hint) console.log(`      ${it.hint}`);
+  }
 };
 
-showBucket('NO_TRADE — no inference at all', buckets.NO_TRADE);
-showBucket('SUSPICIOUS — name suggests different trade', buckets.SUSPICIOUS);
-showBucket('LOW_SCORE — single weak signal', buckets.LOW_SCORE);
-showBucket('TIE_AT_TOP — could go either way', buckets.TIE_AT_TOP);
+show('NO_TRADE — nothing shows', buckets.NO_TRADE);
+show('INVALID_KEY — Claude returned a bad trade key', buckets.INVALID_KEY);
+show('BUILDER_DEFAULT — Claude used the generic catch-all', buckets.BUILDER_DEFAULT);
+show('NAME_MISMATCH — name hints a different trade', buckets.NAME_MISMATCH, true);
+show('DISAGREE — Claude vs regex differ (usually Claude right)', buckets.DISAGREE);
+show('REGEX_ONLY — old report, weak regex score', buckets.REGEX_ONLY);
+console.log('');
