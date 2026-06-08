@@ -4,7 +4,7 @@ import { useSearchParams } from 'next/navigation';
 import Link from 'next/link';
 import { track } from '@vercel/analytics';
 import { STYLES } from '@/components/ReportDecoded';
-import { topTradesForDefect, googleMapsSearchUrl, filterTradiesByInferredTrades } from '@/lib/trades';
+import { topTradesForDefect, tradeByKey, googleMapsSearchUrl, filterTradiesByInferredTrades } from '@/lib/trades';
 
 const LOAD_STEPS = [
   'Reading inspection report…',
@@ -675,7 +675,12 @@ function DefectCard({ kind, defect, index, expanded, toggle, tradiesByKey, subur
   // masonry-side compliance). Each trade gets its own Google Maps
   // fallback link so the buyer can call whoever is easier to reach.
   // HERE results remain below as nearby starting-points to verify.
-  const inferredTrades = topTradesForDefect(defect);
+  // PREFER Claude's assigned trade (it reads the defect and picks the right
+  // specialist — e.g. "seal/paint timber edges" → painter, "metal flashing"
+  // → roofer). Fall back to regex inference only when Claude didn't assign a
+  // valid trade (older reports analysed before the `trade` field existed).
+  const claudeTrade = tradeByKey(defect?.trade);
+  const inferredTrades = claudeTrade ? [claudeTrade] : topTradesForDefect(defect);
   const primaryTrade = inferredTrades[0] || null;
   const secondaryTrade = inferredTrades[1] || null;
 
