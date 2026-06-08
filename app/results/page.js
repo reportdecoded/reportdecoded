@@ -903,43 +903,56 @@ function CapexForecastCard({ forecast }) {
   );
 }
 
-function MarketContextCard({ ctx }) {
-  if (!ctx || ctx.medianHouse == null) return null;
-  const chg = ctx.changeAnnualPct;
+function PriceContextCard({ ctx, negotiationAmount }) {
+  const hasNego = typeof negotiationAmount === 'number' && negotiationAmount > 0;
+  const hasData = ctx && ctx.medianHouse != null;
+  const chg = hasData ? ctx.changeAnnualPct : null;
   const up = chg != null && chg >= 0;
-  const lowSample = ctx.lowSample || (ctx.salesLastQuarter != null && ctx.salesLastQuarter < 10) || ctx.preliminary;
+  const lowSample = hasData && (ctx.lowSample || (ctx.salesLastQuarter != null && ctx.salesLastQuarter < 10) || ctx.preliminary);
   return (
     <div className="panel-card" style={{ marginBottom: 28 }}>
-      <div className="panel-title">📍 {ctx.suburb} — suburb price guide</div>
-      <div style={{ display: 'flex', alignItems: 'baseline', gap: 12, flexWrap: 'wrap', marginBottom: 4 }}>
-        <div style={{ fontFamily: "'DM Mono',monospace", fontSize: 24, fontWeight: 700, color: 'var(--navy)' }}>
-          {fmt$(ctx.medianHouse)}
-        </div>
-        {chg != null && (
-          <div style={{ fontSize: 13, fontWeight: 700, color: up ? 'var(--teal)' : 'var(--red)' }}>
-            {up ? '▲' : '▼'} {Math.abs(chg)}% over 12 months
+      <div className="panel-title">💰 Is the asking price fair?</div>
+      <div style={{ fontSize: 13, color: '#374151', lineHeight: 1.6, marginBottom: hasData ? 16 : 0 }}>
+        The best way to sanity-check the asking price
+        {hasNego ? <> — and whether asking <strong>{fmt$(negotiationAmount)}</strong> off it is reasonable —</> : ''}{' '}
+        is to compare against recent sales of <strong>similar homes</strong>. Ask your agent for 3 recent sales of{' '}
+        <strong>same-bedroom houses</strong>{' '}within about 1&nbsp;km, or check the “Sold” listings on
+        realestate.com.au or Domain. If this property is priced <strong>at or above</strong> those
+        comparable sales, the estimated rectification cost is a fair amount to negotiate off. If it's already{' '}
+        <strong>below</strong> them by roughly that much, some of the defects may already be reflected in the
+        price — so factor that in before asking for the full amount.
+      </div>
+      {hasData && (
+        <div style={{ borderTop: '1px solid var(--border)', paddingTop: 14 }}>
+          <div style={{ fontSize: 12, color: 'var(--muted)', fontWeight: 600, marginBottom: 6 }}>
+            📍 {ctx.suburb} — area benchmark
           </div>
-        )}
-      </div>
-      <div style={{ fontSize: 12, color: 'var(--muted)', marginBottom: 12 }}>
-        Median sale price of <strong>all houses</strong> in {ctx.suburb}, every size combined
-        {ctx.salesLastQuarter ? ` (${ctx.salesLastQuarter} sales)` : ''}.
-      </div>
-      <div style={{ fontSize: 12, color: '#374151', lineHeight: 1.55, marginBottom: lowSample ? 10 : 0 }}>
-        This is a <strong>general guide to the area</strong>, not a valuation of this property. The
-        actual value depends on bedrooms, land size, and condition — a small 2-bed and a large 4-bed
-        are both in this number. For a like-for-like figure, compare recent sales of{' '}
-        <strong>similar (same-bedroom) homes nearby</strong> — your agent can pull these, or check the
-        “Sold” listings on realestate.com.au or Domain.
-      </div>
-      {lowSample && (
-        <div style={{ fontSize: 11, color: 'var(--red)', lineHeight: 1.5, marginBottom: 6 }}>
-          ⚠ Based on a small number of sales — treat this figure as rough/indicative only.
+          <div style={{ display: 'flex', alignItems: 'baseline', gap: 10, flexWrap: 'wrap', marginBottom: 4 }}>
+            <div style={{ fontFamily: "'DM Mono',monospace", fontSize: 20, fontWeight: 700, color: 'var(--navy)' }}>
+              {fmt$(ctx.medianHouse)}
+            </div>
+            {chg != null && (
+              <div style={{ fontSize: 12, fontWeight: 700, color: up ? 'var(--teal)' : 'var(--red)' }}>
+                {up ? '▲' : '▼'} {Math.abs(chg)}% / 12mo
+              </div>
+            )}
+          </div>
+          <div style={{ fontSize: 12, color: '#374151', lineHeight: 1.5 }}>
+            Median sale price of <strong>all houses</strong> in {ctx.suburb} (every size combined
+            {ctx.salesLastQuarter ? `, ${ctx.salesLastQuarter} sales` : ''}) — a broad guide to the area,{' '}
+            <strong>not a valuation of this property</strong>. Use the comparable-sales check above for a
+            like-for-like figure.
+          </div>
+          {lowSample && (
+            <div style={{ fontSize: 11, color: 'var(--red)', marginTop: 6 }}>
+              ⚠ Based on few sales — rough/indicative only.
+            </div>
+          )}
+          <div style={{ fontSize: 11, color: 'var(--muted)', marginTop: 6 }}>
+            As at {ctx.asOf} (latest published). {ctx.attribution}
+          </div>
         </div>
       )}
-      <div style={{ fontSize: 11, color: 'var(--muted)', lineHeight: 1.5 }}>
-        As at {ctx.asOf} (latest published). {ctx.attribution}
-      </div>
     </div>
   );
 }
@@ -1045,8 +1058,8 @@ function ResultsView({ analysis, tradies, reportType, expanded, toggle, copied, 
         </div>
       </div>
 
-      {!isHandover && analysis.market_context && (
-        <MarketContextCard ctx={analysis.market_context} />
+      {!isHandover && (
+        <PriceContextCard ctx={analysis.market_context} negotiationAmount={analysis.negotiation_amount} />
       )}
 
       <div className="two-col">
