@@ -22,8 +22,5 @@
     "resend": "^6.12.3",
     "stripe": "^22.1.1",
     "uploadthing": "^7.7.4"
-  },
-  "devDependencies": {
-    "xlsx": "^0.18.5"
   }
 }
