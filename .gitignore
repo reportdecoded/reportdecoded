@@ -41,3 +41,6 @@ yarn-error.log*
 next-env.d.ts
 
 .vercel
+
+# Cached source data for build-suburb-medians (not committed)
+scripts/_data/

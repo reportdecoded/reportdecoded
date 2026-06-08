@@ -903,6 +903,39 @@ function CapexForecastCard({ forecast }) {
   );
 }
 
+function MarketContextCard({ ctx }) {
+  if (!ctx || ctx.medianHouse == null) return null;
+  const chg = ctx.changeAnnualPct;
+  const up = chg != null && chg >= 0;
+  return (
+    <div className="panel-card" style={{ marginBottom: 28 }}>
+      <div className="panel-title">📍 {ctx.suburb} market context</div>
+      <div style={{ display: 'flex', alignItems: 'baseline', gap: 12, flexWrap: 'wrap', marginBottom: 10 }}>
+        <div style={{ fontFamily: "'DM Mono',monospace", fontSize: 24, fontWeight: 700, color: 'var(--navy)' }}>
+          {fmt$(ctx.medianHouse)}
+        </div>
+        <div style={{ fontSize: 13, color: 'var(--muted)' }}>median house price</div>
+        {chg != null && (
+          <div style={{ fontSize: 13, fontWeight: 700, color: up ? 'var(--teal)' : 'var(--red)' }}>
+            {up ? '▲' : '▼'} {Math.abs(chg)}% / yr
+          </div>
+        )}
+      </div>
+      <div style={{ fontSize: 12, color: '#374151', lineHeight: 1.55, marginBottom: 10 }}>
+        Compare the asking price to this suburb median. If the property is listed{' '}
+        <strong>near or above</strong> {fmt$(ctx.medianHouse)}, the estimated rectification cost is a
+        fair amount to negotiate off. If it's already <strong>well below</strong> the median, some of
+        the defect cost may already be reflected in the price — factor that in before asking for the
+        full amount.
+      </div>
+      <div style={{ fontSize: 11, color: 'var(--muted)', lineHeight: 1.5 }}>
+        {ctx.salesLastQuarter ? `${ctx.salesLastQuarter} sales in the quarter · ` : ''}as at {ctx.asOf}
+        {ctx.preliminary ? ' (preliminary)' : ''}. {ctx.attribution}
+      </div>
+    </div>
+  );
+}
+
 function ResultsView({ analysis, tradies, reportType, expanded, toggle, copied, setCopied, reportId, agentId }) {
   const isHandover = reportType === 'new_build_handover';
   if (!analysis) return null;
@@ -1003,6 +1036,10 @@ function ResultsView({ analysis, tradies, reportType, expanded, toggle, copied, 
           <div className="stat-sub">AS4349.1 assessment</div>
         </div>
       </div>
+
+      {!isHandover && analysis.market_context && (
+        <MarketContextCard ctx={analysis.market_context} />
+      )}
 
       <div className="two-col">
         <div>
