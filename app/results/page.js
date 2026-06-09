@@ -679,8 +679,23 @@ function DefectCard({ kind, defect, index, expanded, toggle, tradiesByKey, subur
   // specialist — e.g. "seal/paint timber edges" → painter, "metal flashing"
   // → roofer). Fall back to regex inference only when Claude didn't assign a
   // valid trade (older reports analysed before the `trade` field existed).
-  const claudeTrade = tradeByKey(defect?.trade);
-  const inferredTrades = claudeTrade ? [claudeTrade] : topTradesForDefect(defect);
+  const claudePrimary = tradeByKey(defect?.trade);
+  const claudeSecondary = tradeByKey(defect?.trade_secondary);
+  let inferredTrades;
+  if (claudePrimary) {
+    // Claude gives a primary + secondary trade per defect (min 2). Dedupe in
+    // case it returned the same key twice; backfill a regex runner-up if it
+    // only gave one distinct trade.
+    inferredTrades = [claudePrimary, claudeSecondary]
+      .filter(Boolean)
+      .filter((t, i, arr) => arr.findIndex((x) => x.key === t.key) === i);
+    if (inferredTrades.length < 2) {
+      const extra = topTradesForDefect(defect).find((t) => t.key !== claudePrimary.key);
+      if (extra) inferredTrades.push(extra);
+    }
+  } else {
+    inferredTrades = topTradesForDefect(defect);
+  }
   const primaryTrade = inferredTrades[0] || null;
   const secondaryTrade = inferredTrades[1] || null;
 
