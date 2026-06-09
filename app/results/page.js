@@ -702,17 +702,15 @@ function DefectCard({ kind, defect, index, expanded, toggle, tradiesByKey, subur
   // Build the tradie list for this defect. Preferred path: HERE Maps
   // was queried for each inferred trade specifically (Carpenter,
   // Concreter, Stair specialist, etc) — so `tradiesByKey[primaryTrade.key]`
-  // contains real specialists for that trade. Fallback path (legacy
-  // reports cached before the per-trade refactor, or defects that
-  // didn't infer cleanly): merge the broad trade_category bucket.
+  // contains real specialists for that trade. The old broad trade_category
+  // buckets are retired (they weren't strict-filtered and surfaced wrong
+  // specialties); we use only the per-trade keys for primary + secondary.
   const byKey = tradiesByKey || {};
   const primaryList = primaryTrade ? (byKey[primaryTrade.key] || []) : [];
   const secondaryList = secondaryTrade ? (byKey[secondaryTrade.key] || []) : [];
-  const legacyList = defect?.trade_category ? (byKey[defect.trade_category] || []) : [];
-  // Merge per-trade first (best matches first), then legacy as backfill.
   const seenIds = new Set();
   const merged = [];
-  for (const t of [...primaryList, ...secondaryList, ...legacyList]) {
+  for (const t of [...primaryList, ...secondaryList]) {
     const id = t?.id || t?.business_name;
     if (!id || seenIds.has(id)) continue;
     seenIds.add(id);
