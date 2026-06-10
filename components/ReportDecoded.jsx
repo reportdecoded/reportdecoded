@@ -1410,12 +1410,20 @@ const PM_MAINTENANCE = [
 // over-promise).
 const HOMEPAGE_FAQS = [
   {
+    q: "What exactly do I get for $59?",
+    a: "A lot more than most buyers expect. For every report you upload you get: a plain-English Proceed / Negotiate / Walk Away verdict; every defect classified by severity (major, minor, pest) with an explanation in plain English; a repair cost estimate per defect in 2026 Australian dollars; a ready-to-send negotiation letter with a specific dollar figure you can copy and paste straight to the vendor's agent; a 5-year capex forecast showing what's urgent now vs. what's coming in the next few years; two local tradies per major defect with names and phone numbers; and every defect cited to the exact page in your inspector's report so you can verify anything in 30 seconds. No account needed — upload, pay, and your report is ready in under 2 minutes.",
+  },
+  {
     q: "I've already paid for a building inspector — why do I need this too?",
     a: "Your inspector's job is to find every defect, document it in technical language, and protect themselves legally. They're not paid to tell you which items are deal-breakers, what repairs actually cost, or how to use it in negotiation. That's the gap Report Decoded fills. Most buyers get a 60–90 page PDF full of terms like 'spalling', 'efflorescence' and 'rising damp' and have no idea what they're signing up for. We translate it in 2 minutes, with AU dollar cost estimates and a plain-English verdict: Proceed, Negotiate, or Walk Away.",
   },
   {
     q: "Is the AI accurate enough to trust for a $500K+ decision?",
     a: "Every defect we surface includes a citation to the exact page in your inspector's PDF where it was found — so nothing is invented and everything is verifiable. We don't make claims we can't anchor to your document. That said, we're not a second inspector; we're translating what your inspector already found. Think of it as a builder friend reading the 90-page report while you're at work and calling you to say 'here's what matters and here's what I'd offer them.'",
+  },
+  {
+    q: "How is this different from just uploading to ChatGPT?",
+    a: "A few important ways. ChatGPT has no knowledge of AS4349.1 — the Australian standard that all building inspections are conducted under — so it can't correctly classify what's a major defect vs. a minor one. It has no Australian repair cost database, so any numbers it gives you are invented. It doesn't match local tradies. It doesn't generate a professionally formatted negotiation letter. And it has a well-documented tendency to hallucinate — to state things confidently that aren't in the document. Report Decoded is purpose-built for Australian inspection reports: every defect is cited to the page it came from, cost estimates use 2026 AU trade rates, and the negotiation letter is formatted to send directly to a vendor's agent.",
   },
   {
     q: "What about asking my solicitor or conveyancer to explain the report?",
@@ -1427,7 +1435,7 @@ const HOMEPAGE_FAQS = [
   },
   {
     q: "Can I get a refund?",
-    a: "Yes — 30-day money-back, no questions asked. If we can't analyse your PDF (e.g. scanned image with no extractable text, or it's not an AS4349.1 inspection report) we automatically refund before charging you. Our pre-screen catches Section 32s, vendor statements and contracts of sale before payment.",
+    a: "If we can't analyse your PDF — for example, it's a scanned image with no extractable text, or it's not an AS4349.1 inspection report — our pre-screen catches it before you're charged and you're automatically refunded. We also catch Section 32s, vendor statements and contracts of sale before payment, so you're never charged for a document we can't process.",
   },
   {
     q: "Does this work for pest-only or combined reports?",
@@ -1811,7 +1819,7 @@ export default function App() {
 
             {/* Trust micro-strip */}
             <div style={{marginTop:20, display:"flex", gap:20, justifyContent:"center", flexWrap:"wrap"}}>
-              {["✅ 30-day money-back guarantee", "🔒 Your PDF is never stored", "🇦🇺 Australian-specific analysis"].map(t => (
+              {["✅ Refunded if we can't read your PDF", "🔒 Your PDF is never stored", "🇦🇺 Australian-specific analysis"].map(t => (
                 <span key={t} style={{fontSize:12, color:"rgba(255,255,255,0.55)", letterSpacing:0.1}}>{t}</span>
               ))}
             </div>
@@ -2719,6 +2727,55 @@ export default function App() {
                     I built it because I needed it. Now you can use it too.
                   </p>
                 </div>
+              </div>
+            </div>
+
+            {/* ── WHAT YOU GET STRIP ────────────────────────────────
+                Full deliverable list before the price card — many visitors
+                don't realise they also get tradie contacts, a 5-year
+                capex forecast, AND the negotiation letter for $59. Listing
+                everything closes the "what do I actually get?" gap before
+                the price lands. */}
+            <div style={{ marginBottom: 36 }}>
+              <div style={{ textAlign: "center", marginBottom: 20 }}>
+                <div className="section-label" style={{ marginBottom: 8 }}>📦 Everything included</div>
+                <h2 style={{ fontFamily: "'Fraunces',serif", fontSize: 26, margin: 0, color: "var(--text)", letterSpacing: -0.3 }}>
+                  Here's what you get for $59
+                </h2>
+              </div>
+              <div style={{
+                maxWidth: 720,
+                margin: "0 auto",
+                display: "grid",
+                gridTemplateColumns: "repeat(auto-fit, minmax(200px, 1fr))",
+                gap: 10,
+              }}>
+                {[
+                  { icon: "✅", title: "Proceed / Negotiate / Walk Away verdict", desc: "One clear recommendation to act on" },
+                  { icon: "📋", title: "Every defect classified by severity",      desc: "Major, minor, and pest — in plain English" },
+                  { icon: "💰", title: "Repair cost estimate per defect",           desc: "2026 Australian trade rates" },
+                  { icon: "✉️", title: "Ready-to-send negotiation letter",         desc: "With a dollar figure — copy, paste, send" },
+                  { icon: "📅", title: "5-year capex forecast",                    desc: "Year 1 urgent · Year 1–3 planned · Year 3–5 upcoming" },
+                  { icon: "🔧", title: "2 local tradies per major defect",         desc: "Names + phone numbers included" },
+                  { icon: "📄", title: "Every defect cited to its PDF page",       desc: "Flip to the page and verify any finding" },
+                  { icon: "⚡", title: "Under 2 minutes · No account needed",      desc: "Upload and go — completely anonymous" },
+                ].map(({ icon, title, desc }) => (
+                  <div key={title} style={{
+                    background: "#fff",
+                    border: "1px solid var(--border)",
+                    borderRadius: 12,
+                    padding: "16px 18px",
+                    display: "flex",
+                    gap: 12,
+                    alignItems: "flex-start",
+                  }}>
+                    <span style={{ fontSize: 20, flexShrink: 0, marginTop: 1 }}>{icon}</span>
+                    <div>
+                      <div style={{ fontWeight: 600, fontSize: 13.5, color: "var(--navy)", lineHeight: 1.35, marginBottom: 3 }}>{title}</div>
+                      <div style={{ fontSize: 12, color: "var(--muted)", lineHeight: 1.4 }}>{desc}</div>
+                    </div>
+                  </div>
+                ))}
               </div>
             </div>
 
