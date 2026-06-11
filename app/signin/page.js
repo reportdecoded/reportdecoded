@@ -1,4 +1,4 @@
-'use client';
+﻿'use client';
 import { Suspense, useEffect, useState } from 'react';
 import Link from 'next/link';
 import { useSearchParams } from 'next/navigation';
@@ -6,10 +6,10 @@ import { STYLES } from '@/components/ReportDecoded';
 import { getSupabaseBrowser } from '@/lib/auth-browser';
 
 // /signin supports three modes:
-//   'magic'  → existing email-only magic-link flow (default for new users)
-//   'password' → email + password (for users who set one up in /dashboard)
-//   'reset'  → email-only reset form, sends a "set new password" email
-// All three coexist — magic link works whether or not the user has set a password.
+//   'magic'  â†’ existing email-only magic-link flow (default for new users)
+//   'password' â†’ email + password (for users who set one up in /dashboard)
+//   'reset'  â†’ email-only reset form, sends a "set new password" email
+// All three coexist â€” magic link works whether or not the user has set a password.
 
 function SignInForm() {
   const params = useSearchParams();
@@ -159,15 +159,15 @@ function SignInForm() {
               fontWeight: 600,
             }}
           >
-            ✓ Password reset. Sign in below.
+            âœ“ Password reset. Sign in below.
           </div>
         )}
 
         {sent ? (
           // Magic link sent
           <div style={{ textAlign: 'center' }}>
-            <div style={{ fontSize: 48, marginBottom: 12 }}>📩</div>
-            <h1 style={{ fontFamily: "'Fraunces',serif", fontSize: 26, marginBottom: 10 }}>
+            <div style={{ fontSize: 48, marginBottom: 12 }}>ðŸ“©</div>
+            <h1 style={{ fontFamily: "var(--font-serif),serif", fontSize: 26, marginBottom: 10 }}>
               Check your email.
             </h1>
             <p style={{ color: 'var(--muted)', lineHeight: 1.6 }}>
@@ -182,8 +182,8 @@ function SignInForm() {
         ) : resetSent ? (
           // Password reset email sent
           <div style={{ textAlign: 'center' }}>
-            <div style={{ fontSize: 48, marginBottom: 12 }}>📩</div>
-            <h1 style={{ fontFamily: "'Fraunces',serif", fontSize: 26, marginBottom: 10 }}>
+            <div style={{ fontSize: 48, marginBottom: 12 }}>ðŸ“©</div>
+            <h1 style={{ fontFamily: "var(--font-serif),serif", fontSize: 26, marginBottom: 10 }}>
               Check your email.
             </h1>
             <p style={{ color: 'var(--muted)', lineHeight: 1.6 }}>
@@ -197,7 +197,7 @@ function SignInForm() {
           </div>
         ) : (
           <>
-            <h1 style={{ fontFamily: "'Fraunces',serif", fontSize: 30, marginBottom: 8, textAlign: 'center' }}>
+            <h1 style={{ fontFamily: "var(--font-serif),serif", fontSize: 30, marginBottom: 8, textAlign: 'center' }}>
               {mode === 'reset' ? 'Reset password' : 'Sign in'}
             </h1>
             <p style={{ color: 'var(--muted)', textAlign: 'center', marginBottom: 22, lineHeight: 1.6 }}>
@@ -206,7 +206,7 @@ function SignInForm() {
               {mode === 'reset' && "We'll email you a link to set a new password."}
             </p>
 
-            {/* Mode tabs — magic / password */}
+            {/* Mode tabs â€” magic / password */}
             {mode !== 'reset' && (
               <div
                 style={{
@@ -264,12 +264,12 @@ function SignInForm() {
 
               <button type="submit" className="upload-btn" disabled={sending}>
                 {sending
-                  ? 'Sending…'
+                  ? 'Sendingâ€¦'
                   : mode === 'magic'
-                    ? 'Send me a sign-in link →'
+                    ? 'Send me a sign-in link â†’'
                     : mode === 'password'
-                      ? 'Sign in →'
-                      : 'Send password reset email →'}
+                      ? 'Sign in â†’'
+                      : 'Send password reset email â†’'}
               </button>
 
               {error && (
@@ -292,14 +292,14 @@ function SignInForm() {
                   onClick={() => { setMode('password'); setError(null); }}
                   style={linkBtnStyle}
                 >
-                  ← Back to sign in
+                  â† Back to sign in
                 </button>
               )}
             </div>
 
             <p style={{ color: 'var(--muted)', fontSize: 13, textAlign: 'center', marginTop: 28, lineHeight: 1.6 }}>
               Not signed up yet?{' '}
-              <Link href="/agents" style={{ color: 'var(--amber)' }}>Get early access →</Link>
+              <Link href="/agents" style={{ color: 'var(--amber)' }}>Get early access â†’</Link>
             </p>
           </>
         )}
@@ -348,7 +348,7 @@ function humanizeAuthError(raw) {
   if (s.includes('expired')) return 'That sign-in link expired. Request a fresh one below.';
   if (s.includes('invalid')) return 'That sign-in link is no longer valid. Request a fresh one below.';
   if (s.includes('missing_code')) return 'No sign-in code received. Please request a fresh link below.';
-  if (s.includes('rate')) return "Hold on — you've requested too many links recently. Wait a few minutes.";
+  if (s.includes('rate')) return "Hold on â€” you've requested too many links recently. Wait a few minutes.";
   if (s.includes('pkce')) return 'That link was opened in a different browser. Request a fresh one and open it in the same browser you requested it from.';
   return 'Something went wrong with that sign-in link. Try again below.';
 }
@@ -379,7 +379,7 @@ const linkBtnStyle = {
 
 // Suspense fallback that includes a real H1 so crawlers + screen readers
 // see something meaningful before client-side hydration. Without this,
-// the pre-hydration HTML for /signin is just "Loading…" — no H1, no nav,
+// the pre-hydration HTML for /signin is just "Loadingâ€¦" â€” no H1, no nav,
 // no semantic content, which counts against SEO + a11y audits.
 function SignInFallback() {
   return (
@@ -394,10 +394,10 @@ function SignInFallback() {
         </div>
       </nav>
       <div style={{ maxWidth: 460, margin: '64px auto', padding: '32px 24px', textAlign: 'center' }}>
-        <h1 style={{ fontFamily: "'Fraunces',serif", fontSize: 30, marginBottom: 8 }}>
+        <h1 style={{ fontFamily: "var(--font-serif),serif", fontSize: 30, marginBottom: 8 }}>
           Sign in to Report Decoded
         </h1>
-        <p style={{ color: '#6B7280', fontSize: 14 }}>Loading sign-in form…</p>
+        <p style={{ color: '#6B7280', fontSize: 14 }}>Loading sign-in formâ€¦</p>
       </div>
     </SignInLayout>
   );

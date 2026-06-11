@@ -1,4 +1,4 @@
-'use client';
+﻿'use client';
 import { useRef, useState } from 'react';
 import { useUploadThing } from '@/lib/uploadthing';
 
@@ -78,7 +78,7 @@ export default function BrandSettings({ initial }) {
       }}
     >
       <div style={{ fontWeight: 600, fontSize: 17, marginBottom: 4 }}>
-        🎨 White-label settings
+        ðŸŽ¨ White-label settings
       </div>
       <div style={{ color: 'var(--muted)', fontSize: 13, lineHeight: 1.6, marginBottom: 20 }}>
         Your agency logo + accent colour appear on your dashboard and on any client
@@ -128,7 +128,7 @@ export default function BrandSettings({ initial }) {
             disabled={isUploading}
             style={btnPrimaryStyle}
           >
-            {isUploading ? 'Uploading…' : logoUrl ? 'Replace logo' : 'Upload logo'}
+            {isUploading ? 'Uploadingâ€¦' : logoUrl ? 'Replace logo' : 'Upload logo'}
           </button>
           {logoUrl && (
             <button
@@ -174,7 +174,7 @@ export default function BrandSettings({ initial }) {
               fontSize: 14,
               border: '1px solid var(--border)',
               borderRadius: 8,
-              fontFamily: "'DM Mono', monospace",
+              fontFamily: "var(--font-mono), monospace",
               width: 120,
               background: '#fff',
               color: 'var(--text)',
@@ -188,11 +188,11 @@ export default function BrandSettings({ initial }) {
 
       <div style={{ marginTop: 24, display: 'flex', alignItems: 'center', gap: 12 }}>
         <button onClick={handleSave} disabled={saving} style={btnPrimaryStyle}>
-          {saving ? 'Saving…' : 'Save settings'}
+          {saving ? 'Savingâ€¦' : 'Save settings'}
         </button>
         {savedAt && (
           <span style={{ color: 'var(--teal)', fontSize: 13, fontWeight: 600 }}>
-            ✓ Saved
+            âœ“ Saved
           </span>
         )}
         {error && (

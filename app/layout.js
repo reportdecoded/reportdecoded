@@ -1,6 +1,8 @@
 import { Analytics } from '@vercel/analytics/next';
 import { SpeedInsights } from '@vercel/speed-insights/next';
+import { DM_Sans, Fraunces, DM_Mono } from 'next/font/google';
 import MetaPixel from '@/components/MetaPixel';
+import GoogleAnalytics from '@/components/GoogleAnalytics';
 import AffiliateTracker from '@/components/AffiliateTracker';
 import {
   organizationSchema,
@@ -8,6 +10,31 @@ import {
   softwareApplicationSchema,
   JsonLd,
 } from '@/lib/schema';
+
+// Self-hosted Google Fonts via next/font — replaces the render-blocking
+// @import chain (HTML → component <style> → googleapis CSS → gstatic
+// font files) that pushed mobile FCP to ~4.3s. next/font inlines the
+// @font-face rules at build time, serves the .woff2 from our own
+// origin, and generates a size-adjusted system fallback so text paints
+// immediately. Each exposes a CSS variable consumed by STYLES et al.
+const dmSans = DM_Sans({
+  subsets: ['latin'],
+  variable: '--font-sans',
+  display: 'swap',
+});
+const fraunces = Fraunces({
+  subsets: ['latin'],
+  style: ['normal', 'italic'],
+  axes: ['opsz'],
+  variable: '--font-serif',
+  display: 'swap',
+});
+const dmMono = DM_Mono({
+  subsets: ['latin'],
+  weight: ['400', '500'],
+  variable: '--font-mono',
+  display: 'swap',
+});
 
 export const metadata = {
   title: 'Report Decoded — Building Inspection Reports, Decoded | Australia',
@@ -65,17 +92,8 @@ export const viewport = {
 
 export default function RootLayout({ children }) {
   return (
-    <html lang="en-AU">
+    <html lang="en-AU" className={`${dmSans.variable} ${fraunces.variable} ${dmMono.variable}`}>
       <head>
-        {/* Preconnect to Google Fonts so the browser can start the TCP
-            + TLS handshake before our CSS @import discovers the font
-            URL. Saves ~100-300ms on font render on most connections.
-            Fonts themselves are still loaded via @import in the global
-            STYLES template literal in components/ReportDecoded.jsx —
-            this hint just frontloads the network warm-up. */}
-        <link rel="preconnect" href="https://fonts.googleapis.com" />
-        <link rel="preconnect" href="https://fonts.gstatic.com" crossOrigin="anonymous" />
-
         {/* JSON-LD structured data — site-wide schemas.
             Organization gives Google our knowledge-panel data + logo.
             WebSite enables the sitelinks-search-box rich result.
@@ -90,6 +108,7 @@ export default function RootLayout({ children }) {
       </head>
       <body style={{ margin: 0, padding: 0 }}>
         <MetaPixel />
+        <GoogleAnalytics />
         <AffiliateTracker />
         {children}
         <Analytics />

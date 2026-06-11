@@ -1,8 +1,8 @@
-import Link from 'next/link';
+﻿import Link from 'next/link';
 import { STYLES } from '@/components/ReportDecoded';
 
 export const metadata = {
-  title: 'Privacy Policy — Report Decoded',
+  title: 'Privacy Policy â€” Report Decoded',
   description: 'How Report Decoded collects, uses, and stores your personal data when you upload an inspection PDF or manage an agent subscription.',
   alternates: {
     canonical: 'https://www.reportdecoded.com.au/privacy',
@@ -19,13 +19,13 @@ export default function PrivacyPage() {
         </Link>
         <div className="nav-links">
           <Link href="/" className="nav-link" style={{ textDecoration: 'none' }}>
-            ← Home
+            â† Home
           </Link>
         </div>
       </nav>
 
       <main style={{ maxWidth: 760, margin: '48px auto', padding: '0 24px', color: 'var(--text)', lineHeight: 1.7 }}>
-        <h1 style={{ fontFamily: "'Fraunces',serif", fontSize: 40, marginBottom: 8 }}>Privacy Policy</h1>
+        <h1 style={{ fontFamily: "var(--font-serif),serif", fontSize: 40, marginBottom: 8 }}>Privacy Policy</h1>
         <p style={{ color: 'var(--muted)', marginBottom: 32 }}>Last updated: 22 May 2026</p>
 
         <h2 style={{ marginTop: 28, marginBottom: 10 }}>Who we are</h2>
@@ -40,7 +40,7 @@ export default function PrivacyPage() {
           <li>The email address you provide for delivery of your analysis.</li>
           <li>The purchase price you enter (optional).</li>
           <li>Property type indicator (pre-purchase vs new-build handover; owner-occupier vs investment).</li>
-          <li>Payment information — handled entirely by Stripe; we never see your card details.</li>
+          <li>Payment information â€” handled entirely by Stripe; we never see your card details.</li>
         </ul>
 
         <h2 style={{ marginTop: 28, marginBottom: 10 }}>How we use it</h2>
@@ -80,7 +80,7 @@ export default function PrivacyPage() {
         </p>
         <p>
           If you would prefer your data not be transferred outside Australia, you
-          should not use this service — the analysis cannot be performed without
+          should not use this service â€” the analysis cannot be performed without
           sending the inspection PDF to Anthropic for AI processing.
         </p>
 

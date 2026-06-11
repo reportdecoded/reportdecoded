@@ -1,4 +1,4 @@
-'use client';
+﻿'use client';
 import { useState } from 'react';
 import Link from 'next/link';
 import { track } from '@vercel/analytics';
@@ -10,7 +10,7 @@ export default function AgentsPage() {
   // (Email + Role + Tier). Full name, business name, and phone are
   // collected post-subscription in the dashboard onboarding flow,
   // not at the top of the funnel. Every additional form field costs
-  // ~10% completion; 6→3 should meaningfully lift signups.
+  // ~10% completion; 6â†’3 should meaningfully lift signups.
   const [role, setRole] = useState('buyer_agent');
   const [email, setEmail] = useState('');
   const [tierInterest, setTierInterest] = useState('exploring');
@@ -30,7 +30,7 @@ export default function AgentsPage() {
       const res = await fetch('/api/agent-signup', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
-        // fullName / businessName / phone intentionally omitted —
+        // fullName / businessName / phone intentionally omitted â€”
         // collected post-subscription, not pre-signup.
         body: JSON.stringify({ role, email, tierInterest }),
       });
@@ -43,7 +43,7 @@ export default function AgentsPage() {
       }
       setSubmitted(true);
       track('agent_signup_submitted', { role, tier_interest: tierInterest });
-      // Meta Pixel Lead event — B2B funnel signal. Use this as a
+      // Meta Pixel Lead event â€” B2B funnel signal. Use this as a
       // conversion optimization target for B2B ads. No monetary value
       // here (true value lands later at InitiateCheckout/Purchase).
       trackLead({ contentName: `agent_signup_${role}_${tierInterest}` });
@@ -54,7 +54,7 @@ export default function AgentsPage() {
   };
 
   // Agency tier sunset for v1: two of its three differentiators (team
-  // seats + public API) are unbuilt — selling them would be the same
+  // seats + public API) are unbuilt â€” selling them would be the same
   // trust-undermining pattern the design review flagged for "white-
   // label coming soon". When team accounts ship (~12-15h of work) we
   // can bring Agency back with honest features. For now, the
@@ -101,7 +101,7 @@ export default function AgentsPage() {
 
       {/* Hero */}
       <div className="hero-section">
-        <div className="hero-badge">🇦🇺 Built for Australian Agents</div>
+        <div className="hero-badge">ðŸ‡¦ðŸ‡º Built for Australian Agents</div>
         <h1 className="hero-h">
           A defect-aware AI<br />
           <em>co-pilot for agents.</em>
@@ -109,7 +109,7 @@ export default function AgentsPage() {
         <p className="hero-sub">
           Upload any AS4349.1 building & pest inspection PDF. Get a plain-English verdict,
           repair-cost ranges in AUD, ready-to-send negotiation language, and verified local
-          tradies — in under 2 minutes. White-label, with your agency's branding.
+          tradies â€” in under 2 minutes. White-label, with your agency's branding.
         </p>
       </div>
 
@@ -117,7 +117,7 @@ export default function AgentsPage() {
         {/* Why agents use Report Decoded */}
         <div style={{ marginBottom: 56 }}>
           <div className="section-label" style={{ textAlign: 'center', justifyContent: 'center' }}>
-            ⚡ Why Australian agents use Report Decoded
+            âš¡ Why Australian agents use Report Decoded
           </div>
           <div
             style={{
@@ -130,7 +130,7 @@ export default function AgentsPage() {
             {[
               {
                 title: 'Read any inspection in under 2 minutes',
-                body: 'Claude AI parses every defect in the PDF and classifies severity per AS4349.1 — no more guessing which items matter.',
+                body: 'Claude AI parses every defect in the PDF and classifies severity per AS4349.1 â€” no more guessing which items matter.',
               },
               {
                 title: 'Negotiation language built-in',
@@ -138,7 +138,7 @@ export default function AgentsPage() {
               },
               {
                 title: 'White-label, your agency name',
-                body: "Reports go out with your branding — your client never sees ours. (Coming in your account dashboard.)",
+                body: "Reports go out with your branding â€” your client never sees ours. (Coming in your account dashboard.)",
               },
               {
                 title: 'Local tradies attached',
@@ -164,7 +164,7 @@ export default function AgentsPage() {
         {/* Pricing */}
         <div style={{ marginBottom: 16 }}>
           <div className="section-label" style={{ textAlign: 'center', justifyContent: 'center' }}>
-            💰 Simple pricing — cancel anytime
+            ðŸ’° Simple pricing â€” cancel anytime
           </div>
           <div className="pricing-row" style={{ marginTop: 24 }}>
             {tiers.map((t) => {
@@ -219,7 +219,7 @@ export default function AgentsPage() {
                         letterSpacing: 0.6,
                       }}
                     >
-                      ✓ SELECTED
+                      âœ“ SELECTED
                     </div>
                   )}
                   <div className="price-label">{t.name}</div>
@@ -241,14 +241,14 @@ export default function AgentsPage() {
                     }}
                   >
                     {t.features.map((f) => (
-                      <li key={f}>✓ {f}</li>
+                      <li key={f}>âœ“ {f}</li>
                     ))}
                   </ul>
                 </div>
               );
             })}
           </div>
-          {/* Enterprise contact line — replaces the Agency tier card.
+          {/* Enterprise contact line â€” replaces the Agency tier card.
               When agencies needing team seats or API integration land
               here, they have a path to raise their hand. Deep-links
               to /contact with a pre-filled topic so the form is one
@@ -269,7 +269,7 @@ export default function AgentsPage() {
             <strong style={{ color: 'var(--text)' }}>Need team accounts or API integration?</strong>{' '}
             We build those bespoke for agencies.{' '}
             <Link href="/contact?topic=agent" style={{ color: 'var(--amber)', fontWeight: 600, textDecoration: 'none' }}>
-              Tell us what you need →
+              Tell us what you need â†’
             </Link>
           </div>
           <div
@@ -280,7 +280,7 @@ export default function AgentsPage() {
               marginTop: 20,
             }}
           >
-            First report free · whenever you need it · card on file · 2 months free if you pay annually · Cancel anytime
+            First report free Â· whenever you need it Â· card on file Â· 2 months free if you pay annually Â· Cancel anytime
           </div>
         </div>
 
@@ -289,8 +289,8 @@ export default function AgentsPage() {
           <div className="upload-zone upload-zone--form" style={{ cursor: 'default' }}>
             {submitted ? (
               <div style={{ textAlign: 'center', padding: '24px 0' }}>
-                <div className="upload-icon">✅</div>
-                <h2 style={{ fontFamily: "'Fraunces',serif", fontSize: 26, marginBottom: 10 }}>
+                <div className="upload-icon">âœ…</div>
+                <h2 style={{ fontFamily: "var(--font-serif),serif", fontSize: 26, marginBottom: 10 }}>
                   You're on the list.
                 </h2>
                 <p style={{ color: 'var(--muted)', maxWidth: 480, margin: '0 auto', lineHeight: 1.6 }}>
@@ -306,19 +306,19 @@ export default function AgentsPage() {
                     href="/results?reportId=f3ef0ce1-5443-4e91-a420-5e8bf7d8713d&sample=1"
                     style={{ color: 'var(--amber)', textDecoration: 'underline' }}
                   >
-                    See a sample report →
+                    See a sample report â†’
                   </Link>
                 </p>
               </div>
             ) : (
               <>
                 <div style={{ textAlign: 'center', marginBottom: 24 }}>
-                  <div className="upload-icon">📝</div>
+                  <div className="upload-icon">ðŸ“</div>
                   <h2 className="upload-title" style={{ marginBottom: 6 }}>
                     Get early access
                   </h2>
                   <p className="upload-sub">
-                    First report free · Whenever you need it · Card on file · Cancel anytime
+                    First report free Â· Whenever you need it Â· Card on file Â· Cancel anytime
                   </p>
                 </div>
 
@@ -332,7 +332,7 @@ export default function AgentsPage() {
                     margin: '0 auto',
                   }}
                 >
-                  {/* Full name + Business name removed per design review #12 —
+                  {/* Full name + Business name removed per design review #12 â€”
                       collected post-subscription via dashboard onboarding instead.
                       Form opens straight into the role fieldset to keep the
                       conversion focus on commitment, not data entry. */}
@@ -351,7 +351,7 @@ export default function AgentsPage() {
                     {[
                       { v: 'buyer_agent', label: "Buyer's Agent", sub: 'I represent buyers; I want to advise on inspection reports + negotiate on their behalf.' },
                       { v: 'sales_agent', label: 'Sales Agent', sub: 'I represent sellers; I want pre-listing inspections OR to defuse buyer-side defect claims.' },
-                      { v: 'other', label: 'Something else', sub: "PM, buyer's advocate, conveyancer, mortgage broker — tell me more in a follow-up." },
+                      { v: 'other', label: 'Something else', sub: "PM, buyer's advocate, conveyancer, mortgage broker â€” tell me more in a follow-up." },
                     ].map(({ v, label, sub }) => (
                       <label
                         key={v}
@@ -381,7 +381,7 @@ export default function AgentsPage() {
                     ))}
                   </fieldset>
 
-                  {/* Phone field removed per design review #12 — collected
+                  {/* Phone field removed per design review #12 â€” collected
                       post-subscription. Email is now standalone, full-width. */}
                   <label style={{ fontSize: 13, color: 'var(--muted)', textAlign: 'left' }}>
                     Business email *
@@ -402,8 +402,8 @@ export default function AgentsPage() {
                       onChange={(e) => setTierInterest(e.target.value)}
                       style={inputStyle}
                     >
-                      <option value="starter">Starter — $79/mo (12 reports, $15 each after)</option>
-                      <option value="pro">Pro — $149/mo (unlimited)</option>
+                      <option value="starter">Starter â€” $79/mo (12 reports, $15 each after)</option>
+                      <option value="pro">Pro â€” $149/mo (unlimited)</option>
                       <option value="exploring">Just exploring</option>
                     </select>
                   </label>
@@ -414,7 +414,7 @@ export default function AgentsPage() {
                     disabled={submitting}
                     style={{ marginTop: 8 }}
                   >
-                    {submitting ? 'Sending…' : 'Get early access →'}
+                    {submitting ? 'Sendingâ€¦' : 'Get early access â†’'}
                   </button>
 
                   {error && (
@@ -460,7 +460,7 @@ export default function AgentsPage() {
             <Link href="/contact">Contact</Link>
           </div>
           <div style={{ fontSize: 12, color: 'rgba(255,255,255,0.45)' }}>
-            © 2026 Report Decoded · Australian property inspection report interpreter ·
+            Â© 2026 Report Decoded Â· Australian property inspection report interpreter Â·
             AI analysis is general information, not professional advice.
           </div>
         </div>

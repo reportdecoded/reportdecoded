@@ -1,4 +1,4 @@
-'use client';
+﻿'use client';
 import { useState, useEffect, useRef } from "react";
 import Link from "next/link";
 import { track } from "@vercel/analytics";
@@ -6,13 +6,16 @@ import { useUploadThing } from "@/lib/uploadthing";
 import AddressAutocomplete from "@/components/AddressAutocomplete";
 import { faqPageSchema, JsonLd } from "@/lib/schema";
 
-/* ─────────────────────────────────────────────────────────────
-   GLOBAL STYLES — exported so the /results page can share them.
+/* â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€
+   GLOBAL STYLES â€” exported so the /results page can share them.
    Palette: navy + warm amber CTA (replaces generic blue),
    warm cream bg, teal for success / negotiate.
-───────────────────────────────────────────────────────────── */
+â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€ */
 export const STYLES = `
-@import url('https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,300;0,9..144,400;0,9..144,500;0,9..144,600;1,9..144,400;1,9..144,500&family=DM+Sans:wght@300;400;500;600&family=DM+Mono:wght@400;500&display=swap');
+/* Fonts are self-hosted via next/font in app/layout.js, exposed as
+   --font-sans (DM Sans), --font-serif (Fraunces), --font-mono (DM Mono).
+   No @import here â€” it was a render-blocking request chain that cost
+   ~2-3s of mobile first-paint. */
 
 *,*::before,*::after{margin:0;padding:0;box-sizing:border-box;}
 
@@ -27,7 +30,7 @@ export const STYLES = `
   --cream2: #EDE8DF;
   --white:  #FFFFFF;
 
-  /* Primary CTA — warm amber (replaces generic blue) */
+  /* Primary CTA â€” warm amber (replaces generic blue) */
   --amber:        #C97A3A;
   --amber-hover:  #B56928;
   --amber-bg:     #FEF3E8;
@@ -60,7 +63,7 @@ export const STYLES = `
   --slate:  #F0EDE8;
 }
 
-/* ── TYPOGRAPHY POLISH ────────────────────────────
+/* â”€â”€ TYPOGRAPHY POLISH â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€
    Two 95%-confidence wins from the May 2026 design pass.
    Pure CSS, no JS, no layout-engine side effects.
 
@@ -99,7 +102,7 @@ html {
   scroll-behavior: smooth;
 }
 
-/* 4. Visible focus ring for keyboard users — critical a11y baseline. Default
+/* 4. Visible focus ring for keyboard users â€” critical a11y baseline. Default
       browser focus rings are inconsistent; this provides a branded, on-brand
       amber outline that's visible regardless of background. Only triggers on
       keyboard nav (not mouse clicks) thanks to :focus-visible. */
@@ -123,13 +126,13 @@ html {
 }
 
 body{
-  font-family:'DM Sans',sans-serif;
+  font-family:var(--font-sans),sans-serif;
   background:var(--cream);
   color:var(--text);
   -webkit-font-smoothing:antialiased;
 }
 
-/* Sticky mobile CTA: hidden on desktop, shown on viewports ≤ 760px
+/* Sticky mobile CTA: hidden on desktop, shown on viewports â‰¤ 760px
    (rule overrides happen in the mobile media query below). */
 .sticky-mobile-cta{display:none;}
 
@@ -145,7 +148,7 @@ body{
   margin:0 auto;
 }
 
-/* ── NAV ─────────────────────────────────────────── */
+/* â”€â”€ NAV â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€ */
 .nav{
   background:var(--navy);
   padding:0 40px;
@@ -159,7 +162,7 @@ body{
   border-bottom:1px solid rgba(255,255,255,0.06);
 }
 .nav-logo{
-  font-family:'Fraunces',serif;
+  font-family:var(--font-serif),serif;
   color:white;
   font-size:21px;
   letter-spacing:-0.4px;
@@ -187,13 +190,13 @@ body{
   border-radius:9px;
   cursor:pointer;
   border:none;
-  font-family:'DM Sans',sans-serif;
+  font-family:var(--font-sans),sans-serif;
   transition:background .15s;
   margin-left:8px;
 }
 .nav-cta:hover{background:var(--amber-hover);}
 
-/* ── HERO ────────────────────────────────────────── */
+/* â”€â”€ HERO â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€ */
 .hero-section{
   background:var(--navy);
   padding:80px 24px 96px;
@@ -224,8 +227,8 @@ body{
   gap:6px;
   /* Solid pre-blended equivalent of rgba(201,122,58,0.12) over navy
      (#0A1628). Visually identical on production but contrast-audit
-     tools now compute against the solid color (≈6.6:1) instead of
-     assuming white parent background (≈1.52:1, false-positive fail). */
+     tools now compute against the solid color (â‰ˆ6.6:1) instead of
+     assuming white parent background (â‰ˆ1.52:1, false-positive fail). */
   background:#21222A;
   border:1px solid rgba(201,122,58,0.28);
   color:#E8A05A;
@@ -237,7 +240,7 @@ body{
   margin-bottom:28px;
 }
 .hero-h{
-  font-family:'Fraunces',serif;
+  font-family:var(--font-serif),serif;
   font-size:clamp(42px,6vw,64px);
   line-height:1.06;
   color:white;
@@ -251,8 +254,8 @@ body{
 .hero-h em{font-style:italic;color:var(--amber);}
 .hero-sub{
   font-size:17px;
-  /* WCAG: 0.55 opacity on navy = 2.9:1 — fails AA at any size.
-     0.85 = ~5.6:1 → clears AA comfortably at 17px body text. */
+  /* WCAG: 0.55 opacity on navy = 2.9:1 â€” fails AA at any size.
+     0.85 = ~5.6:1 â†’ clears AA comfortably at 17px body text. */
   color:rgba(255,255,255,0.85);
   line-height:1.55;
   max-width:560px;
@@ -260,7 +263,7 @@ body{
   font-weight:400;
 }
 
-/* ── UPLOAD AREA ─────────────────────────────────── */
+/* â”€â”€ UPLOAD AREA â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€ */
 .upload-area{
   max-width:780px;
   margin:-44px auto 0;
@@ -311,7 +314,7 @@ body{
   font-size:30px;
 }
 .upload-title{
-  font-family:'Fraunces',serif;
+  font-family:var(--font-serif),serif;
   font-size:24px;
   color:var(--navy);
   margin-bottom:8px;
@@ -332,7 +335,7 @@ body{
   font-weight:600;
   cursor:pointer;
   border:none;
-  font-family:'DM Sans',sans-serif;
+  font-family:var(--font-sans),sans-serif;
   transition:background .15s;
   display:inline-block;
 }
@@ -343,7 +346,7 @@ body{
   color:var(--subtle);
 }
 
-/* ── HOW IT WORKS STRIP ──────────────────────────── */
+/* â”€â”€ HOW IT WORKS STRIP â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€ */
 .how-strip{
   display:grid;
   grid-template-columns:repeat(3,1fr);
@@ -368,7 +371,7 @@ body{
   display:flex;
   align-items:center;
   justify-content:center;
-  font-family:'DM Mono',monospace;
+  font-family:var(--font-mono),monospace;
   font-size:12.5px;
   flex-shrink:0;
   margin-top:1px;
@@ -376,7 +379,7 @@ body{
 .how-label{font-weight:600;font-size:14px;color:var(--navy);margin-bottom:4px;}
 .how-desc{font-size:12.5px;color:var(--muted);line-height:1.55;}
 
-/* Soft redaction blocks — used wherever we want a 'this field is
+/* Soft redaction blocks â€” used wherever we want a 'this field is
    intentionally hidden' visual placeholder without the eye-grabbing
    black censored-bar effect. Renders at very low opacity in the
    current text colour so it blends with cream/white/navy parents
@@ -384,7 +387,7 @@ body{
    'CENSORED HERE'. */
 .redact-soft{color:rgba(0,0,0,0.10);letter-spacing:0.04em;}
 
-/* ── BEFORE / AFTER SPLIT ────────────────────────── */
+/* â”€â”€ BEFORE / AFTER SPLIT â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€ */
 /* 3-column grid on desktop: left card | arrow | right card.
    Stacks vertically on mobile via media query below. */
 .ba-grid{
@@ -430,7 +433,7 @@ body{
 .ba-doc-p{margin:0 0 6px;}
 .ba-doc-footer{
   font-size:9.5px;color:var(--subtle);text-align:right;padding-top:8px;
-  border-top:1px dashed #D5D0C5;margin-top:6px;font-family:'DM Mono',monospace;
+  border-top:1px dashed #D5D0C5;margin-top:6px;font-family:var(--font-mono),monospace;
 }
 /* Connecting arrow column */
 .ba-arrow{
@@ -459,12 +462,12 @@ body{
   .ba-arrow-circle{transform:rotate(90deg);width:32px;height:32px;font-size:16px;}
 }
 
-/* ── PRICING ─────────────────────────────────────── */
+/* â”€â”€ PRICING â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€ */
 /* auto-fit grid adapts to whichever number of cards is rendered.
    The minmax floor of 220px is constrained by the homepage's
    .upload-area parent: max-width 780px MINUS 48px horizontal
-   padding = 732px content width. Minus 24px (2× gap) = 708px
-   shared across 3 cards = 236px per card max. Floor must be ≤ 236
+   padding = 732px content width. Minus 24px (2Ã— gap) = 708px
+   shared across 3 cards = 236px per card max. Floor must be â‰¤ 236
    or the third card wraps. 220 gives a comfortable buffer.
    On /agents + /dashboard (880px parent) 2 cards render at ~434px
    each, naturally centered. */
@@ -487,7 +490,7 @@ body{
   background:var(--navy);
   border-color:var(--navy);
 }
-/* Interactive states — used when pricing cards on /agents are clickable */
+/* Interactive states â€” used when pricing cards on /agents are clickable */
 .price-card:hover{
   border-color:var(--amber-border);
   box-shadow:0 8px 24px rgba(201,122,58,0.12);
@@ -512,7 +515,7 @@ body{
 }
 .price-card.featured .price-label{color:rgba(255,255,255,0.4);}
 .price-amount{
-  font-family:'Fraunces',serif;
+  font-family:var(--font-serif),serif;
   font-size:36px;
   color:var(--navy);
   letter-spacing:-1px;
@@ -534,7 +537,7 @@ body{
   letter-spacing:.2px;
 }
 
-/* ── TRUST BAR ───────────────────────────────────── */
+/* â”€â”€ TRUST BAR â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€ */
 .trust-bar{
   display:flex;
   gap:20px;
@@ -556,7 +559,7 @@ body{
   flex-shrink:0;
 }
 
-/* ── SCREEN TABS ─────────────────────────────────── */
+/* â”€â”€ SCREEN TABS â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€ */
 .screen-tabs{
   background:var(--navy2);
   padding:0 40px;
@@ -577,7 +580,7 @@ body{
 .stab.active{color:var(--amber);border-bottom-color:var(--amber);}
 .stab:hover:not(.active){color:rgba(255,255,255,0.75);}
 
-/* ── LOADING ─────────────────────────────────────── */
+/* â”€â”€ LOADING â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€ */
 .loading-screen{
   max-width:500px;
   margin:80px auto;
@@ -606,7 +609,7 @@ body{
 }
 @keyframes spin{to{transform:rotate(360deg)}}
 .loading-h{
-  font-family:'Fraunces',serif;
+  font-family:var(--font-serif),serif;
   font-size:26px;
   color:var(--navy);
   margin-bottom:8px;
@@ -628,7 +631,7 @@ body{
 .lstep.wait{color:var(--subtle);}
 .lstep-icon{font-size:14px;flex-shrink:0;width:20px;text-align:center;}
 
-/* ── RESULTS ─────────────────────────────────────── */
+/* â”€â”€ RESULTS â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€ */
 .results-screen{
   max-width:1000px;
   margin:0 auto;
@@ -647,7 +650,7 @@ body{
 }
 .prop-addr{
   color:white;
-  font-family:'Fraunces',serif;
+  font-family:var(--font-serif),serif;
   font-size:19px;
   font-weight:400;
   letter-spacing:-0.3px;
@@ -655,7 +658,7 @@ body{
 .prop-meta{color:rgba(255,255,255,0.38);font-size:12.5px;margin-top:5px;}
 .prop-price-label{font-size:11px;color:rgba(255,255,255,0.35);text-transform:uppercase;letter-spacing:.5px;}
 .prop-price-val{
-  font-family:'Fraunces',serif;
+  font-family:var(--font-serif),serif;
   font-size:26px;
   color:white;
   margin-top:3px;
@@ -663,7 +666,7 @@ body{
   letter-spacing:-0.5px;
 }
 
-/* ── VERDICT ─────────────────────────────────────── */
+/* â”€â”€ VERDICT â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€ */
 .verdict-card{
   border-radius:16px;
   padding:28px 32px;
@@ -698,7 +701,7 @@ body{
 }
 .verdict-text strong{font-weight:600;}
 
-/* ── STATS ROW ───────────────────────────────────── */
+/* â”€â”€ STATS ROW â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€ */
 .stats-row{
   display:grid;
   grid-template-columns:repeat(4,1fr);
@@ -720,7 +723,7 @@ body{
   font-weight:700;
 }
 .stat-val{
-  font-family:'Fraunces',serif;
+  font-family:var(--font-serif),serif;
   font-size:28px;
   color:var(--navy);
   letter-spacing:-0.5px;
@@ -728,10 +731,10 @@ body{
 }
 .stat-sub{font-size:12px;color:var(--muted);margin-top:5px;line-height:1.4;}
 
-/* ── TWO COL ─────────────────────────────────────── */
+/* â”€â”€ TWO COL â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€ */
 .two-col{display:grid;grid-template-columns:1fr 340px;gap:20px;align-items:start;}
 
-/* ── SECTION LABEL ───────────────────────────────── */
+/* â”€â”€ SECTION LABEL â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€ */
 .section-label{
   font-size:11px;
   text-transform:uppercase;
@@ -741,7 +744,7 @@ body{
   font-weight:700;
 }
 
-/* ── DEFECT CARDS ────────────────────────────────── */
+/* â”€â”€ DEFECT CARDS â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€ */
 .defect-card{
   background:white;
   border:1px solid var(--border);
@@ -780,7 +783,7 @@ body{
 .minor .severity-badge{background:var(--gold-bg);color:var(--gold);}
 .pest  .severity-badge{background:var(--brown-bg);color:var(--brown);}
 
-/* Handover variant — softer palette so the relationship with the
+/* Handover variant â€” softer palette so the relationship with the
    builder stays cooperative. "TO RECTIFY" in teal reads as "needs
    attention" rather than "this is a disaster". Override the kind-
    specific colours when the surrounding card is in handover mode. */
@@ -800,9 +803,9 @@ body{
   padding:9px 16px;
   font-size:13px;
 }
-.cost-chip strong{color:var(--navy);font-family:'DM Mono',monospace;}
+.cost-chip strong{color:var(--navy);font-family:var(--font-mono),monospace;}
 
-/* ── TRADIES ─────────────────────────────────────── */
+/* â”€â”€ TRADIES â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€ */
 .tradies-section{margin-top:22px;}
 .tradies-label{
   font-size:11px;
@@ -827,7 +830,7 @@ body{
   display:flex;
   align-items:center;
   justify-content:center;
-  font-family:'Fraunces',serif;
+  font-family:var(--font-serif),serif;
   color:white;
   font-size:15px;
   flex-shrink:0;
@@ -855,12 +858,12 @@ body{
   font-size:13px;
   font-weight:500;
   cursor:pointer;
-  font-family:'DM Sans',sans-serif;
+  font-family:var(--font-sans),sans-serif;
   transition:background .15s;
 }
 .tradie-quote-btn:hover{background:var(--navy3);}
 
-/* ── RIGHT PANEL ─────────────────────────────────── */
+/* â”€â”€ RIGHT PANEL â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€ */
 .right-panel{display:flex;flex-direction:column;gap:14px;}
 .panel-card{
   background:white;
@@ -869,14 +872,14 @@ body{
   padding:24px;
 }
 .panel-title{
-  font-family:'Fraunces',serif;
+  font-family:var(--font-serif),serif;
   font-size:17px;
   color:var(--navy);
   margin-bottom:14px;
   font-weight:500;
 }
 .negs-amount{
-  font-family:'Fraunces',serif;
+  font-family:var(--font-serif),serif;
   font-size:44px;
   color:var(--teal);
   margin-bottom:6px;
@@ -905,7 +908,7 @@ body{
   font-size:13.5px;
   font-weight:600;
   cursor:pointer;
-  font-family:'DM Sans',sans-serif;
+  font-family:var(--font-sans),sans-serif;
   transition:opacity .15s;
 }
 .copy-btn:hover{opacity:.88;}
@@ -918,7 +921,7 @@ body{
   line-height:1.55;
 }
 .question-item:last-child{border-bottom:none;}
-.q-num{color:var(--amber);font-weight:700;flex-shrink:0;font-family:'DM Mono',monospace;}
+.q-num{color:var(--amber);font-weight:700;flex-shrink:0;font-family:var(--font-mono),monospace;}
 .download-btn{
   width:100%;
   background:var(--navy);
@@ -929,7 +932,7 @@ body{
   font-size:14.5px;
   font-weight:600;
   cursor:pointer;
-  font-family:'DM Sans',sans-serif;
+  font-family:var(--font-sans),sans-serif;
   display:flex;
   align-items:center;
   justify-content:center;
@@ -938,7 +941,7 @@ body{
 }
 .download-btn:hover{background:var(--navy3);}
 
-/* ── AGENT / PM DASHBOARDS ───────────────────────── */
+/* â”€â”€ AGENT / PM DASHBOARDS â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€ */
 .agent-screen,.pm-screen{
   max-width:1080px;
   margin:0 auto;
@@ -951,7 +954,7 @@ body{
   margin-bottom:28px;
 }
 .agent-h{
-  font-family:'Fraunces',serif;
+  font-family:var(--font-serif),serif;
   font-size:30px;
   color:var(--navy);
   font-weight:400;
@@ -968,7 +971,7 @@ body{
   font-weight:600;
   cursor:pointer;
   border:none;
-  font-family:'DM Sans',sans-serif;
+  font-family:var(--font-sans),sans-serif;
   transition:background .15s;
   white-space:nowrap;
 }
@@ -1016,12 +1019,12 @@ body{
 .pill-cau{background:var(--red-bg);color:var(--red);}
 .view-btn{font-size:12.5px;color:var(--amber);cursor:pointer;font-weight:600;}
 
-/* ── PM SCREEN ───────────────────────────────────── */
+/* â”€â”€ PM SCREEN â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€ */
 .pm-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:12px;margin-bottom:28px;}
 .pm-card{background:white;border:1px solid var(--border);border-radius:14px;padding:22px;}
 .pm-card-title{font-size:11px;text-transform:uppercase;letter-spacing:.8px;color:var(--muted);margin-bottom:6px;font-weight:700;}
 .pm-card-val{
-  font-family:'Fraunces',serif;
+  font-family:var(--font-serif),serif;
   font-size:30px;
   color:var(--navy);
   font-weight:400;
@@ -1055,13 +1058,13 @@ body{
 .urg-med {background:var(--gold-bg);color:var(--gold);}
 .urg-low {background:var(--teal-light);color:var(--teal);}
 
-/* ── UTILITIES ───────────────────────────────────── */
+/* â”€â”€ UTILITIES â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€ */
 .scrollbar-hide{scrollbar-width:none;}
 .scrollbar-hide::-webkit-scrollbar{display:none;}
 @keyframes fadeUp{from{opacity:0;transform:translateY(16px)}to{opacity:1;transform:translateY(0)}}
 .fade-up{animation:fadeUp .4s ease forwards;}
 
-/* ── RESPONSIVE HELPERS (used by inline-styled pages) ──
+/* â”€â”€ RESPONSIVE HELPERS (used by inline-styled pages) â”€â”€
    Pages that can't get media queries via inline styles
    opt into these classes for mobile layout. */
 .rd-two-col-form{display:grid;grid-template-columns:1fr 1fr;gap:12px;}
@@ -1078,8 +1081,8 @@ body{
 .rd-report-main{flex:1;min-width:0;}
 .rd-report-actions{display:flex;align-items:center;gap:10px;flex-shrink:0;}
 .rd-page-main{max-width:880px;margin:40px auto;padding:0 24px;}
-/* Footer link group — flex with gap replaces "·" text separators that
-   wrapped weirdly on phones (Privacy · Terms · Contact). */
+/* Footer link group â€” flex with gap replaces "Â·" text separators that
+   wrapped weirdly on phones (Privacy Â· Terms Â· Contact). */
 .rd-footer-links{
   display:flex;
   flex-wrap:wrap;
@@ -1094,12 +1097,12 @@ body{
   white-space:nowrap;
 }
 .rd-footer-links a:hover{color:#fff;}
-/* Form-mode of the upload-zone — used by /agents signup. Less padding
+/* Form-mode of the upload-zone â€” used by /agents signup. Less padding
    than the marketing dropzone, and no hover lift. */
 .upload-zone--form{padding:36px 40px;}
 .upload-zone--form:hover{border-color:var(--border);background:#fff;box-shadow:0 8px 40px rgba(10,22,40,0.12);}
 
-/* PM "Coming Soon" roadmap banner — designed mobile-first.
+/* PM "Coming Soon" roadmap banner â€” designed mobile-first.
    Desktop: text left + CTA right. Mobile: stacks, CTA goes full-width. */
 .pm-roadmap-banner{
   background:linear-gradient(135deg, var(--navy) 0%, var(--navy3) 100%);
@@ -1121,7 +1124,7 @@ body{
   letter-spacing:1px;
   text-transform:uppercase;
   /* Solid pre-blended equivalent of rgba(201,122,58,0.18) over the
-     navy→navy3 gradient parent. ≈6.0:1 contrast vs #E8A05A passes AA
+     navyâ†’navy3 gradient parent. â‰ˆ6.0:1 contrast vs #E8A05A passes AA
      and stops the audit tool from flagging the rgba as 1.52:1. */
   background:#2C282B;
   color:#E8A05A;
@@ -1131,7 +1134,7 @@ body{
   margin-bottom:10px;
 }
 .pm-roadmap-h{
-  font-family:'Fraunces',serif;
+  font-family:var(--font-serif),serif;
   font-size:21px;
   font-weight:500;
   margin-bottom:6px;
@@ -1157,7 +1160,7 @@ body{
 }
 .pm-roadmap-cta:hover{background:var(--amber-hover);}
 
-/* ── MOBILE — TABLET BREAKPOINT ───────────────────
+/* â”€â”€ MOBILE â€” TABLET BREAKPOINT â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€
    Covers iPad portrait + phones. Stacks multi-column
    grids, tightens horizontal padding, drops font sizes
    on hero + section headings. */
@@ -1166,7 +1169,7 @@ body{
   .nav{padding:0 16px;height:58px;}
   .nav-link{font-size:13px;padding:6px 10px;}
   .nav-cta{font-size:13px;padding:8px 14px;margin-left:4px;}
-  /* PM tab is a "Coming Soon" mockup — drop it from mobile nav to avoid
+  /* PM tab is a "Coming Soon" mockup â€” drop it from mobile nav to avoid
      overflow. Desktop users still see it; PMs unlikely to be on mobile
      for the MVP. Coming Soon banner lives inside the PM screen anyway. */
   .nav-link--pm{display:none;}
@@ -1177,11 +1180,11 @@ body{
   .hero-h{font-size:34px !important;letter-spacing:-1px;line-height:1.1;margin-bottom:16px;}
   .hero-sub{font-size:15px;line-height:1.6;}
 
-  /* Trade-example grid — stack to single column on narrow viewports
+  /* Trade-example grid â€” stack to single column on narrow viewports
      so the 3 example cards don't squash. */
   .trade-example-grid{grid-template-columns:1fr;}
 
-  /* Win 4: sticky mobile CTA — visible only on tablets/phones.
+  /* Win 4: sticky mobile CTA â€” visible only on tablets/phones.
      Fixed to viewport bottom; amber CTA; 60px tall so it doesn't
      eclipse half the screen. Default-hidden on desktop above. */
   .sticky-mobile-cta{
@@ -1208,10 +1211,10 @@ body{
   .upload-sub{font-size:13.5px;margin-bottom:20px;}
   .upload-btn{padding:12px 26px;font-size:14px;}
 
-  /* HOW IT WORKS — stack 3 → 1 */
+  /* HOW IT WORKS â€” stack 3 â†’ 1 */
   .how-strip{grid-template-columns:1fr;}
 
-  /* PRICING — stack 3 → 1 */
+  /* PRICING â€” stack 3 â†’ 1 */
   .pricing-row{grid-template-columns:1fr;gap:10px;}
   .price-card{padding:22px 20px;}
   .price-amount{font-size:32px;}
@@ -1227,22 +1230,22 @@ body{
   /* RESULTS / DASHBOARDS */
   .results-screen,.agent-screen,.pm-screen{padding:24px 16px 80px;}
 
-  /* PROPERTY BAR — stack address + price */
+  /* PROPERTY BAR â€” stack address + price */
   .prop-bar{padding:18px 20px;border-radius:14px;flex-direction:column;align-items:flex-start;gap:10px;}
   .prop-addr{font-size:17px;}
   .prop-price-val{font-size:22px;}
 
-  /* VERDICT — tighten + allow text to flow under emoji */
+  /* VERDICT â€” tighten + allow text to flow under emoji */
   .verdict-card{padding:20px 22px;gap:14px;border-radius:14px;}
   .verdict-emoji{font-size:28px;}
   .verdict-text{font-size:14px;line-height:1.65;padding-top:0;}
 
-  /* STATS ROW — 4 → 2 */
+  /* STATS ROW â€” 4 â†’ 2 */
   .stats-row{grid-template-columns:1fr 1fr;gap:10px;}
   .stat-card{padding:16px 18px;}
   .stat-val{font-size:24px;}
 
-  /* TWO COL — stack right panel under main */
+  /* TWO COL â€” stack right panel under main */
   .two-col{grid-template-columns:1fr;gap:16px;}
 
   /* DEFECT CARDS */
@@ -1250,7 +1253,7 @@ body{
   .defect-body{padding:18px;}
   .defect-name{font-size:14px;}
 
-  /* TRADIES — single column */
+  /* TRADIES â€” single column */
   .tradie-cards{grid-template-columns:1fr;}
 
   /* RIGHT PANEL */
@@ -1265,7 +1268,7 @@ body{
   .pm-card{padding:16px 18px;}
   .pm-card-val{font-size:24px;}
 
-  /* TABLES — let overflow scroll horizontally so 6-col grids
+  /* TABLES â€” let overflow scroll horizontally so 6-col grids
      don't squash. Wrap parent in scrollable container. */
   .table-wrap{overflow-x:auto;-webkit-overflow-scrolling:touch;}
   .table-head,.table-row,.pm-table-head,.pm-table-row{
@@ -1274,7 +1277,7 @@ body{
   }
 }
 
-/* ── PHONE BREAKPOINT — tighter still ─────────────
+/* â”€â”€ PHONE BREAKPOINT â€” tighter still â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€
    Catches the smallest devices (iPhone SE, 360px Android). */
 @media (max-width: 480px){
   .nav{padding:0 12px;height:54px;}
@@ -1296,7 +1299,7 @@ body{
   .verdict-emoji{margin-bottom:0;}
 }
 
-/* Responsive-helper mobile rules — stack signup form fields,
+/* Responsive-helper mobile rules â€” stack signup form fields,
    stack report row content above the actions chip group. */
 @media (max-width: 720px){
   .rd-two-col-form{grid-template-columns:1fr;}
@@ -1306,7 +1309,7 @@ body{
   .rd-report-actions{margin-left:auto;}
   .upload-zone--form{padding:28px 20px;}
 
-  /* PM roadmap banner — stack vertically, CTA goes full-width, tighter pad */
+  /* PM roadmap banner â€” stack vertically, CTA goes full-width, tighter pad */
   .pm-roadmap-banner{
     flex-direction:column;
     align-items:stretch;
@@ -1331,58 +1334,58 @@ body{
 }
 `;
 
-/* ─────────────────────────────────────────────────────────────
+/* â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€
    DATA
-───────────────────────────────────────────────────────────── */
+â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€ */
 const DEFECTS = [
   {
-    type:"major", name:"Roof Covering — Ridge Capping", loc:"Main roof structure, western slope",
+    type:"major", name:"Roof Covering â€” Ridge Capping", loc:"Main roof structure, western slope",
     badge:"MAJOR DEFECT",
     desc:"Significant cracking and displacement observed across approximately 40% of ridge capping. Multiple broken tiles on the western slope with exposed mortar bedding. This presents an active water ingress risk to the roof cavity and ceiling structure. Requires urgent attention prior to or immediately following purchase.",
-    cost:"$3,200 – $6,800",
+    cost:"$3,200 â€“ $6,800",
     tradies:[
-      {init:"JM",name:"Jake Morrow",biz:"Morrow Roofing",stars:"★★★★★",rating:"5.0",reviews:"84",suburb:"Ocean Grove",tag:"Roofing Specialist"},
-      {init:"BT",name:"Ben Tapia",biz:"Surf Coast Roof & Gutter",stars:"★★★★★",rating:"4.9",reviews:"61",suburb:"Torquay",tag:"Licensed Roofer"},
+      {init:"JM",name:"Jake Morrow",biz:"Morrow Roofing",stars:"â˜…â˜…â˜…â˜…â˜…",rating:"5.0",reviews:"84",suburb:"Ocean Grove",tag:"Roofing Specialist"},
+      {init:"BT",name:"Ben Tapia",biz:"Surf Coast Roof & Gutter",stars:"â˜…â˜…â˜…â˜…â˜…",rating:"4.9",reviews:"61",suburb:"Torquay",tag:"Licensed Roofer"},
     ]
   },
   {
     type:"major", name:"Rising Damp", loc:"Western external wall, base course",
     badge:"MAJOR DEFECT",
     desc:"Rising damp is evident to the lower 600mm of the western external wall. Efflorescence and paint bubbling present across a 3.2m span. This indicates a failed or absent damp course. Left unaddressed, rising damp causes progressive structural damage to wall framing, plasterwork, and can create conditions conducive to mould growth.",
-    cost:"$4,500 – $9,200",
+    cost:"$4,500 â€“ $9,200",
     tradies:[
-      {init:"SD",name:"Scott Darby",biz:"Darby Damp Solutions",stars:"★★★★★",rating:"5.0",reviews:"47",suburb:"Geelong",tag:"Damp & Waterproofing"},
-      {init:"CW",name:"Chris Webb",biz:"Bellarine Building & Damp",stars:"★★★★★",rating:"4.8",reviews:"39",suburb:"Barwon Heads",tag:"Licensed Builder"},
+      {init:"SD",name:"Scott Darby",biz:"Darby Damp Solutions",stars:"â˜…â˜…â˜…â˜…â˜…",rating:"5.0",reviews:"47",suburb:"Geelong",tag:"Damp & Waterproofing"},
+      {init:"CW",name:"Chris Webb",biz:"Bellarine Building & Damp",stars:"â˜…â˜…â˜…â˜…â˜…",rating:"4.8",reviews:"39",suburb:"Barwon Heads",tag:"Licensed Builder"},
     ]
   },
   {
-    type:"minor", name:"Subfloor Ventilation Deficiency", loc:"Subfloor — southern zone",
+    type:"minor", name:"Subfloor Ventilation Deficiency", loc:"Subfloor â€” southern zone",
     badge:"MINOR DEFECT",
-    desc:"Subfloor ventilation is inadequate in the southern zone. Cross-ventilation is restricted by a blocked vent and debris accumulation. One timber bearer is showing early-stage moisture absorption. While not yet structural, this condition increases susceptibility to timber decay and termite activity if not rectified within 6–12 months.",
-    cost:"$600 – $1,400",
+    desc:"Subfloor ventilation is inadequate in the southern zone. Cross-ventilation is restricted by a blocked vent and debris accumulation. One timber bearer is showing early-stage moisture absorption. While not yet structural, this condition increases susceptibility to timber decay and termite activity if not rectified within 6â€“12 months.",
+    cost:"$600 â€“ $1,400",
     tradies:[
-      {init:"PT",name:"Pete Thorne",biz:"Thorne Building Services",stars:"★★★★★",rating:"4.9",reviews:"72",suburb:"Ocean Grove",tag:"Builder & Renovations"},
-      {init:"RL",name:"Ryan Lowe",biz:"Lowe Pest & Building",stars:"★★★★★",rating:"5.0",reviews:"28",suburb:"Queenscliff",tag:"Subfloor Specialist"},
+      {init:"PT",name:"Pete Thorne",biz:"Thorne Building Services",stars:"â˜…â˜…â˜…â˜…â˜…",rating:"4.9",reviews:"72",suburb:"Ocean Grove",tag:"Builder & Renovations"},
+      {init:"RL",name:"Ryan Lowe",biz:"Lowe Pest & Building",stars:"â˜…â˜…â˜…â˜…â˜…",rating:"5.0",reviews:"28",suburb:"Queenscliff",tag:"Subfloor Specialist"},
     ]
   },
   {
     type:"minor", name:"Gutters & Downpipes", loc:"Southwest corner, rear of property",
     badge:"MINOR DEFECT",
     desc:"Box gutters are blocked with leaf litter and debris along the southwest elevation and are sagging 35mm below optimal drainage pitch. The rear downpipe has separated from the below-ground drainage connection. Continued blockage will result in water overflow against the external wall and potential subfloor water entry during heavy rain.",
-    cost:"$380 – $950",
+    cost:"$380 â€“ $950",
     tradies:[
-      {init:"DK",name:"Dan Kovacs",biz:"Bellarine Plumbing",stars:"★★★★★",rating:"5.0",reviews:"118",suburb:"Ocean Grove",tag:"Licensed Plumber"},
-      {init:"MH",name:"Mike Harris",biz:"Harris Gutters & Roofing",stars:"★★★★★",rating:"4.9",reviews:"55",suburb:"Leopold",tag:"Gutter Specialist"},
+      {init:"DK",name:"Dan Kovacs",biz:"Bellarine Plumbing",stars:"â˜…â˜…â˜…â˜…â˜…",rating:"5.0",reviews:"118",suburb:"Ocean Grove",tag:"Licensed Plumber"},
+      {init:"MH",name:"Mike Harris",biz:"Harris Gutters & Roofing",stars:"â˜…â˜…â˜…â˜…â˜…",rating:"4.9",reviews:"55",suburb:"Leopold",tag:"Gutter Specialist"},
     ]
   },
   {
     type:"pest", name:"Termite Conducive Conditions", loc:"Western garden bed, adjacent to wall",
     badge:"PEST RISK",
-    desc:"Timber garden sleepers are in direct ground contact within 200mm of the western external wall — a recognised high-risk condition for termite bridging. No active termite activity was detected during the inspection. However, the proximity of untreated timber to the structure represents a significant ongoing risk and should be addressed promptly. A full termite management plan is recommended.",
-    cost:"$800 – $2,200",
+    desc:"Timber garden sleepers are in direct ground contact within 200mm of the western external wall â€” a recognised high-risk condition for termite bridging. No active termite activity was detected during the inspection. However, the proximity of untreated timber to the structure represents a significant ongoing risk and should be addressed promptly. A full termite management plan is recommended.",
+    cost:"$800 â€“ $2,200",
     tradies:[
-      {init:"GP",name:"Grant Perry",biz:"Perry Pest Control",stars:"★★★★★",rating:"5.0",reviews:"93",suburb:"Geelong",tag:"Licensed Pest Inspector"},
-      {init:"AJ",name:"Adam Jones",biz:"Surf Coast Termite Specialists",stars:"★★★★★",rating:"4.9",reviews:"41",suburb:"Torquay",tag:"Termite Management"},
+      {init:"GP",name:"Grant Perry",biz:"Perry Pest Control",stars:"â˜…â˜…â˜…â˜…â˜…",rating:"5.0",reviews:"93",suburb:"Geelong",tag:"Licensed Pest Inspector"},
+      {init:"AJ",name:"Adam Jones",biz:"Surf Coast Termite Specialists",stars:"â˜…â˜…â˜…â˜…â˜…",rating:"4.9",reviews:"41",suburb:"Torquay",tag:"Termite Management"},
     ]
   },
 ];
@@ -1396,11 +1399,11 @@ const AGENT_REPORTS = [
 ];
 
 const PM_MAINTENANCE = [
-  {addr:"14 Shell Rd, Clifton Springs",tenant:"Harrison",type:"Roof Leak — Active",urgency:"High",cls:"urg-high",cost:"$2,400–$4,800",tradie:"Morrow Roofing"},
-  {addr:"8 Portarlington Rd, Indented Head",tenant:"Patel",type:"Hot Water System Failure",urgency:"High",cls:"urg-high",cost:"$1,200–$2,400",tradie:"Bellarine Plumbing"},
-  {addr:"22 Bay St, Queenscliff",tenant:"Morrison",type:"Subfloor Damp — Early Stage",urgency:"Medium",cls:"urg-med",cost:"$600–$1,400",tradie:"Thorne Building"},
-  {addr:"31 Flinders Ave, Leopold",tenant:"Chen",type:"Gutter Blockage",urgency:"Low",cls:"urg-low",cost:"$350–$600",tradie:"Harris Gutters"},
-  {addr:"5 Dune Ct, Ocean Grove",tenant:"Williams",type:"External Paint Peeling",urgency:"Low",cls:"urg-low",cost:"$800–$2,000",tradie:"Pending"},
+  {addr:"14 Shell Rd, Clifton Springs",tenant:"Harrison",type:"Roof Leak â€” Active",urgency:"High",cls:"urg-high",cost:"$2,400â€“$4,800",tradie:"Morrow Roofing"},
+  {addr:"8 Portarlington Rd, Indented Head",tenant:"Patel",type:"Hot Water System Failure",urgency:"High",cls:"urg-high",cost:"$1,200â€“$2,400",tradie:"Bellarine Plumbing"},
+  {addr:"22 Bay St, Queenscliff",tenant:"Morrison",type:"Subfloor Damp â€” Early Stage",urgency:"Medium",cls:"urg-med",cost:"$600â€“$1,400",tradie:"Thorne Building"},
+  {addr:"31 Flinders Ave, Leopold",tenant:"Chen",type:"Gutter Blockage",urgency:"Low",cls:"urg-low",cost:"$350â€“$600",tradie:"Harris Gutters"},
+  {addr:"5 Dune Ct, Ocean Grove",tenant:"Williams",type:"External Paint Peeling",urgency:"Low",cls:"urg-low",cost:"$800â€“$2,000",tradie:"Pending"},
 ];
 
 // Top 5 homepage objections (design review #11). Answers grounded in
@@ -1411,47 +1414,47 @@ const PM_MAINTENANCE = [
 const HOMEPAGE_FAQS = [
   {
     q: "What exactly do I get for $59?",
-    a: "A lot more than most buyers expect. For every report you upload you get: a plain-English Proceed / Negotiate / Walk Away verdict; every defect classified by severity (major, minor, pest) with an explanation in plain English; a repair cost estimate per defect in 2026 Australian dollars; a ready-to-send negotiation letter with a specific dollar figure you can copy and paste straight to the vendor's agent; a 5-year capex forecast showing what's urgent now vs. what's coming in the next few years; two local tradies per major defect with names and phone numbers; and every defect cited to the exact page in your inspector's report so you can verify anything in 30 seconds. No account needed — upload, pay, and your report is ready in under 2 minutes.",
+    a: "A lot more than most buyers expect. For every report you upload you get: a plain-English Proceed / Negotiate / Walk Away verdict; every defect classified by severity (major, minor, pest) with an explanation in plain English; a repair cost estimate per defect in 2026 Australian dollars; a ready-to-send negotiation letter with a specific dollar figure you can copy and paste straight to the vendor's agent; a 5-year capex forecast showing what's urgent now vs. what's coming in the next few years; two local tradies per major defect with names and phone numbers; and every defect cited to the exact page in your inspector's report so you can verify anything in 30 seconds. No account needed â€” upload, pay, and your report is ready in under 2 minutes.",
   },
   {
-    q: "I've already paid for a building inspector — why do I need this too?",
-    a: "Your inspector's job is to find every defect, document it in technical language, and protect themselves legally. They're not paid to tell you which items are deal-breakers, what repairs actually cost, or how to use it in negotiation. That's the gap Report Decoded fills. Most buyers get a 60–90 page PDF full of terms like 'spalling', 'efflorescence' and 'rising damp' and have no idea what they're signing up for. We translate it in 2 minutes, with AU dollar cost estimates and a plain-English verdict: Proceed, Negotiate, or Walk Away.",
+    q: "I've already paid for a building inspector â€” why do I need this too?",
+    a: "Your inspector's job is to find every defect, document it in technical language, and protect themselves legally. They're not paid to tell you which items are deal-breakers, what repairs actually cost, or how to use it in negotiation. That's the gap Report Decoded fills. Most buyers get a 60â€“90 page PDF full of terms like 'spalling', 'efflorescence' and 'rising damp' and have no idea what they're signing up for. We translate it in 2 minutes, with AU dollar cost estimates and a plain-English verdict: Proceed, Negotiate, or Walk Away.",
   },
   {
     q: "Is the AI accurate enough to trust for a $500K+ decision?",
-    a: "Every defect we surface includes a citation to the exact page in your inspector's PDF where it was found — so nothing is invented and everything is verifiable. We don't make claims we can't anchor to your document. That said, we're not a second inspector; we're translating what your inspector already found. Think of it as a builder friend reading the 90-page report while you're at work and calling you to say 'here's what matters and here's what I'd offer them.'",
+    a: "Every defect we surface includes a citation to the exact page in your inspector's PDF where it was found â€” so nothing is invented and everything is verifiable. We don't make claims we can't anchor to your document. That said, we're not a second inspector; we're translating what your inspector already found. Think of it as a builder friend reading the 90-page report while you're at work and calling you to say 'here's what matters and here's what I'd offer them.'",
   },
   {
     q: "How is this different from just uploading to ChatGPT?",
-    a: "A few important ways. ChatGPT has no knowledge of AS4349.1 — the Australian standard that all building inspections are conducted under — so it can't correctly classify what's a major defect vs. a minor one. It has no Australian repair cost database, so any numbers it gives you are invented. It doesn't match local tradies. It doesn't generate a professionally formatted negotiation letter. And it has a well-documented tendency to hallucinate — to state things confidently that aren't in the document. Report Decoded is purpose-built for Australian inspection reports: every defect is cited to the page it came from, cost estimates use 2026 AU trade rates, and the negotiation letter is formatted to send directly to a vendor's agent.",
+    a: "A few important ways. ChatGPT has no knowledge of AS4349.1 â€” the Australian standard that all building inspections are conducted under â€” so it can't correctly classify what's a major defect vs. a minor one. It has no Australian repair cost database, so any numbers it gives you are invented. It doesn't match local tradies. It doesn't generate a professionally formatted negotiation letter. And it has a well-documented tendency to hallucinate â€” to state things confidently that aren't in the document. Report Decoded is purpose-built for Australian inspection reports: every defect is cited to the page it came from, cost estimates use 2026 AU trade rates, and the negotiation letter is formatted to send directly to a vendor's agent.",
   },
   {
     q: "What about asking my solicitor or conveyancer to explain the report?",
-    a: "Conveyancers handle the legal title side of the transaction — contract review, Section 32, settlement. Most aren't trade-qualified to assess whether rising damp is a $2,000 or $20,000 repair, or to tell you which defects the vendor is legally required to fix. Report Decoded gives you the trade and cost interpretation your solicitor isn't trained for, in a fraction of the time.",
+    a: "Conveyancers handle the legal title side of the transaction â€” contract review, Section 32, settlement. Most aren't trade-qualified to assess whether rising damp is a $2,000 or $20,000 repair, or to tell you which defects the vendor is legally required to fix. Report Decoded gives you the trade and cost interpretation your solicitor isn't trained for, in a fraction of the time.",
   },
   {
     q: "Who can see my uploaded report?",
-    a: "Only you, anyone you share your unique report link with, and our processing pipeline. Your PDF is encrypted on upload (UploadThing, Singapore region). The analysis lives in our database scoped to your report ID — we never share, sell, or re-use your inspection data. Full details in our Privacy Policy.",
+    a: "Only you, anyone you share your unique report link with, and our processing pipeline. Your PDF is encrypted on upload (UploadThing, Singapore region). The analysis lives in our database scoped to your report ID â€” we never share, sell, or re-use your inspection data. Full details in our Privacy Policy.",
   },
   {
     q: "Can I get a refund?",
-    a: "If we can't analyse your PDF — for example, it's a scanned image with no extractable text, or it's not an AS4349.1 inspection report — our pre-screen catches it before you're charged and you're automatically refunded. We also catch Section 32s, vendor statements and contracts of sale before payment, so you're never charged for a document we can't process.",
+    a: "If we can't analyse your PDF â€” for example, it's a scanned image with no extractable text, or it's not an AS4349.1 inspection report â€” our pre-screen catches it before you're charged and you're automatically refunded. We also catch Section 32s, vendor statements and contracts of sale before payment, so you're never charged for a document we can't process.",
   },
   {
     q: "Does this work for pest-only or combined reports?",
-    a: "Yes — building only, pest only, and combined building + pest reports are all supported. The analysis adapts: a pest-only report surfaces termite and timber pest findings; a combined report extracts both sections and presents them in a single verdict. The Yarraville sample on this page is a combined building + pest report — see what the output looks like before you buy.",
+    a: "Yes â€” building only, pest only, and combined building + pest reports are all supported. The analysis adapts: a pest-only report surfaces termite and timber pest findings; a combined report extracts both sections and presents them in a single verdict. The Yarraville sample on this page is a combined building + pest report â€” see what the output looks like before you buy.",
   },
 ];
 
 const LOAD_STEPS = [
-  "Reading inspection report…",
-  "Identifying major defects (AS4349.1)…",
-  "Classifying minor defects…",
-  "Assessing pest and termite findings…",
-  "Estimating repair costs (AU rates)…",
-  "Matching local tradies in your area…",
-  "Generating negotiation position…",
-  "Building your report…",
+  "Reading inspection reportâ€¦",
+  "Identifying major defects (AS4349.1)â€¦",
+  "Classifying minor defectsâ€¦",
+  "Assessing pest and termite findingsâ€¦",
+  "Estimating repair costs (AU rates)â€¦",
+  "Matching local tradies in your areaâ€¦",
+  "Generating negotiation positionâ€¦",
+  "Building your reportâ€¦",
 ];
 
 const NEGOTIATION_TEXT = `Hi [Agent Name],
@@ -1463,9 +1466,9 @@ In light of these findings, we are seeking a price adjustment of $14,000, reflec
 Kind regards,
 [Buyer Name]`;
 
-/* ─────────────────────────────────────────────────────────────
+/* â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€
    APP
-───────────────────────────────────────────────────────────── */
+â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€ */
 export default function App() {
   const [screen, setScreen]   = useState("upload");
   const [loadStep, setLoadStep] = useState(0);
@@ -1484,15 +1487,15 @@ export default function App() {
   const [purchaseIntent, setPurchaseIntent] = useState("home");
   const [processing, setProcessing]   = useState(false);
   const [uploadError, setUploadError] = useState(null);
-  // Homepage FAQ accordion — null = all closed; numeric index = that one is open
+  // Homepage FAQ accordion â€” null = all closed; numeric index = that one is open
   const [openFaq, setOpenFaq]         = useState(null);
 
-  // Email capture — for fence-sitters not ready to upload yet.
+  // Email capture â€” for fence-sitters not ready to upload yet.
   // Form lives below the upload zone, shows only in the initial state.
   const [emailCapVal, setEmailCapVal] = useState('');
   const [emailCapState, setEmailCapState] = useState('idle'); // idle|sending|done|error
 
-  // Live report counter — fetched once on mount from /api/report-count.
+  // Live report counter â€” fetched once on mount from /api/report-count.
   // Only shown in the UI when count >= 10 so we never display an
   // embarrassingly small number. Increments to the real count so the
   // number always reflects actual usage.
@@ -1572,7 +1575,7 @@ export default function App() {
     setProcessing(true);
     setUploadError(null);
     try {
-      // DIY affiliate handle — set by AffiliateTracker from ?via= URL
+      // DIY affiliate handle â€” set by AffiliateTracker from ?via= URL
       // param + 30-day cookie. Undefined when no affiliate cookie set,
       // which is the majority case. When present, the API auto-applies
       // the $10-off creator coupon at Stripe Checkout, so the buyer
@@ -1646,7 +1649,7 @@ export default function App() {
     <>
       <style>{STYLES}</style>
 
-      {/* ── NAV ─────────────────────────────────────── */}
+      {/* â”€â”€ NAV â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€ */}
       <nav className="nav">
         <div className="nav-logo" style={{display:"flex",alignItems:"center"}}>
           <img src="/logo-dark.png" alt="Report Decoded" width={180} height={42} style={{height:36,width:"auto",display:"block"}} />
@@ -1661,7 +1664,7 @@ export default function App() {
             className="nav-link"
             style={{textDecoration:"none"}}
           >For Agents</Link>
-          {/* "For Property Managers — Soon" nav item removed per design
+          {/* "For Property Managers â€” Soon" nav item removed per design
               review: signals an unfinished product, undercuts trust.
               The in-page PM mockup + roadmap state still exist (goTo
               "pm") so re-enabling is a one-liner once the PM product
@@ -1671,14 +1674,14 @@ export default function App() {
         </div>
       </nav>
 
-      {/* ── SCREEN TABS (results only) ────────────── */}
+      {/* â”€â”€ SCREEN TABS (results only) â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€ */}
       {screen === "results" && (
         <div className="screen-tabs scrollbar-hide">
           {[
-            {s:"upload",  label:"↑ Upload New"},
-            {s:"results", label:"📋 Results View"},
-            {s:"agent",   label:"👤 Agent Dashboard"},
-            {s:"pm",      label:"🏢 PM Dashboard"},
+            {s:"upload",  label:"â†‘ Upload New"},
+            {s:"results", label:"ðŸ“‹ Results View"},
+            {s:"agent",   label:"ðŸ‘¤ Agent Dashboard"},
+            {s:"pm",      label:"ðŸ¢ PM Dashboard"},
           ].map(({s, label}) => (
             <div
               key={s}
@@ -1694,35 +1697,35 @@ export default function App() {
         </div>
       )}
 
-      {/* ══════════════════════════════════════════════
+      {/* â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•
           UPLOAD SCREEN
-      ══════════════════════════════════════════════ */}
+      â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â• */}
       {screen === "upload" && (
         <div className="fade-up">
 
           {/* Dark cinematic hero */}
-          {/* May 2026 design pass — wins 1, 3, 5, 6, 8 applied here:
-              · sub-text trimmed to 2 punchy lines using audience verbatim
-              · primary "Upload your PDF →" CTA added (was missing entirely)
-              · "Buyers save $20K–$80K" savings anchor under sub-text
-              · "See a sample report" promoted to bordered button (the
+          {/* May 2026 design pass â€” wins 1, 3, 5, 6, 8 applied here:
+              Â· sub-text trimmed to 2 punchy lines using audience verbatim
+              Â· primary "Upload your PDF â†’" CTA added (was missing entirely)
+              Â· "Buyers save $20Kâ€“$80K" savings anchor under sub-text
+              Â· "See a sample report" promoted to bordered button (the
                 conversion-relevant secondary action)
-              · "Download sample PDF" demoted to small tertiary link
-              · 12-14px vertical padding on all secondary links clears
-                the 44×44 iOS touch target spec
-              · sub-text opacity 0.55 → 0.85 clears WCAG AA at 17px */}
+              Â· "Download sample PDF" demoted to small tertiary link
+              Â· 12-14px vertical padding on all secondary links clears
+                the 44Ã—44 iOS touch target spec
+              Â· sub-text opacity 0.55 â†’ 0.85 clears WCAG AA at 17px */}
           <div className="hero-section">
-            <div className="hero-badge">🇦🇺 Built for Australian Property Buyers</div>
+            <div className="hero-badge">ðŸ‡¦ðŸ‡º Built for Australian Property Buyers</div>
             <h1 className="hero-h">
               Your building report,<br/><em>decoded.</em>
             </h1>
             <p className="hero-sub">
               <strong style={{color:"#fff", fontWeight:600}}>Plain-English verdict in 2 minutes.</strong>
               <br/>
-              Find out what your report is hiding — before you sign.
+              Find out what your report is hiding â€” before you sign.
             </p>
 
-            {/* Primary CTA + savings anchor — biggest emotional hook for
+            {/* Primary CTA + savings anchor â€” biggest emotional hook for
                 a panic-mode buyer above the fold. Clicking opens the
                 native file picker directly (same fileInputRef used by
                 the drop-zone Choose-PDF button below). This makes the
@@ -1748,39 +1751,39 @@ export default function App() {
                 borderRadius:11,
                 border:"none",
                 cursor:"pointer",
-                fontFamily:"'DM Sans', sans-serif",
+                fontFamily:"var(--font-sans), sans-serif",
                 boxShadow:"0 6px 18px rgba(201,122,58,0.36)",
                 transition:"background .15s, transform .15s",
               }}
               onMouseEnter={(e) => { e.currentTarget.style.background = 'var(--amber-hover)'; }}
               onMouseLeave={(e) => { e.currentTarget.style.background = 'var(--amber)'; }}
             >
-              Upload your PDF →
+              Upload your PDF â†’
             </button>
             <div
               style={{
                 marginTop:12,
                 fontSize:13,
                 color:"#F4C9A0",
-                fontFamily:"'DM Mono', monospace",
+                fontFamily:"var(--font-mono), monospace",
                 letterSpacing:0.3,
               }}
             >
-              Buyers save <strong style={{color:"#fff"}}>$20K – $80K</strong> at negotiation, on average.
+              Buyers save <strong style={{color:"#fff"}}>$20K â€“ $80K</strong> at negotiation, on average.
             </div>
             <div
               style={{
                 marginTop:10,
                 fontSize:12.5,
                 color:"rgba(255,255,255,0.52)",
-                fontFamily:"'DM Mono', monospace",
+                fontFamily:"var(--font-mono), monospace",
                 letterSpacing:0.2,
               }}
             >
-              Most buyers have 48–72 hrs before settlement. Don't guess.
+              Most buyers have 48â€“72 hrs before settlement. Don't guess.
             </div>
 
-            {/* Secondary links — differentiated weights so the
+            {/* Secondary links â€” differentiated weights so the
                 conversion-relevant "See a sample" reads as primary
                 secondary, and the PDF download is a tertiary path. */}
             <div style={{marginTop:22, display:"flex", gap:14, justifyContent:"center", flexWrap:"wrap", alignItems:"center"}}>
@@ -1799,7 +1802,7 @@ export default function App() {
                 }}
                 onClick={() => { try { track('sample_link_clicked', { type: 'view' }); } catch {} }}
               >
-                See a sample report →
+                See a sample report â†’
               </a>
               <a
                 href="/api/report-pdf?reportId=f3ef0ce1-5443-4e91-a420-5e8bf7d8713d"
@@ -1813,19 +1816,19 @@ export default function App() {
                 }}
                 onClick={() => { try { track('sample_link_clicked', { type: 'pdf' }); } catch {} }}
               >
-                ⬇ Or download the sample PDF
+                â¬‡ Or download the sample PDF
               </a>
             </div>
 
             {/* Trust micro-strip */}
             <div style={{marginTop:20, display:"flex", gap:20, justifyContent:"center", flexWrap:"wrap"}}>
-              {["✅ Refunded if we can't read your PDF", "🔒 Your PDF is never stored", "🇦🇺 Australian-specific analysis"].map(t => (
+              {["âœ… Refunded if we can't read your PDF", "ðŸ”’ Your PDF is never stored", "ðŸ‡¦ðŸ‡º Australian-specific analysis"].map(t => (
                 <span key={t} style={{fontSize:12, color:"rgba(255,255,255,0.55)", letterSpacing:0.1}}>{t}</span>
               ))}
             </div>
           </div>
 
-          {/* Upload card — rises from hero */}
+          {/* Upload card â€” rises from hero */}
           <div className="upload-area" id="buyer-upload">
 
             <input
@@ -1839,19 +1842,19 @@ export default function App() {
 
             {!uploadedFile && !isUploading && (
               /* Pre-upload state: the hero button above is the primary
-                 "Upload your PDF →" action. This drop zone supports
-                 THREE ways to upload — drag-and-drop, click anywhere
+                 "Upload your PDF â†’" action. This drop zone supports
+                 THREE ways to upload â€” drag-and-drop, click anywhere
                  in the dashed area, or click the explicit "Choose PDF"
                  button. Visual treatment softened (less padding, no
                  shadow) so it sits as the secondary path under the
                  hero CTA. */
               <div className="upload-zone upload-zone-secondary" onClick={() => fileInputRef.current?.click()}>
-                <div className="upload-icon" style={{fontSize:28, opacity:0.75}}>📄</div>
+                <div className="upload-icon" style={{fontSize:28, opacity:0.75}}>ðŸ“„</div>
                 <div className="upload-title" style={{fontSize:18, color:"var(--text)"}}>
-                  Drop a PDF here — or click anywhere to choose
+                  Drop a PDF here â€” or click anywhere to choose
                 </div>
                 <div className="upload-sub" style={{marginBottom:14}}>
-                  Building, pest &amp; combined reports · AS4349.1 compliant
+                  Building, pest &amp; combined reports Â· AS4349.1 compliant
                 </div>
                 <button
                   type="button"
@@ -1867,7 +1870,7 @@ export default function App() {
                   Choose PDF
                 </button>
                 <div className="upload-filetypes" style={{marginTop:14}}>
-                  PDF format · End-to-end encrypted · Results in under 2 minutes
+                  PDF format Â· End-to-end encrypted Â· Results in under 2 minutes
                 </div>
                 {uploadError && (
                   <div style={{marginTop:16,color:"var(--red)",fontSize:14}}>{uploadError}</div>
@@ -1877,8 +1880,8 @@ export default function App() {
 
             {isUploading && (
               <div className="upload-zone">
-                <div className="upload-icon">⏳</div>
-                <div className="upload-title">Uploading your report…</div>
+                <div className="upload-icon">â³</div>
+                <div className="upload-title">Uploading your reportâ€¦</div>
                 <div className="upload-sub">Just a moment.</div>
               </div>
             )}
@@ -1886,10 +1889,10 @@ export default function App() {
             {uploadedFile && !isUploading && (
               <div className="upload-zone" style={{cursor:"default",padding:"36px 40px"}}>
                 <div style={{textAlign:"center",marginBottom:24}}>
-                  <div className="upload-icon">✅</div>
+                  <div className="upload-icon">âœ…</div>
                   <div className="upload-title" style={{marginBottom:4}}>{uploadedFile.name}</div>
                   <div className="upload-sub" style={{marginBottom:0}}>
-                    Uploaded — let's get you your analysis.{" "}
+                    Uploaded â€” let's get you your analysis.{" "}
                     <button
                       onClick={resetUpload}
                       style={{background:"none",border:0,color:"var(--amber)",cursor:"pointer",textDecoration:"underline",font:"inherit",padding:0}}
@@ -1952,7 +1955,7 @@ export default function App() {
                         style={{marginTop:4}}
                       />
                       <div style={{textAlign:"left",fontSize:14,color:"var(--text)"}}>
-                        <strong>Home — I'll live there</strong>
+                        <strong>Home â€” I'll live there</strong>
                         <div style={{fontSize:12,color:"var(--muted)",marginTop:2}}>
                           Owner-occupier. Analysis prioritises safety, comfort, and long-term ownership burden.
                         </div>
@@ -1968,7 +1971,7 @@ export default function App() {
                         style={{marginTop:4}}
                       />
                       <div style={{textAlign:"left",fontSize:14,color:"var(--text)"}}>
-                        <strong>Investment — I'll rent it out</strong>
+                        <strong>Investment â€” I'll rent it out</strong>
                         <div style={{fontSize:12,color:"var(--muted)",marginTop:2}}>
                           Analysis prioritises yield impact, capex vs opex, rental compliance (smoke alarms, RCDs, pool fencing) and tenanting risk.
                         </div>
@@ -1989,7 +1992,7 @@ export default function App() {
                   </label>
 
                   <label style={{fontSize:13,color:"var(--muted)",textAlign:"left"}}>
-                    Purchase price (AUD) — optional
+                    Purchase price (AUD) â€” optional
                     <input
                       type="number"
                       value={purchasePrice}
@@ -2000,7 +2003,7 @@ export default function App() {
                   </label>
 
                   <label style={{fontSize:13,color:"var(--muted)",textAlign:"left"}}>
-                    Property address — <span style={{color:"var(--amber)"}}>recommended for local tradie matching</span>
+                    Property address â€” <span style={{color:"var(--amber)"}}>recommended for local tradie matching</span>
                     <div style={{marginTop:6}}>
                       <AddressAutocomplete
                         value={propertyAddress}
@@ -2010,7 +2013,7 @@ export default function App() {
                       />
                     </div>
                     <div style={{fontSize:11.5,color:"var(--subtle)",marginTop:5,lineHeight:1.5}}>
-                      Start typing and pick a suggestion. If left blank we&apos;ll try to extract from the PDF — but some inspectors omit it.
+                      Start typing and pick a suggestion. If left blank we&apos;ll try to extract from the PDF â€” but some inspectors omit it.
                     </div>
                   </label>
 
@@ -2021,9 +2024,9 @@ export default function App() {
                       onChange={e => setPack(e.target.value)}
                       style={{display:"block",width:"100%",padding:"12px 14px",fontSize:15,border:"1px solid var(--border)",borderRadius:10,marginTop:6,fontFamily:"inherit",background:"#fff",color:"var(--text)"}}
                     >
-                      <option value="single">Single Report — $59</option>
-                      <option value="three">3-Report Pack — $149</option>
-                      <option value="ten">10-Report Pack — $390</option>
+                      <option value="single">Single Report â€” $59</option>
+                      <option value="three">3-Report Pack â€” $149</option>
+                      <option value="ten">10-Report Pack â€” $390</option>
                     </select>
                   </label>
 
@@ -2033,7 +2036,7 @@ export default function App() {
                     disabled={processing}
                     style={{marginTop:8}}
                   >
-                    {processing ? "Setting up payment…" : `Continue to Payment (${packPrice}) →`}
+                    {processing ? "Setting up paymentâ€¦" : `Continue to Payment (${packPrice}) â†’`}
                   </button>
 
                   {uploadError && (
@@ -2041,13 +2044,13 @@ export default function App() {
                   )}
 
                   <div className="upload-filetypes" style={{marginTop:0,textAlign:"center"}}>
-                    Secured by Stripe · 2-minute analysis · Refund if we can't read your PDF
+                    Secured by Stripe Â· 2-minute analysis Â· Refund if we can't read your PDF
                   </div>
                 </div>
               </div>
             )}
 
-            {/* ── EMAIL CAPTURE ────────────────────────────────
+            {/* â”€â”€ EMAIL CAPTURE â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€
                 For fence-sitters not ready to upload yet.
                 Shows only in the initial state (no file chosen, not uploading).
                 Sends a sample report link via /api/email-capture.
@@ -2059,7 +2062,7 @@ export default function App() {
               <div style={{ textAlign: "center", marginTop: 14, marginBottom: 8 }}>
                 {emailCapState === 'done' ? (
                   <div style={{ fontSize: 13.5, color: "var(--teal)", fontWeight: 500, padding: "8px 0" }}>
-                    ✓ Check your inbox — we've sent you a free sample report.
+                    âœ“ Check your inbox â€” we've sent you a free sample report.
                   </div>
                 ) : (
                   <form
@@ -2078,7 +2081,7 @@ export default function App() {
                         borderRadius: 8,
                         padding: "8px 13px",
                         fontSize: 13.5,
-                        fontFamily: "'DM Sans',sans-serif",
+                        fontFamily: "var(--font-sans),sans-serif",
                         width: 200,
                         background: "rgba(255,255,255,0.9)",
                         color: "var(--text)",
@@ -2095,18 +2098,18 @@ export default function App() {
                         padding: "8px 16px",
                         fontSize: 13,
                         fontWeight: 600,
-                        fontFamily: "'DM Sans',sans-serif",
+                        fontFamily: "var(--font-sans),sans-serif",
                         cursor: emailCapState === 'sending' ? "default" : "pointer",
                         opacity: emailCapState === 'sending' ? 0.6 : 1,
                         whiteSpace: "nowrap",
                         transition: "opacity .15s",
                       }}
                     >
-                      {emailCapState === 'sending' ? 'Sending…' : 'Get a free sample →'}
+                      {emailCapState === 'sending' ? 'Sendingâ€¦' : 'Get a free sample â†’'}
                     </button>
                     {emailCapState === 'error' && (
                       <div style={{ width: "100%", fontSize: 12.5, color: "var(--red)", marginTop: 2, textAlign: "center" }}>
-                        Couldn't send —{' '}
+                        Couldn't send â€”{' '}
                         <a
                           href="/results?reportId=f3ef0ce1-5443-4e91-a420-5e8bf7d8713d&sample=1"
                           target="_blank"
@@ -2139,7 +2142,7 @@ export default function App() {
               ))}
             </div>
 
-            {/* ── BEFORE / AFTER VISUAL ──────────────────────────
+            {/* â”€â”€ BEFORE / AFTER VISUAL â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€
                 Design review #6: 'the single highest-converting element
                 for this type of product is a split: raw intimidating PDF
                 on the left, clean Report Decoded verdict card on the
@@ -2151,9 +2154,9 @@ export default function App() {
             <div style={{ marginTop: 56, marginBottom: 40 }}>
               <div style={{ textAlign: "center", marginBottom: 24 }}>
                 <div className="section-label" style={{ marginBottom: 8 }}>
-                  🔄 From overwhelming → decision-ready
+                  ðŸ”„ From overwhelming â†’ decision-ready
                 </div>
-                <h2 style={{ fontFamily: "'Fraunces',serif", fontSize: 28, margin: 0, color: "var(--text)", letterSpacing: -0.3 }}>
+                <h2 style={{ fontFamily: "var(--font-serif),serif", fontSize: 28, margin: 0, color: "var(--text)", letterSpacing: -0.3 }}>
                   80 pages of jargon in. A verdict and a number out.
                 </h2>
               </div>
@@ -2162,7 +2165,7 @@ export default function App() {
                 {/* LEFT: inspector PDF mock */}
                 <div className="ba-card ba-before">
                   <div className="ba-card-tag" style={{ background: "#E8E4DC", color: "var(--muted)" }}>
-                    BEFORE · Inspector's PDF
+                    BEFORE Â· Inspector's PDF
                   </div>
                   <div className="ba-doc">
                     <div className="ba-doc-header">
@@ -2170,7 +2173,7 @@ export default function App() {
                         BUILDING &amp; PEST INSPECTION REPORT
                       </div>
                       <div style={{ fontSize: 10, color: "var(--muted)", marginTop: 4, fontFamily: "Georgia, serif" }}>
-                        Property: <span className="redact-soft">███</span> Loch Street, Yarraville · Inspected: <span className="redact-soft">██ █████</span> 2020
+                        Property: <span className="redact-soft">â–ˆâ–ˆâ–ˆ</span> Loch Street, Yarraville Â· Inspected: <span className="redact-soft">â–ˆâ–ˆ â–ˆâ–ˆâ–ˆâ–ˆâ–ˆ</span> 2020
                       </div>
                     </div>
 
@@ -2199,14 +2202,14 @@ export default function App() {
 
                 {/* Connecting arrow */}
                 <div className="ba-arrow" aria-hidden="true">
-                  <div className="ba-arrow-circle">→</div>
+                  <div className="ba-arrow-circle">â†’</div>
                   <div className="ba-arrow-label">we decode it</div>
                 </div>
 
                 {/* RIGHT: Report Decoded output mock */}
                 <div className="ba-card ba-after">
                   <div className="ba-card-tag" style={{ background: "var(--amber-bg)", color: "var(--amber)" }}>
-                    AFTER · Report Decoded
+                    AFTER Â· Report Decoded
                   </div>
 
                   <div style={{ padding: "18px 20px" }}>
@@ -2224,15 +2227,15 @@ export default function App() {
                     }}>
                       NEGOTIATE
                     </div>
-                    <div style={{ fontFamily: "'Fraunces',serif", fontSize: 17, color: "var(--text)", marginBottom: 14, lineHeight: 1.35 }}>
-                      Genuine issues — real grounds to push back on price.
+                    <div style={{ fontFamily: "var(--font-serif),serif", fontSize: 17, color: "var(--text)", marginBottom: 14, lineHeight: 1.35 }}>
+                      Genuine issues â€” real grounds to push back on price.
                     </div>
 
                     {/* Defect mini-rows */}
                     {[
-                      { name: "Termite damage", area: "roof space", cost: "$3,000–$15,000", page: "p. 47" },
-                      { name: "Wood borer attack", area: "Baltic pine floors", cost: "$2,000–$8,000", page: "p. 52" },
-                      { name: "Fungal decay", area: "weatherboards", cost: "$13,000–$33,000", page: "p. 28" },
+                      { name: "Termite damage", area: "roof space", cost: "$3,000â€“$15,000", page: "p. 47" },
+                      { name: "Wood borer attack", area: "Baltic pine floors", cost: "$2,000â€“$8,000", page: "p. 52" },
+                      { name: "Fungal decay", area: "weatherboards", cost: "$13,000â€“$33,000", page: "p. 28" },
                     ].map((d, i) => (
                       <div
                         key={i}
@@ -2250,10 +2253,10 @@ export default function App() {
                         <div style={{ flex: 1, minWidth: 0 }}>
                           <div style={{ fontWeight: 600, color: "var(--text)" }}>{d.name}</div>
                           <div style={{ color: "var(--muted)", fontSize: 11.5, marginTop: 1 }}>
-                            {d.area} · cited {d.page}
+                            {d.area} Â· cited {d.page}
                           </div>
                         </div>
-                        <div style={{ fontFamily: "'DM Mono', monospace", fontSize: 11.5, color: "var(--text)", whiteSpace: "nowrap" }}>
+                        <div style={{ fontFamily: "var(--font-mono), monospace", fontSize: 11.5, color: "var(--text)", whiteSpace: "nowrap" }}>
                           {d.cost}
                         </div>
                       </div>
@@ -2262,7 +2265,7 @@ export default function App() {
                       + 8 more defects, all cited
                     </div>
 
-                    {/* Tradies block — design feedback: the AFTER card
+                    {/* Tradies block â€” design feedback: the AFTER card
                         shouldn't suggest the only output is 3 defect
                         lines. Tradies + phone numbers is one of the
                         most actionable parts of the product. We don't
@@ -2282,10 +2285,10 @@ export default function App() {
                       marginBottom: 12,
                     }}>
                       <div style={{ fontSize: 10.5, color: "var(--muted)", fontWeight: 700, letterSpacing: 0.6, textTransform: "uppercase", marginBottom: 4 }}>
-                        🔧 6 local tradies matched
+                        ðŸ”§ 6 local tradies matched
                       </div>
                       <div style={{ fontSize: 11.5, color: "var(--text)", lineHeight: 1.5 }}>
-                        Roof plumber · Pest controller · Damp specialist · 2 builders · Gutter plumber
+                        Roof plumber Â· Pest controller Â· Damp specialist Â· 2 builders Â· Gutter plumber
                       </div>
                       <div style={{ fontSize: 10.5, color: "var(--muted)", marginTop: 4, fontStyle: "italic" }}>
                         Names &amp; phone numbers included with every report.
@@ -2303,12 +2306,12 @@ export default function App() {
                       <div style={{ fontSize: 10.5, color: "var(--teal)", fontWeight: 700, letterSpacing: 0.6, textTransform: "uppercase" }}>
                         Suggested negotiation
                       </div>
-                      <div style={{ fontFamily: "'Fraunces',serif", fontSize: 26, color: "var(--text)", marginTop: 2 }}>
+                      <div style={{ fontFamily: "var(--font-serif),serif", fontSize: 26, color: "var(--text)", marginTop: 2 }}>
                         $45,000 off
                       </div>
                     </div>
 
-                    {/* CTA to the real sample — makes clear this card is
+                    {/* CTA to the real sample â€” makes clear this card is
                         an abridged preview, not the full output. */}
                     <div style={{ textAlign: "center", marginTop: 14 }}>
                       <Link
@@ -2324,7 +2327,7 @@ export default function App() {
                           paddingBottom: 1,
                         }}
                       >
-                        See the full 5-page analysis →
+                        See the full 5-page analysis â†’
                       </Link>
                     </div>
                   </div>
@@ -2332,19 +2335,19 @@ export default function App() {
               </div>
             </div>
 
-            {/* ── HOW YOU CAN TRUST THE AI ────────────────────────
+            {/* â”€â”€ HOW YOU CAN TRUST THE AI â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€
                 Design review #15: addresses the "can I trust AI with
                 a $600k decision?" objection by surfacing the actual
-                trust mechanics — citations to PDF pages, no-claims-
+                trust mechanics â€” citations to PDF pages, no-claims-
                 we-can't-anchor rule, auto-refund on wrong document.
                 Reuses .how-strip grid so it visually matches the
                 step strip above and reads as a natural continuation. */}
             <div style={{ marginTop: 48 }}>
               <div style={{ textAlign: "center", marginBottom: 18 }}>
                 <div className="section-label" style={{ marginBottom: 8 }}>
-                  🔍 Built to be verified
+                  ðŸ” Built to be verified
                 </div>
-                <h2 style={{ fontFamily: "'Fraunces',serif", fontSize: 26, margin: 0, color: "var(--text)", letterSpacing: -0.3 }}>
+                <h2 style={{ fontFamily: "var(--font-serif),serif", fontSize: 26, margin: 0, color: "var(--text)", letterSpacing: -0.3 }}>
                   How you can trust the AI
                 </h2>
               </div>
@@ -2362,7 +2365,7 @@ export default function App() {
                   },
                   {
                     n: "03",
-                    label: "Wrong document → auto-refund",
+                    label: "Wrong document â†’ auto-refund",
                     desc: "If your PDF isn't an AS4349.1 inspection report, our pre-screen detects it before you're charged. Zero risk of paying for an analysis that can't run.",
                   },
                 ].map(({ n, label, desc }) => (
@@ -2377,9 +2380,9 @@ export default function App() {
               </div>
             </div>
 
-            {/* ── NEGOTIATION LETTER PREVIEW ────────────────────────
+            {/* â”€â”€ NEGOTIATION LETTER PREVIEW â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€
                 Design review #10: the negotiation letter is arguably
-                the most differentiated feature of the product — a
+                the most differentiated feature of the product â€” a
                 ready-to-send email back to the vendor's agent with
                 specific defects + cost ranges + a recommended ask.
                 Until now it lived as a bullet point under the upload
@@ -2389,19 +2392,19 @@ export default function App() {
             <div style={{ margin: "56px 0 40px" }}>
               <div style={{ textAlign: "center", marginBottom: 28 }}>
                 <div className="section-label" style={{ marginBottom: 8 }}>
-                  ✉️ Built into every report
+                  âœ‰ï¸ Built into every report
                 </div>
-                <h2 style={{ fontFamily: "'Fraunces',serif", fontSize: 30, margin: "0 0 10px", color: "var(--text)", letterSpacing: -0.3 }}>
+                <h2 style={{ fontFamily: "var(--font-serif),serif", fontSize: 30, margin: "0 0 10px", color: "var(--text)", letterSpacing: -0.3 }}>
                   Walk into the negotiation with a letter already written.
                 </h2>
                 <p style={{ color: "var(--muted)", fontSize: 15, lineHeight: 1.55, maxWidth: 560, margin: "0 auto" }}>
                   Every pre-purchase report includes a ready-to-send email to the vendor's agent
-                  — with specific defects, cost ranges, and a recommended adjustment. Most buyers
+                  â€” with specific defects, cost ranges, and a recommended adjustment. Most buyers
                   copy-paste and send within minutes.
                 </p>
               </div>
 
-              {/* Letter card — styled like a printed letter on paper */}
+              {/* Letter card â€” styled like a printed letter on paper */}
               <div
                 style={{
                   background: "#fff",
@@ -2427,7 +2430,7 @@ export default function App() {
                     paddingBottom: 14,
                     borderBottom: "1px solid var(--border)",
                     marginBottom: 18,
-                    fontFamily: "'DM Mono', monospace",
+                    fontFamily: "var(--font-mono), monospace",
                     fontSize: 11,
                     color: "var(--muted)",
                     textTransform: "uppercase",
@@ -2435,14 +2438,14 @@ export default function App() {
                   }}
                 >
                   <div><strong style={{ color: "var(--text)" }}>To:</strong> Listing agent</div>
-                  <div><strong style={{ color: "var(--text)" }}>Re:</strong> <span className="redact-soft">███</span> Loch St, Yarraville VIC</div>
+                  <div><strong style={{ color: "var(--text)" }}>Re:</strong> <span className="redact-soft">â–ˆâ–ˆâ–ˆ</span> Loch St, Yarraville VIC</div>
                   <div><strong style={{ color: "var(--text)" }}>Ask:</strong> <span style={{ color: "var(--teal)" }}>$45,000 off price</span></div>
                 </div>
 
                 <p style={{ margin: "0 0 12px" }}>Dear [Agent's Name],</p>
 
                 <p style={{ margin: "0 0 14px" }}>
-                  Thank you for your assistance with our interest in <strong><span className="redact-soft">███</span> Loch Street, Yarraville</strong>.
+                  Thank you for your assistance with our interest in <strong><span className="redact-soft">â–ˆâ–ˆâ–ˆ</span> Loch Street, Yarraville</strong>.
                   We've now received and carefully reviewed our building and timber pest inspection
                   report and wish to formally request a price adjustment before proceeding.
                 </p>
@@ -2457,12 +2460,12 @@ export default function App() {
                   <li style={{ marginBottom: 10 }}>
                     <strong>Termite damage (roof space &amp; internal areas):</strong> Evidence of termite
                     workings and damage in both the roof space and internal areas. No termite management
-                    system has ever been installed. <em>Estimated cost: $3,000–$15,000.</em>
+                    system has ever been installed. <em>Estimated cost: $3,000â€“$15,000.</em>
                   </li>
                   <li style={{ marginBottom: 10 }}>
                     <strong>Widespread wood borer attack:</strong> Baltic pine floorboards throughout the
                     home show widespread <em>Anobium punctatum</em> infestation. Treatment or partial
-                    board replacement required. <em>Estimated cost: $2,000–$8,000.</em>
+                    board replacement required. <em>Estimated cost: $2,000â€“$8,000.</em>
                   </li>
                   <li style={{ color: "var(--muted)", fontStyle: "italic" }}>
                     ... 4 more defects, each cited to the inspector's PDF page
@@ -2488,7 +2491,7 @@ export default function App() {
                     flexWrap: "wrap",
                     alignItems: "center",
                     justifyContent: "space-between",
-                    fontFamily: "'DM Sans', sans-serif",
+                    fontFamily: "var(--font-sans), sans-serif",
                     fontSize: 12.5,
                     color: "var(--muted)",
                     lineHeight: 1.5,
@@ -2504,13 +2507,13 @@ export default function App() {
                     rel="noopener noreferrer"
                     style={{ color: "var(--amber)", fontWeight: 600, textDecoration: "none", whiteSpace: "nowrap" }}
                   >
-                    See the full report →
+                    See the full report â†’
                   </Link>
                 </div>
               </div>
             </div>
 
-            {/* ── TRADIES MATCHED SECTION ──────────────────────────
+            {/* â”€â”€ TRADIES MATCHED SECTION â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€
                 Right tradie, every defect. Showcases the trade-
                 inference engine (22 trades, weighted scoring,
                 secondary-trade chip for trade-interface defects,
@@ -2518,17 +2521,17 @@ export default function App() {
                 only mentioned in passing. Sits between negotiation-
                 letter preview and founder note so it continues the
                 "here's what you get" narrative before transitioning
-                to "meet the founder → pick a pack". */}
+                to "meet the founder â†’ pick a pack". */}
             <div style={{ margin: "56px 0 40px" }}>
               <div style={{ textAlign: "center", marginBottom: 28 }}>
                 <div className="section-label" style={{ marginBottom: 8 }}>
-                  🔧 Plus we tell you who to call
+                  ðŸ”§ Plus we tell you who to call
                 </div>
-                <h2 style={{ fontFamily: "'Fraunces',serif", fontSize: 30, margin: "0 0 10px", color: "var(--text)", letterSpacing: -0.3 }}>
+                <h2 style={{ fontFamily: "var(--font-serif),serif", fontSize: 30, margin: "0 0 10px", color: "var(--text)", letterSpacing: -0.3 }}>
                   Right tradie, every defect.
                 </h2>
                 <p style={{ color: "var(--muted)", fontSize: 15, lineHeight: 1.55, maxWidth: 580, margin: "0 auto" }}>
-                  Every defect gets matched to the specialist who actually fixes it — not just
+                  Every defect gets matched to the specialist who actually fixes it â€” not just
                   "a builder". Concreter for slab edges. Bricklayer for mortar. Stair specialist
                   for nosing compliance.
                 </p>
@@ -2546,7 +2549,7 @@ export default function App() {
                 {[
                   {
                     defectLabel: "Defect example",
-                    defectName: "Stair treads — no slip-resistant nosing",
+                    defectName: "Stair treads â€” no slip-resistant nosing",
                     standardRef: "NCC 3.9.1 / AS 1657",
                     primary: "Stair specialist",
                     secondary: null,
@@ -2578,7 +2581,7 @@ export default function App() {
                       flexDirection: "column",
                     }}
                   >
-                    {/* Defect example header — amber for the "spans two
+                    {/* Defect example header â€” amber for the "spans two
                         trades" card so visitors notice it as the key
                         example, muted for the standard ones. */}
                     <div
@@ -2608,14 +2611,14 @@ export default function App() {
                       style={{
                         fontSize: 11,
                         color: "var(--muted)",
-                        fontFamily: "'DM Mono', monospace",
+                        fontFamily: "var(--font-mono), monospace",
                         marginBottom: 14,
                       }}
                     >
                       {card.standardRef}
                     </div>
 
-                    {/* Trade chip block — pushed to the bottom of the
+                    {/* Trade chip block â€” pushed to the bottom of the
                         card via marginTop:auto so all three cards
                         align their chips at the same baseline. */}
                     <div style={{ marginTop: "auto" }}>
@@ -2650,7 +2653,7 @@ export default function App() {
                 ))}
               </div>
 
-              {/* Bottom strip — quantifies the feature so visitors
+              {/* Bottom strip â€” quantifies the feature so visitors
                   know the depth: 22 trades, automatic fallback for
                   regional areas. Calm one-line treatment so it
                   doesn't compete with the cards above. */}
@@ -2674,7 +2677,7 @@ export default function App() {
               </div>
             </div>
 
-            {/* ── FOUNDER NOTE ─────────────────────────────────
+            {/* â”€â”€ FOUNDER NOTE â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€
                 Win 7 (May 2026 redesign): Founder note moved from
                 below trust-bar to ABOVE pricing. Trust signal lands
                 BEFORE the $59 ask so visitors meet Morgan, understand
@@ -2693,11 +2696,11 @@ export default function App() {
                 }}
               >
                 <div className="section-label" style={{ marginBottom: 6 }}>
-                  👋 Behind the product
+                  ðŸ‘‹ Behind the product
                 </div>
                 <h2
                   style={{
-                    fontFamily: "'Fraunces',serif",
+                    fontFamily: "var(--font-serif),serif",
                     fontSize: 26,
                     margin: "0 0 16px",
                     color: "var(--text)",
@@ -2708,10 +2711,10 @@ export default function App() {
                 </h2>
                 <div style={{ color: "var(--text)", fontSize: 15, lineHeight: 1.7 }}>
                   <p style={{ margin: "0 0 14px" }}>
-                    I'm Morgan Smith. I've owned six properties over the years — four of them
-                    investments — and read just as many building inspection reports at 11pm wondering
+                    I'm Morgan Smith. I've owned six properties over the years â€” four of them
+                    investments â€” and read just as many building inspection reports at 11pm wondering
                     which defects actually mattered and how much to push back on the price. By report
-                    four I'd realised the same questions kept coming up — and that a tool could answer
+                    four I'd realised the same questions kept coming up â€” and that a tool could answer
                     them in under 2 minutes instead of three nights.
                   </p>
                   <p style={{ margin: "0 0 14px" }}>
@@ -2719,7 +2722,7 @@ export default function App() {
                     cited to your inspector's exact PDF page, and a ready-to-send negotiation letter at
                     the end. <strong>For a regular buyer</strong>, it saves three nights of confusion
                     and often thousands at the negotiating table. <strong>For a buyer's agent</strong>,
-                    the same engine turns a 2-hour-per-client task into a 2-minute one — letting them
+                    the same engine turns a 2-hour-per-client task into a 2-minute one â€” letting them
                     advise on more deals, faster, with a defensible numbers trail behind every
                     recommendation.
                   </p>
@@ -2730,16 +2733,16 @@ export default function App() {
               </div>
             </div>
 
-            {/* ── WHAT YOU GET STRIP ────────────────────────────────
-                Full deliverable list before the price card — many visitors
+            {/* â”€â”€ WHAT YOU GET STRIP â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€
+                Full deliverable list before the price card â€” many visitors
                 don't realise they also get tradie contacts, a 5-year
                 capex forecast, AND the negotiation letter for $59. Listing
                 everything closes the "what do I actually get?" gap before
                 the price lands. */}
             <div style={{ marginBottom: 36 }}>
               <div style={{ textAlign: "center", marginBottom: 20 }}>
-                <div className="section-label" style={{ marginBottom: 8 }}>📦 Everything included</div>
-                <h2 style={{ fontFamily: "'Fraunces',serif", fontSize: 26, margin: 0, color: "var(--text)", letterSpacing: -0.3 }}>
+                <div className="section-label" style={{ marginBottom: 8 }}>ðŸ“¦ Everything included</div>
+                <h2 style={{ fontFamily: "var(--font-serif),serif", fontSize: 26, margin: 0, color: "var(--text)", letterSpacing: -0.3 }}>
                   Here's what you get for $59
                 </h2>
               </div>
@@ -2751,14 +2754,14 @@ export default function App() {
                 gap: 10,
               }}>
                 {[
-                  { icon: "✅", title: "Proceed / Negotiate / Walk Away verdict", desc: "One clear recommendation to act on" },
-                  { icon: "📋", title: "Every defect classified by severity",      desc: "Major, minor, and pest — in plain English" },
-                  { icon: "💰", title: "Repair cost estimate per defect",           desc: "2026 Australian trade rates" },
-                  { icon: "✉️", title: "Ready-to-send negotiation letter",         desc: "With a dollar figure — copy, paste, send" },
-                  { icon: "📅", title: "5-year capex forecast",                    desc: "Year 1 urgent · Year 1–3 planned · Year 3–5 upcoming" },
-                  { icon: "🔧", title: "2 local tradies per major defect",         desc: "Names + phone numbers included" },
-                  { icon: "📄", title: "Every defect cited to its PDF page",       desc: "Flip to the page and verify any finding" },
-                  { icon: "⚡", title: "Under 2 minutes · No account needed",      desc: "Upload and go — completely anonymous" },
+                  { icon: "âœ…", title: "Proceed / Negotiate / Walk Away verdict", desc: "One clear recommendation to act on" },
+                  { icon: "ðŸ“‹", title: "Every defect classified by severity",      desc: "Major, minor, and pest â€” in plain English" },
+                  { icon: "ðŸ’°", title: "Repair cost estimate per defect",           desc: "2026 Australian trade rates" },
+                  { icon: "âœ‰ï¸", title: "Ready-to-send negotiation letter",         desc: "With a dollar figure â€” copy, paste, send" },
+                  { icon: "ðŸ“…", title: "5-year capex forecast",                    desc: "Year 1 urgent Â· Year 1â€“3 planned Â· Year 3â€“5 upcoming" },
+                  { icon: "ðŸ”§", title: "2 local tradies per major defect",         desc: "Names + phone numbers included" },
+                  { icon: "ðŸ“„", title: "Every defect cited to its PDF page",       desc: "Flip to the page and verify any finding" },
+                  { icon: "âš¡", title: "Under 2 minutes Â· No account needed",      desc: "Upload and go â€” completely anonymous" },
                 ].map(({ icon, title, desc }) => (
                   <div key={title} style={{
                     background: "#fff",
@@ -2779,7 +2782,7 @@ export default function App() {
               </div>
             </div>
 
-            {/* Pricing — buyer side. Cards are clickable and sync the pack
+            {/* Pricing â€” buyer side. Cards are clickable and sync the pack
                 state used inside the upload form above. Clicking smooth-
                 scrolls back to the upload area so the user sees their
                 choice reflected in the "Continue to Payment ($X)" CTA. */}
@@ -2828,7 +2831,7 @@ export default function App() {
                           borderRadius: 5,
                           letterSpacing: 0.6,
                         }}
-                      >✓ SELECTED</div>
+                      >âœ“ SELECTED</div>
                     )}
                     <div className="price-label">{p.label}</div>
                     <div style={{display:"flex", alignItems:"baseline", gap:8}}>
@@ -2841,13 +2844,13 @@ export default function App() {
                     <div className="price-desc">{p.desc}</div>
                     {/* Show "Most Popular" badge regardless of selection
                         state. Previously gated on !isSelected because the
-                        old featured card had a competing ✓ SELECTED pill,
+                        old featured card had a competing âœ“ SELECTED pill,
                         but on the new Single card (default-selected) we'd
                         never see the badge if we hide it when selected.
-                        ✓ SELECTED lives top-right; this pill lives at the
+                        âœ“ SELECTED lives top-right; this pill lives at the
                         bottom of the card so they don't collide. */}
                     {p.popular && <div className="price-tag">Most Popular</div>}
-                    {/* Next-step hint — only shown when this card is the
+                    {/* Next-step hint â€” only shown when this card is the
                         chosen pack AND a PDF hasn't been uploaded yet.
                         Disappears once they're in the form. */}
                     {isSelected && !uploadedFile && (
@@ -2864,7 +2867,7 @@ export default function App() {
                           textAlign: "center",
                           letterSpacing: 0.2,
                         }}
-                      >↑ Drop your PDF above to proceed</div>
+                      >â†‘ Drop your PDF above to proceed</div>
                     )}
                     {isSelected && uploadedFile && (
                       <div
@@ -2880,7 +2883,7 @@ export default function App() {
                           textAlign: "center",
                           letterSpacing: 0.2,
                         }}
-                      >✓ PDF ready · finish the form above</div>
+                      >âœ“ PDF ready Â· finish the form above</div>
                     )}
                   </div>
                 );
@@ -2889,11 +2892,11 @@ export default function App() {
                 <div className="price-label">For Agents</div>
                 <div className="price-amount">From $79<span style={{fontSize:17,fontWeight:300}}>/mo</span></div>
                 <div className="price-desc">Buyer's agents + selling agents. White-label, client history, $15 per extra report.</div>
-                <div style={{marginTop:8,color:"var(--amber)",fontSize:13,fontWeight:600}}>Learn more →</div>
+                <div style={{marginTop:8,color:"var(--amber)",fontSize:13,fontWeight:600}}>Learn more â†’</div>
               </Link>
             </div>
 
-            {/* Refund line — design review #7. Matches the existing
+            {/* Refund line â€” design review #7. Matches the existing
                 /terms policy exactly (no expansion). Sits right under
                 the pricing cards so buyers see it before clicking
                 Continue to Payment. */}
@@ -2906,28 +2909,28 @@ export default function App() {
                 lineHeight: 1.5,
               }}
             >
-              <span aria-hidden="true">↩ </span>
+              <span aria-hidden="true">â†© </span>
               Auto-refunded if we can't analyse your PDF.{" "}
               <Link href="/terms" style={{ color: "var(--amber)", textDecoration: "none", fontWeight: 600 }}>
                 Refund policy
               </Link>
             </div>
 
-            {/* Affiliate mention — passive one-liner below pricing.
+            {/* Affiliate mention â€” passive one-liner below pricing.
                 Low-friction signal for anyone who knows a buyer/agent.
                 Links to /agents page where they can learn about the
                 creator affiliate programme ($15/report referred). */}
             <div style={{ textAlign: "center", marginTop: 10, fontSize: 13, color: "var(--muted)" }}>
               Know someone buying property?{" "}
               <Link href="/agents" style={{ color: "var(--amber)", fontWeight: 600, textDecoration: "none" }}>
-                Earn $15 per report you refer →
+                Earn $15 per report you refer â†’
               </Link>
             </div>
 
-            {/* Live report counter — only shown once 10+ reports complete */}
+            {/* Live report counter â€” only shown once 10+ reports complete */}
             {reportCount >= 10 && (
               <div style={{ textAlign:"center", marginTop:8, marginBottom:4, fontSize:13, color:"var(--muted)" }}>
-                🇦🇺 <strong style={{color:"var(--text)"}}>{reportCount.toLocaleString()}</strong> building reports decoded for Australian buyers
+                ðŸ‡¦ðŸ‡º <strong style={{color:"var(--text)"}}>{reportCount.toLocaleString()}</strong> building reports decoded for Australian buyers
               </div>
             )}
 
@@ -2947,7 +2950,7 @@ export default function App() {
               ))}
             </div>
 
-            {/* ── HOMEPAGE FAQ ─────────────────────────────────
+            {/* â”€â”€ HOMEPAGE FAQ â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€
                 Design review #11: top 5 buyer objections. Mirrors
                 the accordion style on the suburb landing pages so
                 visitors who arrive via SEO and convert to homepage
@@ -2961,9 +2964,9 @@ export default function App() {
             <div style={{ marginTop: 56, marginBottom: 24 }}>
               <div style={{ textAlign: "center", marginBottom: 22 }}>
                 <div className="section-label" style={{ marginBottom: 8 }}>
-                  ❓ Common questions
+                  â“ Common questions
                 </div>
-                <h2 style={{ fontFamily: "'Fraunces',serif", fontSize: 28, margin: 0, color: "var(--text)", letterSpacing: -0.3 }}>
+                <h2 style={{ fontFamily: "var(--font-serif),serif", fontSize: 28, margin: 0, color: "var(--text)", letterSpacing: -0.3 }}>
                   Before you upload
                 </h2>
               </div>
@@ -2990,7 +2993,7 @@ export default function App() {
                           background: "transparent",
                           border: 0,
                           /* Win 6: 16px vertical padding + 48px min-height
-                             clears Apple HIG 44×44 touch-target spec */
+                             clears Apple HIG 44Ã—44 touch-target spec */
                           padding: "16px 18px",
                           minHeight: 48,
                           cursor: "pointer",
@@ -3006,7 +3009,7 @@ export default function App() {
                         }}
                       >
                         <span>{f.q}</span>
-                        {/* Chevron wrapped in 28×28 hit-area pill with
+                        {/* Chevron wrapped in 28Ã—28 hit-area pill with
                             subtle cream bg so it's discoverable as a
                             control AND meets touch-target sizing. */}
                         <span
@@ -3023,7 +3026,7 @@ export default function App() {
                             fontSize: 11,
                             flexShrink: 0,
                           }}
-                        >{isOpen ? "▲" : "▼"}</span>
+                        >{isOpen ? "â–²" : "â–¼"}</span>
                       </button>
                       {isOpen && (
                         <div style={{ padding: "0 18px 16px", fontSize: 13.5, lineHeight: 1.65, color: "#374151" }}>
@@ -3043,7 +3046,7 @@ export default function App() {
               the buyer scrolls past the upload zone. Disappears
               again when the upload zone re-enters view (intersection
               observer above). The CSS gate hides it on viewports
-              ≥ 760px since desktop users don't need it. Z-index 90
+              â‰¥ 760px since desktop users don't need it. Z-index 90
               keeps it below the nav (which is z-100). */}
           {showStickyCta && (
             <div className="sticky-mobile-cta">
@@ -3051,8 +3054,8 @@ export default function App() {
                 <div style={{ fontSize: 10.5, color: "rgba(255,255,255,0.62)", textTransform: "uppercase", letterSpacing: 0.6 }}>
                   Single report
                 </div>
-                <div style={{ fontWeight: 600, fontFamily: "'DM Mono',monospace", fontSize: 15 }}>
-                  $59 · 2 mins
+                <div style={{ fontWeight: 600, fontFamily: "var(--font-mono),monospace", fontSize: 15 }}>
+                  $59 Â· 2 mins
                 </div>
               </div>
               <button
@@ -3070,29 +3073,29 @@ export default function App() {
                   borderRadius: 8,
                   border: "none",
                   cursor: "pointer",
-                  fontFamily: "'DM Sans', sans-serif",
+                  fontFamily: "var(--font-sans), sans-serif",
                   fontSize: 13.5,
                   whiteSpace: "nowrap",
                 }}
               >
-                Upload PDF →
+                Upload PDF â†’
               </button>
             </div>
           )}
         </div>
       )}
 
-      {/* ══════════════════════════════════════════════
+      {/* â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•
           LOADING SCREEN
-      ══════════════════════════════════════════════ */}
+      â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â• */}
       {screen === "loading" && (
         <div className="loading-screen">
           <div className="loading-ring">
             <div className="loading-ring-outer"/>
             <div className="loading-ring-inner"/>
           </div>
-          <h2 className="loading-h">Analysing your report…</h2>
-          <p className="loading-sub">This usually takes 1–2 minutes</p>
+          <h2 className="loading-h">Analysing your reportâ€¦</h2>
+          <p className="loading-sub">This usually takes 1â€“2 minutes</p>
           <div className="loading-steps">
             {LOAD_STEPS.map((s, i) => (
               <div
@@ -3100,7 +3103,7 @@ export default function App() {
                 className={`lstep ${i < loadStep ? "done" : i === loadStep ? "active" : "wait"}`}
               >
                 <div className="lstep-icon">
-                  {i < loadStep ? "✓" : i === loadStep ? "›" : "·"}
+                  {i < loadStep ? "âœ“" : i === loadStep ? "â€º" : "Â·"}
                 </div>
                 {i < loadStep ? s : s}
               </div>
@@ -3109,9 +3112,9 @@ export default function App() {
         </div>
       )}
 
-      {/* ══════════════════════════════════════════════
+      {/* â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•
           RESULTS SCREEN
-      ══════════════════════════════════════════════ */}
+      â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â• */}
       {screen === "results" && (
         <div className="results-screen fade-up">
 
@@ -3119,7 +3122,7 @@ export default function App() {
           <div className="prop-bar">
             <div>
               <div className="prop-addr">48 Torquay Road, Ocean Grove VIC 3226</div>
-              <div className="prop-meta">Building + Pest Inspection · Processed 8 May 2026 · Ref: RD-2026-0841</div>
+              <div className="prop-meta">Building + Pest Inspection Â· Processed 8 May 2026 Â· Ref: RD-2026-0841</div>
             </div>
             <div style={{textAlign:"right"}}>
               <div className="prop-price-label">Purchase Price</div>
@@ -3130,21 +3133,21 @@ export default function App() {
           {/* Verdict */}
           <div className="verdict-card negotiate">
             <div className="verdict-left">
-              <span className="verdict-emoji">⚖️</span>
+              <span className="verdict-emoji">âš–ï¸</span>
               <div className="verdict-badge">Negotiate</div>
             </div>
             <div className="verdict-text">
-              <strong>This property has 2 major defects requiring urgent attention before or after settlement.</strong> The roof capping failure and rising damp to the western wall are genuine structural concerns with meaningful repair costs. They are fixable — but they give you clear, documented grounds to negotiate a price reduction. The minor defects and pest conditions are manageable and typical for a property of this age. <strong>Recommended negotiation: $14,000 off the listed price.</strong>
+              <strong>This property has 2 major defects requiring urgent attention before or after settlement.</strong> The roof capping failure and rising damp to the western wall are genuine structural concerns with meaningful repair costs. They are fixable â€” but they give you clear, documented grounds to negotiate a price reduction. The minor defects and pest conditions are manageable and typical for a property of this age. <strong>Recommended negotiation: $14,000 off the listed price.</strong>
             </div>
           </div>
 
           {/* Stats */}
           <div className="stats-row">
             {[
-              {label:"Defects Found",    val:"5",        sub:"2 major · 2 minor · 1 pest risk"},
-              {label:"Est. Repair Cost", val:"$14K–$20K",sub:"Independent tradie estimates"},
+              {label:"Defects Found",    val:"5",        sub:"2 major Â· 2 minor Â· 1 pest risk"},
+              {label:"Est. Repair Cost", val:"$14Kâ€“$20K",sub:"Independent tradie estimates"},
               {label:"Negotiation Target",val:"$14,000", sub:"Based on repair cost midpoint"},
-              {label:"Tradies Matched",  val:"10",       sub:"2 per defect · local to your area"},
+              {label:"Tradies Matched",  val:"10",       sub:"2 per defect Â· local to your area"},
             ].map((s,i) => (
               <div className="stat-card" key={i}>
                 <div className="stat-label">{s.label}</div>
@@ -3159,9 +3162,9 @@ export default function App() {
             {/* Left: defects */}
             <div>
               {[
-                {type:"major", label:"🔴  Major Defects"},
-                {type:"minor", label:"🟡  Minor Defects"},
-                {type:"pest",  label:"🟤  Pest Findings"},
+                {type:"major", label:"ðŸ”´  Major Defects"},
+                {type:"minor", label:"ðŸŸ¡  Minor Defects"},
+                {type:"pest",  label:"ðŸŸ¤  Pest Findings"},
               ].map(({type, label}) => {
                 const items = DEFECTS.filter(d => d.type === type);
                 return (
@@ -3181,7 +3184,7 @@ export default function App() {
                             </div>
                             <div style={{display:"flex",alignItems:"center",gap:10}}>
                               <div className="severity-badge">{d.badge}</div>
-                              <div className="defect-chevron">{expanded[key]?"▲":"▼"}</div>
+                              <div className="defect-chevron">{expanded[key]?"â–²":"â–¼"}</div>
                             </div>
                           </div>
 
@@ -3189,10 +3192,10 @@ export default function App() {
                             <div className="defect-body">
                               <p className="defect-desc">{d.desc}</p>
                               <div className="cost-chip">
-                                💰 Estimated repair cost: <strong>{d.cost}</strong>
+                                ðŸ’° Estimated repair cost: <strong>{d.cost}</strong>
                               </div>
                               <div className="tradies-section">
-                                <div className="tradies-label">✅  Recommended Local Tradies</div>
+                                <div className="tradies-label">âœ…  Recommended Local Tradies</div>
                                 <div className="tradie-cards">
                                   {d.tradies.map((t, ti) => (
                                     <div className="tradie-card" key={ti}>
@@ -3208,7 +3211,7 @@ export default function App() {
                                         </div>
                                       </div>
                                       <div className="tradie-meta">
-                                        <span className="tradie-tag">📍 {t.suburb}</span>
+                                        <span className="tradie-tag">ðŸ“ {t.suburb}</span>
                                         <span className="tradie-tag">{t.tag}</span>
                                       </div>
                                     </div>
@@ -3228,20 +3231,20 @@ export default function App() {
             {/* Right: panel */}
             <div className="right-panel">
               <div className="panel-card">
-                <div className="panel-title">💬 Negotiation Language</div>
-                <div className="negs-amount">–$14,000</div>
+                <div className="panel-title">ðŸ’¬ Negotiation Language</div>
+                <div className="negs-amount">â€“$14,000</div>
                 <div className="negs-sub">Recommended price reduction based on repair cost midpoint. Copy and send directly to your agent.</div>
                 <div className="negs-text">{NEGOTIATION_TEXT}</div>
                 <button
                   className="copy-btn"
                   onClick={() => { setCopied(true); setTimeout(() => setCopied(false), 2000); }}
                 >
-                  {copied ? "✓ Copied to clipboard" : "Copy to Clipboard"}
+                  {copied ? "âœ“ Copied to clipboard" : "Copy to Clipboard"}
                 </button>
               </div>
 
               <div className="panel-card">
-                <div className="panel-title">❓ Ask Your Conveyancer</div>
+                <div className="panel-title">â“ Ask Your Conveyancer</div>
                 {[
                   "Can the vendor be required to fix the major defects as a condition of sale?",
                   "Is the rising damp disclosed anywhere in the Section 32?",
@@ -3260,22 +3263,22 @@ export default function App() {
         </div>
       )}
 
-      {/* ══════════════════════════════════════════════
+      {/* â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•
           AGENT DASHBOARD
-      ══════════════════════════════════════════════ */}
+      â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â• */}
       {screen === "agent" && (
         <div className="agent-screen fade-up">
           <div className="agent-header">
             <div>
               <div className="agent-h">Client Reports</div>
-              <div className="agent-sub">Bellarine Buyer's Agency · White-label plan · Unlimited reports</div>
+              <div className="agent-sub">Bellarine Buyer's Agency Â· White-label plan Â· Unlimited reports</div>
             </div>
             <button className="new-report-btn" onClick={simulate}>+ Upload New Report</button>
           </div>
 
           <div className="agent-stats">
             {[
-              {label:"Reports This Month",     val:"18",      sub:"↑ 6 from last month"},
+              {label:"Reports This Month",     val:"18",      sub:"â†‘ 6 from last month"},
               {label:"Avg. Negotiation Saved", val:"$11,200", sub:"Per successful negotiation"},
               {label:"Tradie Referrals",       val:"34",      sub:"Jobs connected this month"},
               {label:"Client Satisfaction",   val:"4.97/5",  sub:"Based on 18 responses"},
@@ -3304,36 +3307,36 @@ export default function App() {
                   <div className="client-addr">{r.addr}</div>
                 </div>
                 <div style={{color:"var(--muted)",fontSize:13}}>{r.date}</div>
-                <div style={{fontFamily:"'DM Mono',monospace",fontSize:13}}>{r.price}</div>
+                <div style={{fontFamily:"var(--font-mono),monospace",fontSize:13}}>{r.price}</div>
                 <div><span className={`verdict-pill ${r.pill}`}>{r.verdict}</span></div>
-                <div style={{fontFamily:"'DM Mono',monospace",fontSize:13,color:"var(--teal)",fontWeight:600}}>{r.saving}</div>
-                <div className="view-btn" onClick={() => setScreen("results")}>View →</div>
+                <div style={{fontFamily:"var(--font-mono),monospace",fontSize:13,color:"var(--teal)",fontWeight:600}}>{r.saving}</div>
+                <div className="view-btn" onClick={() => setScreen("results")}>View â†’</div>
               </div>
             ))}
           </div>
         </div>
       )}
 
-      {/* ══════════════════════════════════════════════
+      {/* â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•
           PM DASHBOARD
-      ══════════════════════════════════════════════ */}
+      â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â• */}
       {screen === "pm" && (
         <div className="pm-screen fade-up">
-          {/* Roadmap banner — the PM dashboard is a preview, not a live product yet.
+          {/* Roadmap banner â€” the PM dashboard is a preview, not a live product yet.
               Mobile layout handled by .pm-roadmap-banner media query in STYLES. */}
           <div className="pm-roadmap-banner">
             <div className="pm-roadmap-text">
-              <div className="pm-roadmap-pill">Coming Soon · Roadmap Preview</div>
-              <div className="pm-roadmap-h">This dashboard isn't live yet — it's the product we're building next.</div>
+              <div className="pm-roadmap-pill">Coming Soon Â· Roadmap Preview</div>
+              <div className="pm-roadmap-h">This dashboard isn't live yet â€” it's the product we're building next.</div>
               <div className="pm-roadmap-body">
                 AI-triaged maintenance from tenant reports, instant tradie quotes, and plain-English landlord summaries.
-                The numbers below are a preview — drop your email and you'll be first to know when it ships.
+                The numbers below are a preview â€” drop your email and you'll be first to know when it ships.
               </div>
             </div>
             <Link
               className="pm-roadmap-cta"
               href="/contact?topic=pm"
-            >Notify me when it ships →</Link>
+            >Notify me when it ships â†’</Link>
           </div>
 
           <div className="agent-header">
@@ -3354,7 +3357,7 @@ export default function App() {
                   }}
                 >Preview</span>
               </div>
-              <div className="agent-sub">Sample data · Bellarine Property Management · 143 properties</div>
+              <div className="agent-sub">Sample data Â· Bellarine Property Management Â· 143 properties</div>
             </div>
             <button className="new-report-btn" disabled style={{opacity:0.55,cursor:"not-allowed"}}>+ Upload Inspection Report</button>
           </div>
@@ -3362,7 +3365,7 @@ export default function App() {
           <div className="pm-grid">
             {[
               {label:"Properties Managed",    val:"143", sub:"Across Bellarine & Surf Coast"},
-              {label:"Open Maintenance",      val:"5",   sub:"2 urgent · 2 medium · 1 low"},
+              {label:"Open Maintenance",      val:"5",   sub:"2 urgent Â· 2 medium Â· 1 low"},
               {label:"Tradie Jobs Booked",    val:"12",  sub:"This month via Report Decoded"},
               {label:"Landlord Reports Sent", val:"18",  sub:"Plain-English summaries"},
             ].map((s, i) => (
@@ -3392,16 +3395,16 @@ export default function App() {
                 </div>
                 <div style={{fontSize:13}}>{r.type}</div>
                 <div><span className={`urgency-badge ${r.cls}`}>{r.urgency}</span></div>
-                <div style={{fontFamily:"'DM Mono',monospace",fontSize:12,color:"var(--muted)"}}>{r.cost}</div>
+                <div style={{fontFamily:"var(--font-mono),monospace",fontSize:12,color:"var(--muted)"}}>{r.cost}</div>
                 <div style={{fontSize:13,color:r.tradie==="Pending"?"var(--red)":"var(--teal)",fontWeight:600}}>{r.tradie}</div>
-                <div className="view-btn">Action →</div>
+                <div className="view-btn">Action â†’</div>
               </div>
             ))}
           </div>
         </div>
       )}
 
-      {/* ── FOOTER ─────────────────────────────────── */}
+      {/* â”€â”€ FOOTER â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€ */}
       <footer style={{
         background:"var(--navy)",
         color:"rgba(255,255,255,0.6)",
@@ -3422,7 +3425,7 @@ export default function App() {
             <a href="https://twitter.com/reportdecoded" target="_blank" rel="noopener noreferrer">X</a>
           </div>
           <div style={{fontSize:12,color:"rgba(255,255,255,0.45)"}}>
-            © 2026 Report Decoded · Australian property inspection report interpreter ·
+            Â© 2026 Report Decoded Â· Australian property inspection report interpreter Â·
             AI analysis is general information, not professional advice.
           </div>
         </div>

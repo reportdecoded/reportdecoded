@@ -1,4 +1,4 @@
-// app/dashboard/reports/page.js
+﻿// app/dashboard/reports/page.js
 // Phase 4b: list of reports the signed-in agent has generated.
 // Each row links to the branded /results view + has a copy-share-link button.
 
@@ -12,7 +12,7 @@ import { countAgentReportsLast30Days, STARTER_INCLUDED_REPORTS } from '@/lib/usa
 import CopyShareButton from './CopyShareButton';
 
 export const metadata = {
-  title: 'Your client reports — Report Decoded',
+  title: 'Your client reports â€” Report Decoded',
   robots: { index: false, follow: false },
 };
 
@@ -78,19 +78,19 @@ export default async function DashboardReportsPage({ searchParams }) {
 
       <main style={{ maxWidth: 960, margin: '40px auto', padding: '0 24px' }}>
         <Link href="/dashboard" style={{ color: 'var(--muted)', fontSize: 13, textDecoration: 'none' }}>
-          ← Back to dashboard
+          â† Back to dashboard
         </Link>
 
         <div style={{ display: 'flex', alignItems: 'flex-end', justifyContent: 'space-between', marginTop: 12, gap: 16, flexWrap: 'wrap' }}>
           <div style={{ flex: '1 1 320px', minWidth: 260 }}>
-            <h1 style={{ fontFamily: "'Fraunces',serif", fontSize: 34, marginBottom: 6 }}>
+            <h1 style={{ fontFamily: "var(--font-serif),serif", fontSize: 34, marginBottom: 6 }}>
               Your client reports
             </h1>
             {agent.subscription_tier === 'starter' ? (
               <UsageBar used={countInWindow} limit={STARTER_INCLUDED_REPORTS} />
             ) : (
               <p style={{ color: 'var(--muted)', fontSize: 14, lineHeight: 1.6 }}>
-                {countInWindow} report{countInWindow === 1 ? '' : 's'} in the past 30 days · unlimited
+                {countInWindow} report{countInWindow === 1 ? '' : 's'} in the past 30 days Â· unlimited
               </p>
             )}
           </div>
@@ -122,7 +122,7 @@ export default async function DashboardReportsPage({ searchParams }) {
               fontWeight: 600,
             }}
           >
-            ✅ Report uploaded. Decoding defects, costing repairs, and drafting your negotiation — refresh in ~2 minutes.
+            âœ… Report uploaded. Decoding defects, costing repairs, and drafting your negotiation â€” refresh in ~2 minutes.
             {overageBanner && (
               <div style={{ marginTop: 6, fontWeight: 400, fontSize: 13, color: 'var(--text)' }}>
                 Heads up: this one's over your monthly allowance, so $15 will be added to
@@ -148,7 +148,7 @@ export default async function DashboardReportsPage({ searchParams }) {
   );
 }
 
-// Sample report ID rendered live on production — same one linked from the
+// Sample report ID rendered live on production â€” same one linked from the
 // homepage hero + agent welcome email. Lets a brand-new agent preview the
 // output before they upload a real client PDF for the first time.
 const SAMPLE_REPORT_ID = 'f3ef0ce1-5443-4e91-a420-5e8bf7d8713d';
@@ -158,7 +158,7 @@ function EmptyState() {
     {
       n: 1,
       t: 'Upload an inspection PDF',
-      d: 'Drag in any AS4349.1 building / pest report — your subscription covers the analysis. Most PDFs process in 60–120 seconds.',
+      d: 'Drag in any AS4349.1 building / pest report â€” your subscription covers the analysis. Most PDFs process in 60â€“120 seconds.',
     },
     {
       n: 2,
@@ -182,10 +182,10 @@ function EmptyState() {
       }}
     >
       <div style={{ textAlign: 'center', marginBottom: 28 }}>
-        <div style={{ fontSize: 38, marginBottom: 10, lineHeight: 1 }} aria-hidden="true">📋</div>
+        <div style={{ fontSize: 38, marginBottom: 10, lineHeight: 1 }} aria-hidden="true">ðŸ“‹</div>
         <h2
           style={{
-            fontFamily: "'Fraunces',serif",
+            fontFamily: "var(--font-serif),serif",
             fontSize: 26,
             margin: '0 0 8px',
             color: 'var(--text)',
@@ -194,8 +194,8 @@ function EmptyState() {
           Your client reports will appear here.
         </h2>
         <p style={{ color: 'var(--muted)', fontSize: 14, margin: 0, maxWidth: 480, marginLeft: 'auto', marginRight: 'auto', lineHeight: 1.55 }}>
-          Once you upload an inspection PDF, every report you run — with its sharing link
-          and branded PDF — shows up on this page.
+          Once you upload an inspection PDF, every report you run â€” with its sharing link
+          and branded PDF â€” shows up on this page.
         </p>
       </div>
 
@@ -250,7 +250,7 @@ function EmptyState() {
             textDecoration: 'none',
           }}
         >
-          Upload your first report →
+          Upload your first report â†’
         </Link>
         <Link
           href={`/results?reportId=${SAMPLE_REPORT_ID}&sample=1`}
@@ -273,7 +273,7 @@ function EmptyState() {
       <div style={{ marginTop: 22, paddingTop: 18, borderTop: '1px solid var(--border)', textAlign: 'center', fontSize: 13, color: 'var(--muted)', lineHeight: 1.55 }}>
         Want your logo + accent colour on every report?{' '}
         <Link href="/dashboard#brand-settings" style={{ color: 'var(--amber)', fontWeight: 600, textDecoration: 'none' }}>
-          Set your branding →
+          Set your branding â†’
         </Link>
       </div>
     </div>
@@ -285,9 +285,9 @@ function ReportRow({ report, agentId, highlighted }) {
   const verdictMeta = verdictDisplay(verdict, report.status, report.report_type);
 
   // Detect sample/template reports. We've seen the property_address field
-  // populated with the full disclaimer string ("Not specified — this is a
+  // populated with the full disclaimer string ("Not specified â€” this is a
   // SAMPLE/template report with no property address populated"), which
-  // makes the row visually broken — disclaimer text rendering as the title.
+  // makes the row visually broken â€” disclaimer text rendering as the title.
   // Match any of the canonical sample-disclaimer phrasings and replace the
   // address with a clean tag, and surface a SAMPLE badge separately.
   const rawAddress =
@@ -356,8 +356,8 @@ function ReportRow({ report, agentId, highlighted }) {
           )}
         </div>
         <div style={{ color: 'var(--muted)', fontSize: 12 }}>
-          {created} · {reportTypeLabel(report.report_type)}
-          {report.buyer_email && ` · ${report.buyer_email}`}
+          {created} Â· {reportTypeLabel(report.report_type)}
+          {report.buyer_email && ` Â· ${report.buyer_email}`}
         </div>
         {report.status === 'failed' && report.failure_reason && (
           <div
@@ -371,7 +371,7 @@ function ReportRow({ report, agentId, highlighted }) {
           >
             <strong>Why it failed:</strong>{' '}
             {report.failure_reason.length > 180
-              ? report.failure_reason.slice(0, 180) + '…'
+              ? report.failure_reason.slice(0, 180) + 'â€¦'
               : report.failure_reason}
           </div>
         )}
@@ -410,7 +410,7 @@ function ReportRow({ report, agentId, highlighted }) {
                 borderRadius: 6,
               }}
             >
-              View →
+              View â†’
             </Link>
             <CopyShareButton shareUrl={shareUrl} />
           </>
@@ -425,10 +425,10 @@ function ReportRow({ report, agentId, highlighted }) {
               whiteSpace: 'nowrap',
             }}
           >
-            Try again →
+            Try again â†’
           </Link>
         ) : (
-          <span style={{ color: 'var(--subtle)', fontSize: 12 }}>—</span>
+          <span style={{ color: 'var(--subtle)', fontSize: 12 }}>â€”</span>
         )}
       </div>
     </div>
@@ -437,7 +437,7 @@ function ReportRow({ report, agentId, highlighted }) {
 
 // Verdict labels are vocabulary-sensitive: the same underlying verdict
 // means different things to a pre-purchase buyer vs. a new-build handover
-// buyer. For a handover, there's no "negotiate" — the contract price is
+// buyer. For a handover, there's no "negotiate" â€” the contract price is
 // locked, leverage is rectification before sign-off / payment release.
 // Adversarial language ('NEGOTIATE', 'WALK AWAY') would also damage the
 // builder relationship the buyer still depends on for completion.
@@ -479,14 +479,14 @@ function reportTypeLabel(t) {
   return t === 'new_build_handover' ? 'New build handover' : 'Pre-purchase';
 }
 
-// UsageBar — visual progress indicator for Starter-tier agents.
+// UsageBar â€” visual progress indicator for Starter-tier agents.
 // Renders a thin progress bar that fills as the agent approaches
 // their 12-report monthly cap. Three colour states:
-//   - Green/teal (0-79% used)  — plenty of headroom
-//   - Gold (80-99% used)       — approaching limit, soft upgrade nudge
-//   - Red (≥100% used)         — overage active, $15 per extra on next invoice
+//   - Green/teal (0-79% used)  â€” plenty of headroom
+//   - Gold (80-99% used)       â€” approaching limit, soft upgrade nudge
+//   - Red (â‰¥100% used)         â€” overage active, $15 per extra on next invoice
 //
-// Pro agents don't see this component — they have unlimited reports
+// Pro agents don't see this component â€” they have unlimited reports
 // so a progress bar makes no sense (no denominator).
 function UsageBar({ used, limit }) {
   const pct = Math.min(100, Math.round((used / limit) * 100));
@@ -529,7 +529,7 @@ function UsageBar({ used, limit }) {
         </span>
       </div>
 
-      {/* The bar itself — fixed-height track + animated fill */}
+      {/* The bar itself â€” fixed-height track + animated fill */}
       <div
         style={{
           height: 6,
@@ -554,16 +554,16 @@ function UsageBar({ used, limit }) {
         />
       </div>
 
-      {/* Contextual footer — only shows at warning or overage thresholds */}
+      {/* Contextual footer â€” only shows at warning or overage thresholds */}
       {isOverage ? (
         <div style={{ marginTop: 8, fontSize: 12, color: 'var(--red)', fontWeight: 500, lineHeight: 1.5 }}>
           {overage > 0
-            ? `${overage} extra report${overage === 1 ? '' : 's'} this month · $15 each on next invoice`
-            : `At your monthly limit · next report is +$15`}
+            ? `${overage} extra report${overage === 1 ? '' : 's'} this month Â· $15 each on next invoice`
+            : `At your monthly limit Â· next report is +$15`}
         </div>
       ) : isWarning ? (
         <div style={{ marginTop: 8, fontSize: 12, color: 'var(--muted)', lineHeight: 1.5 }}>
-          {remaining} report{remaining === 1 ? '' : 's'} left ·{' '}
+          {remaining} report{remaining === 1 ? '' : 's'} left Â·{' '}
           <Link href="/dashboard#upgrade" style={{ color: 'var(--amber)', fontWeight: 500, textDecoration: 'none' }}>
             Upgrade to Pro
           </Link>

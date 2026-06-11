@@ -1,15 +1,15 @@
-// app/yarraville-building-inspection-help/page.js
+﻿// app/yarraville-building-inspection-help/page.js
 //
 // Local SEO landing page targeting Yarraville buyers searching for
 // "building inspection report help yarraville" and related long-tail
 // queries. Yarraville was a deliberate first pick because:
 //   1. Our public sample analysis is a real Yarraville property
-//      (███ Loch Street, 1940s weatherboard, $75K negotiation), so we
+//      (â–ˆâ–ˆâ–ˆ Loch Street, 1940s weatherboard, $75K negotiation), so we
 //      have authentic local proof to anchor to
 //   2. Yarraville housing stock is overwhelmingly pre-1960s, which is
-//      exactly where defect risk + asbestos + termite concerns peak —
+//      exactly where defect risk + asbestos + termite concerns peak â€”
 //      a buyer here genuinely benefits from this product
-//   3. Inner-west Melbourne prices ($800K–$1.5M typical) make a $59
+//   3. Inner-west Melbourne prices ($800Kâ€“$1.5M typical) make a $59
 //      buyer-side report financially trivial vs negotiation upside
 //
 // Pattern is reusable for future suburbs (Ocean Grove, Torquay, Geelong)
@@ -23,7 +23,7 @@ import { track } from '@vercel/analytics';
 import { STYLES } from '@/components/ReportDecoded';
 import { faqPageSchema, breadcrumbSchema, serviceSchema, JsonLd } from '@/lib/schema';
 
-// Public Yarraville sample — same one linked from homepage
+// Public Yarraville sample â€” same one linked from homepage
 const SAMPLE_REPORT_ID = 'f3ef0ce1-5443-4e91-a420-5e8bf7d8713d';
 const SAMPLE_URL = `/results?reportId=${SAMPLE_REPORT_ID}&sample=1`;
 const SAMPLE_PDF = `/api/report-pdf?reportId=${SAMPLE_REPORT_ID}`;
@@ -46,7 +46,7 @@ export default function YarravilleLandingPage() {
       ])} />
       <JsonLd data={serviceSchema({ suburb: 'Yarraville', state: 'VIC' })} />
 
-      {/* ── NAV ────────────────────────────────────────── */}
+      {/* â”€â”€ NAV â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€ */}
       <nav className="nav">
         <Link href="/" style={{ display: 'flex', alignItems: 'center', textDecoration: 'none' }}>
           <img src="/logo-dark.png" alt="Report Decoded" width={180} height={42} style={{ height: 36, width: 'auto' }} />
@@ -58,15 +58,15 @@ export default function YarravilleLandingPage() {
         </div>
       </nav>
 
-      {/* ── HERO ────────────────────────────────────────── */}
+      {/* â”€â”€ HERO â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€ */}
       <div className="hero-section">
-        <div className="hero-badge">🏘 For Yarraville Buyers</div>
+        <div className="hero-badge">ðŸ˜ For Yarraville Buyers</div>
         <h1 className="hero-h">
           Got your Yarraville<br/>building report? <em>Decoded.</em>
         </h1>
         <p className="hero-sub">
           Upload any AS4349.1 building & pest inspection PDF for a Yarraville property and get a
-          plain-English verdict, AU repair costs, local tradies, and exactly how much to negotiate —
+          plain-English verdict, AU repair costs, local tradies, and exactly how much to negotiate â€”
           in under 2 minutes. Every claim cites the inspector's page so nothing's made up.
         </p>
         <div style={{ marginTop: 22, display: 'flex', gap: 20, justifyContent: 'center', flexWrap: 'wrap' }}>
@@ -75,25 +75,25 @@ export default function YarravilleLandingPage() {
             style={hero_btn_primary}
             onClick={() => { try { track('yarraville_landing_cta', { type: 'sample_view' }); } catch {} }}
           >
-            See a real Yarraville analysis →
+            See a real Yarraville analysis â†’
           </Link>
           <a
             href={SAMPLE_PDF}
             style={hero_btn_secondary}
             onClick={() => { try { track('yarraville_landing_cta', { type: 'sample_pdf' }); } catch {} }}
           >
-            ⬇ Download sample PDF
+            â¬‡ Download sample PDF
           </a>
         </div>
       </div>
 
-      {/* ── UPLOAD CTA ────────────────────────────────── */}
+      {/* â”€â”€ UPLOAD CTA â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€ */}
       <div className="upload-area">
         <div className="upload-zone" style={{ cursor: 'default' }}>
-          <div className="upload-icon">📄</div>
+          <div className="upload-icon">ðŸ“„</div>
           <div className="upload-title">Got your own Yarraville inspection report?</div>
           <div className="upload-sub">
-            Upload it on the homepage. Single report $59 AUD · results in under 2 minutes · branded PDF emailed to you.
+            Upload it on the homepage. Single report $59 AUD Â· results in under 2 minutes Â· branded PDF emailed to you.
           </div>
           <Link
             href="/#buyer-upload"
@@ -101,17 +101,17 @@ export default function YarravilleLandingPage() {
             style={{ textDecoration: 'none' }}
             onClick={() => { try { track('yarraville_landing_cta', { type: 'upload' }); } catch {} }}
           >
-            Upload your PDF →
+            Upload your PDF â†’
           </Link>
           <div className="upload-filetypes">
-            PDF only · max 25 MB · Australian Standard AS4349.1 reports
+            PDF only Â· max 25 MB Â· Australian Standard AS4349.1 reports
           </div>
         </div>
 
-        {/* ── REAL YARRAVILLE STATS (anchored to actual analysis) ── */}
+        {/* â”€â”€ REAL YARRAVILLE STATS (anchored to actual analysis) â”€â”€ */}
         <div style={{ marginTop: 56, marginBottom: 40 }}>
           <div className="section-label" style={{ textAlign: 'center' }}>
-            📊 From a real Yarraville inspection we analysed
+            ðŸ“Š From a real Yarraville inspection we analysed
           </div>
           <div
             style={{
@@ -123,16 +123,16 @@ export default function YarravilleLandingPage() {
             }}
           >
             <div style={{ fontWeight: 600, fontSize: 16, color: 'var(--navy)', marginBottom: 4 }}>
-              <span className="redact-soft">███</span> Loch Street, Yarraville VIC 3013
+              <span className="redact-soft">â–ˆâ–ˆâ–ˆ</span> Loch Street, Yarraville VIC 3013
             </div>
             <div style={{ fontSize: 13, color: 'var(--muted)', marginBottom: 18 }}>
-              c.1940 timber weatherboard on stumps · pre-purchase building & pest inspection
+              c.1940 timber weatherboard on stumps Â· pre-purchase building & pest inspection
             </div>
             <div className="stats-row" style={{ marginBottom: 18 }}>
               <div className="stat-card">
                 <div className="stat-label">Inspector pages</div>
                 <div className="stat-val">95</div>
-                <div className="stat-sub">→ 5-page analysis</div>
+                <div className="stat-sub">â†’ 5-page analysis</div>
               </div>
               <div className="stat-card">
                 <div className="stat-label">Major defects</div>
@@ -141,7 +141,7 @@ export default function YarravilleLandingPage() {
               </div>
               <div className="stat-card">
                 <div className="stat-label">Repair cost</div>
-                <div className="stat-val" style={{ fontSize: 18 }}>$36K–$117K</div>
+                <div className="stat-val" style={{ fontSize: 18 }}>$36Kâ€“$117K</div>
                 <div className="stat-sub">AU 2026 rates</div>
               </div>
               <div className="stat-card">
@@ -152,35 +152,35 @@ export default function YarravilleLandingPage() {
             </div>
             <div style={{ display: 'flex', gap: 16, flexWrap: 'wrap', justifyContent: 'center' }}>
               <Link href={SAMPLE_URL} style={{ color: 'var(--amber)', fontWeight: 600, textDecoration: 'none', fontSize: 14 }}>
-                Read the full analysis →
+                Read the full analysis â†’
               </Link>
               <a href={SAMPLE_PDF} style={{ color: 'var(--amber)', fontWeight: 600, textDecoration: 'none', fontSize: 14 }}>
-                ⬇ Download as PDF
+                â¬‡ Download as PDF
               </a>
             </div>
           </div>
         </div>
 
-        {/* ── WHY YARRAVILLE BUYERS NEED THIS ── */}
+        {/* â”€â”€ WHY YARRAVILLE BUYERS NEED THIS â”€â”€ */}
         <div style={{ marginBottom: 40 }}>
           <div className="section-label" style={{ textAlign: 'center' }}>
-            🪵 Why Yarraville reports are tougher than most
+            ðŸªµ Why Yarraville reports are tougher than most
           </div>
           <div className="how-strip" style={{ marginTop: 18 }}>
             {[
               {
                 num: '01',
                 label: 'Pre-1960s housing stock',
-                desc: 'Yarraville is dominated by 1900s-1950s weatherboards on stumps — high asbestos, termite, and rising-damp risk. Reports here are dense.',
+                desc: 'Yarraville is dominated by 1900s-1950s weatherboards on stumps â€” high asbestos, termite, and rising-damp risk. Reports here are dense.',
               },
               {
                 num: '02',
                 label: 'Inner-west prices',
-                desc: 'Median around $1.1–1.4M (2026). Missing a $40K negotiation opportunity hurts. Knowing exactly what to push back on changes the deal.',
+                desc: 'Median around $1.1â€“1.4M (2026). Missing a $40K negotiation opportunity hurts. Knowing exactly what to push back on changes the deal.',
               },
               {
                 num: '03',
-                label: 'Reports run 80–120 pages',
+                label: 'Reports run 80â€“120 pages',
                 desc: 'Older Yarraville stock means more defects, more photos, more conducive-conditions noted. Reading it all yourself = 3+ hours.',
               },
             ].map((s) => (
@@ -195,10 +195,10 @@ export default function YarravilleLandingPage() {
           </div>
         </div>
 
-        {/* ── PRICING ── */}
+        {/* â”€â”€ PRICING â”€â”€ */}
         <div style={{ marginBottom: 40 }}>
           <div className="section-label" style={{ textAlign: 'center' }}>
-            💰 Simple pricing
+            ðŸ’° Simple pricing
           </div>
           <div className="pricing-row" style={{ marginTop: 18 }}>
             <div className="price-card">
@@ -216,15 +216,15 @@ export default function YarravilleLandingPage() {
               <div className="price-label">For Buyer's Agents</div>
               <div className="price-amount">From $79<span style={{ fontSize: 17, fontWeight: 300 }}>/mo</span></div>
               <div className="price-desc">White-label PDFs with your branding for your Yarraville buyer clients.</div>
-              <div style={{ marginTop: 8, color: 'var(--amber)', fontSize: 13, fontWeight: 600 }}>Learn more →</div>
+              <div style={{ marginTop: 8, color: 'var(--amber)', fontSize: 13, fontWeight: 600 }}>Learn more â†’</div>
             </Link>
           </div>
         </div>
 
-        {/* ── FAQ ── */}
+        {/* â”€â”€ FAQ â”€â”€ */}
         <div style={{ marginBottom: 40 }}>
           <div className="section-label" style={{ textAlign: 'center' }}>
-            ❓ Common questions from Yarraville buyers
+            â“ Common questions from Yarraville buyers
           </div>
           <div style={{ marginTop: 18 }}>
             {FAQS.map((f, i) => (
@@ -253,7 +253,7 @@ export default function YarravilleLandingPage() {
                   }}
                 >
                   <span>{f.q}</span>
-                  <span style={{ color: 'var(--subtle)', fontSize: 12 }}>{openFaq === i ? '▲' : '▼'}</span>
+                  <span style={{ color: 'var(--subtle)', fontSize: 12 }}>{openFaq === i ? 'â–²' : 'â–¼'}</span>
                 </div>
                 {openFaq === i && (
                   <div style={{ padding: '0 18px 16px', fontSize: 13.5, lineHeight: 1.65, color: '#374151' }}>
@@ -265,7 +265,7 @@ export default function YarravilleLandingPage() {
           </div>
         </div>
 
-        {/* ── BOTTOM CTA ── */}
+        {/* â”€â”€ BOTTOM CTA â”€â”€ */}
         <div
           style={{
             background: 'var(--navy)',
@@ -276,7 +276,7 @@ export default function YarravilleLandingPage() {
             marginBottom: 56,
           }}
         >
-          <div style={{ fontFamily: "'Fraunces',serif", fontSize: 26, marginBottom: 10, letterSpacing: -0.3 }}>
+          <div style={{ fontFamily: "var(--font-serif),serif", fontSize: 26, marginBottom: 10, letterSpacing: -0.3 }}>
             Ready to decode your Yarraville report?
           </div>
           <div style={{ color: 'rgba(255,255,255,0.65)', fontSize: 15, marginBottom: 22, maxWidth: 520, margin: '0 auto 22px' }}>
@@ -296,12 +296,12 @@ export default function YarravilleLandingPage() {
             }}
             onClick={() => { try { track('yarraville_landing_cta', { type: 'bottom_upload' }); } catch {} }}
           >
-            Upload your PDF →
+            Upload your PDF â†’
           </Link>
         </div>
       </div>
 
-      {/* ── FOOTER ────────────────────────────────────── */}
+      {/* â”€â”€ FOOTER â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€ */}
       <footer
         style={{
           background: 'var(--navy)',
@@ -321,7 +321,7 @@ export default function YarravilleLandingPage() {
             <Link href="/terms">Terms of Service</Link>
           </div>
           <div style={{ fontSize: 12, color: 'rgba(255,255,255,0.45)', marginTop: 8 }}>
-            © 2026 Report Decoded · Australian property inspection report interpreter ·
+            Â© 2026 Report Decoded Â· Australian property inspection report interpreter Â·
             AI analysis is general information, not professional advice.
           </div>
         </div>
@@ -333,31 +333,31 @@ export default function YarravilleLandingPage() {
 const FAQS = [
   {
     q: 'Why do you have a Yarraville-specific page?',
-    a: "Yarraville housing stock is overwhelmingly pre-1960s — 1900s to 1950s weatherboards and brick veneer on stumps. That era is exactly where the defect-rich, jargon-heavy inspection reports come from. Our public sample is a real Yarraville analysis (Loch Street — specific number redacted for owner privacy) so you can see how the tool handles the kind of report you'll get on the property you're considering.",
+    a: "Yarraville housing stock is overwhelmingly pre-1960s â€” 1900s to 1950s weatherboards and brick veneer on stumps. That era is exactly where the defect-rich, jargon-heavy inspection reports come from. Our public sample is a real Yarraville analysis (Loch Street â€” specific number redacted for owner privacy) so you can see how the tool handles the kind of report you'll get on the property you're considering.",
   },
   {
     q: 'Is the AI actually accurate?',
-    a: "Yes — and verifiable. Every major and minor defect we identify includes a citation to the page in your inspector's PDF where it was discussed. So you can flip to page 40 of your report and check that the inspector did say what we attribute. We don't extract claims we can't anchor.",
+    a: "Yes â€” and verifiable. Every major and minor defect we identify includes a citation to the page in your inspector's PDF where it was discussed. So you can flip to page 40 of your report and check that the inspector did say what we attribute. We don't extract claims we can't anchor.",
   },
   {
     q: 'How is the negotiation amount calculated?',
-    a: "We sum all major and minor defects' repair-cost midpoints (using Australian 2026 tradie rates), adjust for severity, and propose a sensible negotiation figure. The number isn't a guarantee — it's a defensible starting position. You're free to use a different number; the report shows how we got there.",
+    a: "We sum all major and minor defects' repair-cost midpoints (using Australian 2026 tradie rates), adjust for severity, and propose a sensible negotiation figure. The number isn't a guarantee â€” it's a defensible starting position. You're free to use a different number; the report shows how we got there.",
   },
   {
     q: 'Will this replace getting a building inspection?',
-    a: "No — and it shouldn't. You should always commission a licensed AS4349.1 inspector for the actual inspection. This tool sits AFTER the inspection: it interprets the report you receive. Think of it as having a builder friend translate the 95-page document for you in under 2 minutes.",
+    a: "No â€” and it shouldn't. You should always commission a licensed AS4349.1 inspector for the actual inspection. This tool sits AFTER the inspection: it interprets the report you receive. Think of it as having a builder friend translate the 95-page document for you in under 2 minutes.",
   },
   {
-    q: 'What about asbestos / pest / electrical / gas — those need separate inspections, right?',
-    a: "Yes. The building inspection is a visual assessment under AS4349.1 — it cannot certify asbestos, gas safety, electrical compliance, or pool safety. We flag these gaps in your analysis (especially for investor properties) and recommend the right separate inspections with typical Australian costs.",
+    q: 'What about asbestos / pest / electrical / gas â€” those need separate inspections, right?',
+    a: "Yes. The building inspection is a visual assessment under AS4349.1 â€” it cannot certify asbestos, gas safety, electrical compliance, or pool safety. We flag these gaps in your analysis (especially for investor properties) and recommend the right separate inspections with typical Australian costs.",
   },
   {
     q: 'Is my data private?',
     a: "Yes. Your PDF is stored encrypted on UploadThing (Singapore region, AU-adjacent). The analysis result is stored in our Supabase database, scoped to your unique report ID. We don't share, sell, or reuse your inspection data. Only people you share your report link with can view it.",
   },
   {
-    q: "I'm in Footscray / Spotswood / Seddon, not Yarraville — still works?",
-    a: "Yes — the tool works for any Australian property. The Yarraville-specific framing on this page is for SEO; the underlying analysis is identical for Footscray, Spotswood, Seddon, Williamstown, or anywhere else. Local tradie matching uses your property's actual address.",
+    q: "I'm in Footscray / Spotswood / Seddon, not Yarraville â€” still works?",
+    a: "Yes â€” the tool works for any Australian property. The Yarraville-specific framing on this page is for SEO; the underlying analysis is identical for Footscray, Spotswood, Seddon, Williamstown, or anywhere else. Local tradie matching uses your property's actual address.",
   },
   {
     q: 'How does the refund policy work?',

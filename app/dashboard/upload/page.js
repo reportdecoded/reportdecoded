@@ -1,4 +1,4 @@
-// app/dashboard/upload/page.js
+﻿// app/dashboard/upload/page.js
 // Phase 4b: the agent's in-dashboard PDF upload page.
 // Server component gate -> only authenticated, active subscribers see the form.
 
@@ -11,7 +11,7 @@ import SignOutButton from '../SignOutButton';
 import UploadForm from './UploadForm';
 
 export const metadata = {
-  title: 'Upload a client report — Report Decoded',
+  title: 'Upload a client report â€” Report Decoded',
   robots: { index: false, follow: false },
 };
 
@@ -68,14 +68,14 @@ export default async function DashboardUploadPage() {
           href="/dashboard"
           style={{ color: 'var(--muted)', fontSize: 13, textDecoration: 'none' }}
         >
-          ← Back to dashboard
+          â† Back to dashboard
         </Link>
 
-        <h1 style={{ fontFamily: "'Fraunces',serif", fontSize: 34, marginTop: 12, marginBottom: 6 }}>
+        <h1 style={{ fontFamily: "var(--font-serif),serif", fontSize: 34, marginTop: 12, marginBottom: 6 }}>
           Upload a client report
         </h1>
         <p style={{ color: 'var(--muted)', fontSize: 15, marginBottom: 32, lineHeight: 1.6 }}>
-          Your subscription covers the analysis — no per-report charge.
+          Your subscription covers the analysis â€” no per-report charge.
           {agent.subscription_tier === 'starter' && (
             <>
               {' '}You're on Starter: 12 reports per month, then $15 per extra report.

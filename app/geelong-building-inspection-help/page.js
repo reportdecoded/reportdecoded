@@ -1,15 +1,15 @@
-// app/geelong-building-inspection-help/page.js
+﻿// app/geelong-building-inspection-help/page.js
 //
 // Local SEO landing page targeting Geelong buyers searching for
 // "building inspection report help geelong" and related queries.
 //
 // Geelong picked as the fourth SEO suburb because:
-//   1. Huge regional centre with high transaction volume — Newtown,
+//   1. Huge regional centre with high transaction volume â€” Newtown,
 //      Belmont, Highton, Bell Park, Armstrong Creek, Lara, Curlewis
 //   2. Massive housing-stock variation (Federation in old town through
 //      to brand-new estate releases in Armstrong Creek + Curlewis) =
 //      buyers can't generalise what their report should say
-//   3. Lots of Melbourne expats relocating — they don't know local
+//   3. Lots of Melbourne expats relocating â€” they don't know local
 //      builders or what regional Geelong defects look like (coastal
 //      salt corrosion, reactive-clay soil heave, mixed termite risk)
 //   4. Both pre-purchase AND new-build handover use cases are common
@@ -45,7 +45,7 @@ export default function GeelongLandingPage() {
       ])} />
       <JsonLd data={serviceSchema({ suburb: 'Geelong', state: 'VIC' })} />
 
-      {/* ── NAV ────────────────────────────────────────── */}
+      {/* â”€â”€ NAV â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€ */}
       <nav className="nav">
         <Link href="/" style={{ display: 'flex', alignItems: 'center', textDecoration: 'none' }}>
           <img src="/logo-dark.png" alt="Report Decoded" width={180} height={42} style={{ height: 36, width: 'auto' }} />
@@ -57,16 +57,16 @@ export default function GeelongLandingPage() {
         </div>
       </nav>
 
-      {/* ── HERO ────────────────────────────────────────── */}
+      {/* â”€â”€ HERO â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€ */}
       <div className="hero-section">
-        <div className="hero-badge">🌊 For Geelong & Bellarine Buyers</div>
+        <div className="hero-badge">ðŸŒŠ For Geelong & Bellarine Buyers</div>
         <h1 className="hero-h">
           Got your Geelong<br/>building report? <em>Decoded.</em>
         </h1>
         <p className="hero-sub">
           Upload any AS4349.1 building & pest inspection (or new-build handover) PDF for a Geelong
           property and get a plain-English verdict, AU repair costs, local tradies, and exactly how
-          much to negotiate — in under 2 minutes. Every claim cites the inspector's page so nothing's made up.
+          much to negotiate â€” in under 2 minutes. Every claim cites the inspector's page so nothing's made up.
         </p>
         <div style={{ marginTop: 22, display: 'flex', gap: 20, justifyContent: 'center', flexWrap: 'wrap' }}>
           <Link
@@ -74,25 +74,25 @@ export default function GeelongLandingPage() {
             style={hero_btn_primary}
             onClick={() => { try { track('geelong_landing_cta', { type: 'sample_view' }); } catch {} }}
           >
-            See a real Victorian analysis →
+            See a real Victorian analysis â†’
           </Link>
           <a
             href={SAMPLE_PDF}
             style={hero_btn_secondary}
             onClick={() => { try { track('geelong_landing_cta', { type: 'sample_pdf' }); } catch {} }}
           >
-            ⬇ Download sample PDF
+            â¬‡ Download sample PDF
           </a>
         </div>
       </div>
 
-      {/* ── UPLOAD CTA ────────────────────────────────── */}
+      {/* â”€â”€ UPLOAD CTA â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€ */}
       <div className="upload-area">
         <div className="upload-zone" style={{ cursor: 'default' }}>
-          <div className="upload-icon">📄</div>
+          <div className="upload-icon">ðŸ“„</div>
           <div className="upload-title">Got your own Geelong inspection report?</div>
           <div className="upload-sub">
-            Upload it on the homepage. Single report $59 AUD · results in under 2 minutes · branded PDF emailed to you.
+            Upload it on the homepage. Single report $59 AUD Â· results in under 2 minutes Â· branded PDF emailed to you.
           </div>
           <Link
             href="/#buyer-upload"
@@ -100,17 +100,17 @@ export default function GeelongLandingPage() {
             style={{ textDecoration: 'none' }}
             onClick={() => { try { track('geelong_landing_cta', { type: 'upload' }); } catch {} }}
           >
-            Upload your PDF →
+            Upload your PDF â†’
           </Link>
           <div className="upload-filetypes">
-            PDF only · max 25 MB · pre-purchase OR new-build handover reports
+            PDF only Â· max 25 MB Â· pre-purchase OR new-build handover reports
           </div>
         </div>
 
-        {/* ── REAL ANCHOR STATS ── */}
+        {/* â”€â”€ REAL ANCHOR STATS â”€â”€ */}
         <div style={{ marginTop: 56, marginBottom: 40 }}>
           <div className="section-label" style={{ textAlign: 'center' }}>
-            📊 What a real Victorian analysis looks like
+            ðŸ“Š What a real Victorian analysis looks like
           </div>
           <div
             style={{
@@ -122,16 +122,16 @@ export default function GeelongLandingPage() {
             }}
           >
             <div style={{ fontWeight: 600, fontSize: 16, color: 'var(--navy)', marginBottom: 4 }}>
-              Public sample: <span className="redact-soft">███</span> Loch Street, Yarraville VIC 3013
+              Public sample: <span className="redact-soft">â–ˆâ–ˆâ–ˆ</span> Loch Street, Yarraville VIC 3013
             </div>
             <div style={{ fontSize: 13, color: 'var(--muted)', marginBottom: 18 }}>
-              c.1940 timber weatherboard · same era as much of Newtown, Geelong West, and East Geelong
+              c.1940 timber weatherboard Â· same era as much of Newtown, Geelong West, and East Geelong
             </div>
             <div className="stats-row" style={{ marginBottom: 18 }}>
               <div className="stat-card">
                 <div className="stat-label">Inspector pages</div>
                 <div className="stat-val">95</div>
-                <div className="stat-sub">→ 5-page analysis</div>
+                <div className="stat-sub">â†’ 5-page analysis</div>
               </div>
               <div className="stat-card">
                 <div className="stat-label">Major defects</div>
@@ -140,7 +140,7 @@ export default function GeelongLandingPage() {
               </div>
               <div className="stat-card">
                 <div className="stat-label">Repair cost</div>
-                <div className="stat-val" style={{ fontSize: 18 }}>$36K–$117K</div>
+                <div className="stat-val" style={{ fontSize: 18 }}>$36Kâ€“$117K</div>
                 <div className="stat-sub">AU 2026 rates</div>
               </div>
               <div className="stat-card">
@@ -151,19 +151,19 @@ export default function GeelongLandingPage() {
             </div>
             <div style={{ display: 'flex', gap: 16, flexWrap: 'wrap', justifyContent: 'center' }}>
               <Link href={SAMPLE_URL} style={{ color: 'var(--amber)', fontWeight: 600, textDecoration: 'none', fontSize: 14 }}>
-                Read the full analysis →
+                Read the full analysis â†’
               </Link>
               <a href={SAMPLE_PDF} style={{ color: 'var(--amber)', fontWeight: 600, textDecoration: 'none', fontSize: 14 }}>
-                ⬇ Download as PDF
+                â¬‡ Download as PDF
               </a>
             </div>
           </div>
         </div>
 
-        {/* ── WHY GEELONG BUYERS NEED THIS ── */}
+        {/* â”€â”€ WHY GEELONG BUYERS NEED THIS â”€â”€ */}
         <div style={{ marginBottom: 40 }}>
           <div className="section-label" style={{ textAlign: 'center' }}>
-            🏗 Why Geelong reports are tougher than most
+            ðŸ— Why Geelong reports are tougher than most
           </div>
           <div className="how-strip" style={{ marginTop: 18 }}>
             {[
@@ -175,12 +175,12 @@ export default function GeelongLandingPage() {
               {
                 num: '02',
                 label: 'Reactive clay + coastal salt',
-                desc: 'Bellarine peninsula has reactive-clay soil that lifts and shrinks with seasons — newer brick veneer estates show diagonal cracking that looks alarming on first read. Older coastal suburbs see salt-corrosion on metal roofing, gutters, and external fixtures. Inspectors flag both heavily.',
+                desc: 'Bellarine peninsula has reactive-clay soil that lifts and shrinks with seasons â€” newer brick veneer estates show diagonal cracking that looks alarming on first read. Older coastal suburbs see salt-corrosion on metal roofing, gutters, and external fixtures. Inspectors flag both heavily.',
               },
               {
                 num: '03',
                 label: 'New-build handover reports work too',
-                desc: 'If you bought off the plan in Armstrong Creek, Curlewis, or Lara and a handover inspector gave you a defects list, we analyse that the same way — major vs minor, cost ranges, and the right language to put to the builder before final settlement.',
+                desc: 'If you bought off the plan in Armstrong Creek, Curlewis, or Lara and a handover inspector gave you a defects list, we analyse that the same way â€” major vs minor, cost ranges, and the right language to put to the builder before final settlement.',
               },
             ].map((s) => (
               <div className="how-step" key={s.num}>
@@ -194,10 +194,10 @@ export default function GeelongLandingPage() {
           </div>
         </div>
 
-        {/* ── PRICING ── */}
+        {/* â”€â”€ PRICING â”€â”€ */}
         <div style={{ marginBottom: 40 }}>
           <div className="section-label" style={{ textAlign: 'center' }}>
-            💰 Simple pricing
+            ðŸ’° Simple pricing
           </div>
           <div className="pricing-row" style={{ marginTop: 18 }}>
             <div className="price-card">
@@ -215,15 +215,15 @@ export default function GeelongLandingPage() {
               <div className="price-label">For Buyer's Agents</div>
               <div className="price-amount">From $79<span style={{ fontSize: 17, fontWeight: 300 }}>/mo</span></div>
               <div className="price-desc">White-label PDFs with your branding for your Geelong buyer clients.</div>
-              <div style={{ marginTop: 8, color: 'var(--amber)', fontSize: 13, fontWeight: 600 }}>Learn more →</div>
+              <div style={{ marginTop: 8, color: 'var(--amber)', fontSize: 13, fontWeight: 600 }}>Learn more â†’</div>
             </Link>
           </div>
         </div>
 
-        {/* ── FAQ ── */}
+        {/* â”€â”€ FAQ â”€â”€ */}
         <div style={{ marginBottom: 40 }}>
           <div className="section-label" style={{ textAlign: 'center' }}>
-            ❓ Common questions from Geelong buyers
+            â“ Common questions from Geelong buyers
           </div>
           <div style={{ marginTop: 18 }}>
             {FAQS.map((f, i) => (
@@ -252,7 +252,7 @@ export default function GeelongLandingPage() {
                   }}
                 >
                   <span>{f.q}</span>
-                  <span style={{ color: 'var(--subtle)', fontSize: 12 }}>{openFaq === i ? '▲' : '▼'}</span>
+                  <span style={{ color: 'var(--subtle)', fontSize: 12 }}>{openFaq === i ? 'â–²' : 'â–¼'}</span>
                 </div>
                 {openFaq === i && (
                   <div style={{ padding: '0 18px 16px', fontSize: 13.5, lineHeight: 1.65, color: '#374151' }}>
@@ -264,7 +264,7 @@ export default function GeelongLandingPage() {
           </div>
         </div>
 
-        {/* ── BOTTOM CTA ── */}
+        {/* â”€â”€ BOTTOM CTA â”€â”€ */}
         <div
           style={{
             background: 'var(--navy)',
@@ -275,7 +275,7 @@ export default function GeelongLandingPage() {
             marginBottom: 56,
           }}
         >
-          <div style={{ fontFamily: "'Fraunces',serif", fontSize: 26, marginBottom: 10, letterSpacing: -0.3 }}>
+          <div style={{ fontFamily: "var(--font-serif),serif", fontSize: 26, marginBottom: 10, letterSpacing: -0.3 }}>
             Ready to decode your Geelong report?
           </div>
           <div style={{ color: 'rgba(255,255,255,0.65)', fontSize: 15, marginBottom: 22, maxWidth: 520, margin: '0 auto 22px' }}>
@@ -295,12 +295,12 @@ export default function GeelongLandingPage() {
             }}
             onClick={() => { try { track('geelong_landing_cta', { type: 'bottom_upload' }); } catch {} }}
           >
-            Upload your PDF →
+            Upload your PDF â†’
           </Link>
         </div>
       </div>
 
-      {/* ── FOOTER ────────────────────────────────────── */}
+      {/* â”€â”€ FOOTER â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€ */}
       <footer
         style={{
           background: 'var(--navy)',
@@ -320,7 +320,7 @@ export default function GeelongLandingPage() {
             <Link href="/terms">Terms of Service</Link>
           </div>
           <div style={{ fontSize: 12, color: 'rgba(255,255,255,0.45)', marginTop: 8 }}>
-            © 2026 Report Decoded · Australian property inspection report interpreter ·
+            Â© 2026 Report Decoded Â· Australian property inspection report interpreter Â·
             AI analysis is general information, not professional advice.
           </div>
         </div>
@@ -332,31 +332,31 @@ export default function GeelongLandingPage() {
 const FAQS = [
   {
     q: 'Why do you have a Geelong-specific page?',
-    a: "Geelong is a buyer's market with extreme variety — buyers might be looking at a 1920s timber Federation in Newtown one weekend and a 2024 brick-veneer in Armstrong Creek the next. Each comes with its own kind of inspection report, its own defect patterns, and its own typical inspector caveats. We built this page because Geelong buyers (especially Melbourne expats new to the region) need help separating local norms from genuine red flags.",
+    a: "Geelong is a buyer's market with extreme variety â€” buyers might be looking at a 1920s timber Federation in Newtown one weekend and a 2024 brick-veneer in Armstrong Creek the next. Each comes with its own kind of inspection report, its own defect patterns, and its own typical inspector caveats. We built this page because Geelong buyers (especially Melbourne expats new to the region) need help separating local norms from genuine red flags.",
   },
   {
     q: "We're buying a new-build in Armstrong Creek / Curlewis / Lara. Does this work for handover inspection reports?",
-    a: "Yes — we specifically support new-build handover reports as a separate report type when you upload. Handover defect lists are different in shape from pre-purchase reports (more cosmetic items, more compliance vs liveability items, builder-defects-at-warranty-stage) and we tailor the analysis accordingly. The output includes the negotiation language you can put to your builder before final settlement.",
+    a: "Yes â€” we specifically support new-build handover reports as a separate report type when you upload. Handover defect lists are different in shape from pre-purchase reports (more cosmetic items, more compliance vs liveability items, builder-defects-at-warranty-stage) and we tailor the analysis accordingly. The output includes the negotiation language you can put to your builder before final settlement.",
   },
   {
     q: 'Is the AI actually accurate?',
-    a: "Yes — and verifiable. Every major and minor defect we identify includes a citation to the page in your inspector's PDF where it was discussed. So you can flip to page 40 of your report and check that the inspector did say what we attribute. We don't extract claims we can't anchor.",
+    a: "Yes â€” and verifiable. Every major and minor defect we identify includes a citation to the page in your inspector's PDF where it was discussed. So you can flip to page 40 of your report and check that the inspector did say what we attribute. We don't extract claims we can't anchor.",
   },
   {
     q: "We're Melbourne-based but buying in Geelong. Do you know local building rates?",
-    a: "Yes. Our cost benchmarks use Australian 2026 tradie rates and are not Melbourne-CBD-inflated. Geelong building rates run roughly 10-15% below inner-Melbourne for most trades, and our negotiation amounts reflect that. We also do local tradie matching using your specific property address — so if your inspector recommends a damp specialist, we pull names from Geelong, not Carlton.",
+    a: "Yes. Our cost benchmarks use Australian 2026 tradie rates and are not Melbourne-CBD-inflated. Geelong building rates run roughly 10-15% below inner-Melbourne for most trades, and our negotiation amounts reflect that. We also do local tradie matching using your specific property address â€” so if your inspector recommends a damp specialist, we pull names from Geelong, not Carlton.",
   },
   {
     q: 'Will this replace getting a building inspection?',
-    a: "No — and it shouldn't. You should always commission a licensed AS4349.1 inspector for the actual inspection. This tool sits AFTER the inspection: it interprets the report you receive. Think of it as having a builder friend translate the 95-page document for you in under 2 minutes.",
+    a: "No â€” and it shouldn't. You should always commission a licensed AS4349.1 inspector for the actual inspection. This tool sits AFTER the inspection: it interprets the report you receive. Think of it as having a builder friend translate the 95-page document for you in under 2 minutes.",
   },
   {
     q: 'The inspector flagged reactive-clay soil / movement cracks. How seriously should I take that?',
-    a: "Reactive clay is common across Bellarine and parts of greater Geelong, especially the newer-estate areas. Inspectors will almost always note potential soil movement on a slab-on-ground new build. Most movement is cosmetic and stabilises within 18-24 months of construction. We classify the cracks the inspector flagged (cosmetic / monitor / structural) and recommend the right next step — usually a slab inspection or engineering opinion before signing off.",
+    a: "Reactive clay is common across Bellarine and parts of greater Geelong, especially the newer-estate areas. Inspectors will almost always note potential soil movement on a slab-on-ground new build. Most movement is cosmetic and stabilises within 18-24 months of construction. We classify the cracks the inspector flagged (cosmetic / monitor / structural) and recommend the right next step â€” usually a slab inspection or engineering opinion before signing off.",
   },
   {
-    q: "I'm in Newtown / Belmont / Highton / Geelong West / Lara / Curlewis — still works?",
-    a: "Yes — the tool works for any Australian property. The Geelong-specific framing on this page is for SEO; the underlying analysis is identical for Newtown, Belmont, Highton, Geelong West, Bell Park, Armstrong Creek, Lara, Curlewis, Ocean Grove, or anywhere else. Local tradie matching uses your property's actual address.",
+    q: "I'm in Newtown / Belmont / Highton / Geelong West / Lara / Curlewis â€” still works?",
+    a: "Yes â€” the tool works for any Australian property. The Geelong-specific framing on this page is for SEO; the underlying analysis is identical for Newtown, Belmont, Highton, Geelong West, Bell Park, Armstrong Creek, Lara, Curlewis, Ocean Grove, or anywhere else. Local tradie matching uses your property's actual address.",
   },
   {
     q: 'How does the refund policy work?',

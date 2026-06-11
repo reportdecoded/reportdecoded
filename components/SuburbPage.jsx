@@ -1,19 +1,19 @@
-// components/SuburbPage.jsx
+﻿// components/SuburbPage.jsx
 //
 // Shared template for programmatic SEO suburb landing pages. Reads
 // from lib/suburbs.js for localised content. Per-page metadata is
 // exported from the suburb's layout.js (which calls suburbMetadata()
-// from lib/suburbs.js — that file owns title/description/canonical/OG).
+// from lib/suburbs.js â€” that file owns title/description/canonical/OG).
 //
 // What this component renders:
-//   • Nav (consistent with main site)
-//   • Hero with suburb-specific h1 + sub
-//   • CTAs: see a sample report, upload your own
-//   • "What to look out for in {suburb}" — localised defect list
-//   • Localised data card (era / median / council)
-//   • FAQ accordion (with FAQPage JSON-LD schema)
-//   • Adjacent suburb links (internal linking for SEO + UX)
-//   • BreadcrumbList JSON-LD
+//   â€¢ Nav (consistent with main site)
+//   â€¢ Hero with suburb-specific h1 + sub
+//   â€¢ CTAs: see a sample report, upload your own
+//   â€¢ "What to look out for in {suburb}" â€” localised defect list
+//   â€¢ Localised data card (era / median / council)
+//   â€¢ FAQ accordion (with FAQPage JSON-LD schema)
+//   â€¢ Adjacent suburb links (internal linking for SEO + UX)
+//   â€¢ BreadcrumbList JSON-LD
 //
 // Why suburb pages matter for SEO:
 //   - Each page targets a long-tail intent: "[suburb] building inspection",
@@ -70,7 +70,7 @@ export default function SuburbPage({ slug }) {
       <JsonLd data={breadcrumbSchema(suburbBreadcrumbs(slug))} />
       <JsonLd data={serviceSchema({ suburb: s.name, state: s.state })} />
 
-      {/* ── NAV ────────────────────────────────────────── */}
+      {/* â”€â”€ NAV â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€ */}
       <nav className="nav">
         <Link href="/" style={{ display: 'flex', alignItems: 'center', textDecoration: 'none' }}>
           {/* eslint-disable-next-line @next/next/no-img-element */}
@@ -83,16 +83,16 @@ export default function SuburbPage({ slug }) {
         </div>
       </nav>
 
-      {/* ── HERO ────────────────────────────────────────── */}
+      {/* â”€â”€ HERO â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€ */}
       <div className="hero-section">
-        <div className="hero-badge">🏘 For {s.name} Buyers</div>
+        <div className="hero-badge">ðŸ˜ For {s.name} Buyers</div>
         <h1 className="hero-h">
           Got your {s.name}<br/>building report? <em>Decoded.</em>
         </h1>
         <p className="hero-sub">
           Upload any AS4349.1 building &amp; pest inspection PDF for a {s.name} {s.state} property
           and get a plain-English verdict, AU repair costs, local tradies, and exactly how much
-          to negotiate — in under 2 minutes. Every claim cites the inspector&apos;s page so nothing&apos;s
+          to negotiate â€” in under 2 minutes. Every claim cites the inspector&apos;s page so nothing&apos;s
           made up.
         </p>
 
@@ -102,25 +102,25 @@ export default function SuburbPage({ slug }) {
             style={hero_btn_primary}
             onClick={() => { try { track('suburb_landing_cta', { suburb: slug, type: 'sample_view' }); } catch {} }}
           >
-            See a real inspection analysis →
+            See a real inspection analysis â†’
           </Link>
           <a
             href={SAMPLE_PDF}
             style={hero_btn_secondary}
             onClick={() => { try { track('suburb_landing_cta', { suburb: slug, type: 'sample_pdf' }); } catch {} }}
           >
-            ⬇ Download sample PDF
+            â¬‡ Download sample PDF
           </a>
         </div>
       </div>
 
-      {/* ── UPLOAD CTA ──────────────────────────────────── */}
+      {/* â”€â”€ UPLOAD CTA â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€ */}
       <div className="upload-area">
         <div className="upload-zone" style={{ cursor: 'default', textAlign: 'center' }}>
-          <div className="upload-icon">📄</div>
+          <div className="upload-icon">ðŸ“„</div>
           <div className="upload-title">Upload your {s.name} inspection PDF</div>
           <div className="upload-sub" style={{ marginBottom: 14 }}>
-            Building, pest &amp; combined reports · AS4349.1 compliant
+            Building, pest &amp; combined reports Â· AS4349.1 compliant
           </div>
           <Link
             href={`/?utm_source=suburb&utm_medium=organic&utm_campaign=${slug}`}
@@ -136,21 +136,21 @@ export default function SuburbPage({ slug }) {
             }}
             onClick={() => { try { track('suburb_landing_cta', { suburb: slug, type: 'upload' }); } catch {} }}
           >
-            Upload your PDF →
+            Upload your PDF â†’
           </Link>
           <div className="upload-filetypes" style={{ marginTop: 14 }}>
-            $59 per analysis · No subscription · Results in under 2 minutes
+            $59 per analysis Â· No subscription Â· Results in under 2 minutes
           </div>
         </div>
       </div>
 
-      {/* ── LOCALISED DATA CARD ─────────────────────────── */}
+      {/* â”€â”€ LOCALISED DATA CARD â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€ */}
       <section style={{ maxWidth: 920, margin: '48px auto 0', padding: '0 24px' }}>
         <div className="section-label" style={{ textAlign: 'center', marginBottom: 8 }}>
-          📍 About {s.name}, {s.state} {s.postcode}
+          ðŸ“ About {s.name}, {s.state} {s.postcode}
         </div>
         <h2 style={{
-          fontFamily: "'Fraunces',serif",
+          fontFamily: "var(--font-serif),serif",
           fontSize: 28,
           margin: '0 0 24px',
           textAlign: 'center',
@@ -179,7 +179,7 @@ export default function SuburbPage({ slug }) {
           boxShadow: '0 4px 14px rgba(10,22,40,0.04)',
         }}>
           <h3 style={{
-            fontFamily: "'Fraunces',serif",
+            fontFamily: "var(--font-serif),serif",
             fontSize: 20,
             margin: '0 0 14px',
             color: 'var(--navy)',
@@ -201,13 +201,13 @@ export default function SuburbPage({ slug }) {
         </div>
       </section>
 
-      {/* ── FAQ ────────────────────────────────────────── */}
+      {/* â”€â”€ FAQ â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€ */}
       <section style={{ maxWidth: 760, margin: '56px auto 0', padding: '0 24px' }}>
         <div className="section-label" style={{ textAlign: 'center', marginBottom: 8 }}>
-          ❓ {s.name} buyer questions
+          â“ {s.name} buyer questions
         </div>
         <h2 style={{
-          fontFamily: "'Fraunces',serif",
+          fontFamily: "var(--font-serif),serif",
           fontSize: 28,
           margin: '0 0 24px',
           textAlign: 'center',
@@ -267,7 +267,7 @@ export default function SuburbPage({ slug }) {
                     fontSize: 11,
                     flexShrink: 0,
                   }}
-                >{isOpen ? '▲' : '▼'}</span>
+                >{isOpen ? 'â–²' : 'â–¼'}</span>
               </button>
               {isOpen && (
                 <div style={{ padding: '0 18px 16px', fontSize: 13.5, lineHeight: 1.65, color: '#374151' }}>
@@ -279,11 +279,11 @@ export default function SuburbPage({ slug }) {
         })}
       </section>
 
-      {/* ── ADJACENT SUBURBS (internal linking) ─────────── */}
+      {/* â”€â”€ ADJACENT SUBURBS (internal linking) â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€ */}
       {adjacent.length > 0 && (
         <section style={{ maxWidth: 920, margin: '56px auto 0', padding: '0 24px' }}>
           <div className="section-label" style={{ textAlign: 'center', marginBottom: 8 }}>
-            🔗 Nearby suburbs we also cover
+            ðŸ”— Nearby suburbs we also cover
           </div>
           <div style={{
             display: 'flex',
@@ -308,7 +308,7 @@ export default function SuburbPage({ slug }) {
                     fontWeight: 600,
                   }}
                 >
-                  {a.name} inspection help →
+                  {a.name} inspection help â†’
                 </Link>
               );
             })}
@@ -316,10 +316,10 @@ export default function SuburbPage({ slug }) {
         </section>
       )}
 
-      {/* ── FINAL CTA ──────────────────────────────────── */}
+      {/* â”€â”€ FINAL CTA â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€ */}
       <section style={{ maxWidth: 720, margin: '56px auto 0', padding: '0 24px 56px', textAlign: 'center' }}>
         <h2 style={{
-          fontFamily: "'Fraunces',serif",
+          fontFamily: "var(--font-serif),serif",
           fontSize: 26,
           margin: '0 0 14px',
           color: 'var(--text)',
@@ -344,11 +344,11 @@ export default function SuburbPage({ slug }) {
             boxShadow: '0 6px 18px rgba(201,122,58,0.32)',
           }}
         >
-          Upload your PDF →
+          Upload your PDF â†’
         </Link>
       </section>
 
-      {/* ── FOOTER ──────────────────────────────────────── */}
+      {/* â”€â”€ FOOTER â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€ */}
       <footer
         style={{
           background: 'var(--navy)',
@@ -367,7 +367,7 @@ export default function SuburbPage({ slug }) {
             <Link href="/contact">Contact</Link>
           </div>
           <div style={{ fontSize: 12, color: 'rgba(255,255,255,0.45)' }}>
-            © 2026 Report Decoded · {s.name} building inspection help · AI analysis is general information, not professional advice.
+            Â© 2026 Report Decoded Â· {s.name} building inspection help Â· AI analysis is general information, not professional advice.
           </div>
         </div>
       </footer>

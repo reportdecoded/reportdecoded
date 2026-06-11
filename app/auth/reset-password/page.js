@@ -1,11 +1,11 @@
-// app/auth/reset-password/page.js
+﻿// app/auth/reset-password/page.js
 // Where the password-reset email link lands. The user has just clicked the
 // link from their inbox, which means /auth/callback already exchanged the
 // `?code=` for a recovery session and redirected them here. They now have
 // an active session that allows updateUser({ password }) to change their
 // password without re-authentication.
 //
-// On success → /signin?password_reset=1 (so the next page shows a success
+// On success â†’ /signin?password_reset=1 (so the next page shows a success
 // banner and they can sign in with their new password).
 
 'use client';
@@ -77,7 +77,7 @@ function ResetForm() {
           color: 'var(--text)',
         }}
       >
-        <h1 style={{ fontFamily: "'Fraunces',serif", fontSize: 30, marginBottom: 8, textAlign: 'center' }}>
+        <h1 style={{ fontFamily: "var(--font-serif),serif", fontSize: 30, marginBottom: 8, textAlign: 'center' }}>
           Set a new password
         </h1>
         <p style={{ color: 'var(--muted)', textAlign: 'center', marginBottom: 22, lineHeight: 1.6 }}>
@@ -110,7 +110,7 @@ function ResetForm() {
             />
           </label>
           <button type="submit" className="upload-btn" disabled={saving}>
-            {saving ? 'Saving…' : 'Set new password →'}
+            {saving ? 'Savingâ€¦' : 'Set new password â†’'}
           </button>
           {error && (
             <div style={{ color: 'var(--red)', fontSize: 14, textAlign: 'center' }}>{error}</div>
@@ -137,7 +137,7 @@ const inputStyle = {
 
 export default function ResetPasswordPage() {
   return (
-    <Suspense fallback={<div style={{ padding: 64, textAlign: 'center' }}>Loading…</div>}>
+    <Suspense fallback={<div style={{ padding: 64, textAlign: 'center' }}>Loadingâ€¦</div>}>
       <ResetForm />
     </Suspense>
   );
