@@ -1,4 +1,4 @@
-﻿// app/contact/page.js
+// app/contact/page.js
 // Real contact form so visitors without an email client configured (Brave on
 // Windows without Outlook, mobile users, etc.) don't hit the "Pick an app"
 // dead-end when they tap a mailto: link. Form submits to /api/contact which
@@ -21,7 +21,7 @@ const TOPICS = [
   { v: 'general', label: 'General enquiry' },
   { v: 'buyer', label: "I'm a buyer with a question" },
   { v: 'agent', label: "I'm an agent / agency" },
-  { v: 'pm', label: 'Property Manager â€” notify me when launches' },
+  { v: 'pm', label: 'Property Manager — notify me when launches' },
   { v: 'bug', label: 'Bug / something is broken' },
 ];
 
@@ -119,7 +119,7 @@ function ContactForm() {
           Get in touch
         </h1>
         <p style={{ color: 'var(--muted)', fontSize: 15, lineHeight: 1.6, marginBottom: 32 }}>
-          Morgan answers personally â€” usually within 24 hours.
+          Morgan answers personally — usually within 24 hours.
           {' '}You can also email{' '}
           <a href="mailto:info@reportdecoded.com.au" style={{ color: 'var(--amber)' }}>
             info@reportdecoded.com.au
@@ -137,18 +137,18 @@ function ContactForm() {
               textAlign: 'center',
             }}
           >
-            <div style={{ fontSize: 44, marginBottom: 12 }}>âœ…</div>
+            <div style={{ fontSize: 44, marginBottom: 12 }}>✅</div>
             <h2 style={{ fontFamily: "var(--font-serif),serif", fontSize: 26, marginBottom: 10 }}>
               {isPm ? "You're on the list." : 'Message sent.'}
             </h2>
             <p style={{ color: 'var(--muted)', lineHeight: 1.6 }}>
               {isPm
                 ? "Morgan will email you the moment the PM product is ready."
-                : "Morgan will reply within 24 hours â€” usually faster."}
+                : "Morgan will reply within 24 hours — usually faster."}
             </p>
             <p style={{ marginTop: 24 }}>
               <Link href="/" style={{ color: 'var(--amber)' }}>
-                â† Back to home
+                ← Back to home
               </Link>
             </p>
           </div>
@@ -251,7 +251,7 @@ function ContactForm() {
                 marginTop: 8,
               }}
             >
-              {submitting ? 'Sendingâ€¦' : isPm ? 'Notify me when it ships â†’' : 'Send message â†’'}
+              {submitting ? 'Sending…' : isPm ? 'Notify me when it ships →' : 'Send message →'}
             </button>
 
             {error && (
@@ -290,8 +290,8 @@ const inputStyle = {
 
 // Suspense fallback that mirrors the real page's nav + H1, so server-side
 // HTML always contains those elements for SEO crawlers + screen readers.
-// Without this, /contact's pre-hydration HTML is just "Loadingâ€¦" and Google
-// sees no H1 â†’ counted as a content-thin page.
+// Without this, /contact's pre-hydration HTML is just "Loading…" and Google
+// sees no H1 → counted as a content-thin page.
 function ContactFallback() {
   return (
     <>
@@ -311,9 +311,9 @@ function ContactFallback() {
           Get in touch
         </h1>
         <p style={{ color: 'var(--muted)', fontSize: 15, lineHeight: 1.6, marginBottom: 32 }}>
-          Morgan answers personally â€” usually within 24 hours.
+          Morgan answers personally — usually within 24 hours.
         </p>
-        <div style={{ color: 'var(--muted)', fontSize: 14 }}>Loading formâ€¦</div>
+        <div style={{ color: 'var(--muted)', fontSize: 14 }}>Loading form…</div>
       </main>
     </>
   );

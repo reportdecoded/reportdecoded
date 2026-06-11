@@ -1,11 +1,11 @@
-﻿'use client';
+'use client';
 
 import Link from 'next/link';
 import { STYLES } from '@/components/ReportDecoded';
 
 // Public-facing affiliate program landing page.
 //
-// DIY model â€” no hosted affiliate platform. Creators apply via email,
+// DIY model — no hosted affiliate platform. Creators apply via email,
 // Morgan onboards them manually (creates a row in the affiliates table
 // in Supabase, assigns a handle + personalised coupon code, replies
 // with their tracking link). Payouts are calculated monthly from the
@@ -32,13 +32,13 @@ export default function AffiliatesPage() {
 
       {/* Hero */}
       <div className="hero-section">
-        <div className="hero-badge">ðŸŽ¥ For AU creators + reviewers</div>
+        <div className="hero-badge">🎥 For AU creators + reviewers</div>
         <h1 className="hero-h">
           Get paid to share<br />
           <em>a tool your audience needs.</em>
         </h1>
         <p className="hero-sub">
-          Earn <strong>$15</strong> for every buyer report sold via your code â€” and your audience{' '}
+          Earn <strong>$15</strong> for every buyer report sold via your code — and your audience{' '}
           <strong>saves $10</strong> with the same code. Plus <strong>30% recurring</strong> on
           agent subscriptions. No content quota. No exclusivity. Built for property + finance
           creators in Australia.
@@ -49,7 +49,7 @@ export default function AffiliatesPage() {
         {/* Why creators love it */}
         <section style={{ marginBottom: 56 }}>
           <div className="section-label" style={{ textAlign: 'center', justifyContent: 'center' }}>
-            âš¡ Why creators sign up
+            ⚡ Why creators sign up
           </div>
           <div
             style={{
@@ -62,7 +62,7 @@ export default function AffiliatesPage() {
             {[
               {
                 title: 'A product worth recommending',
-                body: 'Report Decoded turns a 95-page building inspection PDF into a plain-English verdict, repair costs, and a drafted negotiation letter in under 2 minutes. Every claim cites the inspector\'s PDF page. Built specifically for Australian buyers â€” not warmed-over US software.',
+                body: 'Report Decoded turns a 95-page building inspection PDF into a plain-English verdict, repair costs, and a drafted negotiation letter in under 2 minutes. Every claim cites the inspector\'s PDF page. Built specifically for Australian buyers — not warmed-over US software.',
               },
               {
                 title: 'Cash, fast',
@@ -70,11 +70,11 @@ export default function AffiliatesPage() {
               },
               {
                 title: 'No content quotas',
-                body: 'Mention Report Decoded in any video you like. Make zero videos this month â€” no penalty, no clawback, no awkward emails. Your audience, your style, your call.',
+                body: 'Mention Report Decoded in any video you like. Make zero videos this month — no penalty, no clawback, no awkward emails. Your audience, your style, your call.',
               },
               {
                 title: 'Real attribution',
-                body: '30-day cookie window. If someone clicks your link today and buys in three weeks, you still earn. Tracked through Stripe by Rewardful â€” no shady "we lost your conversion" stories.',
+                body: '30-day cookie window. If someone clicks your link today and buys in three weeks, you still earn. Tracked through Stripe by Rewardful — no shady "we lost your conversion" stories.',
               },
               {
                 title: 'Free product for content',
@@ -147,7 +147,7 @@ export default function AffiliatesPage() {
           >
             <div>
               <div style={{ fontSize: 13, color: 'rgba(247,243,238,0.55)', letterSpacing: 1.5, marginBottom: 6 }}>
-                BUYER REPORTS â€” YOU EARN
+                BUYER REPORTS — YOU EARN
               </div>
               <div
                 style={{
@@ -187,7 +187,7 @@ export default function AffiliatesPage() {
 
             <div>
               <div style={{ fontSize: 13, color: 'rgba(247,243,238,0.55)', letterSpacing: 1.5, marginBottom: 6 }}>
-                AGENT SUBS â€” RECURRING
+                AGENT SUBS — RECURRING
               </div>
               <div
                 style={{
@@ -230,7 +230,7 @@ export default function AffiliatesPage() {
         {/* Earnings examples */}
         <section style={{ marginBottom: 56 }}>
           <div className="section-label" style={{ textAlign: 'center', justifyContent: 'center' }}>
-            ðŸ“Š What you could earn
+            📊 What you could earn
           </div>
           <div
             style={{
@@ -280,7 +280,7 @@ export default function AffiliatesPage() {
         {/* What you make content about */}
         <section style={{ marginBottom: 56 }}>
           <div className="section-label" style={{ textAlign: 'center', justifyContent: 'center' }}>
-            ðŸŽ¬ Content angles that work
+            🎬 Content angles that work
           </div>
           <ul
             style={{
@@ -296,15 +296,15 @@ export default function AffiliatesPage() {
             }}
           >
             {[
-              '"What to do when your building inspection comes back with major defects" â€” mention Report Decoded as the tool',
-              '"5 mistakes first-home buyers make at auction" â€” Report Decoded for post-auction planning',
-              '"How much should you negotiate after a building inspection?" â€” RD does the maths for you',
+              '"What to do when your building inspection comes back with major defects" — mention Report Decoded as the tool',
+              '"5 mistakes first-home buyers make at auction" — Report Decoded for post-auction planning',
+              '"How much should you negotiate after a building inspection?" — RD does the maths for you',
               'Personal: "I just bought a property in {{suburb}}, here\'s the tool I used to decode the report"',
               'Reaction: respond to AU property panic content with practical decoding',
               'Educational: "Reading an Australian building inspection PDF, what each AS-code actually means"',
             ].map((line, i) => (
               <li key={i} style={{ marginBottom: 10 }}>
-                <span style={{ color: 'var(--amber)', marginRight: 10 }}>â†’</span>
+                <span style={{ color: 'var(--amber)', marginRight: 10 }}>→</span>
                 {line}
               </li>
             ))}
@@ -321,7 +321,7 @@ export default function AffiliatesPage() {
               marginRight: 'auto',
             }}
           >
-            Honest only â€” no oversell, no fake testimonials. The product genuinely works; the
+            Honest only — no oversell, no fake testimonials. The product genuinely works; the
             content reads better when you lean into that.
           </p>
         </section>
@@ -329,7 +329,7 @@ export default function AffiliatesPage() {
         {/* What we provide */}
         <section style={{ marginBottom: 56 }}>
           <div className="section-label" style={{ textAlign: 'center', justifyContent: 'center' }}>
-            ðŸ›  What we provide
+            🛠 What we provide
           </div>
           <ul
             style={{
@@ -347,13 +347,13 @@ export default function AffiliatesPage() {
             {[
               'Your unique tracking link with 30-day attribution cookie',
               'Affiliate dashboard with real-time clicks, conversions, and earnings',
-              'Brand assets â€” logo, colours, screenshots, sample reports',
-              'Free product use â€” bring any building inspection PDF, we run it for you',
+              'Brand assets — logo, colours, screenshots, sample reports',
+              'Free product use — bring any building inspection PDF, we run it for you',
               'Talking points + content briefs you can adapt to your style',
               'Direct line to me (Morgan) on email or DM for any questions',
             ].map((line, i) => (
               <li key={i} style={{ marginBottom: 10 }}>
-                <span style={{ color: 'var(--amber)', marginRight: 10 }}>âœ“</span>
+                <span style={{ color: 'var(--amber)', marginRight: 10 }}>✓</span>
                 {line}
               </li>
             ))}
@@ -393,7 +393,7 @@ export default function AffiliatesPage() {
             className="upload-btn"
             style={{ display: 'inline-block', textDecoration: 'none', padding: '14px 28px', fontSize: 15 }}
           >
-            Apply now â†’
+            Apply now →
           </a>
           <p
             style={{

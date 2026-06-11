@@ -1,8 +1,8 @@
-﻿import Link from 'next/link';
+import Link from 'next/link';
 import { STYLES } from '@/components/ReportDecoded';
 
 export const metadata = {
-  title: 'Privacy Policy â€” Report Decoded',
+  title: 'Privacy Policy — Report Decoded',
   description: 'How Report Decoded collects, uses, and stores your personal data when you upload an inspection PDF or manage an agent subscription.',
   alternates: {
     canonical: 'https://www.reportdecoded.com.au/privacy',
@@ -19,7 +19,7 @@ export default function PrivacyPage() {
         </Link>
         <div className="nav-links">
           <Link href="/" className="nav-link" style={{ textDecoration: 'none' }}>
-            â† Home
+            ← Home
           </Link>
         </div>
       </nav>
@@ -40,7 +40,7 @@ export default function PrivacyPage() {
           <li>The email address you provide for delivery of your analysis.</li>
           <li>The purchase price you enter (optional).</li>
           <li>Property type indicator (pre-purchase vs new-build handover; owner-occupier vs investment).</li>
-          <li>Payment information â€” handled entirely by Stripe; we never see your card details.</li>
+          <li>Payment information — handled entirely by Stripe; we never see your card details.</li>
         </ul>
 
         <h2 style={{ marginTop: 28, marginBottom: 10 }}>How we use it</h2>
@@ -80,7 +80,7 @@ export default function PrivacyPage() {
         </p>
         <p>
           If you would prefer your data not be transferred outside Australia, you
-          should not use this service â€” the analysis cannot be performed without
+          should not use this service — the analysis cannot be performed without
           sending the inspection PDF to Anthropic for AI processing.
         </p>
 

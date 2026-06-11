@@ -1,4 +1,4 @@
-﻿// app/dashboard/page.js
+// app/dashboard/page.js
 // Protected agent dashboard. Server-rendered.
 //
 // States:
@@ -21,7 +21,7 @@ import SubscribedTracker from './SubscribedTracker';
 import SetPasswordCard from './SetPasswordCard';
 
 export const metadata = {
-  title: 'Dashboard â€” Report Decoded',
+  title: 'Dashboard — Report Decoded',
   robots: { index: false, follow: false },
 };
 
@@ -47,7 +47,7 @@ export default async function DashboardPage({ searchParams }) {
     .ilike('email', user.email)
     .maybeSingle();
 
-  // No agent row â€” they signed in without going through the /agents form.
+  // No agent row — they signed in without going through the /agents form.
   // Send them there to complete their profile before they can subscribe.
   if (!agent) {
     redirect('/agents?need_profile=1');
@@ -64,7 +64,7 @@ export default async function DashboardPage({ searchParams }) {
     (agent.full_name || user.email?.split('@')[0] || 'there').split(/\s+/)[0];
 
   // Lightweight count to detect first-run state. Used for the zero-state
-  // onboarding banner â€” cheaper than fetching the full reports list when
+  // onboarding banner — cheaper than fetching the full reports list when
   // we only care whether there are any. count='exact', head=true asks
   // PostgREST for the count header without payload.
   let reportCount = 0;
@@ -114,10 +114,10 @@ export default async function DashboardPage({ searchParams }) {
             >
               {agent.subscription_status === 'trialing' ? (
                 <>
-                  ðŸŽ You're in! Your first report is on us â€” billing starts when you complete your first analysis.
+                  🎁 You're in! Your first report is on us — billing starts when you complete your first analysis.
                 </>
               ) : (
-                <>âœ… Subscription active. Welcome to Report Decoded â€” let's go.</>
+                <>✅ Subscription active. Welcome to Report Decoded — let's go.</>
               )}
             </div>
           </>
@@ -143,8 +143,8 @@ export default async function DashboardPage({ searchParams }) {
               lineHeight: 1.55,
             }}
           >
-            <strong style={{ color: 'var(--teal)' }}>ðŸŽ Free trial active.</strong>{' '}
-            Your first report is on us. Billing starts when you complete your first analysis â€” no deadline.
+            <strong style={{ color: 'var(--teal)' }}>🎁 Free trial active.</strong>{' '}
+            Your first report is on us. Billing starts when you complete your first analysis — no deadline.
           </div>
         )}
         {subscribeCancelled && (
@@ -158,7 +158,7 @@ export default async function DashboardPage({ searchParams }) {
               marginBottom: 24,
             }}
           >
-            Subscription cancelled before payment. No worries â€” choose a plan below when you're ready.
+            Subscription cancelled before payment. No worries — choose a plan below when you're ready.
           </div>
         )}
         {subscribeRequired && !hasActiveSub && (
@@ -180,11 +180,11 @@ export default async function DashboardPage({ searchParams }) {
           Welcome back, {firstName}.
         </h1>
         <p style={{ color: 'var(--muted)', fontSize: 16, marginBottom: 32 }}>
-          {agent.business_name ? agent.business_name + ' Â· ' : ''}
+          {agent.business_name ? agent.business_name + ' · ' : ''}
           {roleLabel(agent.role)}
           {hasActiveSub && agent.subscription_tier
-            ? ` Â· ${tierLabel(agent.subscription_tier)} (${agent.subscription_status})`
-            : ' Â· No active subscription'}
+            ? ` · ${tierLabel(agent.subscription_tier)} (${agent.subscription_status})`
+            : ' · No active subscription'}
         </p>
 
         {hasActiveSub ? (
@@ -216,7 +216,7 @@ export default async function DashboardPage({ searchParams }) {
           <a href="mailto:info@reportdecoded.com.au" style={{ color: 'var(--amber)' }}>
             info@reportdecoded.com.au
           </a>
-          {' '}any time â€” Morgan answers personally.
+          {' '}any time — Morgan answers personally.
         </div>
       </main>
     </>
@@ -238,10 +238,10 @@ function FirstRunBanner() {
       }}
     >
       <div style={{ fontWeight: 700, fontSize: 16, color: 'var(--text)' }}>
-        ðŸš€ Let's get your first report up
+        🚀 Let's get your first report up
       </div>
       <div style={{ color: 'var(--text)', fontSize: 14, lineHeight: 1.55, opacity: 0.85 }}>
-        Upload an inspection PDF to see Report Decoded in action â€” analysis, branded
+        Upload an inspection PDF to see Report Decoded in action — analysis, branded
         client view, and a downloadable PDF in under two minutes. Your subscription
         covers the cost; you can run it on a sample report first if you want to see
         what your client receives.
@@ -261,15 +261,15 @@ function ActiveSubscriberView({ agent, isFirstRun = false }) {
         }}
       >
         <DashboardCard
-          title={isFirstRun ? 'ðŸ“¤ Run your first report' : 'ðŸ“¤ Run a client report'}
+          title={isFirstRun ? '📤 Run your first report' : '📤 Run a client report'}
           body={
             isFirstRun
-              ? "Upload an AS4349.1 inspection PDF â€” analysis takes 60-120 seconds, then it's ready to share with your client."
-              : 'Upload an inspection PDF â€” your subscription covers the analysis. Your client gets a branded report shareable via one link.'
+              ? "Upload an AS4349.1 inspection PDF — analysis takes 60-120 seconds, then it's ready to share with your client."
+              : 'Upload an inspection PDF — your subscription covers the analysis. Your client gets a branded report shareable via one link.'
           }
-          ctaText="Upload PDF â†’"
+          ctaText="Upload PDF →"
           ctaHref="/dashboard/upload"
-          /* Always emphasised â€” this is the primary daily action for a
+          /* Always emphasised — this is the primary daily action for a
              buyer's agent. Previously only emphasised on first run, which
              meant the LOUD amber CTA in the dashboard row was the Preview
              branding button (a one-time setup task). Hierarchy was inverted.
@@ -277,21 +277,21 @@ function ActiveSubscriberView({ agent, isFirstRun = false }) {
           emphasised={true}
         />
         <DashboardCard
-          title="ðŸ“‹ Your client reports"
+          title="📋 Your client reports"
           body={
             isFirstRun
               ? "Once you run a report it'll appear here, ready to share with your client via link or branded PDF."
               : "Every report you've generated, with one-click sharing links pre-branded with your logo + accent colour."
           }
-          ctaText={isFirstRun ? 'See how this page works â†’' : 'View all reports â†’'}
+          ctaText={isFirstRun ? 'See how this page works →' : 'View all reports →'}
           ctaHref="/dashboard/reports"
         />
         <DashboardCard
-          title="ðŸ‘€ Preview your branding"
+          title="👀 Preview your branding"
           body={
             agent.logo_url
-              ? 'See exactly how a client will receive your reports â€” either the shared web view, or the downloadable PDF, both rendered with your logo + accent colour.'
-              : 'Upload your logo below, then preview a sample report rendered with your branding â€” both the web view and the downloadable PDF.'
+              ? 'See exactly how a client will receive your reports — either the shared web view, or the downloadable PDF, both rendered with your logo + accent colour.'
+              : 'Upload your logo below, then preview a sample report rendered with your branding — both the web view and the downloadable PDF.'
           }
           customCta={
             <ShareLinkActions
@@ -302,7 +302,7 @@ function ActiveSubscriberView({ agent, isFirstRun = false }) {
         />
       </div>
       {/* Billing used to sit as a 4th card in the workflow grid above,
-          but billing is configuration, not a daily action â€” having it
+          but billing is configuration, not a daily action — having it
           there made the card row look orphaned when it wrapped to its
           own line at narrow viewports, and visually competed with the
           actual workflow CTAs. Moved here as a quieter settings row
@@ -331,7 +331,7 @@ function BillingStrip({ tier }) {
     >
       <div style={{ minWidth: 0, flex: '1 1 280px' }}>
         <div style={{ fontWeight: 600, fontSize: 15, marginBottom: 3 }}>
-          ðŸ’³ Billing
+          💳 Billing
         </div>
         <div style={{ color: 'var(--muted)', fontSize: 13, lineHeight: 1.5 }}>
           You&rsquo;re on <strong style={{ color: 'var(--text)' }}>{tierLabel(tier)}</strong>.
@@ -358,11 +358,11 @@ function PricingView({ agent }) {
         }}
       >
         <div style={{ fontWeight: 600, fontSize: 16, marginBottom: 6 }}>
-          ðŸ“ Profile saved â€” pick a plan to activate your account
+          📝 Profile saved — pick a plan to activate your account
         </div>
         <div style={{ color: 'var(--muted)', fontSize: 14, lineHeight: 1.6 }}>
           You're signed in as <strong>{agent.email}</strong>. Choose a tier below and
-          you'll be subscribed instantly via Stripe (test mode â€” no real card needed).
+          you'll be subscribed instantly via Stripe (test mode — no real card needed).
           Cancel any time.
         </div>
       </div>

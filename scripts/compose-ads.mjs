@@ -206,7 +206,7 @@ function makeAd1Overlay(W, H) {
       <text x="56" y="${footerY + 16}" font-family="DM Sans, Helvetica, Arial, sans-serif"
             font-size="24" font-weight="600" fill="${P.bandText}" letter-spacing="0.3">reportdecoded.com.au</text>
       <text x="${W - 56}" y="${footerY + 16}" text-anchor="end" font-family="DM Sans, Helvetica, Arial, sans-serif"
-            font-size="16" font-weight="400" fill="${P.bandTextDim}" letter-spacing="0.3">Join 2,000+ Australian buyers</text>
+            font-size="16" font-weight="400" fill="${P.bandTextDim}" letter-spacing="0.3">Built in Australia · AS4349.1</text>
     </svg>
   `;
 }
@@ -248,8 +248,6 @@ function makeAd2Overlay(W, H) {
             font-size="26" font-weight="600" fill="${P.bandText}" letter-spacing="0.1">Results in <tspan fill="${AMBER}">2 minutes.</tspan></text>
       <text x="56" y="${bandY + 130}" font-family="DM Sans, Helvetica, Arial, sans-serif"
             font-size="22" font-weight="500" fill="${P.bandText}" letter-spacing="0.2">$59 per report · No subscription · reportdecoded.com.au</text>
-      <text x="56" y="${bandY + 168}" font-family="DM Sans, Helvetica, Arial, sans-serif"
-            font-size="16" font-style="italic" font-weight="400" fill="${P.bandTextFaint}" letter-spacing="0.2">Not useful? Full refund, no questions.</text>
     </svg>
   `;
 }

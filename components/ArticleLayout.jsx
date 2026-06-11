@@ -1,16 +1,16 @@
-﻿// components/ArticleLayout.jsx
+// components/ArticleLayout.jsx
 //
 // Shared chrome for /resources/{slug} long-form articles. Each
-// article's page.js renders its content INSIDE this layout â€” gives
+// article's page.js renders its content INSIDE this layout — gives
 // every article consistent nav, byline, TL;DR box, body styling,
 // FAQ accordion, CTA, related-links footer, and JSON-LD schema.
 //
 // Article-specific data passed via props:
-//   â€¢ title, h1, description, published, updated
-//   â€¢ tldr (1-2 short paragraphs surfaced as a featured-snippet candidate)
-//   â€¢ children (the article body â€” JSX written in the article's page.js)
-//   â€¢ faqs (array of {q, a} â€” also marked up as FAQPage JSON-LD)
-//   â€¢ related_articles (slugs) + related_suburbs (slugs)
+//   • title, h1, description, published, updated
+//   • tldr (1-2 short paragraphs surfaced as a featured-snippet candidate)
+//   • children (the article body — JSX written in the article's page.js)
+//   • faqs (array of {q, a} — also marked up as FAQPage JSON-LD)
+//   • related_articles (slugs) + related_suburbs (slugs)
 //
 // SEO: each article gets Article + FAQPage JSON-LD automatically.
 
@@ -41,7 +41,7 @@ export default function ArticleLayout({
 }) {
   const [openFaq, setOpenFaq] = useState(null);
 
-  // Meta Pixel ViewContent â€” fires once per article view. High-intent
+  // Meta Pixel ViewContent — fires once per article view. High-intent
   // signal for content-marketing audiences (people who read the long-
   // form articles are warmer than homepage visitors). Lookalike-seed
   // candidate for Meta ad targeting.
@@ -145,9 +145,9 @@ export default function ArticleLayout({
             flexWrap: 'wrap',
           }}>
             <Link href="/resources" style={{ color: 'var(--muted)', textDecoration: 'none', fontWeight: 500 }}>
-              â† All resources
+              ← All resources
             </Link>
-            <span style={{ color: 'var(--subtle)' }}>Â·</span>
+            <span style={{ color: 'var(--subtle)' }}>·</span>
             <span style={{
               background: 'var(--amber-bg)',
               color: 'var(--amber)',
@@ -160,7 +160,7 @@ export default function ArticleLayout({
             }}>
               {category}
             </span>
-            {readTime && <><span style={{ color: 'var(--subtle)' }}>Â·</span><span>{readTime} read</span></>}
+            {readTime && <><span style={{ color: 'var(--subtle)' }}>·</span><span>{readTime} read</span></>}
           </div>
 
           <h1 style={{
@@ -197,11 +197,11 @@ export default function ArticleLayout({
             <div>
               By <strong style={{ color: 'var(--text)' }}>Morgan Smith</strong>
             </div>
-            <span style={{ color: 'var(--subtle)' }}>Â·</span>
+            <span style={{ color: 'var(--subtle)' }}>·</span>
             <time dateTime={published}>{formatDate(published)}</time>
             {updated && updated !== published && (
               <>
-                <span style={{ color: 'var(--subtle)' }}>Â·</span>
+                <span style={{ color: 'var(--subtle)' }}>·</span>
                 <span>Updated {formatDate(updated)}</span>
               </>
             )}
@@ -232,7 +232,7 @@ export default function ArticleLayout({
               color: 'var(--amber)',
               marginBottom: 8,
             }}>
-              ðŸ“Œ TL;DR
+              📌 TL;DR
             </div>
             {tldr}
           </div>
@@ -253,7 +253,7 @@ export default function ArticleLayout({
       {faqs.length > 0 && (
         <section style={{ background: '#fff', borderTop: '1px solid var(--border)', padding: '48px 24px' }}>
           <div style={{ maxWidth: 760, margin: '0 auto' }}>
-            <div className="section-label" style={{ marginBottom: 8 }}>â“ Common questions</div>
+            <div className="section-label" style={{ marginBottom: 8 }}>❓ Common questions</div>
             <h2 style={{
               fontFamily: "var(--font-serif), serif",
               fontSize: 26,
@@ -308,7 +308,7 @@ export default function ArticleLayout({
                       color: 'var(--navy)',
                       fontSize: 11,
                       flexShrink: 0,
-                    }}>{isOpen ? 'â–²' : 'â–¼'}</span>
+                    }}>{isOpen ? '▲' : '▼'}</span>
                   </button>
                   {isOpen && (
                     <div style={{ padding: '0 18px 16px', fontSize: 13.5, lineHeight: 1.65, color: '#374151' }}>
@@ -346,7 +346,7 @@ export default function ArticleLayout({
             lineHeight: 1.55,
             margin: '0 0 22px',
           }}>
-            Get a plain-English verdict, repair costs, local tradies, and negotiation language â€” under 2 minutes. $59 per report. No subscription.
+            Get a plain-English verdict, repair costs, local tradies, and negotiation language — under 2 minutes. $59 per report. No subscription.
           </p>
           <Link
             href={`/?utm_source=resources&utm_medium=organic&utm_campaign=${slug}`}
@@ -363,7 +363,7 @@ export default function ArticleLayout({
             }}
             onClick={() => { try { track('article_cta_clicked', { slug }); } catch {} }}
           >
-            Upload your PDF â†’
+            Upload your PDF →
           </Link>
         </div>
       </section>
@@ -374,7 +374,7 @@ export default function ArticleLayout({
           <div style={{ maxWidth: 760, margin: '0 auto', display: 'grid', gap: 36 }}>
             {related_articles.length > 0 && (
               <div>
-                <div className="section-label" style={{ marginBottom: 10 }}>ðŸ“š Related reads</div>
+                <div className="section-label" style={{ marginBottom: 10 }}>📚 Related reads</div>
                 <div style={{ display: 'flex', flexWrap: 'wrap', gap: 10 }}>
                   {related_articles.map((s) => (
                     <Link
@@ -391,7 +391,7 @@ export default function ArticleLayout({
                         fontWeight: 600,
                       }}
                     >
-                      {prettySlug(s)} â†’
+                      {prettySlug(s)} →
                     </Link>
                   ))}
                 </div>
@@ -399,7 +399,7 @@ export default function ArticleLayout({
             )}
             {related_suburbs.length > 0 && (
               <div>
-                <div className="section-label" style={{ marginBottom: 10 }}>ðŸ˜ Local guides</div>
+                <div className="section-label" style={{ marginBottom: 10 }}>🏘 Local guides</div>
                 <div style={{ display: 'flex', flexWrap: 'wrap', gap: 10 }}>
                   {related_suburbs.map((sl) => {
                     const sub = SUBURBS[sl];
@@ -419,7 +419,7 @@ export default function ArticleLayout({
                           fontWeight: 600,
                         }}
                       >
-                        {sub.name} inspection help â†’
+                        {sub.name} inspection help →
                       </Link>
                     );
                   })}
@@ -445,7 +445,7 @@ export default function ArticleLayout({
             <Link href="/contact">Contact</Link>
           </div>
           <div style={{ fontSize: 12, color: 'rgba(255,255,255,0.45)' }}>
-            Â© 2026 Report Decoded Â· AI analysis is general information, not professional advice.
+            © 2026 Report Decoded · AI analysis is general information, not professional advice.
           </div>
         </div>
       </footer>

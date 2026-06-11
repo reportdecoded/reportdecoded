@@ -1,4 +1,4 @@
-﻿'use client';
+'use client';
 import { Suspense, useEffect, useState } from 'react';
 import { useSearchParams } from 'next/navigation';
 import Link from 'next/link';
@@ -7,15 +7,15 @@ import { STYLES } from '@/components/ReportDecoded';
 import { topTradesForDefect, tradeByKey, googleMapsSearchUrl, filterTradiesByInferredTrades } from '@/lib/trades';
 
 const LOAD_STEPS = [
-  'Reading inspection reportâ€¦',
-  'Identifying major defects (AS4349.1)â€¦',
-  'Classifying minor defectsâ€¦',
-  'Assessing pest and termite findingsâ€¦',
-  'Estimating repair costs (AU rates)â€¦',
-  'Checking state rental complianceâ€¦',
-  'Generating negotiation positionâ€¦',
-  'Drafting conveyancer questionsâ€¦',
-  'Building your reportâ€¦',
+  'Reading inspection report…',
+  'Identifying major defects (AS4349.1)…',
+  'Classifying minor defects…',
+  'Assessing pest and termite findings…',
+  'Estimating repair costs (AU rates)…',
+  'Checking state rental compliance…',
+  'Generating negotiation position…',
+  'Drafting conveyancer questions…',
+  'Building your report…',
 ];
 
 function ResultsBody() {
@@ -155,7 +155,7 @@ function ResultsBody() {
             className="nav-link"
             style={{ textDecoration: 'none' }}
           >
-            {brand ? 'â†‘ Run another' : 'â† Upload Another'}
+            {brand ? '↑ Run another' : '← Upload Another'}
           </Link>
         </div>
       </nav>
@@ -171,13 +171,13 @@ function ResultsBody() {
             lineHeight: 1.5,
           }}
         >
-          ðŸ“‹ <strong>This is a sample report</strong> based on a real Australian inspection
-          PDF â€” not your own analysis.{' '}
+          📋 <strong>This is a sample report</strong> based on a real Australian inspection
+          PDF — not your own analysis.{' '}
           <Link
             href="/"
             style={{ color: '#fff', textDecoration: 'underline', fontWeight: 600 }}
           >
-            Upload your own PDF â†’
+            Upload your own PDF →
           </Link>
         </div>
       )}
@@ -225,7 +225,7 @@ function ResultsBody() {
             <Link href="/contact">Contact</Link>
           </div>
           <div style={{ fontSize: 12, color: 'rgba(255,255,255,0.45)' }}>
-            Â© 2026 Report Decoded Â· AI analysis is general information, not professional advice.
+            © 2026 Report Decoded · AI analysis is general information, not professional advice.
           </div>
         </div>
       </footer>
@@ -245,16 +245,16 @@ function NoReportId() {
 }
 
 /**
- * FeedbackPrompt â€” appears at the bottom of every completed report.
+ * FeedbackPrompt — appears at the bottom of every completed report.
  * Lets a buyer flag a defect that's miscategorised, a cost that looks
- * off, or a tradie that doesn't match â€” turning customer frustration
+ * off, or a tradie that doesn't match — turning customer frustration
  * into product feedback Morgan can fix in the next release. Pre-fills
  * the email subject with the report ID so each piece of feedback is
  * traceable back to the exact analysis the buyer saw.
  */
 function FeedbackPrompt({ reportId, propertyAddress }) {
   const shortId = reportId ? reportId.slice(0, 8) : 'unknown';
-  const subject = encodeURIComponent(`Report feedback â€” ${shortId}`);
+  const subject = encodeURIComponent(`Report feedback — ${shortId}`);
   const body = encodeURIComponent(
     `Report ID: ${reportId || '(none)'}\n` +
       `Property: ${propertyAddress || '(none)'}\n` +
@@ -291,7 +291,7 @@ function FeedbackPrompt({ reportId, propertyAddress }) {
           Spot something that looks wrong?
         </div>
         <div style={{ fontSize: 13, color: 'rgba(10,22,40,0.65)', lineHeight: 1.55 }}>
-          Wrong trade chip, cost looks off, tradie not in your area â€” we want to know. Each report
+          Wrong trade chip, cost looks off, tradie not in your area — we want to know. Each report
           we hear from gets better the next time someone uploads.
         </div>
       </div>
@@ -312,7 +312,7 @@ function FeedbackPrompt({ reportId, propertyAddress }) {
           whiteSpace: 'nowrap',
         }}
       >
-        Tell us â†’
+        Tell us →
       </a>
     </section>
   );
@@ -327,7 +327,7 @@ function ErrorState({ message }) {
   );
 }
 
-// Sanitise failure_reason before showing to buyers â€” raw API errors
+// Sanitise failure_reason before showing to buyers — raw API errors
 // (e.g. Anthropic JSON with "credit balance is too low") must never
 // reach the UI. Map to a friendly buyer-facing string.
 function sanitiseFailureReason(reason) {
@@ -355,7 +355,7 @@ function FailedState({ reason }) {
       <h2 className="loading-h">We couldn't analyse this report.</h2>
       <p className="loading-sub">
         {safeReason ||
-          'Something went wrong on our end. If you were charged, a full refund will be processed â€” reply to your Stripe receipt or email info@reportdecoded.com.au and we\'ll sort it within an hour.'}
+          'Something went wrong on our end. If you were charged, a full refund will be processed — reply to your Stripe receipt or email info@reportdecoded.com.au and we\'ll sort it within an hour.'}
       </p>
     </div>
   );
@@ -363,14 +363,14 @@ function FailedState({ reason }) {
 
 function LoadingState({ loadStep, buyerEmail, createdAt }) {
   // Track wall-clock since the report was created so we can reassure
-  // the buyer when analysis runs longer than the 1â€“2 min headline
-  // estimate (large PDFs or busy times â†’ 3â€“4 min is normal).
+  // the buyer when analysis runs longer than the 1–2 min headline
+  // estimate (large PDFs or busy times → 3–4 min is normal).
   //
   // Why this exists: on Jun 5 2026 a buyer paid $59 with his work
   // email, waited ~5 min without seeing the analysis email (work mail
   // server quarantined the new-sender transactional email), assumed
   // the upload had failed, and re-uploaded the SAME PDF with his
-  // personal Gmail â†’ got charged $59 a second time. The fix has two
+  // personal Gmail → got charged $59 a second time. The fix has two
   // sides: (1) show the buyer email on screen so a typo is caught
   // before payment fails to land, (2) reassure during the longer
   // tail of the analysis so they don't bail and re-pay.
@@ -394,11 +394,11 @@ function LoadingState({ loadStep, buyerEmail, createdAt }) {
         <div className="loading-ring-outer" />
         <div className="loading-ring-inner" />
       </div>
-      <h2 className="loading-h">Analysing your reportâ€¦</h2>
-      <p className="loading-sub">This usually takes 2â€“4 minutes. You can close this tab â€” we&apos;ll email it.</p>
+      <h2 className="loading-h">Analysing your report…</h2>
+      <p className="loading-sub">This usually takes 2–4 minutes. You can close this tab — we&apos;ll email it.</p>
 
       {/* Where we're sending it. The single most important piece of
-          information during the wait â€” confirms the email is correct
+          information during the wait — confirms the email is correct
           (catches typos before the buyer assumes delivery failed) and
           gives a clear recovery path that isn't "pay again with a
           different email". */}
@@ -418,7 +418,7 @@ function LoadingState({ loadStep, buyerEmail, createdAt }) {
           }}
         >
           <div style={{ fontWeight: 600, marginBottom: 4 }}>
-            ðŸ“§ We&apos;ll email your report to:
+            📧 We&apos;ll email your report to:
           </div>
           <div
             style={{
@@ -435,7 +435,7 @@ function LoadingState({ loadStep, buyerEmail, createdAt }) {
           <div style={{ fontSize: 12.5, color: 'rgba(10,22,40,0.65)' }}>
             Wrong email or doesn&apos;t arrive in 10 minutes? Reply to your Stripe
             receipt or email <a href="mailto:info@reportdecoded.com.au" style={{ color: 'var(--amber, #C97A3A)', textDecoration: 'underline' }}>info@reportdecoded.com.au</a>{' '}
-            with your report ID and we&apos;ll resend within an hour â€”{' '}
+            with your report ID and we&apos;ll resend within an hour —{' '}
             <strong>please don&apos;t re-upload</strong>, you&apos;ll be charged again.
           </div>
         </div>
@@ -448,15 +448,15 @@ function LoadingState({ loadStep, buyerEmail, createdAt }) {
             className={`lstep ${i < loadStep ? 'done' : i === loadStep ? 'active' : 'wait'}`}
           >
             <div className="lstep-icon">
-              {i < loadStep ? 'âœ“' : i === loadStep ? 'â€º' : 'Â·'}
+              {i < loadStep ? '✓' : i === loadStep ? '›' : '·'}
             </div>
             {s}
           </div>
         ))}
       </div>
 
-      {/* After 3 minutes â€” when the step animation has long finished
-          and the buyer is staring at a static spinner â€” drop in a
+      {/* After 3 minutes — when the step animation has long finished
+          and the buyer is staring at a static spinner — drop in a
           reassuring note so they don't bail and re-pay. */}
       {extendedWait && (
         <p
@@ -470,7 +470,7 @@ function LoadingState({ loadStep, buyerEmail, createdAt }) {
             textAlign: 'center',
           }}
         >
-          Still working â€” large PDFs sometimes take 3â€“4 minutes. Your report is
+          Still working — large PDFs sometimes take 3–4 minutes. Your report is
           safe and will be emailed when ready. No need to refresh or re-upload.
         </p>
       )}
@@ -479,7 +479,7 @@ function LoadingState({ loadStep, buyerEmail, createdAt }) {
 }
 
 // VerdictBadge accepts an optional reportType so we can show
-// rectification-appropriate language for new build handovers â€” there's
+// rectification-appropriate language for new build handovers — there's
 // no "negotiate" or "walk away" when the buyer is already in contract;
 // they need to "rectify" defects or "escalate" to the VBA.
 function VerdictBadge({ verdict, reportType }) {
@@ -487,20 +487,20 @@ function VerdictBadge({ verdict, reportType }) {
   if (verdict === 'PROCEED')
     return (
       <div className="verdict-left">
-        <span className="verdict-emoji">âœ…</span>
+        <span className="verdict-emoji">✅</span>
         <div className="verdict-badge">{isHandover ? 'Ready for Sign-off' : 'Proceed'}</div>
       </div>
     );
   if (verdict === 'WALK AWAY')
     return (
       <div className="verdict-left">
-        <span className="verdict-emoji">ðŸ›‘</span>
+        <span className="verdict-emoji">🛑</span>
         <div className="verdict-badge">{isHandover ? 'Escalate' : 'Walk Away'}</div>
       </div>
     );
   return (
     <div className="verdict-left">
-      <span className="verdict-emoji">âš–ï¸</span>
+      <span className="verdict-emoji">⚖️</span>
       <div className="verdict-badge">{isHandover ? 'Rectify' : 'Negotiate'}</div>
     </div>
   );
@@ -513,7 +513,7 @@ function verdictCardClass(verdict) {
 }
 
 function fmt$(n) {
-  if (n == null || isNaN(n)) return 'â€”';
+  if (n == null || isNaN(n)) return '—';
   return `$${Number(n).toLocaleString('en-AU')}`;
 }
 
@@ -554,7 +554,7 @@ function TradieCard({ tradie, suburb }) {
       </div>
       {tradie.address && (
         <div className="tradie-meta">
-          <span className="tradie-tag">ðŸ“ {tradie.address}</span>
+          <span className="tradie-tag">📍 {tradie.address}</span>
         </div>
       )}
       <div style={{ display: 'flex', gap: 8, marginTop: 12, flexWrap: 'wrap' }}>
@@ -564,13 +564,13 @@ function TradieCard({ tradie, suburb }) {
             className="tradie-quote-btn"
             style={{ textDecoration: 'none', display: 'inline-block' }}
           >
-            ðŸ“ž {tradie.phone}
+            📞 {tradie.phone}
           </a>
         )}
         {/* Replaced direct 'Visit website' (using HERE's stored URL,
             which goes stale: businesses change domains, servers move,
             registrations lapse) with a Google search for the business
-            name. Always lands on something useful â€” Google ranks
+            name. Always lands on something useful — Google ranks
             current website, Google Business Profile, map, reviews,
             and recent phone number even when HERE's data is months old.
             Shows for EVERY tradie now, not only those HERE happens to
@@ -582,7 +582,7 @@ function TradieCard({ tradie, suburb }) {
           className="tradie-quote-btn"
           style={{ textDecoration: 'none', display: 'inline-block', background: 'var(--cream2)', color: 'var(--text)' }}
         >
-          Find them online â†’
+          Find them online →
         </a>
       </div>
     </div>
@@ -637,7 +637,7 @@ function TradeChip({ trade, suburb, accent }) {
           flexShrink: 0,
         }}
       >
-        Search Google Maps â†’
+        Search Google Maps →
       </a>
     </div>
   );
@@ -646,7 +646,7 @@ function TradeChip({ trade, suburb, accent }) {
 function DefectCard({ kind, defect, index, expanded, toggle, tradiesByKey, suburb, reportType }) {
   const key = `${kind}-${index}`;
   // New-build handover reports go through a builder who will rectify
-  // under contract â€” the framing should be calmer and less adversarial.
+  // under contract — the framing should be calmer and less adversarial.
   // "MAJOR DEFECT" is fine for a pre-purchase negotiation; for a buyer
   // working WITH their builder it reads as inflammatory. Soften the
   // badge labels + repair-cost prominence + "why it matters" wording.
@@ -669,15 +669,15 @@ function DefectCard({ kind, defect, index, expanded, toggle, tradiesByKey, subur
   // Infer the specific trade(s) needed for THIS defect from its text
   // (name, description, why-it-matters, location). Mapping rules live
   // in lib/trades.js. We use topTradesForDefect which returns 1-2
-  // entries â€” the second only when the defect genuinely spans two
+  // entries — the second only when the defect genuinely spans two
   // trades (e.g. a slab edge blowout affecting brickwork DPC
   // compliance: concreter grinds the slab, bricklayer verifies the
   // masonry-side compliance). Each trade gets its own Google Maps
   // fallback link so the buyer can call whoever is easier to reach.
   // HERE results remain below as nearby starting-points to verify.
   // PREFER Claude's assigned trade (it reads the defect and picks the right
-  // specialist â€” e.g. "seal/paint timber edges" â†’ painter, "metal flashing"
-  // â†’ roofer). Fall back to regex inference only when Claude didn't assign a
+  // specialist — e.g. "seal/paint timber edges" → painter, "metal flashing"
+  // → roofer). Fall back to regex inference only when Claude didn't assign a
   // valid trade (older reports analysed before the `trade` field existed).
   const claudePrimary = tradeByKey(defect?.trade);
   const claudeSecondary = tradeByKey(defect?.trade_secondary);
@@ -701,7 +701,7 @@ function DefectCard({ kind, defect, index, expanded, toggle, tradiesByKey, subur
 
   // Build the tradie list for this defect. Preferred path: HERE Maps
   // was queried for each inferred trade specifically (Carpenter,
-  // Concreter, Stair specialist, etc) â€” so `tradiesByKey[primaryTrade.key]`
+  // Concreter, Stair specialist, etc) — so `tradiesByKey[primaryTrade.key]`
   // contains real specialists for that trade. The old broad trade_category
   // buckets are retired (they weren't strict-filtered and surfaced wrong
   // specialties); we use only the per-trade keys for primary + secondary.
@@ -717,7 +717,7 @@ function DefectCard({ kind, defect, index, expanded, toggle, tradiesByKey, subur
     merged.push(t);
   }
   // Always apply the trade-name filter. When we COULDN'T infer a trade from
-  // the defect text, do NOT dump the raw broad trade_category bucket â€” that's
+  // the defect text, do NOT dump the raw broad trade_category bucket — that's
   // what surfaced wrong specialties (e.g. a builder + concreter under a
   // door-weather-seal defect). Better to show nothing than the wrong trade.
   const tradies = primaryTrade
@@ -753,7 +753,7 @@ function DefectCard({ kind, defect, index, expanded, toggle, tradiesByKey, subur
                     letterSpacing: 0.2,
                   }}
                 >
-                  ðŸ“„ Inspector ref: {pageLabel}
+                  📄 Inspector ref: {pageLabel}
                 </span>
               )}
             </div>
@@ -761,7 +761,7 @@ function DefectCard({ kind, defect, index, expanded, toggle, tradiesByKey, subur
         </div>
         <div style={{ display: 'flex', alignItems: 'center', gap: 10 }}>
           <div className="severity-badge">{badge}</div>
-          <div className="defect-chevron">{expanded[key] ? 'â–²' : 'â–¼'}</div>
+          <div className="defect-chevron">{expanded[key] ? '▲' : '▼'}</div>
         </div>
       </div>
       {expanded[key] && (
@@ -796,15 +796,15 @@ function DefectCard({ kind, defect, index, expanded, toggle, tradiesByKey, subur
               >
                 Builder reference cost:&nbsp;
                 <span style={{ color: 'var(--text)' }}>
-                  {fmt$(defect.repair_cost_low)}â€“{fmt$(defect.repair_cost_high)}
+                  {fmt$(defect.repair_cost_low)}–{fmt$(defect.repair_cost_high)}
                 </span>
               </div>
             ) : (
               // Pre-purchase: cost is the negotiation lever. Keep prominent.
               <div className="cost-chip">
-                ðŸ’° Estimated repair cost:{' '}
+                💰 Estimated repair cost:{' '}
                 <strong>
-                  {fmt$(defect.repair_cost_low)} â€“ {fmt$(defect.repair_cost_high)}
+                  {fmt$(defect.repair_cost_low)} – {fmt$(defect.repair_cost_high)}
                 </strong>
               </div>
             )
@@ -816,7 +816,7 @@ function DefectCard({ kind, defect, index, expanded, toggle, tradiesByKey, subur
               specialist even if HERE Maps returned the wrong category
               for this region. When a defect spans two trades (slab edge
               affecting brickwork DPC, framing carrying a glazed
-              balustrade, etc), both are shown â€” the buyer picks
+              balustrade, etc), both are shown — the buyer picks
               whichever is easier to reach. HERE results remain below as
               nearby starting points. */}
           {primaryTrade && (
@@ -841,8 +841,8 @@ function DefectCard({ kind, defect, index, expanded, toggle, tradiesByKey, subur
             <div className="tradies-section">
               <div className="tradies-label">
                 {primaryTrade
-                  ? `ðŸ“ Nearby ${primaryTrade.label.toLowerCase()}s â€” verify before engaging`
-                  : `ðŸ“ Nearby tradies â€” verify specialty before engaging`}
+                  ? `📍 Nearby ${primaryTrade.label.toLowerCase()}s — verify before engaging`
+                  : `📍 Nearby tradies — verify specialty before engaging`}
               </div>
               <div className="tradie-cards">
                 {tradies.map((t) => (
@@ -865,7 +865,7 @@ function DefectCard({ kind, defect, index, expanded, toggle, tradiesByKey, subur
               }}
             >
               No nearby <strong style={{ color: 'var(--text)' }}>{primaryTrade.label.toLowerCase()}</strong>{' '}
-              found in our HERE Maps cache â€” use the Google Maps search above to find a local
+              found in our HERE Maps cache — use the Google Maps search above to find a local
               specialist.
             </div>
           )}
@@ -887,7 +887,7 @@ function extractSuburb(address) {
 }
 
 // Shared 5-year capex forecast card. Same content rendered in two
-// different positions depending on report type â€” pre-purchase shows
+// different positions depending on report type — pre-purchase shows
 // it higher up (forward planning sits with negotiation guidance);
 // handover shows it as the closing content card (action first,
 // planning last). Extracting to a single component keeps the
@@ -896,14 +896,14 @@ function CapexForecastCard({ forecast }) {
   if (!forecast) return null;
   return (
     <div className="panel-card">
-      <div className="panel-title">ðŸ“… 5-Year Cost Forecast</div>
+      <div className="panel-title">📅 5-Year Cost Forecast</div>
       <div style={{ color: 'var(--muted)', fontSize: 12, marginBottom: 14, lineHeight: 1.5 }}>
-        Forward-looking budget so you know what to set aside â€” not just the urgent stuff.
+        Forward-looking budget so you know what to set aside — not just the urgent stuff.
       </div>
       {[
-        { key: 'year_1_urgent', label: 'Year 1 â€” urgent', color: 'var(--red)' },
-        { key: 'year_1_to_3', label: 'Year 1â€“3 â€” planned', color: 'var(--gold)' },
-        { key: 'year_3_to_5', label: 'Year 3â€“5 â€” anticipated', color: 'var(--teal)' },
+        { key: 'year_1_urgent', label: 'Year 1 — urgent', color: 'var(--red)' },
+        { key: 'year_1_to_3', label: 'Year 1–3 — planned', color: 'var(--gold)' },
+        { key: 'year_3_to_5', label: 'Year 3–5 — anticipated', color: 'var(--teal)' },
       ].map(({ key, label, color }) => {
         const b = forecast[key];
         if (!b) return null;
@@ -912,7 +912,7 @@ function CapexForecastCard({ forecast }) {
             <div style={{ display: 'flex', alignItems: 'flex-start', justifyContent: 'space-between', gap: 10, marginBottom: 4 }}>
               <div style={{ fontWeight: 600, fontSize: 13, color: 'var(--navy)' }}>{label}</div>
               <div style={{ fontFamily: "var(--font-mono),monospace", fontSize: 13, color, fontWeight: 700, whiteSpace: 'nowrap' }}>
-                {fmt$(b.low)} â€“ {fmt$(b.high)}
+                {fmt$(b.low)} – {fmt$(b.high)}
               </div>
             </div>
             {b.summary && <div style={{ fontSize: 12, color: '#374151', lineHeight: 1.5 }}>{b.summary}</div>}
@@ -927,16 +927,16 @@ function PriceContextCard({ negotiationAmount }) {
   const hasNego = typeof negotiationAmount === 'number' && negotiationAmount > 0;
   return (
     <div className="panel-card" style={{ marginBottom: 28 }}>
-      <div className="panel-title">ðŸ’° Is the asking price fair?</div>
+      <div className="panel-title">💰 Is the asking price fair?</div>
       <div style={{ fontSize: 13, color: '#374151', lineHeight: 1.6 }}>
         The best way to sanity-check the asking price
-        {hasNego ? <> â€” and whether asking <strong>{fmt$(negotiationAmount)}</strong> off it is reasonable â€”</> : ''}{' '}
+        {hasNego ? <> — and whether asking <strong>{fmt$(negotiationAmount)}</strong> off it is reasonable —</> : ''}{' '}
         is to compare against recent sales of <strong>similar homes</strong>. Ask your agent for 3 recent sales of{' '}
-        <strong>same-bedroom houses</strong>{' '}within about 1&nbsp;km, or check the â€œSoldâ€ listings on
+        <strong>same-bedroom houses</strong>{' '}within about 1&nbsp;km, or check the “Sold” listings on
         realestate.com.au or Domain. If this property is priced <strong>at or above</strong> those
         comparable sales, the estimated rectification cost is a fair amount to negotiate off. If it's already{' '}
         <strong>below</strong> them by roughly that much, some of the defects may already be reflected in the
-        price â€” so factor that in before asking for the full amount.
+        price — so factor that in before asking for the full amount.
       </div>
     </div>
   );
@@ -980,8 +980,8 @@ function ResultsView({ analysis, tradies, reportType, expanded, toggle, copied, 
           </div>
           <div className="prop-meta">
             Building + Pest Inspection
-            {analysis.inspection_date ? ` Â· ${analysis.inspection_date}` : ''}
-            {analysis.building_era ? ` Â· ${analysis.building_era}` : ''}
+            {analysis.inspection_date ? ` · ${analysis.inspection_date}` : ''}
+            {analysis.building_era ? ` · ${analysis.building_era}` : ''}
           </div>
         </div>
       </div>
@@ -996,14 +996,14 @@ function ResultsView({ analysis, tradies, reportType, expanded, toggle, copied, 
           <div className="stat-label">Defects Found</div>
           <div className="stat-val">{totalDefects}</div>
           <div className="stat-sub">
-            {majors.length} major Â· {minors.length} minor Â· {pests.length} pest
+            {majors.length} major · {minors.length} minor · {pests.length} pest
           </div>
         </div>
         {/* Handover: the dollar amount is reference-only (builder pays
             under contract) so it's removed from the stats row entirely.
-            It still lives â€” at small size â€” at the bottom of the
+            It still lives — at small size — at the bottom of the
             Rectification Letter card below. Stats row becomes 3 tiles
-            (Defects Found Â· Items to Rectify Â· Verdict) â†’ buyer's eye
+            (Defects Found · Items to Rectify · Verdict) → buyer's eye
             lands on actionable counts, not dollar amounts. */}
         {!isHandover && (
           <div className="stat-card">
@@ -1012,7 +1012,7 @@ function ResultsView({ analysis, tradies, reportType, expanded, toggle, copied, 
               {fmt$(Math.round(((analysis.total_repair_cost_low || 0) + (analysis.total_repair_cost_high || 0)) / 2))}
             </div>
             <div className="stat-sub">
-              most likely Â· range {fmt$(analysis.total_repair_cost_low)}â€“{fmt$(analysis.total_repair_cost_high)}
+              most likely · range {fmt$(analysis.total_repair_cost_low)}–{fmt$(analysis.total_repair_cost_high)}
             </div>
           </div>
         )}
@@ -1040,7 +1040,7 @@ function ResultsView({ analysis, tradies, reportType, expanded, toggle, copied, 
         </div>
         <div className="stat-card">
           <div className="stat-label">Verdict</div>
-          <div className="stat-val">{analysis.overall_verdict || 'â€”'}</div>
+          <div className="stat-val">{analysis.overall_verdict || '—'}</div>
           <div className="stat-sub">AS4349.1 assessment</div>
         </div>
       </div>
@@ -1054,7 +1054,7 @@ function ResultsView({ analysis, tradies, reportType, expanded, toggle, copied, 
           {majors.length > 0 && (
             <div style={{ marginBottom: 28 }}>
               <div className="section-label">
-                {isHandover ? 'ðŸ”§  Rectification Items' : 'ðŸ”´  Major Defects'}
+                {isHandover ? '🔧  Rectification Items' : '🔴  Major Defects'}
               </div>
               {majors.map((d, i) => (
                 <DefectCard
@@ -1074,7 +1074,7 @@ function ResultsView({ analysis, tradies, reportType, expanded, toggle, copied, 
           {minors.length > 0 && (
             <div style={{ marginBottom: 28 }}>
               <div className="section-label">
-                {isHandover ? 'âœ¨  Cosmetic Items' : 'ðŸŸ¡  Minor Defects'}
+                {isHandover ? '✨  Cosmetic Items' : '🟡  Minor Defects'}
               </div>
               {minors.map((d, i) => (
                 <DefectCard
@@ -1094,7 +1094,7 @@ function ResultsView({ analysis, tradies, reportType, expanded, toggle, copied, 
           {pests.length > 0 && (
             <div style={{ marginBottom: 28 }}>
               <div className="section-label">
-                {isHandover ? 'ðŸœ  Pest Findings' : 'ðŸŸ¤  Pest Findings'}
+                {isHandover ? '🐜  Pest Findings' : '🟤  Pest Findings'}
               </div>
               {pests.map((d, i) => (
                 <DefectCard
@@ -1126,7 +1126,7 @@ function ResultsView({ analysis, tradies, reportType, expanded, toggle, copied, 
               }}
             >
               Tradies above sourced from public business listings near the property address.
-              Listings are not endorsements â€” always verify a tradesperson's licence and
+              Listings are not endorsements — always verify a tradesperson's licence and
               insurance before engaging. Verified Report Decoded partners will replace these
               listings in your region as our marketplace rolls out.
               <span style={{ display: 'block', marginTop: 6 }}>Powered by HERE Maps</span>
@@ -1147,14 +1147,14 @@ function ResultsView({ analysis, tradies, reportType, expanded, toggle, copied, 
               }}
             >
               <div style={{ fontWeight: 600, color: 'var(--ink)', marginBottom: 4 }}>
-                ðŸ” Local tradies couldn't be matched
+                🔍 Local tradies couldn't be matched
               </div>
               We couldn't find tradies near{' '}
               <strong style={{ color: 'var(--ink)' }}>
                 {analysis.property_address || 'this property'}
               </strong>
               . This usually means the address didn't include a recognisable street or
-              suburb â€” try editing the upload with a full address (e.g. "12 Smith St,
+              suburb — try editing the upload with a full address (e.g. "12 Smith St,
               Yarraville VIC 3013") to get local matches.
             </div>
           )}
@@ -1162,7 +1162,7 @@ function ResultsView({ analysis, tradies, reportType, expanded, toggle, copied, 
 
         <div className="right-panel">
           <div className="panel-card">
-            <div className="panel-title">ðŸ“„ Download Report</div>
+            <div className="panel-title">📄 Download Report</div>
             <div style={{ color: 'var(--muted)', fontSize: 13, lineHeight: 1.55, marginBottom: 14 }}>
               {agentId
                 ? "Branded PDF with your agency logo + colour. Email or print for your client."
@@ -1176,37 +1176,37 @@ function ResultsView({ analysis, tradies, reportType, expanded, toggle, copied, 
                 try { track('report_pdf_downloaded', { is_branded: !!agentId }); } catch {}
               }}
             >
-              â¬‡ Download PDF
+              ⬇ Download PDF
             </a>
           </div>
 
           {analysis.negotiation_language && (
             <div className="panel-card">
-              <div className="panel-title">ðŸ’¬ Negotiation Language</div>
+              <div className="panel-title">💬 Negotiation Language</div>
               <div className="negs-amount">
-                â€“{fmt$(analysis.negotiation_amount)}
+                –{fmt$(analysis.negotiation_amount)}
               </div>
               <div className="negs-sub">
                 Recommended price reduction based on repair cost midpoint. Copy and send
                 directly to your agent.
               </div>
               <div style={{ fontSize: 12, color: 'rgba(10,22,40,0.5)', lineHeight: 1.55, marginBottom: 12, fontStyle: 'italic' }}>
-                âš ï¸ If this property appears already priced below comparable sales to reflect
-                its condition, adjust this figure down â€” negotiating the full repair cost
+                ⚠️ If this property appears already priced below comparable sales to reflect
+                its condition, adjust this figure down — negotiating the full repair cost
                 on a discounted listing may not be realistic.
               </div>
               <div className="negs-text">{analysis.negotiation_language}</div>
               <button className="copy-btn" onClick={handleCopy}>
-                {copied ? 'âœ“ Copied to clipboard' : 'Copy to Clipboard'}
+                {copied ? '✓ Copied to clipboard' : 'Copy to Clipboard'}
               </button>
             </div>
           )}
 
           {analysis.builder_rectification_letter && (
             <div className="panel-card">
-              <div className="panel-title">ðŸ”§ Rectification Letter to Builder</div>
+              <div className="panel-title">🔧 Rectification Letter to Builder</div>
 
-              {/* Action metadata box â€” what to do, who to send to, when.
+              {/* Action metadata box — what to do, who to send to, when.
                   These are the FIRST things a buyer needs to act on; the
                   dollar value (which the BUILDER pays under contract) is
                   reference information that lives below as a small line. */}
@@ -1257,21 +1257,21 @@ function ResultsView({ analysis, tradies, reportType, expanded, toggle, copied, 
 
               <div className="negs-text">{analysis.builder_rectification_letter}</div>
               <button className="copy-btn" onClick={handleCopy}>
-                {copied ? 'âœ“ Copied to clipboard' : 'Copy to Clipboard'}
+                {copied ? '✓ Copied to clipboard' : 'Copy to Clipboard'}
               </button>
             </div>
           )}
 
           {analysis.if_builder_refuses_note && (
             <div className="panel-card">
-              <div className="panel-title">âš ï¸ If your builder refuses</div>
+              <div className="panel-title">⚠️ If your builder refuses</div>
               <div style={{ color: '#374151', fontSize: 14, lineHeight: 1.6, whiteSpace: 'pre-wrap' }}>
                 {analysis.if_builder_refuses_note}
               </div>
             </div>
           )}
 
-          {/* 5-year capex forecast â€” PRE-PURCHASE position. Sits here in
+          {/* 5-year capex forecast — PRE-PURCHASE position. Sits here in
               the flow so pre-purchase buyers see forward maintenance
               planning right after the negotiation guidance. The handover
               variant renders this same block at the BOTTOM of the page
@@ -1285,7 +1285,7 @@ function ResultsView({ analysis, tradies, reportType, expanded, toggle, copied, 
           {Array.isArray(analysis.rental_compliance_gaps) &&
             analysis.rental_compliance_gaps.length > 0 && (
               <div className="panel-card">
-                <div className="panel-title">ðŸ  Rental Compliance Gaps</div>
+                <div className="panel-title">🏠 Rental Compliance Gaps</div>
                 <div style={{ color: 'var(--muted)', fontSize: 12, marginBottom: 12, lineHeight: 1.5 }}>
                   Items from this inspection that may block legal letting or breach state minimum rental standards. Fix before signing a lease.
                 </div>
@@ -1310,12 +1310,12 @@ function ResultsView({ analysis, tradies, reportType, expanded, toggle, copied, 
                           display: 'inline-block', fontSize: 10.5, fontWeight: 600,
                           color: 'var(--navy)', background: 'var(--slate)', border: '1px solid var(--border)',
                           borderRadius: 4, padding: '1px 6px', fontFamily: "var(--font-mono),monospace", marginBottom: 6,
-                        }}>ðŸ“„ Inspector ref: {pageLabel}</span>
+                        }}>📄 Inspector ref: {pageLabel}</span>
                       )}
                       {g.rectification_action && <div style={{ fontSize: 12.5, lineHeight: 1.55, color: '#374151', marginTop: 4 }}>{g.rectification_action}</div>}
                       {Number.isFinite(g.estimated_cost_low) && g.estimated_cost_low > 0 && (
                         <div style={{ fontSize: 11.5, fontFamily: "var(--font-mono),monospace", color: 'var(--navy)', marginTop: 5 }}>
-                          Cost: {fmt$(g.estimated_cost_low)} â€“ {fmt$(g.estimated_cost_high)}
+                          Cost: {fmt$(g.estimated_cost_low)} – {fmt$(g.estimated_cost_high)}
                         </div>
                       )}
                     </div>
@@ -1328,18 +1328,18 @@ function ResultsView({ analysis, tradies, reportType, expanded, toggle, copied, 
           {Array.isArray(analysis.compliance_inspections_recommended) &&
             analysis.compliance_inspections_recommended.length > 0 && (
               <div className="panel-card">
-                <div className="panel-title">ðŸ“‹ Commission separately before letting</div>
+                <div className="panel-title">📋 Commission separately before letting</div>
                 <div style={{ color: 'var(--muted)', fontSize: 12, marginBottom: 12, lineHeight: 1.5 }}>
-                  Compliance checks the building/pest inspection does NOT cover â€” but you still need before legally letting this property.
+                  Compliance checks the building/pest inspection does NOT cover — but you still need before legally letting this property.
                 </div>
                 {analysis.compliance_inspections_recommended.map((c, i) => (
                   <div key={i} style={{ marginBottom: 12, paddingBottom: 10, borderBottom: i === analysis.compliance_inspections_recommended.length - 1 ? 'none' : '1px solid var(--border)' }}>
                     <div style={{ fontWeight: 600, fontSize: 13.5, color: 'var(--navy)', marginBottom: 3 }}>{c.type}</div>
                     {c.why_needed && <div style={{ fontSize: 12, color: '#374151', lineHeight: 1.5, marginBottom: 4 }}>{c.why_needed}</div>}
                     <div style={{ display: 'flex', gap: 12, flexWrap: 'wrap', fontSize: 11.5, color: 'var(--muted)' }}>
-                      {c.who_performs && <span>ðŸ‘¤ {c.who_performs}</span>}
-                      {c.typical_cost && <span>ðŸ’° {c.typical_cost}</span>}
-                      {c.frequency && <span>ðŸ”„ {c.frequency}</span>}
+                      {c.who_performs && <span>👤 {c.who_performs}</span>}
+                      {c.typical_cost && <span>💰 {c.typical_cost}</span>}
+                      {c.frequency && <span>🔄 {c.frequency}</span>}
                     </div>
                   </div>
                 ))}
@@ -1349,7 +1349,7 @@ function ResultsView({ analysis, tradies, reportType, expanded, toggle, copied, 
           {Array.isArray(analysis.conveyancer_questions) &&
             analysis.conveyancer_questions.length > 0 && (
               <div className="panel-card">
-                <div className="panel-title">â“ Ask Your Conveyancer</div>
+                <div className="panel-title">❓ Ask Your Conveyancer</div>
                 {analysis.conveyancer_questions.map((q, i) => (
                   <div className="question-item" key={i}>
                     <span className="q-num">Q{i + 1}</span>
@@ -1361,14 +1361,14 @@ function ResultsView({ analysis, tradies, reportType, expanded, toggle, copied, 
 
           {analysis.what_report_does_not_cover && (
             <div className="panel-card">
-              <div className="panel-title">âš ï¸ What this doesn't cover</div>
+              <div className="panel-title">⚠️ What this doesn't cover</div>
               <div style={{ color: '#374151', fontSize: 14, lineHeight: 1.6 }}>
                 {analysis.what_report_does_not_cover}
               </div>
             </div>
           )}
 
-          {/* 5-year capex forecast â€” HANDOVER position. Sits at the
+          {/* 5-year capex forecast — HANDOVER position. Sits at the
               bottom of the right panel because new-build buyers care
               about builder-rectification action items first; forward
               planning is the closing content card. Pre-purchase

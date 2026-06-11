@@ -1,11 +1,11 @@
-﻿// app/brunswick-building-inspection-help/page.js
+// app/brunswick-building-inspection-help/page.js
 //
 // Local SEO landing page targeting Brunswick (3056/3057) buyers
 // searching for "building inspection report help brunswick" and
 // related long-tail queries.
 //
 // Brunswick was picked as the second SEO suburb because:
-//   1. Sydney Road corridor, Brunswick West, Coburg-adjacent â€” high
+//   1. Sydney Road corridor, Brunswick West, Coburg-adjacent — high
 //      transaction volume + gentrifying = lots of first-home buyers
 //      who haven't seen an inspection report before
 //   2. Mixed housing stock: Victorian terraces, Federation cottages,
@@ -16,7 +16,7 @@
 //
 // Structure mirrors yarraville-building-inspection-help: hero, stats
 // anchor, "why tougher", pricing, FAQ, CTA. Adjust suburb-specific
-// language ONLY â€” keep the structure identical so we can scale this
+// language ONLY — keep the structure identical so we can scale this
 // pattern to more suburbs.
 
 'use client';
@@ -27,7 +27,7 @@ import { track } from '@vercel/analytics';
 import { STYLES } from '@/components/ReportDecoded';
 import { faqPageSchema, breadcrumbSchema, serviceSchema, JsonLd } from '@/lib/schema';
 
-// Same Yarraville sample â€” we don't have a Brunswick sample yet, so we
+// Same Yarraville sample — we don't have a Brunswick sample yet, so we
 // link to the live Yarraville one as a worked example. Inner-west and
 // inner-north Melbourne housing stock overlap enough that the proof
 // reads as relevant to a Brunswick buyer.
@@ -50,7 +50,7 @@ export default function BrunswickLandingPage() {
       ])} />
       <JsonLd data={serviceSchema({ suburb: 'Brunswick', state: 'VIC' })} />
 
-      {/* â”€â”€ NAV â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€ */}
+      {/* ── NAV ────────────────────────────────────────── */}
       <nav className="nav">
         <Link href="/" style={{ display: 'flex', alignItems: 'center', textDecoration: 'none' }}>
           <img src="/logo-dark.png" alt="Report Decoded" width={180} height={42} style={{ height: 36, width: 'auto' }} />
@@ -62,15 +62,15 @@ export default function BrunswickLandingPage() {
         </div>
       </nav>
 
-      {/* â”€â”€ HERO â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€ */}
+      {/* ── HERO ────────────────────────────────────────── */}
       <div className="hero-section">
-        <div className="hero-badge">ðŸ˜ For Brunswick Buyers</div>
+        <div className="hero-badge">🏘 For Brunswick Buyers</div>
         <h1 className="hero-h">
           Got your Brunswick<br/>building report? <em>Decoded.</em>
         </h1>
         <p className="hero-sub">
           Upload any AS4349.1 building & pest inspection PDF for a Brunswick property and get a
-          plain-English verdict, AU repair costs, local tradies, and exactly how much to negotiate â€”
+          plain-English verdict, AU repair costs, local tradies, and exactly how much to negotiate —
           in under 2 minutes. Every claim cites the inspector's page so nothing's made up.
         </p>
         <div style={{ marginTop: 22, display: 'flex', gap: 20, justifyContent: 'center', flexWrap: 'wrap' }}>
@@ -79,25 +79,25 @@ export default function BrunswickLandingPage() {
             style={hero_btn_primary}
             onClick={() => { try { track('brunswick_landing_cta', { type: 'sample_view' }); } catch {} }}
           >
-            See a real inner-Melbourne analysis â†’
+            See a real inner-Melbourne analysis →
           </Link>
           <a
             href={SAMPLE_PDF}
             style={hero_btn_secondary}
             onClick={() => { try { track('brunswick_landing_cta', { type: 'sample_pdf' }); } catch {} }}
           >
-            â¬‡ Download sample PDF
+            ⬇ Download sample PDF
           </a>
         </div>
       </div>
 
-      {/* â”€â”€ UPLOAD CTA â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€ */}
+      {/* ── UPLOAD CTA ────────────────────────────────── */}
       <div className="upload-area">
         <div className="upload-zone" style={{ cursor: 'default' }}>
-          <div className="upload-icon">ðŸ“„</div>
+          <div className="upload-icon">📄</div>
           <div className="upload-title">Got your own Brunswick inspection report?</div>
           <div className="upload-sub">
-            Upload it on the homepage. Single report $59 AUD Â· results in under 2 minutes Â· branded PDF emailed to you.
+            Upload it on the homepage. Single report $59 AUD · results in under 2 minutes · branded PDF emailed to you.
           </div>
           <Link
             href="/#buyer-upload"
@@ -105,17 +105,17 @@ export default function BrunswickLandingPage() {
             style={{ textDecoration: 'none' }}
             onClick={() => { try { track('brunswick_landing_cta', { type: 'upload' }); } catch {} }}
           >
-            Upload your PDF â†’
+            Upload your PDF →
           </Link>
           <div className="upload-filetypes">
-            PDF only Â· max 25 MB Â· Australian Standard AS4349.1 reports
+            PDF only · max 25 MB · Australian Standard AS4349.1 reports
           </div>
         </div>
 
-        {/* â”€â”€ REAL ANCHOR STATS â”€â”€ */}
+        {/* ── REAL ANCHOR STATS ── */}
         <div style={{ marginTop: 56, marginBottom: 40 }}>
           <div className="section-label" style={{ textAlign: 'center' }}>
-            ðŸ“Š What a real inner-Melbourne analysis looks like
+            📊 What a real inner-Melbourne analysis looks like
           </div>
           <div
             style={{
@@ -127,16 +127,16 @@ export default function BrunswickLandingPage() {
             }}
           >
             <div style={{ fontWeight: 600, fontSize: 16, color: 'var(--navy)', marginBottom: 4 }}>
-              Public sample: <span className="redact-soft">â–ˆâ–ˆâ–ˆ</span> Loch Street, Yarraville VIC 3013
+              Public sample: <span className="redact-soft">███</span> Loch Street, Yarraville VIC 3013
             </div>
             <div style={{ fontSize: 13, color: 'var(--muted)', marginBottom: 18 }}>
-              c.1940 timber weatherboard on stumps Â· the exact era of housing you'll see on Sydney Rd, Brunswick West, and Coburg
+              c.1940 timber weatherboard on stumps · the exact era of housing you'll see on Sydney Rd, Brunswick West, and Coburg
             </div>
             <div className="stats-row" style={{ marginBottom: 18 }}>
               <div className="stat-card">
                 <div className="stat-label">Inspector pages</div>
                 <div className="stat-val">95</div>
-                <div className="stat-sub">â†’ 5-page analysis</div>
+                <div className="stat-sub">→ 5-page analysis</div>
               </div>
               <div className="stat-card">
                 <div className="stat-label">Major defects</div>
@@ -145,7 +145,7 @@ export default function BrunswickLandingPage() {
               </div>
               <div className="stat-card">
                 <div className="stat-label">Repair cost</div>
-                <div className="stat-val" style={{ fontSize: 18 }}>$36Kâ€“$117K</div>
+                <div className="stat-val" style={{ fontSize: 18 }}>$36K–$117K</div>
                 <div className="stat-sub">AU 2026 rates</div>
               </div>
               <div className="stat-card">
@@ -156,19 +156,19 @@ export default function BrunswickLandingPage() {
             </div>
             <div style={{ display: 'flex', gap: 16, flexWrap: 'wrap', justifyContent: 'center' }}>
               <Link href={SAMPLE_URL} style={{ color: 'var(--amber)', fontWeight: 600, textDecoration: 'none', fontSize: 14 }}>
-                Read the full analysis â†’
+                Read the full analysis →
               </Link>
               <a href={SAMPLE_PDF} style={{ color: 'var(--amber)', fontWeight: 600, textDecoration: 'none', fontSize: 14 }}>
-                â¬‡ Download as PDF
+                ⬇ Download as PDF
               </a>
             </div>
           </div>
         </div>
 
-        {/* â”€â”€ WHY BRUNSWICK BUYERS NEED THIS â”€â”€ */}
+        {/* ── WHY BRUNSWICK BUYERS NEED THIS ── */}
         <div style={{ marginBottom: 40 }}>
           <div className="section-label" style={{ textAlign: 'center' }}>
-            ðŸ§± Why Brunswick reports are tougher than most
+            🧱 Why Brunswick reports are tougher than most
           </div>
           <div className="how-strip" style={{ marginTop: 18 }}>
             {[
@@ -199,10 +199,10 @@ export default function BrunswickLandingPage() {
           </div>
         </div>
 
-        {/* â”€â”€ PRICING â”€â”€ */}
+        {/* ── PRICING ── */}
         <div style={{ marginBottom: 40 }}>
           <div className="section-label" style={{ textAlign: 'center' }}>
-            ðŸ’° Simple pricing
+            💰 Simple pricing
           </div>
           <div className="pricing-row" style={{ marginTop: 18 }}>
             <div className="price-card">
@@ -220,15 +220,15 @@ export default function BrunswickLandingPage() {
               <div className="price-label">For Buyer's Agents</div>
               <div className="price-amount">From $79<span style={{ fontSize: 17, fontWeight: 300 }}>/mo</span></div>
               <div className="price-desc">White-label PDFs with your branding for your Brunswick buyer clients.</div>
-              <div style={{ marginTop: 8, color: 'var(--amber)', fontSize: 13, fontWeight: 600 }}>Learn more â†’</div>
+              <div style={{ marginTop: 8, color: 'var(--amber)', fontSize: 13, fontWeight: 600 }}>Learn more →</div>
             </Link>
           </div>
         </div>
 
-        {/* â”€â”€ FAQ â”€â”€ */}
+        {/* ── FAQ ── */}
         <div style={{ marginBottom: 40 }}>
           <div className="section-label" style={{ textAlign: 'center' }}>
-            â“ Common questions from Brunswick buyers
+            ❓ Common questions from Brunswick buyers
           </div>
           <div style={{ marginTop: 18 }}>
             {FAQS.map((f, i) => (
@@ -257,7 +257,7 @@ export default function BrunswickLandingPage() {
                   }}
                 >
                   <span>{f.q}</span>
-                  <span style={{ color: 'var(--subtle)', fontSize: 12 }}>{openFaq === i ? 'â–²' : 'â–¼'}</span>
+                  <span style={{ color: 'var(--subtle)', fontSize: 12 }}>{openFaq === i ? '▲' : '▼'}</span>
                 </div>
                 {openFaq === i && (
                   <div style={{ padding: '0 18px 16px', fontSize: 13.5, lineHeight: 1.65, color: '#374151' }}>
@@ -269,7 +269,7 @@ export default function BrunswickLandingPage() {
           </div>
         </div>
 
-        {/* â”€â”€ BOTTOM CTA â”€â”€ */}
+        {/* ── BOTTOM CTA ── */}
         <div
           style={{
             background: 'var(--navy)',
@@ -300,12 +300,12 @@ export default function BrunswickLandingPage() {
             }}
             onClick={() => { try { track('brunswick_landing_cta', { type: 'bottom_upload' }); } catch {} }}
           >
-            Upload your PDF â†’
+            Upload your PDF →
           </Link>
         </div>
       </div>
 
-      {/* â”€â”€ FOOTER â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€ */}
+      {/* ── FOOTER ────────────────────────────────────── */}
       <footer
         style={{
           background: 'var(--navy)',
@@ -325,7 +325,7 @@ export default function BrunswickLandingPage() {
             <Link href="/terms">Terms of Service</Link>
           </div>
           <div style={{ fontSize: 12, color: 'rgba(255,255,255,0.45)', marginTop: 8 }}>
-            Â© 2026 Report Decoded Â· Australian property inspection report interpreter Â·
+            © 2026 Report Decoded · Australian property inspection report interpreter ·
             AI analysis is general information, not professional advice.
           </div>
         </div>
@@ -337,31 +337,31 @@ export default function BrunswickLandingPage() {
 const FAQS = [
   {
     q: 'Why do you have a Brunswick-specific page?',
-    a: "Brunswick's housing stock is unusually layered â€” Victorian-era brick on the streetfront, post-war timber out the back, and 2010s-2020s upstairs additions under heritage overlay rules. That mix is exactly where defect risk + interpretation difficulty peak. We built this page because Brunswick reports are some of the densest we see, and a typical buyer doesn't have the context to read them without help.",
+    a: "Brunswick's housing stock is unusually layered — Victorian-era brick on the streetfront, post-war timber out the back, and 2010s-2020s upstairs additions under heritage overlay rules. That mix is exactly where defect risk + interpretation difficulty peak. We built this page because Brunswick reports are some of the densest we see, and a typical buyer doesn't have the context to read them without help.",
   },
   {
-    q: 'Heritage overlay applies to my property â€” does that change what I should be looking for?',
+    q: 'Heritage overlay applies to my property — does that change what I should be looking for?',
     a: "Yes. Heritage overlays (extensive across Brunswick) restrict what you can change to the streetscape-visible portions of the building. If the inspector flags a defect to a front-facing element (verandah cast-iron, original sash windows, slate roof) the rectification quote needs to factor in heritage-compliant materials and a permit process. Our analysis flags this where relevant.",
   },
   {
     q: 'Is the AI actually accurate?',
-    a: "Yes â€” and verifiable. Every major and minor defect we identify includes a citation to the page in your inspector's PDF where it was discussed. So you can flip to page 40 of your report and check that the inspector did say what we attribute. We don't extract claims we can't anchor.",
+    a: "Yes — and verifiable. Every major and minor defect we identify includes a citation to the page in your inspector's PDF where it was discussed. So you can flip to page 40 of your report and check that the inspector did say what we attribute. We don't extract claims we can't anchor.",
   },
   {
     q: 'How is the negotiation amount calculated?',
-    a: "We sum all major and minor defects' repair-cost midpoints (using Australian 2026 tradie rates, adjusted for inner-north Melbourne premium where relevant), adjust for severity, and propose a sensible negotiation figure. The number isn't a guarantee â€” it's a defensible starting position for your conversation with the vendor's agent. The report shows how we got there.",
+    a: "We sum all major and minor defects' repair-cost midpoints (using Australian 2026 tradie rates, adjusted for inner-north Melbourne premium where relevant), adjust for severity, and propose a sensible negotiation figure. The number isn't a guarantee — it's a defensible starting position for your conversation with the vendor's agent. The report shows how we got there.",
   },
   {
     q: 'Will this replace getting a building inspection?',
-    a: "No â€” and it shouldn't. You should always commission a licensed AS4349.1 inspector for the actual inspection. This tool sits AFTER the inspection: it interprets the report you receive. Think of it as having a builder friend translate the 95-page document for you in under 2 minutes.",
+    a: "No — and it shouldn't. You should always commission a licensed AS4349.1 inspector for the actual inspection. This tool sits AFTER the inspection: it interprets the report you receive. Think of it as having a builder friend translate the 95-page document for you in under 2 minutes.",
   },
   {
     q: 'My property has Victorian-era plumbing (lead, galvanised). Does the inspection cover that?',
-    a: "Partially. AS4349.1 building inspections are visual only â€” the inspector will flag visible plumbing concerns (corrosion, leaks, sagging pipes) but cannot test pipe interiors. Our analysis recommends a separate plumbing inspection when we detect these red flags. Galvanised pipes in original Brunswick homes are typically end-of-life and budget should be set aside for a full replumb.",
+    a: "Partially. AS4349.1 building inspections are visual only — the inspector will flag visible plumbing concerns (corrosion, leaks, sagging pipes) but cannot test pipe interiors. Our analysis recommends a separate plumbing inspection when we detect these red flags. Galvanised pipes in original Brunswick homes are typically end-of-life and budget should be set aside for a full replumb.",
   },
   {
-    q: "I'm in Brunswick East / West / Coburg / Pascoe Vale â€” still works?",
-    a: "Yes â€” the tool works for any Australian property. The Brunswick-specific framing on this page is for SEO; the underlying analysis is identical for Brunswick East, Brunswick West, Coburg, Pascoe Vale, Fitzroy, Northcote, or anywhere else. Local tradie matching uses your property's actual address.",
+    q: "I'm in Brunswick East / West / Coburg / Pascoe Vale — still works?",
+    a: "Yes — the tool works for any Australian property. The Brunswick-specific framing on this page is for SEO; the underlying analysis is identical for Brunswick East, Brunswick West, Coburg, Pascoe Vale, Fitzroy, Northcote, or anywhere else. Local tradie matching uses your property's actual address.",
   },
   {
     q: 'How does the refund policy work?',
