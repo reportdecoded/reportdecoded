@@ -1,0 +1,1402 @@
+{
+  "_readme": "correct = the trade key a buyer SHOULD see. also_ok = other defensible keys. Set by human review — this file is the regression baseline.",
+  "defects": [
+    {
+      "id": "bef33dd5:major:no-power-supply-to-rear-of-house:0",
+      "address": "Not disclosed (Sample Report - address field blank",
+      "kind": "major",
+      "name": "No Power Supply to Rear of House",
+      "fields": {
+        "name": "No Power Supply to Rear of House",
+        "plain_english": "The inspector found there appears to be no working power supply to the rear section of the home. This means power points or circuits in that area either aren't connected or aren't functioning correctly.",
+        "why_it_matters": "A new home must have fully functional electrical installations throughout before handover. This could indicate an incomplete or faulty electrical installation, which is both a safety concern and a livability issue.",
+        "location": "Hallways and general living spaces - back section of house"
+      },
+      "stored_claude_trade": null,
+      "currently_shown": "electrician",
+      "shown_source": "regex",
+      "correct": "electrician",
+      "also_ok": []
+    },
+    {
+      "id": "bef33dd5:major:incorrectly-wired-ixl-heat-lamps-exhaust-fans:1",
+      "address": "Not disclosed (Sample Report - address field blank",
+      "kind": "major",
+      "name": "Incorrectly Wired IXL Heat Lamps / Exhaust Fans",
+      "fields": {
+        "name": "Incorrectly Wired IXL Heat Lamps / Exhaust Fans",
+        "plain_english": "In both the bathroom and ensuite, when you turn on the heat lamps the exhaust fan activates at the same time — that's not how it's supposed to work. They should operate independently. Also, in the WC (toilet room), the light switch doesn't engage the light or exhaust fan at all.",
+        "why_it_matters": "Incorrectly wired fixtures in wet areas are both a functional problem and a potential electrical safety hazard. In a new home this should never be an issue at handover — it's a builder defect.",
+        "location": "Bathroom 1 and Ensuite 1 ceilings"
+      },
+      "stored_claude_trade": null,
+      "currently_shown": "electrician",
+      "shown_source": "regex",
+      "correct": "electrician",
+      "also_ok": []
+    },
+    {
+      "id": "bef33dd5:major:bowed-walls-in-multiple-locations:2",
+      "address": "Not disclosed (Sample Report - address field blank",
+      "kind": "major",
+      "name": "Bowed Walls in Multiple Locations",
+      "fields": {
+        "name": "Bowed Walls in Multiple Locations",
+        "plain_english": "The inspector found that internal walls in two separate passages appear to be bowed — meaning they're not straight and flat as they should be. In a brand new home this points to either poor installation of the wall lining (plasterboard) or potential framing issues behind the wall.",
+        "why_it_matters": "Bowed walls in a new build are unacceptable and indicate substandard workmanship. If caused by framing issues rather than just plasterboard, the fix could be more involved. The builder needs to investigate and rectify.",
+        "location": "Passage leading to kitchen (left elevation) and passage leading to bathroom (left elevation, bottom section)"
+      },
+      "stored_claude_trade": null,
+      "currently_shown": "licensed_builder",
+      "shown_source": "regex",
+      "correct": "licensed_builder",
+      "also_ok": []
+    },
+    {
+      "id": "bef33dd5:major:contaminated-shower-sealants-both-bathroom-and-ensuite:3",
+      "address": "Not disclosed (Sample Report - address field blank",
+      "kind": "major",
+      "name": "Contaminated Shower Sealants (Both Bathroom and Ensuite)",
+      "fields": {
+        "name": "Contaminated Shower Sealants (Both Bathroom and Ensuite)",
+        "plain_english": "The silicone sealant (the flexible waterproof strip that runs around the edge of the shower) has been contaminated with tile adhesive glue in both wet areas. This compromises the watertight seal — if water gets under that contaminated sealant, it can cause waterproofing failure and leaks into the structure below.",
+        "why_it_matters": "Shower waterproofing failure is one of the most expensive problems to fix in any home. In a new build, contaminated sealants at handover means the waterproofing is already compromised before anyone has even taken a shower. This needs to be properly stripped back and re-done, not just covered over.",
+        "location": "Bathroom 1 shower base perimeter and Ensuite 1 shower niche"
+      },
+      "stored_claude_trade": null,
+      "currently_shown": "waterproofer",
+      "shown_source": "regex",
+      "correct": "waterproofer",
+      "also_ok": [
+        "tiler"
+      ]
+    },
+    {
+      "id": "bef33dd5:major:gaps-at-top-of-shower-tiles-bathroom-and-ensuite:4",
+      "address": "Not disclosed (Sample Report - address field blank",
+      "kind": "major",
+      "name": "Gaps at Top of Shower Tiles (Bathroom and Ensuite)",
+      "fields": {
+        "name": "Gaps at Top of Shower Tiles (Bathroom and Ensuite)",
+        "plain_english": "There are unfilled gaps at the top edge of the tiles in the shower in both the bathroom and ensuite. This means water can get behind the tiles and into the wall, which in a worst case scenario means waterproofing failure and structural damage to the wall framing.",
+        "why_it_matters": "Water penetration behind shower tiles in a new home can cause timber framing to rot, mould growth in the walls, and expensive remediation work down the track. This must be properly grouted or sealed before handover.",
+        "location": "Bathroom 1 shower recess and Ensuite 1 shower recess - top edge of tiles"
+      },
+      "stored_claude_trade": null,
+      "currently_shown": "waterproofer",
+      "shown_source": "regex",
+      "correct": "tiler",
+      "also_ok": [
+        "waterproofer",
+        "handyman"
+      ]
+    },
+    {
+      "id": "bef33dd5:minor:entry-door-multiple-issues-tight-margins-poor-fit-draught-se:0",
+      "address": "Not disclosed (Sample Report - address field blank",
+      "kind": "minor",
+      "name": "Entry Door - Multiple Issues (Tight Margins, Poor Fit, Draught Seal, Unpainted Edges, Rusty Striker Plate)",
+      "fields": {
+        "name": "Entry Door - Multiple Issues (Tight Margins, Poor Fit, Draught Seal, Unpainted Edges, Rusty Striker Plate)",
+        "plain_english": "The front door has several problems: the gap around the door is uneven and too tight in places (less than 2mm when it should be consistent), the door doesn't sit flush against the draught seal at the bottom, the draught seals at the bottom aren't properly fitted, the top and bottom edges of the door haven't been painted or sealed (leaving raw timber exposed), and the metal striker plate and screws are already showing rust.",
+        "why_it_matters": "A poorly fitted entry door lets in draughts, insects, and moisture — plus an unpainted door edge will absorb moisture and potentially warp or rot over time. The rusty striker plate on a brand new home is unacceptable finish quality.",
+        "location": "Main entry door"
+      },
+      "stored_claude_trade": null,
+      "currently_shown": "handyman",
+      "shown_source": "regex",
+      "correct": "carpenter",
+      "also_ok": [
+        "handyman",
+        "painter"
+      ]
+    },
+    {
+      "id": "bef33dd5:minor:gaps-around-doors-and-windows-throughout-energy-rating-risk:1",
+      "address": "Not disclosed (Sample Report - address field blank",
+      "kind": "minor",
+      "name": "Gaps Around Doors and Windows Throughout (Energy Rating Risk)",
+      "fields": {
+        "name": "Gaps Around Doors and Windows Throughout (Energy Rating Risk)",
+        "plain_english": "There are gaps at the tops and bottoms of doors and windows throughout the house. The inspector specifically notes this could affect the home's six-star energy rating — meaning the home may not actually perform as efficiently as it was designed and certified to, which affects your heating and cooling bills.",
+        "why_it_matters": "If the home doesn't meet its energy rating due to sealing defects, it may technically not comply with the National Construction Code. This is a builder obligation to fix before handover.",
+        "location": "Throughout the home - tops and bottoms of doors and windows"
+      },
+      "stored_claude_trade": null,
+      "currently_shown": "licensed_builder",
+      "shown_source": "regex",
+      "correct": "licensed_builder",
+      "also_ok": [
+        "carpenter",
+        "handyman"
+      ]
+    },
+    {
+      "id": "bef33dd5:minor:garage-internal-access-door-not-sitting-flush-with-draught-s:2",
+      "address": "Not disclosed (Sample Report - address field blank",
+      "kind": "minor",
+      "name": "Garage Internal Access Door Not Sitting Flush with Draught Seal",
+      "fields": {
+        "name": "Garage Internal Access Door Not Sitting Flush with Draught Seal",
+        "plain_english": "The door between the garage and the house doesn't sit properly against its draught seal. This is relevant because the door between a garage and living areas is often required to be fire-rated — a poor fit compromises both fire and carbon monoxide safety.",
+        "why_it_matters": "The internal garage-to-house door is a fire separation door. It must close tightly and properly to provide the required fire resistance. This is a safety-relevant defect.",
+        "location": "Garage internal access door"
+      },
+      "stored_claude_trade": null,
+      "currently_shown": "handyman",
+      "shown_source": "regex",
+      "correct": "handyman",
+      "also_ok": [
+        "carpenter"
+      ]
+    },
+    {
+      "id": "bef33dd5:minor:missing-manhole-cover:3",
+      "address": "Not disclosed (Sample Report - address field blank",
+      "kind": "minor",
+      "name": "Missing Manhole Cover",
+      "fields": {
+        "name": "Missing Manhole Cover",
+        "plain_english": "The manhole cover (the hatch in the ceiling that gives access to the roof space) is missing entirely, leaving an open hole in the ceiling.",
+        "why_it_matters": "Pests, vermin and heat loss can occur through an uncovered manhole. It's a straightforward fix but shouldn't be missing on a new home.",
+        "location": "Ceiling - hallway area"
+      },
+      "stored_claude_trade": null,
+      "currently_shown": "pest_controller",
+      "shown_source": "regex",
+      "correct": "handyman",
+      "also_ok": [
+        "plasterer",
+        "licensed_builder"
+      ]
+    },
+    {
+      "id": "bef33dd5:minor:door-fitting-issues-throughout-bedroom-1-2-3-bathroom-ensuit:4",
+      "address": "Not disclosed (Sample Report - address field blank",
+      "kind": "minor",
+      "name": "Door Fitting Issues Throughout (Bedroom 1, 2, 3, Bathroom, Ensuite, Laundry)",
+      "fields": {
+        "name": "Door Fitting Issues Throughout (Bedroom 1, 2, 3, Bathroom, Ensuite, Laundry)",
+        "plain_english": "Doors throughout the house have various fitting problems: gaps that are too tight (less than 2mm where they should be consistent), excessive gaps at hinge areas (should be 10-12mm), doors not cut straight at the top, latches that don't properly engage with strike plates, and missing hinges. This is a widespread workmanship issue.",
+        "why_it_matters": "Doors that don't fit or latch properly are a functional defect. In a new home, every door should be properly hung and adjusted before handover — this level of door problems across the whole house indicates poor attention to detail by the builder's finishing trades.",
+        "location": "Multiple rooms - Bedroom 1, 2, 3, Bathroom 1 (WC), Ensuite, Laundry, Kitchen pantry"
+      },
+      "stored_claude_trade": null,
+      "currently_shown": "licensed_builder",
+      "shown_source": "regex",
+      "correct": "carpenter",
+      "also_ok": [
+        "licensed_builder",
+        "handyman"
+      ]
+    },
+    {
+      "id": "bef33dd5:minor:missing-laundry-door:5",
+      "address": "Not disclosed (Sample Report - address field blank",
+      "kind": "minor",
+      "name": "Missing Laundry Door",
+      "fields": {
+        "name": "Missing Laundry Door",
+        "plain_english": "The laundry door simply hasn't been fitted yet at the time of inspection.",
+        "why_it_matters": "Incomplete item — must be installed before handover.",
+        "location": "Laundry"
+      },
+      "stored_claude_trade": null,
+      "currently_shown": "handyman",
+      "shown_source": "regex",
+      "correct": "carpenter",
+      "also_ok": [
+        "handyman",
+        "licensed_builder"
+      ]
+    },
+    {
+      "id": "bef33dd5:minor:missing-laundry-cabinet-kick-board:6",
+      "address": "Not disclosed (Sample Report - address field blank",
+      "kind": "minor",
+      "name": "Missing Laundry Cabinet Kick Board",
+      "fields": {
+        "name": "Missing Laundry Cabinet Kick Board",
+        "plain_english": "The decorative panel at the very bottom of the laundry cabinets (the 'kick board' that covers the gap between the cabinet base and the floor) hasn't been installed.",
+        "why_it_matters": "Cosmetic/incomplete item — exposes the underside of the cabinet to moisture and pests.",
+        "location": "Laundry cabinets - bottom"
+      },
+      "stored_claude_trade": null,
+      "currently_shown": "cabinetmaker",
+      "shown_source": "regex",
+      "correct": "cabinetmaker",
+      "also_ok": []
+    },
+    {
+      "id": "bef33dd5:minor:kitchen-appliances-not-yet-installed:7",
+      "address": "Not disclosed (Sample Report - address field blank",
+      "kind": "minor",
+      "name": "Kitchen Appliances Not Yet Installed",
+      "fields": {
+        "name": "Kitchen Appliances Not Yet Installed",
+        "plain_english": "The oven, range hood, and dishwasher were not installed at the time of inspection.",
+        "why_it_matters": "These are incomplete items that must be installed and tested before handover. You should ensure these are the exact make and model specified in your contract.",
+        "location": "Kitchen"
+      },
+      "stored_claude_trade": null,
+      "currently_shown": "handyman",
+      "shown_source": "regex",
+      "correct": "licensed_builder",
+      "also_ok": [
+        "handyman"
+      ]
+    },
+    {
+      "id": "bef33dd5:minor:kitchen-cabinet-door-alignment-issues-and-exposed-plumbing-p:8",
+      "address": "Not disclosed (Sample Report - address field blank",
+      "kind": "minor",
+      "name": "Kitchen Cabinet Door Alignment Issues and Exposed Plumbing Penetrations",
+      "fields": {
+        "name": "Kitchen Cabinet Door Alignment Issues and Exposed Plumbing Penetrations",
+        "plain_english": "Kitchen cabinet doors don't align properly and have irregular gaps throughout. There are also large exposed gaps around the plumbing pipes under the sink that need to be properly sealed/covered.",
+        "why_it_matters": "Misaligned kitchen cabinets are a workmanship defect in a new home. The exposed plumbing gaps under the sink can allow moisture, pests and odours into the cabinet space.",
+        "location": "Kitchen - cabinets and under sink"
+      },
+      "stored_claude_trade": null,
+      "currently_shown": "cabinetmaker",
+      "shown_source": "regex",
+      "correct": "cabinetmaker",
+      "also_ok": [
+        "plumber"
+      ]
+    },
+    {
+      "id": "bef33dd5:minor:bedroom-1-robe-missing-hanging-rail-and-shelf-support:9",
+      "address": "Not disclosed (Sample Report - address field blank",
+      "kind": "minor",
+      "name": "Bedroom 1 Robe - Missing Hanging Rail and Shelf Support",
+      "fields": {
+        "name": "Bedroom 1 Robe - Missing Hanging Rail and Shelf Support",
+        "plain_english": "The hanging rail and its support bracket inside the built-in wardrobe in Bedroom 1 are missing.",
+        "why_it_matters": "Incomplete item — wardrobe is essentially non-functional without the hanging rail.",
+        "location": "Bedroom 1 wardrobe"
+      },
+      "stored_claude_trade": null,
+      "currently_shown": "cabinetmaker",
+      "shown_source": "regex",
+      "correct": "cabinetmaker",
+      "also_ok": [
+        "handyman"
+      ]
+    },
+    {
+      "id": "bef33dd5:minor:bathroom-shower-rail-not-installed:10",
+      "address": "Not disclosed (Sample Report - address field blank",
+      "kind": "minor",
+      "name": "Bathroom - Shower Rail Not Installed",
+      "fields": {
+        "name": "Bathroom - Shower Rail Not Installed",
+        "plain_english": "The shower rail (the bar your shower head slides up and down on) hasn't been installed in the main bathroom.",
+        "why_it_matters": "Incomplete item — shower is not fully functional.",
+        "location": "Bathroom 1 shower"
+      },
+      "stored_claude_trade": null,
+      "currently_shown": "handyman",
+      "shown_source": "regex",
+      "correct": "handyman",
+      "also_ok": []
+    },
+    {
+      "id": "bef33dd5:minor:bathroom-shower-tile-grout-pinholes:11",
+      "address": "Not disclosed (Sample Report - address field blank",
+      "kind": "minor",
+      "name": "Bathroom Shower Tile Grout Pinholes",
+      "fields": {
+        "name": "Bathroom Shower Tile Grout Pinholes",
+        "plain_english": "The tile grout in the shower has numerous small pinholes throughout. Grout that isn't properly filled allows water to seep through, which can undermine the waterproofing membrane behind the tiles.",
+        "why_it_matters": "Pinholes in shower grout compromise the waterproofing and can lead to leaks into the wall cavity over time.",
+        "location": "Bathroom 1 shower recess tiles"
+      },
+      "stored_claude_trade": null,
+      "currently_shown": "tiler",
+      "shown_source": "regex",
+      "correct": "tiler",
+      "also_ok": []
+    },
+    {
+      "id": "bef33dd5:minor:scratched-bathtub:12",
+      "address": "Not disclosed (Sample Report - address field blank",
+      "kind": "minor",
+      "name": "Scratched Bathtub",
+      "fields": {
+        "name": "Scratched Bathtub",
+        "plain_english": "The bathtub has visible scratches across various areas — likely caused during construction.",
+        "why_it_matters": "A brand new bath should be delivered to you in perfect condition. Scratches expose the underlying material and can stain or deteriorate over time.",
+        "location": "Bathroom 1"
+      },
+      "stored_claude_trade": null,
+      "currently_shown": "handyman",
+      "shown_source": "regex",
+      "correct": "handyman",
+      "also_ok": []
+    },
+    {
+      "id": "bef33dd5:minor:bathroom-vanity-cabinet-hinge-separated:13",
+      "address": "Not disclosed (Sample Report - address field blank",
+      "kind": "minor",
+      "name": "Bathroom Vanity Cabinet Hinge Separated",
+      "fields": {
+        "name": "Bathroom Vanity Cabinet Hinge Separated",
+        "plain_english": "The hinge on the top right door of the bathroom vanity has come away from the cabinet body.",
+        "why_it_matters": "Straightforward fix — cabinet door is non-functional without a properly attached hinge.",
+        "location": "Bathroom 1 - vanity cabinet, top right door"
+      },
+      "stored_claude_trade": null,
+      "currently_shown": "cabinetmaker",
+      "shown_source": "regex",
+      "correct": "cabinetmaker",
+      "also_ok": [
+        "handyman"
+      ]
+    },
+    {
+      "id": "bef33dd5:minor:ensuite-cabinet-cracked:14",
+      "address": "Not disclosed (Sample Report - address field blank",
+      "kind": "minor",
+      "name": "Ensuite Cabinet Cracked",
+      "fields": {
+        "name": "Ensuite Cabinet Cracked",
+        "plain_english": "The cabinet body beneath the left basin in the ensuite has a crack in it. On a brand new home this is damage that occurred during construction.",
+        "why_it_matters": "A cracked cabinet in a new home should be replaced, not left as-is.",
+        "location": "Ensuite 1 - cabinet below left-hand side basin"
+      },
+      "stored_claude_trade": null,
+      "currently_shown": "cabinetmaker",
+      "shown_source": "regex",
+      "correct": "cabinetmaker",
+      "also_ok": []
+    },
+    {
+      "id": "bef33dd5:minor:towel-rail-size-discrepancy-in-ensuite:15",
+      "address": "Not disclosed (Sample Report - address field blank",
+      "kind": "minor",
+      "name": "Towel Rail Size Discrepancy in Ensuite",
+      "fields": {
+        "name": "Towel Rail Size Discrepancy in Ensuite",
+        "plain_english": "The towel rail that's been installed is a different (longer) size than what was shown on the approved plans/elevations. The inspector has flagged this and asked for confirmation from the builder about which is correct.",
+        "why_it_matters": "If the installed item doesn't match the contract specifications, the builder needs to either confirm in writing that the variation is agreed or replace it with the specified item.",
+        "location": "Ensuite 1 wall"
+      },
+      "stored_claude_trade": null,
+      "currently_shown": "handyman",
+      "shown_source": "regex",
+      "correct": "handyman",
+      "also_ok": []
+    },
+    {
+      "id": "bef33dd5:minor:garage-ceiling-cornice-line-bowed:16",
+      "address": "Not disclosed (Sample Report - address field blank",
+      "kind": "minor",
+      "name": "Garage Ceiling/Cornice Line Bowed",
+      "fields": {
+        "name": "Garage Ceiling/Cornice Line Bowed",
+        "plain_english": "The line where the ceiling meets the wall (the cornice) in the garage appears to be bowed rather than straight.",
+        "why_it_matters": "Poor workmanship in a new home — indicates the ceiling lining or cornice wasn't installed correctly.",
+        "location": "Garage - front elevation ceiling/cornice"
+      },
+      "stored_claude_trade": null,
+      "currently_shown": "plasterer",
+      "shown_source": "regex",
+      "correct": "plasterer",
+      "also_ok": [
+        "licensed_builder"
+      ]
+    },
+    {
+      "id": "bef33dd5:minor:brickwork-mortar-smears-and-gaps-holes-throughout-exterior:17",
+      "address": "Not disclosed (Sample Report - address field blank",
+      "kind": "minor",
+      "name": "Brickwork - Mortar Smears and Gaps/Holes Throughout Exterior",
+      "fields": {
+        "name": "Brickwork - Mortar Smears and Gaps/Holes Throughout Exterior",
+        "plain_english": "The outside brickwork has two problems: (1) mortar smeared across the face of various bricks that needs to be cleaned off, and (2) gaps and holes in the mortar joints between bricks that need to be filled.",
+        "why_it_matters": "Mortar smears are mainly cosmetic but difficult to remove once hardened. Gaps in mortar joints allow water to penetrate behind the brickwork, causing moisture problems in walls over time.",
+        "location": "External brickwork throughout the home"
+      },
+      "stored_claude_trade": null,
+      "currently_shown": "bricklayer",
+      "shown_source": "regex",
+      "correct": "bricklayer",
+      "also_ok": []
+    },
+    {
+      "id": "bef33dd5:minor:meter-box-installed-out-of-plumb:18",
+      "address": "Not disclosed (Sample Report - address field blank",
+      "kind": "minor",
+      "name": "Meter Box Installed Out of Plumb",
+      "fields": {
+        "name": "Meter Box Installed Out of Plumb",
+        "plain_english": "The electricity meter box on the outside of the home isn't vertical — it's been installed on a lean. This is both an aesthetic and workmanship issue.",
+        "why_it_matters": "The meter box should be properly installed per the electrical authority's requirements. An out-of-plumb meter box may need to be corrected before the electricity authority will accept it.",
+        "location": "External - right elevation"
+      },
+      "stored_claude_trade": null,
+      "currently_shown": "electrician",
+      "shown_source": "regex",
+      "correct": "electrician",
+      "also_ok": []
+    },
+    {
+      "id": "bef33dd5:minor:paint-touch-ups-required-throughout:19",
+      "address": "Not disclosed (Sample Report - address field blank",
+      "kind": "minor",
+      "name": "Paint Touch-Ups Required Throughout",
+      "fields": {
+        "name": "Paint Touch-Ups Required Throughout",
+        "plain_english": "The inspector noted general paint touch-ups are needed throughout the house. This is common in new builds but should all be completed before you accept handover.",
+        "why_it_matters": "Standard new home defect — the builder's painter should complete all touch-ups prior to handover at no cost to you.",
+        "location": "General - throughout the home"
+      },
+      "stored_claude_trade": null,
+      "currently_shown": "painter",
+      "shown_source": "regex",
+      "correct": "painter",
+      "also_ok": []
+    },
+    {
+      "id": "bef33dd5:minor:linen-broom-cupboard-missing-hinge-screws:20",
+      "address": "Not disclosed (Sample Report - address field blank",
+      "kind": "minor",
+      "name": "Linen/Broom Cupboard - Missing Hinge Screws",
+      "fields": {
+        "name": "Linen/Broom Cupboard - Missing Hinge Screws",
+        "plain_english": "The top left hinge on the linen or broom cupboard door is missing its screws.",
+        "why_it_matters": "Minor but should be rectified — a hinge without all its screws will eventually fail and the door will drop.",
+        "location": "Linen/broom cupboard door - top left hinge"
+      },
+      "stored_claude_trade": null,
+      "currently_shown": "cabinetmaker",
+      "shown_source": "regex",
+      "correct": "handyman",
+      "also_ok": [
+        "cabinetmaker"
+      ]
+    },
+    {
+      "id": "bef33dd5:minor:roof-space-access-limited-by-heating-ducts:21",
+      "address": "Not disclosed (Sample Report - address field blank",
+      "kind": "minor",
+      "name": "Roof Space Access Limited by Heating Ducts",
+      "fields": {
+        "name": "Roof Space Access Limited by Heating Ducts",
+        "plain_english": "The inspector couldn't fully access the roof space because heating ducts and low-lying areas of the roof blocked physical access.",
+        "why_it_matters": "This means parts of the roof space structure, insulation and any potential issues could not be inspected. You should ask the builder for documentation confirming insulation installation meets specifications and consider requesting a follow-up inspection if ducts are moved.",
+        "location": "Roof space"
+      },
+      "stored_claude_trade": null,
+      "currently_shown": "licensed_builder",
+      "shown_source": "regex",
+      "correct": "licensed_builder",
+      "also_ok": [
+        "handyman"
+      ]
+    },
+    {
+      "id": "f3ef0ce1:major:bathroom-grout-and-sealant-failure:0",
+      "address": "18 Loch Street Yarraville 3013",
+      "kind": "major",
+      "name": "Bathroom grout and sealant failure",
+      "fields": {
+        "name": "Bathroom grout and sealant failure",
+        "plain_english": "The grout and silicone sealant around the tiled wet areas (bath surround, shower) has degraded or gone missing. Water is getting into the gaps every time someone showers or baths.",
+        "why_it_matters": "Once water gets behind tiles it soaks into the wall framing and subfloor. Left alone this leads to rotting timber framing, mould, and eventually a full bathroom resheet — a job that costs $6,000–$12,000 instead of a few hundred dollars now.",
+        "location": "Bathroom 1 — Ground floor"
+      },
+      "stored_claude_trade": "tiler",
+      "currently_shown": "tiler",
+      "shown_source": "claude",
+      "correct": "tiler",
+      "also_ok": [
+        "waterproofer"
+      ]
+    },
+    {
+      "id": "f3ef0ce1:major:inadequate-site-drainage:1",
+      "address": "18 Loch Street Yarraville 3013",
+      "kind": "major",
+      "name": "Inadequate site drainage",
+      "fields": {
+        "name": "Inadequate site drainage",
+        "plain_english": "Water is pooling against the base of the walls rather than draining away. The site is described as poorly drained, and paving and ground levels are directing water toward the house rather than away from it.",
+        "why_it_matters": "Persistent moisture against the base of a timber-framed house on stumps is the single biggest driver of termite attack, fungal decay, and rising damp. It's already contributing to the fungal decay found in the weatherboards. Without fixing drainage, any other repairs will fail prematurely.",
+        "location": "All external areas — perimeter of building"
+      },
+      "stored_claude_trade": "landscaper",
+      "currently_shown": "landscaper",
+      "shown_source": "claude",
+      "correct": "landscaper",
+      "also_ok": [
+        "plumber"
+      ]
+    },
+    {
+      "id": "f3ef0ce1:major:uneven-paving-falling-toward-house:2",
+      "address": "18 Loch Street Yarraville 3013",
+      "kind": "major",
+      "name": "Uneven paving falling toward house",
+      "fields": {
+        "name": "Uneven paving falling toward house",
+        "plain_english": "The external paving is uneven and sloping toward the house rather than away from it. Some sections are also a trip hazard.",
+        "why_it_matters": "Paving that drains toward the house pushes water into the footings and subfloor — accelerating timber decay and termite risk. The trip hazard also creates a personal injury risk for anyone walking around the property.",
+        "location": "All external areas — paths and paved areas around building perimeter"
+      },
+      "stored_claude_trade": "landscaper",
+      "currently_shown": "landscaper",
+      "shown_source": "claude",
+      "correct": "landscaper",
+      "also_ok": [
+        "concreter"
+      ]
+    },
+    {
+      "id": "f3ef0ce1:major:rusted-shed-roof-sheets:3",
+      "address": "18 Loch Street Yarraville 3013",
+      "kind": "major",
+      "name": "Rusted shed roof sheets",
+      "fields": {
+        "name": "Rusted shed roof sheets",
+        "plain_english": "The corrugated iron roof sheets on the shed are heavily rusted and corroding through. Photos show rust across the entire roof surface and holes forming at the sheet overlaps.",
+        "why_it_matters": "A rusted-through roof lets water in, which will rot the shed's timber framing and any contents stored inside. The shed is also a termite risk if moisture accumulates in the timber structure beneath.",
+        "location": "Shed / outbuilding — external areas"
+      },
+      "stored_claude_trade": "roofer",
+      "currently_shown": "roofer",
+      "shown_source": "claude",
+      "correct": "roofer",
+      "also_ok": []
+    },
+    {
+      "id": "f3ef0ce1:major:deteriorated-external-paint-widespread:4",
+      "address": "18 Loch Street Yarraville 3013",
+      "kind": "major",
+      "name": "Deteriorated external paint — widespread",
+      "fields": {
+        "name": "Deteriorated external paint — widespread",
+        "plain_english": "The external paint is peeling, cracking, and missing across large sections of the weatherboards, fascias, and window frames. Bare timber is exposed in multiple locations.",
+        "why_it_matters": "On an 80-year-old timber weatherboard house, paint is the primary protection against moisture and rot. Bare timber absorbs water, swells, cracks, and decays — and the pest report has already confirmed fungal decay is present in the weatherboards. Every month without paint accelerates the rot.",
+        "location": "All external areas — weatherboards, fascias, window frames, verandah"
+      },
+      "stored_claude_trade": "painter",
+      "currently_shown": "painter",
+      "shown_source": "claude",
+      "correct": "painter",
+      "also_ok": []
+    },
+    {
+      "id": "f3ef0ce1:major:leaning-brick-pier-veranda-subsidence:5",
+      "address": "18 Loch Street Yarraville 3013",
+      "kind": "major",
+      "name": "Leaning brick pier — veranda subsidence",
+      "fields": {
+        "name": "Leaning brick pier — veranda subsidence",
+        "plain_english": "One of the decorative brick piers supporting the front veranda is leaning considerably. This is a structural concern that needs a structural engineer to assess before you can know how serious it is.",
+        "why_it_matters": "A leaning pier can indicate foundation movement, soil subsidence, or mortar failure. If the pier is load-bearing for the veranda roof, it could collapse. At minimum it needs rebuilding; at worst it signals broader foundation movement that could be expensive to address.",
+        "location": "Front left corner of veranda — external"
+      },
+      "stored_claude_trade": "bricklayer",
+      "currently_shown": "bricklayer",
+      "shown_source": "claude",
+      "correct": "bricklayer",
+      "also_ok": [
+        "restumper"
+      ]
+    },
+    {
+      "id": "f3ef0ce1:minor:leaking-kitchen-tap:0",
+      "address": "18 Loch Street Yarraville 3013",
+      "kind": "minor",
+      "name": "Leaking kitchen tap",
+      "fields": {
+        "name": "Leaking kitchen tap",
+        "plain_english": "The kitchen tap is dripping or leaking. A straightforward plumbing repair.",
+        "why_it_matters": "Ongoing water waste and potential for water damage under the sink if the leak worsens.",
+        "location": "Kitchen — Ground floor"
+      },
+      "stored_claude_trade": "plumber",
+      "currently_shown": "plumber",
+      "shown_source": "claude",
+      "correct": "plumber",
+      "also_ok": []
+    },
+    {
+      "id": "f3ef0ce1:minor:moving-squeaky-floorboards:1",
+      "address": "18 Loch Street Yarraville 3013",
+      "kind": "minor",
+      "name": "Moving/squeaky floorboards",
+      "fields": {
+        "name": "Moving/squeaky floorboards",
+        "plain_english": "The floorboards move and creak underfoot, indicating they've come loose from the joists beneath.",
+        "why_it_matters": "Squeaky floors are usually a nuisance rather than a structural issue, but in a house with known termite workings and wood borer in the Baltic pine floors, any floor movement warrants closer inspection of the subfloor once access is available.",
+        "location": "Living room — Ground floor"
+      },
+      "stored_claude_trade": "carpenter",
+      "currently_shown": "carpenter",
+      "shown_source": "claude",
+      "correct": "carpenter",
+      "also_ok": [
+        "restumper"
+      ]
+    },
+    {
+      "id": "f3ef0ce1:minor:loose-cabinet-hinges-bathroom:2",
+      "address": "18 Loch Street Yarraville 3013",
+      "kind": "minor",
+      "name": "Loose cabinet hinges — bathroom",
+      "fields": {
+        "name": "Loose cabinet hinges — bathroom",
+        "plain_english": "Several cupboard door hinges have come loose from their fixings. Doors are sagging or not closing properly.",
+        "why_it_matters": "Cosmetic and functional nuisance only. Easy handyman fix.",
+        "location": "Bathroom 1 — Ground floor"
+      },
+      "stored_claude_trade": "handyman",
+      "currently_shown": "handyman",
+      "shown_source": "claude",
+      "correct": "handyman",
+      "also_ok": [
+        "cabinetmaker"
+      ]
+    },
+    {
+      "id": "f3ef0ce1:minor:shower-recess-components-general-condition:3",
+      "address": "18 Loch Street Yarraville 3013",
+      "kind": "minor",
+      "name": "Shower recess components — general condition",
+      "fields": {
+        "name": "Shower recess components — general condition",
+        "plain_english": "The shower recess components (screen, base, seals) were noted as requiring attention. Given the grout and sealant failure already flagged as a major defect, the shower should be assessed for leaks before purchase.",
+        "why_it_matters": "A leaking shower can cause significant hidden damage to the subfloor and wall framing in a timber-framed house.",
+        "location": "Bathroom 1 — Ground floor"
+      },
+      "stored_claude_trade": "waterproofer",
+      "currently_shown": "waterproofer",
+      "shown_source": "claude",
+      "correct": "waterproofer",
+      "also_ok": [
+        "tiler"
+      ]
+    },
+    {
+      "id": "f3ef0ce1:minor:deteriorated-fencing:4",
+      "address": "18 Loch Street Yarraville 3013",
+      "kind": "minor",
+      "name": "Deteriorated fencing",
+      "fields": {
+        "name": "Deteriorated fencing",
+        "plain_english": "Sections of the timber paling fencing around the property have rotted and deteriorated due to age and weather exposure.",
+        "why_it_matters": "Deteriorated fencing is a security and privacy issue. Rotting timber in contact with the ground is also a termite attractant.",
+        "location": "All external areas — boundary fencing"
+      },
+      "stored_claude_trade": "fencer",
+      "currently_shown": "fencer",
+      "shown_source": "claude",
+      "correct": "fencer",
+      "also_ok": []
+    },
+    {
+      "id": "f3ef0ce1:minor:loose-front-balustrade-handrail:5",
+      "address": "18 Loch Street Yarraville 3013",
+      "kind": "minor",
+      "name": "Loose front balustrade/handrail",
+      "fields": {
+        "name": "Loose front balustrade/handrail",
+        "plain_english": "The front handrail to the verandah is loose and not fixed securely.",
+        "why_it_matters": "A loose handrail is a fall risk, particularly for children or elderly visitors. Should be fixed promptly.",
+        "location": "Front verandah — external"
+      },
+      "stored_claude_trade": "handyman",
+      "currently_shown": "handyman",
+      "shown_source": "claude",
+      "correct": "handyman",
+      "also_ok": [
+        "carpenter"
+      ]
+    },
+    {
+      "id": "f3ef0ce1:minor:floors-out-of-level-throughout:6",
+      "address": "18 Loch Street Yarraville 3013",
+      "kind": "minor",
+      "name": "Floors out of level — throughout",
+      "fields": {
+        "name": "Floors out of level — throughout",
+        "plain_english": "The internal floors are noticeably out of level in multiple rooms. The inspector's photos show a spirit level with a significant gap across multiple rooms.",
+        "why_it_matters": "Some floor movement is expected in an 80-year-old stumped house. However, combined with the subfloor access limitations and the termite/borer findings, this warrants a proper subfloor inspection once access is available. If stumps have failed or been damaged by pests, restumping could be a significant cost.",
+        "location": "All internal areas"
+      },
+      "stored_claude_trade": "restumper",
+      "currently_shown": "restumper",
+      "shown_source": "claude",
+      "correct": "restumper",
+      "also_ok": []
+    },
+    {
+      "id": "f3ef0ce1:minor:hairline-cracks-in-plaster-lining:7",
+      "address": "18 Loch Street Yarraville 3013",
+      "kind": "minor",
+      "name": "Hairline cracks in plaster lining",
+      "fields": {
+        "name": "Hairline cracks in plaster lining",
+        "plain_english": "Hairline cracks are visible in the plaster walls and ceilings throughout the house. The inspector describes these as cosmetic and common in a house of this age.",
+        "why_it_matters": "Hairline cracks alone are cosmetic. However, if they widen or new ones appear after you move in, it could indicate ongoing foundation movement — worth monitoring.",
+        "location": "All internal areas — walls and ceilings"
+      },
+      "stored_claude_trade": "plasterer",
+      "currently_shown": "plasterer",
+      "shown_source": "claude",
+      "correct": "plasterer",
+      "also_ok": []
+    },
+    {
+      "id": "f3ef0ce1:minor:internal-paint-touch-ups-required:8",
+      "address": "18 Loch Street Yarraville 3013",
+      "kind": "minor",
+      "name": "Internal paint touch-ups required",
+      "fields": {
+        "name": "Internal paint touch-ups required",
+        "plain_english": "Various internal walls and surfaces need paint touch-ups to restore appearance.",
+        "why_it_matters": "Cosmetic only.",
+        "location": "All internal areas"
+      },
+      "stored_claude_trade": "painter",
+      "currently_shown": "painter",
+      "shown_source": "claude",
+      "correct": "painter",
+      "also_ok": []
+    },
+    {
+      "id": "f3ef0ce1:minor:doors-and-windows-difficult-to-operate:9",
+      "address": "18 Loch Street Yarraville 3013",
+      "kind": "minor",
+      "name": "Doors and windows difficult to operate",
+      "fields": {
+        "name": "Doors and windows difficult to operate",
+        "plain_english": "Multiple doors and windows are binding, jamming, or sticking and won't open or close smoothly.",
+        "why_it_matters": "In a house with out-of-level floors, sticking doors and windows can be a symptom of ongoing foundation movement. Most cases in an old house are just seasonal timber swelling, but worth monitoring alongside the floor levels.",
+        "location": "All internal areas"
+      },
+      "stored_claude_trade": "handyman",
+      "currently_shown": "handyman",
+      "shown_source": "claude",
+      "correct": "handyman",
+      "also_ok": [
+        "carpenter"
+      ]
+    },
+    {
+      "id": "f3ef0ce1:minor:loose-roof-frame-purlin-strut-non-compliant-alteration:10",
+      "address": "18 Loch Street Yarraville 3013",
+      "kind": "minor",
+      "name": "Loose roof frame purlin strut — non-compliant alteration",
+      "fields": {
+        "name": "Loose roof frame purlin strut — non-compliant alteration",
+        "plain_english": "Someone has altered the roof framing structure and a purlin strut (a timber brace that supports the roof) is now loose. The modifications don't comply with current building standards and a building permit was required but may not have been obtained.",
+        "why_it_matters": "A loose purlin strut reduces the structural integrity of the roof frame. You should check with Maribyrnong Council whether a building permit was issued for this work. If not, you may need to retrospectively approve or rectify it.",
+        "location": "Roofspace"
+      },
+      "stored_claude_trade": "carpenter",
+      "currently_shown": "carpenter",
+      "shown_source": "claude",
+      "correct": "carpenter",
+      "also_ok": [
+        "licensed_builder"
+      ]
+    },
+    {
+      "id": "f3ef0ce1:pest:termite-workings-and-damage-internal-areas:0",
+      "address": "18 Loch Street Yarraville 3013",
+      "kind": "pest",
+      "name": "Termite workings and damage — internal areas",
+      "fields": {
+        "name": "Termite workings and damage — internal areas",
+        "plain_english": "Evidence of past termite workings and/or damage was found inside the house. The extent was undetermined due to obstructions (wall linings, floor coverings). No live termites were found on the day, but the inspector notes that absence of live termites doesn't mean the colony is gone.",
+        "why_it_matters": "Termite damage can be hidden behind wall linings and under floors. The full extent is unknown until an invasive inspection is done. Structural framing damage from termites can cost $8,000–$25,000+ to repair. This is the single biggest financial unknown in this report.",
+        "location": "All internal areas"
+      },
+      "stored_claude_trade": "pest_controller",
+      "currently_shown": "pest_controller",
+      "shown_source": "claude",
+      "correct": "pest_controller",
+      "also_ok": [
+        "carpenter"
+      ]
+    },
+    {
+      "id": "f3ef0ce1:pest:termite-workings-and-damage-roofspace:1",
+      "address": "18 Loch Street Yarraville 3013",
+      "kind": "pest",
+      "name": "Termite workings and damage — roofspace",
+      "fields": {
+        "name": "Termite workings and damage — roofspace",
+        "plain_english": "Termite damage was found in the roof timbers. The damage appeared localised but the full extent couldn't be determined. A licensed builder needs to assess whether any structural roof members have been compromised.",
+        "why_it_matters": "Roof framing damaged by termites can fail under load. Repair costs depend on how many members are affected — could range from a few thousand dollars to a full roof reframe.",
+        "location": "Roofspace"
+      },
+      "stored_claude_trade": "pest_controller",
+      "currently_shown": "pest_controller",
+      "shown_source": "claude",
+      "correct": "pest_controller",
+      "also_ok": [
+        "carpenter"
+      ]
+    },
+    {
+      "id": "f3ef0ce1:pest:fungal-decay-weatherboards-and-fascias-widespread:2",
+      "address": "18 Loch Street Yarraville 3013",
+      "kind": "pest",
+      "name": "Fungal decay — weatherboards and fascias (widespread)",
+      "fields": {
+        "name": "Fungal decay — weatherboards and fascias (widespread)",
+        "plain_english": "The timber weatherboards and fascias have widespread fungal decay (rot). The inspector probed the timber and it tested as decayed. This is beyond just peeling paint — the timber itself is breaking down.",
+        "why_it_matters": "Decayed weatherboards and fascias need to be replaced, not just repainted. If left, the rot spreads into the structural wall framing behind. Given the extent described as 'widespread', this is a significant repair job.",
+        "location": "All external areas — weatherboards and fascias"
+      },
+      "stored_claude_trade": "carpenter",
+      "currently_shown": "carpenter",
+      "shown_source": "claude",
+      "correct": "carpenter",
+      "also_ok": [
+        "painter"
+      ]
+    },
+    {
+      "id": "f3ef0ce1:pest:wood-borer-furniture-beetle-baltic-pine-flooring-throughout:3",
+      "address": "18 Loch Street Yarraville 3013",
+      "kind": "pest",
+      "name": "Wood borer (furniture beetle) — Baltic pine flooring throughout",
+      "fields": {
+        "name": "Wood borer (furniture beetle) — Baltic pine flooring throughout",
+        "plain_english": "The Baltic pine floorboards throughout the house have widespread wood borer (furniture beetle, Anobium punctatum) damage. The inspector couldn't confirm if the attack is still active without breaking open the timber, but says it should be treated as active unless proven otherwise.",
+        "why_it_matters": "Wood borer weakens floorboards over time. Widespread attack means the floors may need chemical treatment and potentially replacement of the most affected boards. Baltic pine is particularly susceptible and replacement with non-susceptible timber is the most effective fix.",
+        "location": "All internal areas — Baltic pine floorboards"
+      },
+      "stored_claude_trade": "pest_controller",
+      "currently_shown": "pest_controller",
+      "shown_source": "claude",
+      "correct": "pest_controller",
+      "also_ok": [
+        "carpenter"
+      ]
+    },
+    {
+      "id": "f3ef0ce1:pest:no-termite-management-system-installed:4",
+      "address": "18 Loch Street Yarraville 3013",
+      "kind": "pest",
+      "name": "No termite management system installed",
+      "fields": {
+        "name": "No termite management system installed",
+        "plain_english": "There is no termite barrier or management system protecting this property — no chemical barrier, no baiting system, nothing. There's no notice in the switchboard indicating any previous treatment either.",
+        "why_it_matters": "An unprotected 80-year-old timber house in Melbourne is extremely vulnerable to termite attack. Given that termite workings have already been found, installing a management system is not optional — it's essential. This needs to happen immediately after purchase.",
+        "location": "Whole property"
+      },
+      "stored_claude_trade": "pest_controller",
+      "currently_shown": "pest_controller",
+      "shown_source": "claude",
+      "correct": "pest_controller",
+      "also_ok": []
+    },
+    {
+      "id": "f3ef0ce1:pest:inadequate-subfloor-ventilation:5",
+      "address": "18 Loch Street Yarraville 3013",
+      "kind": "pest",
+      "name": "Inadequate subfloor ventilation",
+      "fields": {
+        "name": "Inadequate subfloor ventilation",
+        "plain_english": "The ventilation under the house is inadequate. There aren't enough vents to keep the subfloor dry and well-aired.",
+        "why_it_matters": "Poor subfloor ventilation creates the damp, humid conditions that termites and fungal decay thrive in. It's a direct contributor to the rot and pest issues already found. Fixing ventilation is a prerequisite for any other subfloor repairs to last.",
+        "location": "Subfloor — all external areas"
+      },
+      "stored_claude_trade": "carpenter",
+      "currently_shown": "carpenter",
+      "shown_source": "claude",
+      "correct": "pest_controller",
+      "also_ok": [
+        "carpenter",
+        "restumper"
+      ]
+    },
+    {
+      "id": "f3ef0ce1:pest:excessive-moisture-external-areas:6",
+      "address": "18 Loch Street Yarraville 3013",
+      "kind": "pest",
+      "name": "Excessive moisture — external areas",
+      "fields": {
+        "name": "Excessive moisture — external areas",
+        "plain_english": "Excessive moisture was detected around the external perimeter of the house, linked to poor drainage, leaking plumbing connections, and vegetation against the walls.",
+        "why_it_matters": "Moisture is the root cause of both the fungal decay and the termite conducive conditions. Until the moisture sources are fixed, pest and decay problems will keep recurring.",
+        "location": "All external areas"
+      },
+      "stored_claude_trade": "plumber",
+      "currently_shown": "plumber",
+      "shown_source": "claude",
+      "correct": "plumber",
+      "also_ok": [
+        "landscaper",
+        "waterproofer"
+      ]
+    },
+    {
+      "id": "f3ef0ce1:pest:termite-inspection-zones-breached-widespread:7",
+      "address": "18 Loch Street Yarraville 3013",
+      "kind": "pest",
+      "name": "Termite inspection zones breached — widespread",
+      "fields": {
+        "name": "Termite inspection zones breached — widespread",
+        "plain_english": "The areas around the base of the house that should be kept clear so termites can be spotted (called inspection zones) are blocked by paving, gardens, earth, vegetation, decking, and pipework on all four sides of the house. Termites could be entering the house undetected right now.",
+        "why_it_matters": "When inspection zones are blocked, termites can travel from the soil into the house walls without anyone seeing them. This is a major risk factor and needs to be cleared as a priority.",
+        "location": "All external areas — front, rear, both sides"
+      },
+      "stored_claude_trade": "landscaper",
+      "currently_shown": "landscaper",
+      "shown_source": "claude",
+      "correct": "pest_controller",
+      "also_ok": [
+        "landscaper"
+      ]
+    },
+    {
+      "id": "08079c41:major:drummy-and-moving-floor-tiles-hallway-and-stair-top:0",
+      "address": "Lot 2 No. 2 Commerce Court, Kilmore, VIC",
+      "kind": "major",
+      "name": "Drummy and moving floor tiles — hallway and stair top",
+      "fields": {
+        "name": "Drummy and moving floor tiles — hallway and stair top",
+        "plain_english": "When you tap or walk on these tiles, they sound hollow (that's what 'drummy' means) and they're actually moving underfoot — you can see this because the grout joints are already cracking from the movement. Under Australian Standard AS 3958.1, more than 20% hollow-sounding tiles is considered suspect and a defect. The inspector suspects the tiles weren't bedded properly — likely the tiler didn't use the right notched trowel technique or didn't 'butter' the back of the tiles as required for larger format tiles.",
+        "why_it_matters": "Moving tiles on a staircase landing and hallway are a trip and slip risk over time as the tiles continue to crack and lift. Left unaddressed, the tiles will eventually fail completely, requiring a much larger and more disruptive re-tiling job. The builder should investigate by removing a tile or two to confirm the bonding method used, then rectify — which may mean lifting and re-laying the affected area. This should be addressed before you sign off practical completion.",
+        "location": "Hallway to Bedroom 4 and top of stairs"
+      },
+      "stored_claude_trade": null,
+      "currently_shown": "licensed_builder",
+      "shown_source": "regex",
+      "correct": "tiler",
+      "also_ok": [
+        "licensed_builder"
+      ]
+    },
+    {
+      "id": "08079c41:major:damaged-galvanised-coating-on-window-and-door-lintels:1",
+      "address": "Lot 2 No. 2 Commerce Court, Kilmore, VIC",
+      "kind": "major",
+      "name": "Damaged galvanised coating on window and door lintels",
+      "fields": {
+        "name": "Damaged galvanised coating on window and door lintels",
+        "plain_english": "The metal lintels (the horizontal steel beams that sit above your windows and doors to carry the brickwork load) have had their protective zinc/galvanised coating damaged by the acid wash used to clean the brickwork during construction. This has been flagged in every inspection since September 2024 — three inspections — and still hasn't been fixed.",
+        "why_it_matters": "Without the protective coating, the steel lintels will rust. Rust expands as it forms, which can crack and push out the brickwork above your windows and doors over time. This is a long-term durability issue. The builder needs to properly clean the affected lintels and apply an appropriate rust-inhibiting paint or coating. The fact this has been outstanding since September 2024 across three inspections is a concern — include it prominently in your rectification letter.",
+        "location": "Window and door lintels — external (multiple locations)"
+      },
+      "stored_claude_trade": null,
+      "currently_shown": "licensed_builder",
+      "shown_source": "regex",
+      "correct": "painter",
+      "also_ok": [
+        "licensed_builder",
+        "metalworker"
+      ]
+    },
+    {
+      "id": "08079c41:minor:front-entry-door-seal-not-sealing-properly:0",
+      "address": "Lot 2 No. 2 Commerce Court, Kilmore, VIC",
+      "kind": "minor",
+      "name": "Front entry door seal not sealing properly",
+      "fields": {
+        "name": "Front entry door seal not sealing properly",
+        "plain_english": "The weatherseal on the front door isn't doing its job — air and potentially water can get in around the door when it's closed. The builder has already agreed to replace the door, so this should be a straightforward resolution.",
+        "why_it_matters": "Draughts, energy inefficiency, and potential water ingress in heavy rain. Builder has agreed to replace the door — confirm this is completed before sign-off.",
+        "location": "Front entry door"
+      },
+      "stored_claude_trade": null,
+      "currently_shown": "handyman",
+      "shown_source": "regex",
+      "correct": "handyman",
+      "also_ok": [
+        "carpenter"
+      ]
+    },
+    {
+      "id": "08079c41:minor:squeaking-door-hinges-multiple-doors:1",
+      "address": "Lot 2 No. 2 Commerce Court, Kilmore, VIC",
+      "kind": "minor",
+      "name": "Squeaking door hinges — multiple doors",
+      "fields": {
+        "name": "Squeaking door hinges — multiple doors",
+        "plain_english": "Several door hinges squeak and need adjustment. This has been flagged since September 2024 and remains unaddressed across three inspections.",
+        "why_it_matters": "A minor annoyance now, but the fact it's been on the list since September 2024 without being fixed reflects a pattern of the builder not following through on small items. Include it in the rectification letter to ensure it gets done.",
+        "location": "Ensuite door (Bed 1), WC, Powder Room (PDR), Bed 3"
+      },
+      "stored_claude_trade": null,
+      "currently_shown": "handyman",
+      "shown_source": "regex",
+      "correct": "handyman",
+      "also_ok": []
+    },
+    {
+      "id": "08079c41:minor:sliding-screen-and-glass-doors-not-functioning-smoothly:2",
+      "address": "Lot 2 No. 2 Commerce Court, Kilmore, VIC",
+      "kind": "minor",
+      "name": "Sliding screen and glass doors not functioning smoothly",
+      "fields": {
+        "name": "Sliding screen and glass doors not functioning smoothly",
+        "plain_english": "All sliding doors — including the screen door and the glass sliding doors — are stiff and don't slide smoothly. They need to be serviced and adjusted. This has been flagged since September 2024.",
+        "why_it_matters": "Stiff sliding doors are a daily frustration and can damage the door tracks and rollers over time if not adjusted. The builder should service all sliding doors before handover.",
+        "location": "Verandah sliding screen door and all sliding glass doors throughout"
+      },
+      "stored_claude_trade": null,
+      "currently_shown": "handyman",
+      "shown_source": "regex",
+      "correct": "handyman",
+      "also_ok": [
+        "glazier",
+        "carpenter"
+      ]
+    },
+    {
+      "id": "08079c41:minor:kitchen-sliding-window-lock-not-functioning-correctly:3",
+      "address": "Lot 2 No. 2 Commerce Court, Kilmore, VIC",
+      "kind": "minor",
+      "name": "Kitchen sliding window lock not functioning correctly",
+      "fields": {
+        "name": "Kitchen sliding window lock not functioning correctly",
+        "plain_english": "The lock on the kitchen sliding window doesn't work properly. It needs to be serviced or replaced so it locks securely.",
+        "why_it_matters": "A window that doesn't lock properly is a security issue and may affect your home insurance. The builder should rectify before sign-off.",
+        "location": "Kitchen sliding window"
+      },
+      "stored_claude_trade": null,
+      "currently_shown": "licensed_builder",
+      "shown_source": "regex",
+      "correct": "handyman",
+      "also_ok": [
+        "glazier",
+        "licensed_builder"
+      ]
+    },
+    {
+      "id": "08079c41:minor:shower-floor-tile-caulk-incomplete-and-cracked-grout-at-skir:4",
+      "address": "Lot 2 No. 2 Commerce Court, Kilmore, VIC",
+      "kind": "minor",
+      "name": "Shower floor tile caulk incomplete and cracked grout at skirting tile",
+      "fields": {
+        "name": "Shower floor tile caulk incomplete and cracked grout at skirting tile",
+        "plain_english": "The caulking (flexible waterproof sealant) between the floor tiles in the shower hasn't been fully applied, and there's a crack in the grout at the skirting tile next to the shower base. The main shower base levelling issue from the previous report has been fixed, but these two sub-items remain outstanding.",
+        "why_it_matters": "Incomplete caulking and cracked grout in a shower are potential water ingress points. Water getting under tiles in a wet area can cause waterproofing failure, tile delamination, and structural damage to the substrate over time. The builder should complete the caulking and re-grout the cracked skirting tile joint before sign-off.",
+        "location": "Bathroom/ensuite shower area (Bed 1 ensuite area)"
+      },
+      "stored_claude_trade": null,
+      "currently_shown": "waterproofer",
+      "shown_source": "regex",
+      "correct": "tiler",
+      "also_ok": [
+        "waterproofer"
+      ]
+    },
+    {
+      "id": "08079c41:minor:bath-window-rough-edges-missing-paint-rust-deposits-ill-fitt:5",
+      "address": "Lot 2 No. 2 Commerce Court, Kilmore, VIC",
+      "kind": "minor",
+      "name": "Bath window — rough edges, missing paint, rust deposits, ill-fitting fly screen",
+      "fields": {
+        "name": "Bath window — rough edges, missing paint, rust deposits, ill-fitting fly screen",
+        "plain_english": "When the builder repaired this window (from a previous inspection finding), they left the window frame with rough unfinished edges and didn't touch up the paint. There are also rust deposits sitting in the bottom track that weren't cleaned up. On top of that, the fly wire screen isn't sitting properly in the frame.",
+        "why_it_matters": "Rust left in the track will continue to corrode and can stain tiles and grout. Rough edges and missing paint are below the standard you contracted for. The fly screen not fitting properly means insects can get in. All three sub-items should be on the rectification list.",
+        "location": "Bathroom window"
+      },
+      "stored_claude_trade": null,
+      "currently_shown": "painter",
+      "shown_source": "regex",
+      "correct": "painter",
+      "also_ok": [
+        "handyman"
+      ]
+    },
+    {
+      "id": "08079c41:minor:linen-cupboard-door-catches-not-adjusted-right-side:6",
+      "address": "Lot 2 No. 2 Commerce Court, Kilmore, VIC",
+      "kind": "minor",
+      "name": "Linen cupboard door catches not adjusted — right side",
+      "fields": {
+        "name": "Linen cupboard door catches not adjusted — right side",
+        "plain_english": "The magnetic or roller catches on the right-side linen door don't work properly — the door doesn't close easily. This has been flagged since September 2024 and remains unaddressed.",
+        "why_it_matters": "Minor daily annoyance. Simple adjustment by the builder's carpenter. The fact it's been on the list since September 2024 is the main concern — make sure it's captured in the rectification letter.",
+        "location": "Linen cupboard (right side door)"
+      },
+      "stored_claude_trade": null,
+      "currently_shown": "cabinetmaker",
+      "shown_source": "regex",
+      "correct": "handyman",
+      "also_ok": [
+        "cabinetmaker"
+      ]
+    },
+    {
+      "id": "d35a2b26:major:sagging-roof-structure-possible-framing-failure:0",
+      "address": "15 Jenever Place, Bentley, WA 6102",
+      "kind": "major",
+      "name": "Sagging Roof Structure — Possible Framing Failure",
+      "fields": {
+        "name": "Sagging Roof Structure — Possible Framing Failure",
+        "plain_english": "The roof tiles and fascia at the front of the house are visibly sagging. The inspector couldn't get into the roof space to check the timber frame underneath, but the sagging strongly suggests the structural timber members holding the roof up have deteriorated or moved. Think of it like a bookshelf bowing in the middle — the shelves (tiles) are drooping because the supports underneath are failing.",
+        "why_it_matters": "If the roof framing is deteriorating, it will continue to worsen and could eventually lead to partial roof collapse. Water will also be getting in through the displaced tiles, causing further damage to ceilings, walls and the subfloor below. This is the single most expensive and serious structural item in the report.",
+        "location": "Front elevation roof — hip tiles, adjacent roof tiles and fascia lining"
+      },
+      "stored_claude_trade": null,
+      "currently_shown": "carpenter",
+      "shown_source": "regex",
+      "correct": "carpenter",
+      "also_ok": [
+        "licensed_builder"
+      ]
+    },
+    {
+      "id": "d35a2b26:major:active-termites-coptotermes-on-site-no-termite-management-sy:1",
+      "address": "15 Jenever Place, Bentley, WA 6102",
+      "kind": "major",
+      "name": "Active Termites (Coptotermes) On Site — No Termite Management System",
+      "fields": {
+        "name": "Active Termites (Coptotermes) On Site — No Termite Management System",
+        "plain_english": "Live termites of the species Coptotermes were found actively feeding in tree stumps in the backyard. Coptotermes are the most destructive termite species in Australia — they are responsible for the majority of serious structural damage to homes. There is zero evidence that any termite barrier or treatment has ever been installed at this property: no drill holes, no treatment tags, no durable notice, nothing. The subfloor and roof void — the two places termites most commonly attack — could not be inspected. The inspector has rated the property HIGH risk and recommends inspections every 6 months.",
+        "why_it_matters": "With live Coptotermes metres from the house, no barrier protection, and two key areas (subfloor and roof void) completely uninspected, there is a real and present risk that termites have already entered the structure. Concealed termite damage to floor joists, bearers, wall frames or roof timbers could be extensive and would only be revealed by invasive investigation. Treatment alone costs $1,500–$3,500; if structural timber damage is found, repair costs could be $20,000–$80,000+.",
+        "location": "Rear garden — tree stumps; termite workings and damage also observed to multiple tree stumps"
+      },
+      "stored_claude_trade": null,
+      "currently_shown": "pest_controller",
+      "shown_source": "regex",
+      "correct": "pest_controller",
+      "also_ok": []
+    },
+    {
+      "id": "d35a2b26:major:suspected-asbestos-boundary-fence-and-shed-roof:2",
+      "address": "15 Jenever Place, Bentley, WA 6102",
+      "kind": "major",
+      "name": "Suspected Asbestos — Boundary Fence and Shed Roof",
+      "fields": {
+        "name": "Suspected Asbestos — Boundary Fence and Shed Roof",
+        "plain_english": "The inspector observed that the boundary fence and the roof sheeting on the shed look visually consistent with asbestos cement sheeting — the kind commonly used in WA homes built before the mid-1980s. Some of this material is damaged and deteriorating. No lab testing was done to confirm it, but given the property's age (~50 years), asbestos cement sheeting is very likely. Damaged asbestos is a health hazard because it can release fibres into the air.",
+        "why_it_matters": "Damaged asbestos sheeting must be managed or removed by a licensed asbestos removalist in accordance with WA regulations. You cannot simply paint over cracked or broken asbestos sheeting. If you disturb it during any renovation or landscaping work without knowing it's there, you risk serious health consequences. An asbestos assessment and safe removal/encapsulation is required.",
+        "location": "Boundary fence and shed roof cover"
+      },
+      "stored_claude_trade": null,
+      "currently_shown": "asbestos_remover",
+      "shown_source": "regex",
+      "correct": "asbestos_remover",
+      "also_ok": []
+    },
+    {
+      "id": "d35a2b26:major:extensive-brickwork-cracking-at-garage-corroding-steel-linte:3",
+      "address": "15 Jenever Place, Bentley, WA 6102",
+      "kind": "major",
+      "name": "Extensive Brickwork Cracking at Garage — Corroding Steel Lintel",
+      "fields": {
+        "name": "Extensive Brickwork Cracking at Garage — Corroding Steel Lintel",
+        "plain_english": "There is extensive cracking in the brickwork around the garage door. The inspector believes this is caused by the steel beam (called a lintel) above the garage door rusting and expanding — when steel rusts, it swells and pushes the bricks apart. This is a progressive problem: the more the steel rusts, the more the bricks crack and move.",
+        "why_it_matters": "If left unaddressed, the masonry above the garage door will continue to deteriorate and could become structurally unsafe. Rectification involves removing the affected brickwork, replacing the corroded lintel with a new one, and rebuilding the brickwork — a significant and disruptive job.",
+        "location": "Brickwork surrounding the garage door opening"
+      },
+      "stored_claude_trade": null,
+      "currently_shown": "carpenter",
+      "shown_source": "regex",
+      "correct": "bricklayer",
+      "also_ok": [
+        "licensed_builder"
+      ]
+    },
+    {
+      "id": "d35a2b26:minor:cracking-to-exterior-brickwork:0",
+      "address": "15 Jenever Place, Bentley, WA 6102",
+      "kind": "minor",
+      "name": "Cracking to Exterior Brickwork",
+      "fields": {
+        "name": "Cracking to Exterior Brickwork",
+        "plain_english": "Cracking was observed in the exterior brick walls at various points around the property. The inspector considers this consistent with normal movement for a 50-year-old double brick home, but notes it cannot be ruled out as ongoing movement.",
+        "why_it_matters": "Most of this cracking is likely cosmetic or minor settlement, but it should be monitored. If cracks widen or new ones appear, a structural engineer should assess whether there is an underlying foundation issue.",
+        "location": "Multiple locations around the exterior of the building"
+      },
+      "stored_claude_trade": null,
+      "currently_shown": "bricklayer",
+      "shown_source": "regex",
+      "correct": "bricklayer",
+      "also_ok": []
+    },
+    {
+      "id": "d35a2b26:minor:cracking-to-interior-brickwork-living-room:1",
+      "address": "15 Jenever Place, Bentley, WA 6102",
+      "kind": "minor",
+      "name": "Cracking to Interior Brickwork — Living Room",
+      "fields": {
+        "name": "Cracking to Interior Brickwork — Living Room",
+        "plain_english": "Step cracking (diagonal cracking that follows the mortar joints in a staircase pattern) was observed on an internal brick wall near the living room window. This pattern is typically associated with differential settlement — one part of the foundation moving slightly differently to another.",
+        "why_it_matters": "Step cracking in internal brickwork warrants monitoring. If it progresses, it could indicate a more serious foundation movement issue that would require engineering assessment.",
+        "location": "Internal wall adjacent to window in the living room"
+      },
+      "stored_claude_trade": null,
+      "currently_shown": "bricklayer",
+      "shown_source": "regex",
+      "correct": "bricklayer",
+      "also_ok": []
+    },
+    {
+      "id": "d35a2b26:minor:bouncy-and-creaky-interior-floors:2",
+      "address": "15 Jenever Place, Bentley, WA 6102",
+      "kind": "minor",
+      "name": "Bouncy and Creaky Interior Floors",
+      "fields": {
+        "name": "Bouncy and Creaky Interior Floors",
+        "plain_english": "Sections of the floor feel springy and creak when you walk on them. Because the inspector couldn't access the subfloor, the cause is unknown — it could be as simple as loose floorboards, or as serious as deteriorated stumps, bearers or joists underneath. Given the confirmed presence of live termites on site and no termite barrier, this is a significant unknown.",
+        "why_it_matters": "Bouncy floors in a property with active termites and no subfloor access is a red flag. The subfloor must be properly inspected before you can understand whether this is a minor maintenance issue or a major structural problem. Do not proceed without a subfloor inspection.",
+        "location": "Interior floors throughout the dwelling"
+      },
+      "stored_claude_trade": null,
+      "currently_shown": "pest_controller",
+      "shown_source": "regex",
+      "correct": "restumper",
+      "also_ok": [
+        "carpenter",
+        "licensed_builder"
+      ]
+    },
+    {
+      "id": "d35a2b26:minor:elevated-moisture-rear-of-bathroom-adjoining-cupboard:3",
+      "address": "15 Jenever Place, Bentley, WA 6102",
+      "kind": "minor",
+      "name": "Elevated Moisture — Rear of Bathroom / Adjoining Cupboard",
+      "fields": {
+        "name": "Elevated Moisture — Rear of Bathroom / Adjoining Cupboard",
+        "plain_english": "The inspector's moisture meter detected elevated moisture levels in the wall at the back of the bathroom cupboard, and paint and plaster were visibly deteriorating in that area. The source of the moisture couldn't be identified — it could be a leaking pipe, shower waterproofing failure, or condensation.",
+        "why_it_matters": "Ongoing moisture in a wall creates ideal conditions for mould growth, timber decay, and termite activity. The source needs to be found and fixed by a plumber or builder. If it's a waterproofing failure behind the shower, the tiles may need to come off to fix it properly.",
+        "location": "Rear of shared bathroom — adjoining cupboard wall"
+      },
+      "stored_claude_trade": null,
+      "currently_shown": "waterproofer",
+      "shown_source": "regex",
+      "correct": "waterproofer",
+      "also_ok": [
+        "plumber"
+      ]
+    },
+    {
+      "id": "d35a2b26:minor:mould-growth-bedroom-ceiling-and-bathroom:4",
+      "address": "15 Jenever Place, Bentley, WA 6102",
+      "kind": "minor",
+      "name": "Mould Growth — Bedroom Ceiling and Bathroom",
+      "fields": {
+        "name": "Mould Growth — Bedroom Ceiling and Bathroom",
+        "plain_english": "Mould was found growing on the ceiling in a bedroom and in the bathroom. This is typically caused by poor ventilation and/or moisture getting in from above or from condensation.",
+        "why_it_matters": "Mould can cause health issues, particularly for people with respiratory conditions. It also indicates an underlying moisture problem that needs to be addressed. The source (roof leak, condensation, poor ventilation) needs to be identified and fixed.",
+        "location": "Ceiling lining of a bedroom and the bathroom"
+      },
+      "stored_claude_trade": null,
+      "currently_shown": "waterproofer",
+      "shown_source": "regex",
+      "correct": "waterproofer",
+      "also_ok": [
+        "painter"
+      ]
+    },
+    {
+      "id": "d35a2b26:minor:inadequate-site-drainage-downpipes-discharging-to-ground:5",
+      "address": "15 Jenever Place, Bentley, WA 6102",
+      "kind": "minor",
+      "name": "Inadequate Site Drainage — Downpipes Discharging to Ground",
+      "fields": {
+        "name": "Inadequate Site Drainage — Downpipes Discharging to Ground",
+        "plain_english": "The roof downpipes are dumping water directly onto the ground next to the house rather than connecting to soakwells or a proper stormwater system. This means every time it rains, water pools around the base of the walls and under the house.",
+        "why_it_matters": "Water pooling around the base of the house is one of the biggest contributors to termite activity, rising damp, and subfloor moisture problems. Given the active termites already on site, this is particularly concerning and should be rectified promptly.",
+        "location": "Exterior perimeter — downpipes"
+      },
+      "stored_claude_trade": null,
+      "currently_shown": "waterproofer",
+      "shown_source": "regex",
+      "correct": "plumber",
+      "also_ok": [
+        "landscaper"
+      ]
+    },
+    {
+      "id": "d35a2b26:minor:rusting-carport-structure:6",
+      "address": "15 Jenever Place, Bentley, WA 6102",
+      "kind": "minor",
+      "name": "Rusting Carport Structure",
+      "fields": {
+        "name": "Rusting Carport Structure",
+        "plain_english": "Rusting was observed to the carport structure. The photos show significant rust and deterioration to the carport framing and fascia.",
+        "why_it_matters": "Rusted structural steel in a carport can become unsafe over time. The extent of the rust needs to be assessed — surface rust can be treated, but if the steel is structurally compromised it may need replacement.",
+        "location": "Carport"
+      },
+      "stored_claude_trade": null,
+      "currently_shown": "metalworker",
+      "shown_source": "regex",
+      "correct": "metalworker",
+      "also_ok": [
+        "painter"
+      ]
+    },
+    {
+      "id": "d35a2b26:minor:blocked-weepholes:7",
+      "address": "15 Jenever Place, Bentley, WA 6102",
+      "kind": "minor",
+      "name": "Blocked Weepholes",
+      "fields": {
+        "name": "Blocked Weepholes",
+        "plain_english": "Weepholes are small gaps left in the bottom row of brickwork to let moisture escape from inside the wall cavity and to allow ventilation. These were found to be blocked — likely by mulch, soil or landscaping materials piled up against the walls.",
+        "why_it_matters": "Blocked weepholes trap moisture inside the wall cavity and also create a concealed entry point for termites. They need to be cleared and the garden beds/mulch pulled back from the base of the walls.",
+        "location": "Exterior perimeter walls"
+      },
+      "stored_claude_trade": null,
+      "currently_shown": "bricklayer",
+      "shown_source": "regex",
+      "correct": "bricklayer",
+      "also_ok": [
+        "handyman"
+      ]
+    },
+    {
+      "id": "d35a2b26:pest:live-coptotermes-termites-active-colony-on-site:0",
+      "address": "15 Jenever Place, Bentley, WA 6102",
+      "kind": "pest",
+      "name": "Live Coptotermes Termites — Active Colony on Site",
+      "fields": {
+        "name": "Live Coptotermes Termites — Active Colony on Site",
+        "plain_english": "Live termites of the species Coptotermes were confirmed active in tree stumps in the backyard. Coptotermes are the most destructive termite species in Australia — they build large underground colonies and can silently eat through the structural timber of a house from the inside out. The nest was not located, meaning the colony could be anywhere — including under the house.",
+        "location": "Tree stumps in the rear garden"
+      },
+      "stored_claude_trade": null,
+      "currently_shown": "pest_controller",
+      "shown_source": "regex",
+      "correct": "pest_controller",
+      "also_ok": []
+    },
+    {
+      "id": "d35a2b26:pest:historical-termite-workings-tree-stumps:1",
+      "address": "15 Jenever Place, Bentley, WA 6102",
+      "kind": "pest",
+      "name": "Historical Termite Workings — Tree Stumps",
+      "fields": {
+        "name": "Historical Termite Workings — Tree Stumps",
+        "plain_english": "In addition to the live termites, there is evidence of past termite activity (old workings and damage) in several tree stumps. This confirms the property has had a termite problem for some time.",
+        "location": "Multiple tree stumps in the rear garden"
+      },
+      "stored_claude_trade": null,
+      "currently_shown": "pest_controller",
+      "shown_source": "regex",
+      "correct": "pest_controller",
+      "also_ok": []
+    },
+    {
+      "id": "d35a2b26:pest:no-termite-management-system-no-durable-notice:2",
+      "address": "15 Jenever Place, Bentley, WA 6102",
+      "kind": "pest",
+      "name": "No Termite Management System — No Durable Notice",
+      "fields": {
+        "name": "No Termite Management System — No Durable Notice",
+        "plain_english": "There is absolutely no evidence that any termite protection has ever been installed at this property. No chemical barrier, no physical barrier, no bait stations, no treatment records, no durable notice in the meter box. For a 50-year-old Perth home with active Coptotermes on site, this is extremely concerning.",
+        "location": "Entire property"
+      },
+      "stored_claude_trade": null,
+      "currently_shown": "pest_controller",
+      "shown_source": "regex",
+      "correct": "pest_controller",
+      "also_ok": []
+    }
+  ]
+}
