@@ -799,6 +799,20 @@ function DefectCard({ kind, defect, index, expanded, toggle, tradiesByKey, subur
                   {fmt$(defect.repair_cost_low)}–{fmt$(defect.repair_cost_high)}
                 </span>
               </div>
+            ) : defect.cost_basis === 'assessment_only' ? (
+              // Assessment-only: the true repair cost is unknowable from a
+              // visual inspection (underpinning extent, concealed damage).
+              // Showing a guessed repair range here would be misleading —
+              // we show the specialist assessment cost and say so plainly.
+              <div className="cost-chip" style={{ background: 'var(--gold-bg)', borderColor: 'var(--gold-border)' }}>
+                🔍 Specialist assessment needed:{' '}
+                <strong>
+                  {fmt$(defect.repair_cost_low)} – {fmt$(defect.repair_cost_high)}
+                </strong>
+                <span style={{ display: 'block', fontSize: 12, marginTop: 3, color: 'var(--muted)', fontWeight: 400 }}>
+                  True repair cost can&apos;t be honestly estimated until this assessment is done — get it before exchange.
+                </span>
+              </div>
             ) : (
               // Pre-purchase: cost is the negotiation lever. Keep prominent.
               <div className="cost-chip">
@@ -806,6 +820,21 @@ function DefectCard({ kind, defect, index, expanded, toggle, tradiesByKey, subur
                 <strong>
                   {fmt$(defect.repair_cost_low)} – {fmt$(defect.repair_cost_high)}
                 </strong>
+                {defect.cost_confidence && (
+                  <span
+                    title="How tightly we could pin this estimate from the report's detail"
+                    style={{
+                      marginLeft: 8,
+                      fontSize: 11,
+                      fontWeight: 500,
+                      color: defect.cost_confidence === 'high' ? 'var(--teal)' : defect.cost_confidence === 'low' ? 'var(--gold)' : 'var(--muted)',
+                      fontFamily: "var(--font-mono), monospace",
+                      letterSpacing: 0.2,
+                    }}
+                  >
+                    · {defect.cost_confidence} confidence
+                  </span>
+                )}
               </div>
             )
           )}
@@ -1009,7 +1038,15 @@ function ResultsView({ analysis, tradies, reportType, expanded, toggle, copied, 
           <div className="stat-card">
             <div className="stat-label">Est. Repair Cost</div>
             <div className="stat-val">
-              {fmt$(Math.round(((analysis.total_repair_cost_low || 0) + (analysis.total_repair_cost_high || 0)) / 2))}
+              {/* Prefer Claude's total_repair_cost_likely (sum of per-defect
+                  midpoints, excludes assessment-only hypotheticals). Older
+                  reports without the field fall back to the naive midpoint
+                  of the low/high band. */}
+              {fmt$(
+                Number.isFinite(analysis.total_repair_cost_likely) && analysis.total_repair_cost_likely > 0
+                  ? analysis.total_repair_cost_likely
+                  : Math.round(((analysis.total_repair_cost_low || 0) + (analysis.total_repair_cost_high || 0)) / 2)
+              )}
             </div>
             <div className="stat-sub">
               most likely · range {fmt$(analysis.total_repair_cost_low)}–{fmt$(analysis.total_repair_cost_high)}
