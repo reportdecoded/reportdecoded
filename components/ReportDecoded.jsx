@@ -181,20 +181,23 @@ body{
 }
 .nav-link:hover{background:rgba(255,255,255,0.07);color:rgba(255,255,255,0.9);}
 .nav-link.active{background:rgba(201,122,58,0.15);color:var(--amber);}
+/* Ghost style (Jun 2026 amber-discipline pass): Agent Sign In is a
+   SECONDARY-audience action — it must not be the brightest element a
+   buyer sees. Amber is reserved for the headline word + primary CTA. */
 .nav-cta{
-  background:var(--amber);
-  color:white;
+  background:transparent;
+  color:rgba(255,255,255,0.85);
   font-size:13.5px;
   font-weight:600;
-  padding:9px 20px;
-  border-radius:9px;
+  padding:8px 19px;
+  border-radius:10px;
   cursor:pointer;
-  border:none;
+  border:1px solid rgba(255,255,255,0.28);
   font-family:var(--font-sans),sans-serif;
-  transition:background .15s;
+  transition:border-color .15s,background .15s,color .15s;
   margin-left:8px;
 }
-.nav-cta:hover{background:var(--amber-hover);}
+.nav-cta:hover{border-color:rgba(255,255,255,0.6);background:rgba(255,255,255,0.06);color:#fff;}
 
 /* ── HERO ────────────────────────────────────────── */
 .hero-section{
@@ -225,13 +228,13 @@ body{
   display:inline-flex;
   align-items:center;
   gap:6px;
-  /* Solid pre-blended equivalent of rgba(201,122,58,0.12) over navy
-     (#0A1628). Visually identical on production but contrast-audit
-     tools now compute against the solid color (≈6.6:1) instead of
-     assuming white parent background (≈1.52:1, false-positive fail). */
-  background:#21222A;
-  border:1px solid rgba(201,122,58,0.28);
-  color:#E8A05A;
+  /* De-ambered (Jun 2026): the badge was competing with the headline
+     and CTA for the amber accent — an accent only pops if it's rare.
+     Muted cream-on-navy keeps the badge as quiet context. Solid
+     background (not rgba) so contrast tools compute correctly (~7:1). */
+  background:#16233A;
+  border:1px solid rgba(255,255,255,0.14);
+  color:rgba(255,255,255,0.74);
   font-size:12.5px;
   font-weight:500;
   padding:5px 16px;
@@ -743,6 +746,32 @@ body{
   margin-bottom:12px;
   font-weight:700;
 }
+/* "Decoded line" signature — every section label carries a leading
+   amber dash and trailing muted dash, echoing the logo's three-line
+   document mark (two grey lines, one amber). One motif, repeated
+   everywhere, makes the brand ownable without new colours. */
+.section-label::before{
+  content:'';
+  display:inline-block;
+  width:18px;
+  height:2px;
+  border-radius:1px;
+  background:var(--amber);
+  vertical-align:middle;
+  margin-right:10px;
+  margin-top:-2px;
+}
+.section-label::after{
+  content:'';
+  display:inline-block;
+  width:18px;
+  height:2px;
+  border-radius:1px;
+  background:var(--border);
+  vertical-align:middle;
+  margin-left:10px;
+  margin-top:-2px;
+}
 
 /* ── DEFECT CARDS ────────────────────────────────── */
 .defect-card{
@@ -754,6 +783,13 @@ body{
   transition:box-shadow .2s;
 }
 .defect-card:hover{box-shadow:0 4px 20px rgba(10,22,40,0.07);}
+/* Severity weighting (Jun 2026 hierarchy pass): a $30k subsidence
+   defect and a $150 hinge shouldn't get identical cards. Majors carry
+   a left rule in the severity colour so the eye ranks the page the
+   way the verdict does; minors stay quiet. */
+.defect-card.major{border-left:3px solid var(--red);}
+.defect-card.pest{border-left:3px solid var(--brown);}
+.defect-card.major .defect-name{font-size:17px;}
 .defect-header{
   padding:18px 22px;
   display:flex;
@@ -769,7 +805,9 @@ body{
 .major .severity-dot{background:var(--red);}
 .minor .severity-dot{background:var(--gold);}
 .pest  .severity-dot{background:var(--brown);}
-.defect-name{font-weight:600;font-size:14.5px;color:var(--navy);}
+/* Fraunces for defect titles — lifts them clearly above body text and
+   carries the editorial voice into the product (type-hierarchy pass). */
+.defect-name{font-family:var(--font-serif),serif;font-weight:500;font-size:15.5px;color:var(--navy);letter-spacing:-0.2px;}
 .defect-loc{font-size:12px;color:var(--muted);margin-top:2px;}
 .severity-badge{
   font-size:10.5px;
@@ -1853,7 +1891,11 @@ export default function App() {
                   letterSpacing:0.3,
                 }}
               >
-                Buyers save <strong style={{color:"#fff"}}>$20K – $80K</strong> at negotiation, on average.
+                {/* Reworded (Jun 2026): "buyers save … on average" implied a
+                    measured average we can't substantiate yet. This framing
+                    is fully defensible — it describes what the reports
+                    justify, not a claimed customer outcome. */}
+                Reports like these justify <strong style={{color:"#fff"}}>$20K – $80K</strong> negotiation asks.
               </div>
               <div
                 style={{
@@ -1895,10 +1937,28 @@ export default function App() {
               </a>
             </div>
 
-            {/* Trust micro-strip */}
+            {/* Trust micro-strip — line icons (1.6px stroke, matching the
+                logo mark) instead of emoji: emoji render differently on
+                every OS and read as template filler. */}
             <div className="hr-4" style={{marginTop:20, display:"flex", gap:20, justifyContent:"center", flexWrap:"wrap"}}>
-              {["✅ Refunded if we can't read your PDF", "🔒 Your PDF is never stored", "🇦🇺 Australian-specific analysis"].map(t => (
-                <span key={t} style={{fontSize:12, color:"rgba(255,255,255,0.55)", letterSpacing:0.1}}>{t}</span>
+              {[
+                {
+                  icon: <path d="M8 1.5l5.5 2v3.6c0 3.2-2.3 5.6-5.5 7.4-3.2-1.8-5.5-4.2-5.5-7.4V3.5l5.5-2z M5.5 8l1.8 1.8L11 6.2" fill="none" />,
+                  text: "Refunded if we can't read your PDF",
+                },
+                {
+                  icon: <path d="M4.5 7V5a3.5 3.5 0 017 0v2 M3.5 7h9v6.5h-9V7z" fill="none" />,
+                  text: "Your PDF is never stored",
+                },
+                {
+                  icon: <path d="M8 14s4.5-3.8 4.5-7.5a4.5 4.5 0 10-9 0C3.5 10.2 8 14 8 14z M8 8.2a1.7 1.7 0 100-3.4 1.7 1.7 0 000 3.4z" fill="none" />,
+                  text: "Australian-specific analysis",
+                },
+              ].map(({ icon, text }) => (
+                <span key={text} style={{fontSize:12, color:"rgba(255,255,255,0.55)", letterSpacing:0.1, display:"inline-flex", alignItems:"center", gap:6}}>
+                  <svg width="14" height="14" viewBox="0 0 16 16" stroke="rgba(255,255,255,0.45)" strokeWidth="1.4" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true" style={{flexShrink:0}}>{icon}</svg>
+                  {text}
+                </span>
               ))}
             </div>
           </div>

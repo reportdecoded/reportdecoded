@@ -805,7 +805,11 @@ function DefectCard({ kind, defect, index, expanded, toggle, tradiesByKey, subur
               // Showing a guessed repair range here would be misleading —
               // we show the specialist assessment cost and say so plainly.
               <div className="cost-chip" style={{ background: 'var(--gold-bg)', borderColor: 'var(--gold-border)' }}>
-                🔍 Specialist assessment needed:{' '}
+                <svg width="14" height="14" viewBox="0 0 16 16" fill="none" stroke="var(--gold)" strokeWidth="1.6" strokeLinecap="round" aria-hidden="true" style={{ flexShrink: 0 }}>
+                  <circle cx="7" cy="7" r="4.5" />
+                  <path d="M10.5 10.5L14 14" />
+                </svg>
+                Specialist assessment needed:{' '}
                 <strong>
                   {fmt$(defect.repair_cost_low)} – {fmt$(defect.repair_cost_high)}
                 </strong>
@@ -816,7 +820,12 @@ function DefectCard({ kind, defect, index, expanded, toggle, tradiesByKey, subur
             ) : (
               // Pre-purchase: cost is the negotiation lever. Keep prominent.
               <div className="cost-chip">
-                💰 Estimated repair cost:{' '}
+                <svg width="14" height="14" viewBox="0 0 16 16" fill="none" stroke="var(--muted)" strokeWidth="1.6" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true" style={{ flexShrink: 0 }}>
+                  <path d="M2 5.5h12v7H2v-7z" />
+                  <path d="M4 5.5V3.8A1.3 1.3 0 015.3 2.5h5.4A1.3 1.3 0 0112 3.8v1.7" />
+                  <circle cx="8" cy="9" r="1.8" />
+                </svg>
+                Estimated repair cost:{' '}
                 <strong>
                   {fmt$(defect.repair_cost_low)} – {fmt$(defect.repair_cost_high)}
                 </strong>
