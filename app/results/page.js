@@ -3,6 +3,7 @@ import { Suspense, useEffect, useState } from 'react';
 import { useSearchParams } from 'next/navigation';
 import Link from 'next/link';
 import { track } from '@vercel/analytics';
+import { trackPurchase } from '@/lib/metaPixelEvents';
 import { STYLES } from '@/components/ReportDecoded';
 import { topTradesForDefect, tradeByKey, googleMapsSearchUrl, filterTradiesByInferredTrades } from '@/lib/trades';
 
@@ -33,11 +34,27 @@ function ResultsBody() {
   const [brand, setBrand] = useState(null); // { business_name, logo_url, accent_color }
   const [trackedView, setTrackedView] = useState(false);
 
-  // Fire 'report_purchased' the moment we arrive from Stripe Checkout success.
-  // This is the funnel event most ad campaigns will optimise against.
+  // Fire purchase events the moment we arrive from Stripe Checkout success.
+  // A real buyer sale (session_id present, not the sample) must fire the
+  // GA4 `purchase` + Meta Pixel Purchase — previously ONLY the agent
+  // subscription flow did, so every $59 buyer sale was invisible to GA4
+  // and Meta (couldn't optimise ads toward it). Vercel's `report_purchased`
+  // still fires alongside for the internal funnel view.
+  // Value is the single-report price ($59) — the dominant case and the
+  // figure ads target; Stripe + Supabase remain source of truth for exact
+  // revenue on 3-/10-packs. transaction_id = Stripe session id (dedupes
+  // on reload/back-button).
   useEffect(() => {
-    if (stripeSessionId) {
-      track('report_purchased', { source: isSample ? 'sample' : 'buyer_flow' });
+    if (stripeSessionId && !isSample) {
+      track('report_purchased', { source: 'buyer_flow' });
+      trackPurchase({
+        value: 59,
+        currency: 'AUD',
+        contentName: 'buyer_report',
+        transactionId: stripeSessionId,
+      });
+    } else if (stripeSessionId) {
+      track('report_purchased', { source: 'sample' });
     } else if (isSample) {
       track('sample_viewed', { source: agentId ? 'branded' : 'public' });
     }
