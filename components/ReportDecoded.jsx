@@ -196,6 +196,7 @@ body{
   font-family:var(--font-sans),sans-serif;
   transition:border-color .15s,background .15s,color .15s;
   margin-left:8px;
+  white-space:nowrap;
 }
 .nav-cta:hover{border-color:rgba(255,255,255,0.6);background:rgba(255,255,255,0.06);color:#fff;}
 
@@ -1293,6 +1294,7 @@ body{
 @media (max-width: 720px){
   /* NAV */
   .nav{padding:0 16px;height:58px;}
+  .nav-logo{font-size:18px;}
   .nav-link{font-size:13px;padding:6px 10px;}
   .nav-cta{font-size:13px;padding:8px 14px;margin-left:4px;}
   /* PM tab is a "Coming Soon" mockup — drop it from mobile nav to avoid
@@ -1407,6 +1409,11 @@ body{
    Catches the smallest devices (iPhone SE, 360px Android). */
 @media (max-width: 480px){
   .nav{padding:0 12px;height:54px;}
+  .nav-logo{font-size:16.5px;}
+  /* "For Buyers" is the current page on this buyer landing — hide the
+     redundant inline link on phones so the nav fits one clean line
+     (logo · For Agents · Agent Sign In). */
+  .nav-link--buyers{display:none;}
   .nav-link{font-size:12.5px;padding:5px 8px;}
   .nav-cta{padding:7px 11px;font-size:12.5px;}
 
@@ -1791,7 +1798,7 @@ export default function App() {
         </div>
         <div className="nav-links">
           <div
-            className={`nav-link ${navTab==="buyer"?"active":""}`}
+            className={`nav-link nav-link--buyers ${navTab==="buyer"?"active":""}`}
             onClick={() => goTo("upload","buyer")}
           >For Buyers</div>
           <Link
@@ -1882,9 +1889,27 @@ export default function App() {
               >
                 Upload your PDF <span className="cta-arrow">→</span>
               </button>
+              {/* Price message-match (Jun 2026): paid Google/Meta clicks
+                  arrive on a "$59 per report" promise — reaffirming the
+                  price by the CTA keeps ad↔page message match (helps
+                  Quality Score) and prevents paywall surprise. Kept
+                  subordinate to the CTA per single-primary-action rule;
+                  tabular figures so the price never reflows. */}
               <div
                 style={{
                   marginTop:12,
+                  fontSize:13.5,
+                  color:"rgba(255,255,255,0.82)",
+                  fontFamily:"var(--font-mono), monospace",
+                  letterSpacing:0.2,
+                  fontVariantNumeric:"tabular-nums",
+                }}
+              >
+                One report, <strong style={{color:"#fff"}}>$59</strong>. No subscription.
+              </div>
+              <div
+                style={{
+                  marginTop:10,
                   fontSize:13,
                   color:"#F4C9A0",
                   fontFamily:"var(--font-mono), monospace",
