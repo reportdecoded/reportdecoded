@@ -344,7 +344,7 @@ export default function Page() {
         your AS4349.1 PDF. Two minutes later you get the tiered defect
         breakdown, repair cost estimates, the right specialist trade
         for each &ldquo;further investigation&rdquo; item, and a
-        drafted negotiation letter you can edit and send. $59 per
+        drafted negotiation letter you can edit and send. $39 per
         report. No subscription. Full refund if the analysis can&apos;t
         anchor every claim to a specific page of the inspector&apos;s
         PDF.

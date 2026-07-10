@@ -47,7 +47,7 @@ export default function PrivacyPage() {
         <ul style={{ paddingLeft: 24 }}>
           <li><strong>Anthropic (Claude AI):</strong> your PDF is sent to Anthropic's Claude API to extract defects and produce the analysis. Anthropic does not train on data submitted via their API.</li>
           <li><strong>HERE Maps:</strong> we send the property address from the report to HERE Maps to geocode it and search for local tradies. HERE Maps does not retain this data beyond the immediate query.</li>
-          <li><strong>Stripe:</strong> handles the $59 payment. They store your card and contact details under their own privacy policy.</li>
+          <li><strong>Stripe:</strong> handles the $39 payment. They store your card and contact details under their own privacy policy.</li>
           <li><strong>UploadThing:</strong> hosts your uploaded PDF temporarily so it can be processed.</li>
           <li><strong>Resend:</strong> sends you the "your report is ready" email.</li>
           <li><strong>Supabase:</strong> stores the analysis output linked to your email so we can deliver and re-show your report.</li>

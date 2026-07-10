@@ -11,7 +11,7 @@ const faqs = [
   },
   {
     q: 'How specific should the dollar amounts be in the letter?',
-    a: 'Very specific. Vague asks ("can we knock off something to account for the issues") get vague rejections. Specific asks ("the inspector found 7 items totaling $24,800 in rectification cost — we propose a price reduction of $20,000 against these specific findings") get either accepted, negotiated, or rejected with a counter-offer. Where to get the dollar amounts: from contractor quotes (gold standard, takes 24-48h to obtain), from inspector cost suggestions (silver standard, ranges typical), or from cost-banded analysis tools like Report Decoded ($59, instant). The more verifiable the dollar amount, the less the vendor can push back on it being inflated.',
+    a: 'Very specific. Vague asks ("can we knock off something to account for the issues") get vague rejections. Specific asks ("the inspector found 7 items totaling $24,800 in rectification cost — we propose a price reduction of $20,000 against these specific findings") get either accepted, negotiated, or rejected with a counter-offer. Where to get the dollar amounts: from contractor quotes (gold standard, takes 24-48h to obtain), from inspector cost suggestions (silver standard, ranges typical), or from cost-banded analysis tools like Report Decoded ($39, instant). The more verifiable the dollar amount, the less the vendor can push back on it being inflated.',
   },
   {
     q: 'What if my cooling-off period ends before I get contractor quotes?',

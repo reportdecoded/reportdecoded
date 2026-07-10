@@ -325,7 +325,7 @@ export default function Page() {
         or both — and gives you a plain-English verdict, repair cost
         estimates per defect in 2026 AU dollars, the right specialist
         trade to call, and a drafted negotiation letter ready to send.
-        $59 per report. No subscription.
+        $39 per report. No subscription.
       </p>
       <p>
         The point isn&apos;t the tool — it&apos;s that on a $700K-$1.5M

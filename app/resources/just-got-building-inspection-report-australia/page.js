@@ -19,7 +19,7 @@ const faqs = [
   },
   {
     q: 'What if my cooling-off period ends before I can get the report analysed?',
-    a: 'This is a real risk and it happens more than people realise. Getting three separate tradie quotes for the defects in your report typically takes 5-7 business days — longer than cooling-off in most states. Your options are: (1) Ask your conveyancer or solicitor whether cooling-off can be extended by agreement with the vendor (sometimes possible, rarely guaranteed). (2) Use Report Decoded ($59, under 2 minutes) to get cost estimates and a negotiation letter immediately, then call your conveyancer with specific figures rather than waiting for tradies. (3) Proceed without cost estimates and negotiate later — which weakens your position considerably.',
+    a: 'This is a real risk and it happens more than people realise. Getting three separate tradie quotes for the defects in your report typically takes 5-7 business days — longer than cooling-off in most states. Your options are: (1) Ask your conveyancer or solicitor whether cooling-off can be extended by agreement with the vendor (sometimes possible, rarely guaranteed). (2) Use Report Decoded ($39, under 2 minutes) to get cost estimates and a negotiation letter immediately, then call your conveyancer with specific figures rather than waiting for tradies. (3) Proceed without cost estimates and negotiate later — which weakens your position considerably.',
   },
   {
     q: "My conveyancer says the report looks fine — should I trust that?",
@@ -147,7 +147,7 @@ export default function Page() {
       <ul>
         <li><strong>Get tradies in for quotes yourself</strong> — The right approach if you have time. A waterproofer, a roofer, and a builder each coming to the property to quote will typically take 5-7 business days minimum. That is longer than cooling-off in most Australian states.</li>
         <li><strong>Ask your conveyancer</strong> — They can ballpark common items from experience, and it is worth asking. But they are not tradespersons, and they will appropriately hedge. You will get a range, not a figure you can put in a negotiation letter.</li>
-        <li><strong>Use <Link href="/">Report Decoded</Link></strong> — Upload your PDF for $59. In under 2 minutes you receive every defect explained in plain English, every defect priced at 2026 Australian trade rates, and a negotiation letter already drafted and ready to send to the vendor&apos;s agent. That gives you the numbers you need to act today — within cooling-off, with specific figures, with something your conveyancer can work with.</li>
+        <li><strong>Use <Link href="/">Report Decoded</Link></strong> — Upload your PDF for $39. In under 2 minutes you receive every defect explained in plain English, every defect priced at 2026 Australian trade rates, and a negotiation letter already drafted and ready to send to the vendor&apos;s agent. That gives you the numbers you need to act today — within cooling-off, with specific figures, with something your conveyancer can work with.</li>
       </ul>
       <p>
         The cost estimates are the unlock. Everything else — the negotiation, the decision, the conversation with your solicitor — flows from having actual numbers attached to each defect.
@@ -195,7 +195,7 @@ export default function Page() {
         If you are in Victoria or South Australia, your window is tight. Do not wait for tradespeople. Do not wait for your conveyancer to call back unprompted.
       </p>
       <p>
-        The fastest path: <strong>Upload your report to Report Decoded now</strong> ($59). In under 2 minutes you will have your defects explained, your costs estimated at 2026 AU trade rates, and your negotiation letter drafted. Then call your conveyancer with specific dollar figures — &ldquo;the inspection has identified $22,000 in rectification work, here is the breakdown&rdquo; — rather than &ldquo;the report has some things in it and I&apos;m not sure.&rdquo; Specific figures make the conversation shorter, clearer, and more actionable.
+        The fastest path: <strong>Upload your report to Report Decoded now</strong> ($39). In under 2 minutes you will have your defects explained, your costs estimated at 2026 AU trade rates, and your negotiation letter drafted. Then call your conveyancer with specific dollar figures — &ldquo;the inspection has identified $22,000 in rectification work, here is the breakdown&rdquo; — rather than &ldquo;the report has some things in it and I&apos;m not sure.&rdquo; Specific figures make the conversation shorter, clearer, and more actionable.
       </p>
       <p>
         If you genuinely need more time and you are not in WA or TAS, ask your conveyancer whether the cooling-off period can be extended by mutual agreement with the vendor. This is not always possible but it is sometimes granted, particularly if you can demonstrate you are proceeding in good faith and simply need time to get specialist quotes.

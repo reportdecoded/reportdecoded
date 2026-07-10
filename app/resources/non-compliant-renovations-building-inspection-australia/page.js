@@ -156,7 +156,7 @@ export default function Page() {
 
       <h2>What Report Decoded does with non-compliant renovation findings</h2>
       <p>
-        If your building inspection report has flagged unapproved work, <Link href="/">Report Decoded</Link> will identify and explain those findings in plain English — including what type of structure is affected, what the likely compliance pathway is, and what cost range you should factor into your negotiation. The analysis takes under 2 minutes and costs $59 for a single report.
+        If your building inspection report has flagged unapproved work, <Link href="/">Report Decoded</Link> will identify and explain those findings in plain English — including what type of structure is affected, what the likely compliance pathway is, and what cost range you should factor into your negotiation. The analysis takes under 2 minutes and costs $39 for a single report.
       </p>
       <p>
         Specifically, for non-compliant renovation findings, Report Decoded:

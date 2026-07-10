@@ -129,7 +129,7 @@ export default function Page() {
 
       <h3>Option 3: Use a digital analysis service</h3>
       <p>
-        Services like <strong>Report Decoded</strong> ($59) accept your building inspection PDF and return cost estimates for every defect within under 2 minutes. The analysis is based on current 2026 Australian trade rates across capital city and regional markets, and it returns plain-English explanations of each defect alongside the cost estimates.
+        Services like <strong>Report Decoded</strong> ($39) accept your building inspection PDF and return cost estimates for every defect within under 2 minutes. The analysis is based on current 2026 Australian trade rates across capital city and regional markets, and it returns plain-English explanations of each defect alongside the cost estimates.
       </p>
       <p>
         Report Decoded also generates a negotiation letter you can send directly to the vendor&apos;s agent, with the defects and estimated costs already documented — removing the need to draft the letter yourself under time pressure.
@@ -196,7 +196,7 @@ export default function Page() {
         Your building inspection report has no cost estimates because the Australian Standard does not require them — not because your inspector did a poor job. The report gave you exactly what it was designed to give you: a clear, professional assessment of what defects exist and how serious they are.
       </p>
       <p>
-        Getting the cost figures is your job as the buyer, and it is a job worth doing carefully. A $59 digital analysis through <Link href="/resources/just-got-building-inspection-report-australia">Report Decoded</Link> gives you cost estimates within under 2 minutes — fast enough to use during cooling-off, detailed enough to anchor a real negotiation. For major defects, follow up with formal trade quotes before exchange.
+        Getting the cost figures is your job as the buyer, and it is a job worth doing carefully. A $39 digital analysis through <Link href="/resources/just-got-building-inspection-report-australia">Report Decoded</Link> gives you cost estimates within under 2 minutes — fast enough to use during cooling-off, detailed enough to anchor a real negotiation. For major defects, follow up with formal trade quotes before exchange.
       </p>
       <p>
         The buyers who negotiate well are not the ones with the sharpest negotiating instincts. They are the ones who arrive at the conversation with specific, documented, credible numbers. Getting those numbers is now a straightforward step — and it is one most buyers skip entirely.

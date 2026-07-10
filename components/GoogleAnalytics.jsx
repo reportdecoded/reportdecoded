@@ -11,7 +11,7 @@
 // Why GA4 alongside Meta Pixel: the pixel only attributes Meta-sourced
 // traffic. GA4 attributes EVERY source — Google organic, direct, social,
 // referral — so we can finally see which of the /resources articles
-// actually convert to $59 purchases rather than just drawing traffic.
+// actually convert to $39 purchases rather than just drawing traffic.
 //
 // page_view fires automatically on load. Client-side route changes in
 // the App Router are also captured automatically by GA4's enhanced

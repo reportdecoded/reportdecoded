@@ -139,7 +139,7 @@ export default function SuburbPage({ slug }) {
             Upload your PDF →
           </Link>
           <div className="upload-filetypes" style={{ marginTop: 14 }}>
-            $59 per analysis · No subscription · Results in under 2 minutes
+            $39 per analysis · No subscription · Results in under 2 minutes
           </div>
         </div>
       </div>
@@ -328,7 +328,7 @@ export default function SuburbPage({ slug }) {
           Ready to decode your {s.name} report?
         </h2>
         <p style={{ color: 'var(--muted)', fontSize: 15, lineHeight: 1.6, marginBottom: 22 }}>
-          $59 per report. No subscription. Auto-refunded if we can&apos;t analyse your PDF.
+          $39 per report. No subscription. Auto-refunded if we can&apos;t analyse your PDF.
         </p>
         <Link
           href="/"

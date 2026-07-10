@@ -400,7 +400,7 @@ export default function Page() {
         </Link>{' '}
         and the template above, most owners have everything they
         need to write a rectification letter the builder takes
-        seriously. $59 per analysis. No subscription.
+        seriously. $39 per analysis. No subscription.
       </p>
     </ArticleLayout>
   );

@@ -346,7 +346,7 @@ export default function ArticleLayout({
             lineHeight: 1.55,
             margin: '0 0 22px',
           }}>
-            Get a plain-English verdict, repair costs, local tradies, and negotiation language — under 2 minutes. $59 per report. No subscription.
+            Get a plain-English verdict, repair costs, local tradies, and negotiation language — under 2 minutes. $39 per report. No subscription.
           </p>
           <Link
             href={`/?utm_source=resources&utm_medium=organic&utm_campaign=${slug}`}

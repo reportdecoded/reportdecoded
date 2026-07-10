@@ -289,7 +289,7 @@ export default function Page() {
         <li>Cites every claim to a specific page in your inspector&apos;s PDF so the builder can&apos;t hand-wave items away</li>
       </ul>
       <p>
-        $59 per report. Same engine, different framing — handover reports
+        $39 per report. Same engine, different framing — handover reports
         use cooperative language (you and the builder are both meant to
         deliver the house to standard) but with the documentation rigour
         you need if cooperation breaks down.

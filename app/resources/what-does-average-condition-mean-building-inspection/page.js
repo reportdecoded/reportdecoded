@@ -203,7 +203,7 @@ export default function Page() {
         You also receive a negotiation letter with specific dollar amounts for specific defects &mdash; ready to send to the vendor&apos;s agent. Not a vague request for a price reduction, but a line-by-line case built from your own report.
       </p>
       <p>
-        A single report costs $59. That is less than one hour of a conveyancer&apos;s time, and it gives you the cost clarity that your inspection report deliberately withholds.
+        A single report costs $39. That is less than one hour of a conveyancer&apos;s time, and it gives you the cost clarity that your inspection report deliberately withholds.
       </p>
       <p>
         &ldquo;Average condition&rdquo; is not the end of the analysis. It is the beginning. The question that matters is not what the inspector rated the property &mdash; it is what it will actually cost you to own it. Report Decoded answers that question.

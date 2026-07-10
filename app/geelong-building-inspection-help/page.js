@@ -92,7 +92,7 @@ export default function GeelongLandingPage() {
           <div className="upload-icon">📄</div>
           <div className="upload-title">Got your own Geelong inspection report?</div>
           <div className="upload-sub">
-            Upload it on the homepage. Single report $59 AUD · results in under 2 minutes · branded PDF emailed to you.
+            Upload it on the homepage. Single report $39 AUD · results in under 2 minutes · branded PDF emailed to you.
           </div>
           <Link
             href="/#buyer-upload"
@@ -202,7 +202,7 @@ export default function GeelongLandingPage() {
           <div className="pricing-row" style={{ marginTop: 18 }}>
             <div className="price-card">
               <div className="price-label">Single Report</div>
-              <div className="price-amount">$59</div>
+              <div className="price-amount">$39</div>
               <div className="price-desc">Full Geelong analysis with citations, tradies, negotiation language.</div>
             </div>
             <div className="price-card featured">
@@ -360,7 +360,7 @@ const FAQS = [
   },
   {
     q: 'How does the refund policy work?',
-    a: "If we can't read your PDF (e.g. it's a scanned image with no extractable text, or it's not actually an inspection report) we automatically refund the $59. You'll get an email explaining what we tried and what to upload instead. We catch most non-inspection uploads (Section 32s, vendor statements, contracts of sale) before you're even charged.",
+    a: "If we can't read your PDF (e.g. it's a scanned image with no extractable text, or it's not actually an inspection report) we automatically refund the $39. You'll get an email explaining what we tried and what to upload instead. We catch most non-inspection uploads (Section 32s, vendor statements, contracts of sale) before you're even charged.",
   },
 ];
 

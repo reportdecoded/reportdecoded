@@ -209,7 +209,7 @@ export default function Page() {
         Building inspection reports use technical shorthand that is written for other building professionals, not for buyers. &ldquo;Valley iron at end of service life to W elevation — refer licensed roofing contractor&rdquo; is accurate and defensible inspector language. It is also nearly useless to someone trying to decide whether to proceed with a $780,000 purchase.
       </p>
       <p>
-        Report Decoded reads your full inspection PDF and, for $59, returns a plain-English breakdown of every finding — including roof defects — with:
+        Report Decoded reads your full inspection PDF and, for $39, returns a plain-English breakdown of every finding — including roof defects — with:
       </p>
       <ul>
         <li><strong>Plain-English explanation</strong> — what the finding actually means, in language that does not require a building background to understand</li>

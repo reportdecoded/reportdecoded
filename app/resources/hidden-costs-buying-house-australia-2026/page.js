@@ -458,7 +458,7 @@ export default function Page() {
       <h2>Where Report Decoded fits</h2>
       <p>
         Report Decoded handles one of these line items — the building
-        & pest inspection analysis ($59 per report). When your
+        & pest inspection analysis ($39 per report). When your
         inspector&apos;s 50-100 page PDF lands, you upload it to
         Report Decoded and 2 minutes later you have a plain-English
         defect summary, cost-banded rectification estimates, and a

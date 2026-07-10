@@ -327,7 +327,7 @@ export default function Page() {
         ranges for rising damp specific to your suburb&apos;s housing
         era — that&apos;s exactly what Report Decoded was built to do.
         Upload your AS4349.1 PDF, get a verdict + repair cost estimates
-        + a drafted negotiation letter in under 2 minutes. $59 per
+        + a drafted negotiation letter in under 2 minutes. $39 per
         report, no subscription.
       </p>
     </ArticleLayout>

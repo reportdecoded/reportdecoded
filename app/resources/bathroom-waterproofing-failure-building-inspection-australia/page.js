@@ -200,7 +200,7 @@ export default function Page() {
         <li>Tradie category guidance — which trades you will need to engage for quotes and in what order</li>
       </ul>
       <p>
-        The analysis runs in <strong>under 2 minutes</strong> and costs <strong>$59</strong>. If the PDF cannot be analysed, you are not charged. There is no subscription and no ongoing commitment — one report, one upload, one clear answer on what your inspector found and what to do about it.
+        The analysis runs in <strong>under 2 minutes</strong> and costs <strong>$39</strong>. If the PDF cannot be analysed, you are not charged. There is no subscription and no ongoing commitment — one report, one upload, one clear answer on what your inspector found and what to do about it.
       </p>
       <p>
         Waterproofing failure is not a reason to walk away from a property. It is a reason to negotiate hard, get the price reduced by the rectification cost, and go in with your eyes open about what the repair involves. The buyers who get hurt are the ones who either miss it entirely or discover it after settlement without having negotiated. Your inspector caught it. The next step is to use it.

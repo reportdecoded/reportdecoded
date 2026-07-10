@@ -23,7 +23,7 @@ const faqs = [
   },
   {
     q: 'My inspection report is 95 pages of jargon — what do I actually do with it?',
-    a: 'That\'s why Report Decoded exists. Upload your AS4349.1 PDF and we extract every defect, classify severity, estimate Australian repair costs, and generate a ready-to-send negotiation letter — in under 2 minutes. Every claim cites the inspector\'s page so it\'s verifiable. $59, no subscription.',
+    a: 'That\'s why Report Decoded exists. Upload your AS4349.1 PDF and we extract every defect, classify severity, estimate Australian repair costs, and generate a ready-to-send negotiation letter — in under 2 minutes. Every claim cites the inspector\'s page so it\'s verifiable. $39, no subscription.',
   },
 ];
 
@@ -218,7 +218,7 @@ export default function Page() {
         due diligence = better outcomes.
       </p>
       <p>
-        The $550–$750 you pay for the inspection AND the $59 for Report Decoded&apos;s
+        The $550–$750 you pay for the inspection AND the $39 for Report Decoded&apos;s
         analysis are rounding errors against the negotiation upside. The buyers
         who walk away from inspections without negotiating are leaving money on
         the table — sometimes tens of thousands.
@@ -238,7 +238,7 @@ export default function Page() {
       </ul>
       <p>
         Report Decoded automates the last four. Upload your PDF and we&apos;ll do
-        the heavy lifting in under 2 minutes — $59, no subscription, every claim
+        the heavy lifting in under 2 minutes — $39, no subscription, every claim
         cited to your inspector&apos;s page.
       </p>
     </ArticleLayout>

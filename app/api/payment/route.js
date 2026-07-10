@@ -4,9 +4,12 @@
 
 import { getStripe } from '@/lib/stripe';
 import { getServiceSupabase } from '@/lib/supabase';
+import { SINGLE_AMOUNT_CENTS } from '@/lib/pricing';
 
+// Single-report price is the Founder-offer amount from lib/pricing.js
+// (single source of truth). Packs unchanged.
 const PRICES = {
-  single: { amount: 5900, label: 'Single Report — Report Decoded' },
+  single: { amount: SINGLE_AMOUNT_CENTS, label: 'Single Report — Report Decoded' },
   three:  { amount: 14900, label: '3-Report Pack — Report Decoded' },
   ten:    { amount: 39000, label: '10-Report Pack — Report Decoded' },
 };

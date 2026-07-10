@@ -215,7 +215,7 @@ export default function Page() {
         </li>
       </ul>
       <p>
-        Analysis takes under 2 minutes and costs $59. If the PDF cannot be analysed, you get a refund. You can also use the negotiation letter on its own without engaging a buyer&apos;s agent — the letter is written to be used directly by the buyer in an email to the selling agent.
+        Analysis takes under 2 minutes and costs $39. If the PDF cannot be analysed, you get a refund. You can also use the negotiation letter on its own without engaging a buyer&apos;s agent — the letter is written to be used directly by the buyer in an email to the selling agent.
       </p>
       <p>
         If you have just received your report and are not sure where to start, see our guide on <Link href="/resources/just-got-building-inspection-report-australia">what to do when you get a building inspection report in Australia</Link>.

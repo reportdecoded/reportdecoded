@@ -184,7 +184,7 @@ export default function Page() {
         For each electrical finding, Report Decoded explains what it means, flags whether it is a mandatory safety item or advisory observation, provides cost estimates for rectification based on current Australian trades pricing, and identifies whether it is a strong, medium, or weak negotiation point. The output also includes a negotiation letter you can send directly to the vendor&apos;s agent, with electrical findings listed as specific line items alongside cost estimates. Where the report recommends a licensed electrician follow-up, that recommendation is flagged clearly so you know the exact next step.
       </p>
       <p>
-        A single report costs $59. If your PDF cannot be analysed, you get a full refund. It is the fastest way to turn a confusing inspection report into a clear action plan — and a negotiation-ready letter.
+        A single report costs $39. If your PDF cannot be analysed, you get a full refund. It is the fastest way to turn a confusing inspection report into a clear action plan — and a negotiation-ready letter.
       </p>
     </ArticleLayout>
   );

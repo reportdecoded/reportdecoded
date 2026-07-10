@@ -244,7 +244,7 @@ export default function Page() {
         verdict, defect-by-defect repair cost estimates, the right
         specialist trade to call for each &ldquo;further investigation
         recommended&rdquo; item, and a drafted negotiation letter you
-        can edit and send. $59 per report. No subscription. Full
+        can edit and send. $39 per report. No subscription. Full
         refund if the analysis can&apos;t anchor every claim to a
         specific page of the inspector&apos;s PDF.
       </p>

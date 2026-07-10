@@ -5,6 +5,7 @@ import { track } from "@vercel/analytics";
 import { useUploadThing } from "@/lib/uploadthing";
 import AddressAutocomplete from "@/components/AddressAutocomplete";
 import { faqPageSchema, JsonLd } from "@/lib/schema";
+import { SINGLE, SINGLE_PRICE_STR, SINGLE_COMPARE_STR } from "@/lib/pricing";
 
 /* ─────────────────────────────────────────────────────────────
    GLOBAL STYLES — exported so the /results page can share them.
@@ -1546,7 +1547,7 @@ const PM_MAINTENANCE = [
 // over-promise).
 const HOMEPAGE_FAQS = [
   {
-    q: "What exactly do I get for $59?",
+    q: `What exactly do I get for ${SINGLE_PRICE_STR}?`,
     a: "A lot more than most buyers expect. For every report you upload you get: a plain-English Proceed / Negotiate / Walk Away verdict; every defect classified by severity (major, minor, pest) with an explanation in plain English; a repair cost estimate per defect in 2026 Australian dollars; a ready-to-send negotiation letter with a specific dollar figure you can copy and paste straight to the vendor's agent; a 5-year capex forecast showing what's urgent now vs. what's coming in the next few years; two local tradies per major defect with names and phone numbers; and every defect cited to the exact page in your inspector's report so you can verify anything in 30 seconds. No account needed — upload, pay, and your report is ready in under 2 minutes.",
   },
   {
@@ -1776,7 +1777,7 @@ export default function App() {
     if (fileInputRef.current) fileInputRef.current.value = "";
   };
 
-  const packPrice = pack === "ten" ? "$390" : pack === "three" ? "$149" : "$59";
+  const packPrice = pack === "ten" ? "$390" : pack === "three" ? "$149" : SINGLE_PRICE_STR;
 
   return (
     <>
@@ -1905,7 +1906,7 @@ export default function App() {
                   fontVariantNumeric:"tabular-nums",
                 }}
               >
-                One report, <strong style={{color:"#fff"}}>$59</strong>. No subscription.
+                One report, <strong style={{color:"#fff"}}>{SINGLE_PRICE_STR}</strong>. No subscription.
               </div>
               <div
                 style={{
@@ -2184,7 +2185,7 @@ export default function App() {
                       onChange={e => setPack(e.target.value)}
                       style={{display:"block",width:"100%",padding:"12px 14px",fontSize:15,border:"1px solid var(--border)",borderRadius:10,marginTop:6,fontFamily:"inherit",background:"#fff",color:"var(--text)"}}
                     >
-                      <option value="single">Single Report — $59</option>
+                      <option value="single">Single Report — {SINGLE_PRICE_STR}</option>
                       <option value="three">3-Report Pack — $149</option>
                       <option value="ten">10-Report Pack — $390</option>
                     </select>
@@ -2903,7 +2904,7 @@ export default function App() {
               <div style={{ textAlign: "center", marginBottom: 20 }}>
                 <div className="section-label" style={{ marginBottom: 8 }}>📦 Everything included</div>
                 <h2 style={{ fontFamily: "var(--font-serif),serif", fontSize: 26, margin: 0, color: "var(--text)", letterSpacing: -0.3 }}>
-                  Here's what you get for $59
+                  Here's what you get for {SINGLE_PRICE_STR}
                 </h2>
               </div>
               <div style={{
@@ -2955,8 +2956,11 @@ export default function App() {
                 // the badge matches what most buyers actually want.
                 // Kept featured (navy gradient styling) on the 3-pack so
                 // the cards still have clear visual hierarchy.
-                { id: "single", label: "Single Report", price: "$59",  sub: null,             desc: "Full analysis, cost estimates & 2 tradie picks per defect", featured: false, popular: true },
-                { id: "three",  label: "3-Report Pack", price: "$149", sub: "$49.67/report",  desc: "For investors or buyers shortlisting multiple properties",    featured: true,  popular: false, save: "Save $28" },
+                // Founder offer: single report only during the launch sale.
+                // Packs ($149/$390) hidden — at $39/report a single beats
+                // the per-report pack rate, so they'd read as overpriced.
+                // Re-add from git history when the sale ends if wanted.
+                { id: "single", label: "Single Report", price: SINGLE_PRICE_STR, compareAt: SINGLE_COMPARE_STR, saleTag: SINGLE.saleLabel, sub: null, desc: "Full analysis, cost estimates & 2 tradie picks per defect", featured: false, popular: true },
               ].map((p) => {
                 const isSelected = pack === p.id;
                 const handlePick = () => {
@@ -2994,8 +2998,14 @@ export default function App() {
                       >✓ SELECTED</div>
                     )}
                     <div className="price-label">{p.label}</div>
-                    <div style={{display:"flex", alignItems:"baseline", gap:8}}>
+                    <div style={{display:"flex", alignItems:"baseline", gap:8, flexWrap:"wrap"}}>
+                      {p.compareAt && (
+                        <div style={{fontFamily:"var(--font-serif),serif", fontSize:26, color:"var(--subtle)", textDecoration:"line-through", textDecorationThickness:1.5}}>{p.compareAt}</div>
+                      )}
                       <div className="price-amount">{p.price}</div>
+                      {p.saleTag && (
+                        <span style={{fontSize:11, fontWeight:700, background:"var(--amber)", color:"#fff", padding:"3px 9px", borderRadius:5, letterSpacing:0.4, textTransform:"uppercase"}}>{p.saleTag}</span>
+                      )}
                       {p.save && (
                         <span style={{fontSize:11, fontWeight:700, background:"rgba(201,122,58,0.22)", color:"#E8A05A", padding:"2px 7px", borderRadius:5, letterSpacing:0.4}}>{p.save}</span>
                       )}
@@ -3215,7 +3225,7 @@ export default function App() {
                   Single report
                 </div>
                 <div style={{ fontWeight: 600, fontFamily: "var(--font-mono),monospace", fontSize: 15 }}>
-                  $59 · 2 mins
+                  {SINGLE_PRICE_STR} · 2 mins
                 </div>
               </div>
               <button

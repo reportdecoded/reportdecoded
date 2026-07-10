@@ -11,7 +11,7 @@ const faqs = [
   },
   {
     q: 'Are there any free buyer\'s agent due diligence tools that are actually useful?',
-    a: 'Yes, several. LandChecker (free tier — limited searches per day, NSW/VIC/QLD coverage). State Government planning portals (VicPlan, NSW ePlanning, QLD Development.i — free unlimited use for zoning and overlays). Realestate.com.au market data (free comparables to limit). The free tiers cover 60-70% of basic due diligence. Paid tools save time at scale but a careful solo agent can run a thorough due diligence using free tools + a $59 building report analysis tool + their conveyancer\'s Section 32 review.',
+    a: 'Yes, several. LandChecker (free tier — limited searches per day, NSW/VIC/QLD coverage). State Government planning portals (VicPlan, NSW ePlanning, QLD Development.i — free unlimited use for zoning and overlays). Realestate.com.au market data (free comparables to limit). The free tiers cover 60-70% of basic due diligence. Paid tools save time at scale but a careful solo agent can run a thorough due diligence using free tools + a $39 building report analysis tool + their conveyancer\'s Section 32 review.',
   },
   {
     q: 'Should I pay for CoreLogic, PriceFinder, or both?',
@@ -19,7 +19,7 @@ const faqs = [
   },
   {
     q: 'What\'s the difference between an AI report analysis tool and my conveyancer reading the inspection?',
-    a: 'They cover different things. Your conveyancer reviews the contract of sale, Section 32 (in VIC) or equivalent state disclosures, and confirms legal compliance — usually $150-$400 for pre-contract review. An AI report analysis tool (like Report Decoded) reads the AS4349.1 PDF and extracts defect-by-defect cost estimates, trade matches, and negotiation language — $59 per report. The two are complementary. Conveyancer covers legal risk, the tool covers physical/financial risk. Most experienced agents use both.',
+    a: 'They cover different things. Your conveyancer reviews the contract of sale, Section 32 (in VIC) or equivalent state disclosures, and confirms legal compliance — usually $150-$400 for pre-contract review. An AI report analysis tool (like Report Decoded) reads the AS4349.1 PDF and extracts defect-by-defect cost estimates, trade matches, and negotiation language — $39 per report. The two are complementary. Conveyancer covers legal risk, the tool covers physical/financial risk. Most experienced agents use both.',
   },
   {
     q: 'How much should I budget for tools as a buyer\'s agent doing 6-15 transactions a month?',
@@ -265,7 +265,7 @@ export default function Page() {
           <strong>Report Decoded</strong> (this site) — AS4349.1 PDF
           → plain-English verdict + defect-by-defect AU repair cost
           estimates + the right specialist trade per defect + drafted
-          negotiation letter. $59 per buyer report; agent plans at{' '}
+          negotiation letter. $39 per buyer report; agent plans at{' '}
           <strong>$79/month Starter (12 reports + $15 per extra report)</strong> or{' '}
           <strong>$149/month Pro unlimited</strong> with white-label
           branding (your logo + accent colour on the output). Built
@@ -406,7 +406,7 @@ export default function Page() {
           2 minutes. Sends to your client same hour.
         </li>
         <li>
-          <strong>$59 buyer rate or $79/$149 monthly</strong> — at
+          <strong>$39 buyer rate or $79/$149 monthly</strong> — at
           $79/month for 12 reports ($6.58/report) on Starter, scaling
           to $149/month unlimited on Pro, the unit economics are
           dominant if you do more than 3 reports per month.

@@ -36,7 +36,7 @@ export default function TermsPage() {
           suggest local tradespeople.
         </p>
         <p>
-          <strong>Pricing.</strong> Individual buyer reports are $59 each (one-off, no
+          <strong>Pricing.</strong> Individual buyer reports are $39 each (one-off, no
           subscription). Buyer's agents and selling agents can subscribe for ongoing
           access on either the Starter plan ($79/month, 12 reports included) or the Pro
           plan ($149/month, unlimited reports plus the agent dashboard, priority support,
@@ -152,7 +152,7 @@ export default function TermsPage() {
           for any indirect, incidental, or consequential loss arising from your use of the
           service, including but not limited to property-purchase decisions you make based
           on our analysis. Our total liability in any matter is capped at the amount you
-          paid us for the report in question (i.e. $59 per single report).
+          paid us for the report in question (i.e. $39 per single report).
         </p>
         <p>
           Nothing in these terms excludes the consumer guarantees under the Australian

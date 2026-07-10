@@ -1,0 +1,1001 @@
+{
+ "result_json": {
+  "disclaimer": "This analysis is for general information purposes only. It is not a substitute for professional building advice. Always consult a licensed builder or inspector before making your final decision.",
+  "building_era": "Circa 1940 — approximately 80-year-old timber weatherboard house on stumps with Baltic pine floorboards, consistent with pre-1965 construction. High asbestos risk era.",
+  "major_defects": [
+   {
+    "name": "Bathroom grout and sealant failure",
+    "trade": "tiler",
+    "urgency": "urgent",
+    "location": "Bathroom 1 — Ground floor",
+    "source_pages": [
+     12,
+     13
+    ],
+    "plain_english": "The grout and silicone sealant around the tiled wet areas (bath surround, shower) has degraded or gone missing. Water is getting into the gaps every time someone showers or baths.",
+    "trade_category": "building",
+    "why_it_matters": "Once water gets behind tiles it soaks into the wall framing and subfloor. Left alone this leads to rotting timber framing, mould, and eventually a full bathroom resheet — a job that costs $6,000–$12,000 instead of a few hundred dollars now.",
+    "repair_cost_low": 400,
+    "trade_secondary": "waterproofer",
+    "repair_cost_high": 900
+   },
+   {
+    "name": "Inadequate site drainage",
+    "trade": "landscaper",
+    "urgency": "urgent",
+    "location": "All external areas — perimeter of building",
+    "source_pages": [
+     13,
+     14,
+     15
+    ],
+    "plain_english": "Water is pooling against the base of the walls rather than draining away. The site is described as poorly drained, and paving and ground levels are directing water toward the house rather than away from it.",
+    "trade_category": "plumbing",
+    "why_it_matters": "Persistent moisture against the base of a timber-framed house on stumps is the single biggest driver of termite attack, fungal decay, and rising damp. It's already contributing to the fungal decay found in the weatherboards. Without fixing drainage, any other repairs will fail prematurely.",
+    "repair_cost_low": 2000,
+    "trade_secondary": "plumber",
+    "repair_cost_high": 5000
+   },
+   {
+    "name": "Uneven paving falling toward house",
+    "trade": "landscaper",
+    "urgency": "within-12-months",
+    "location": "All external areas — paths and paved areas around building perimeter",
+    "source_pages": [
+     16,
+     17
+    ],
+    "plain_english": "The external paving is uneven and sloping toward the house rather than away from it. Some sections are also a trip hazard.",
+    "trade_category": "building",
+    "why_it_matters": "Paving that drains toward the house pushes water into the footings and subfloor — accelerating timber decay and termite risk. The trip hazard also creates a personal injury risk for anyone walking around the property.",
+    "repair_cost_low": 2500,
+    "trade_secondary": "plumber",
+    "repair_cost_high": 6000
+   },
+   {
+    "name": "Rusted shed roof sheets",
+    "trade": "roofer",
+    "urgency": "urgent",
+    "location": "Shed / outbuilding — external areas",
+    "source_pages": [
+     18
+    ],
+    "plain_english": "The corrugated iron roof sheets on the shed are heavily rusted and corroding through. Photos show rust across the entire roof surface and holes forming at the sheet overlaps.",
+    "trade_category": "roofing",
+    "why_it_matters": "A rusted-through roof lets water in, which will rot the shed's timber framing and any contents stored inside. The shed is also a termite risk if moisture accumulates in the timber structure beneath.",
+    "repair_cost_low": 2500,
+    "trade_secondary": "carpenter",
+    "repair_cost_high": 6000
+   },
+   {
+    "name": "Deteriorated external paint — widespread",
+    "trade": "painter",
+    "urgency": "urgent",
+    "location": "All external areas — weatherboards, fascias, window frames, verandah",
+    "source_pages": [
+     19,
+     20,
+     21
+    ],
+    "plain_english": "The external paint is peeling, cracking, and missing across large sections of the weatherboards, fascias, and window frames. Bare timber is exposed in multiple locations.",
+    "trade_category": "building",
+    "why_it_matters": "On an 80-year-old timber weatherboard house, paint is the primary protection against moisture and rot. Bare timber absorbs water, swells, cracks, and decays — and the pest report has already confirmed fungal decay is present in the weatherboards. Every month without paint accelerates the rot.",
+    "repair_cost_low": 7000,
+    "trade_secondary": "carpenter",
+    "repair_cost_high": 15000
+   },
+   {
+    "name": "Leaning brick pier — veranda subsidence",
+    "trade": "bricklayer",
+    "urgency": "urgent",
+    "location": "Front left corner of veranda — external",
+    "source_pages": [
+     22
+    ],
+    "plain_english": "One of the decorative brick piers supporting the front veranda is leaning considerably. This is a structural concern that needs a structural engineer to assess before you can know how serious it is.",
+    "trade_category": "building",
+    "why_it_matters": "A leaning pier can indicate foundation movement, soil subsidence, or mortar failure. If the pier is load-bearing for the veranda roof, it could collapse. At minimum it needs rebuilding; at worst it signals broader foundation movement that could be expensive to address.",
+    "repair_cost_low": 1500,
+    "trade_secondary": "licensed_builder",
+    "repair_cost_high": 5000
+   }
+  ],
+  "minor_defects": [
+   {
+    "name": "Leaking kitchen tap",
+    "trade": "plumber",
+    "urgency": "within-12-months",
+    "location": "Kitchen — Ground floor",
+    "source_pages": [
+     23
+    ],
+    "plain_english": "The kitchen tap is dripping or leaking. A straightforward plumbing repair.",
+    "trade_category": "plumbing",
+    "why_it_matters": "Ongoing water waste and potential for water damage under the sink if the leak worsens.",
+    "repair_cost_low": 150,
+    "trade_secondary": "handyman",
+    "repair_cost_high": 350
+   },
+   {
+    "name": "Moving/squeaky floorboards",
+    "trade": "carpenter",
+    "urgency": "monitor",
+    "location": "Living room — Ground floor",
+    "source_pages": [
+     23
+    ],
+    "plain_english": "The floorboards move and creak underfoot, indicating they've come loose from the joists beneath.",
+    "trade_category": "building",
+    "why_it_matters": "Squeaky floors are usually a nuisance rather than a structural issue, but in a house with known termite workings and wood borer in the Baltic pine floors, any floor movement warrants closer inspection of the subfloor once access is available.",
+    "repair_cost_low": 500,
+    "trade_secondary": "restumper",
+    "repair_cost_high": 1500
+   },
+   {
+    "name": "Loose cabinet hinges — bathroom",
+    "trade": "handyman",
+    "urgency": "monitor",
+    "location": "Bathroom 1 — Ground floor",
+    "source_pages": [
+     24
+    ],
+    "plain_english": "Several cupboard door hinges have come loose from their fixings. Doors are sagging or not closing properly.",
+    "trade_category": "building",
+    "why_it_matters": "Cosmetic and functional nuisance only. Easy handyman fix.",
+    "repair_cost_low": 100,
+    "trade_secondary": "cabinetmaker",
+    "repair_cost_high": 250
+   },
+   {
+    "name": "Shower recess components — general condition",
+    "trade": "waterproofer",
+    "urgency": "within-12-months",
+    "location": "Bathroom 1 — Ground floor",
+    "source_pages": [
+     25
+    ],
+    "plain_english": "The shower recess components (screen, base, seals) were noted as requiring attention. Given the grout and sealant failure already flagged as a major defect, the shower should be assessed for leaks before purchase.",
+    "trade_category": "building",
+    "why_it_matters": "A leaking shower can cause significant hidden damage to the subfloor and wall framing in a timber-framed house.",
+    "repair_cost_low": 500,
+    "trade_secondary": "tiler",
+    "repair_cost_high": 3000
+   },
+   {
+    "name": "Deteriorated fencing",
+    "trade": "fencer",
+    "urgency": "within-12-months",
+    "location": "All external areas — boundary fencing",
+    "source_pages": [
+     26
+    ],
+    "plain_english": "Sections of the timber paling fencing around the property have rotted and deteriorated due to age and weather exposure.",
+    "trade_category": "building",
+    "why_it_matters": "Deteriorated fencing is a security and privacy issue. Rotting timber in contact with the ground is also a termite attractant.",
+    "repair_cost_low": 2000,
+    "trade_secondary": "pest_controller",
+    "repair_cost_high": 5000
+   },
+   {
+    "name": "Loose front balustrade/handrail",
+    "trade": "handyman",
+    "urgency": "urgent",
+    "location": "Front verandah — external",
+    "source_pages": [
+     27
+    ],
+    "plain_english": "The front handrail to the verandah is loose and not fixed securely.",
+    "trade_category": "building",
+    "why_it_matters": "A loose handrail is a fall risk, particularly for children or elderly visitors. Should be fixed promptly.",
+    "repair_cost_low": 200,
+    "trade_secondary": "carpenter",
+    "repair_cost_high": 500
+   },
+   {
+    "name": "Floors out of level — throughout",
+    "trade": "restumper",
+    "urgency": "monitor",
+    "location": "All internal areas",
+    "source_pages": [
+     27,
+     28
+    ],
+    "plain_english": "The internal floors are noticeably out of level in multiple rooms. The inspector's photos show a spirit level with a significant gap across multiple rooms.",
+    "trade_category": "building",
+    "why_it_matters": "Some floor movement is expected in an 80-year-old stumped house. However, combined with the subfloor access limitations and the termite/borer findings, this warrants a proper subfloor inspection once access is available. If stumps have failed or been damaged by pests, restumping could be a significant cost.",
+    "repair_cost_low": 500,
+    "trade_secondary": "licensed_builder",
+    "repair_cost_high": 2000
+   },
+   {
+    "name": "Hairline cracks in plaster lining",
+    "trade": "plasterer",
+    "urgency": "monitor",
+    "location": "All internal areas — walls and ceilings",
+    "source_pages": [
+     29,
+     30
+    ],
+    "plain_english": "Hairline cracks are visible in the plaster walls and ceilings throughout the house. The inspector describes these as cosmetic and common in a house of this age.",
+    "trade_category": "building",
+    "why_it_matters": "Hairline cracks alone are cosmetic. However, if they widen or new ones appear after you move in, it could indicate ongoing foundation movement — worth monitoring.",
+    "repair_cost_low": 500,
+    "trade_secondary": "painter",
+    "repair_cost_high": 1500
+   },
+   {
+    "name": "Internal paint touch-ups required",
+    "trade": "painter",
+    "urgency": "monitor",
+    "location": "All internal areas",
+    "source_pages": [
+     31
+    ],
+    "plain_english": "Various internal walls and surfaces need paint touch-ups to restore appearance.",
+    "trade_category": "building",
+    "why_it_matters": "Cosmetic only.",
+    "repair_cost_low": 500,
+    "trade_secondary": "plasterer",
+    "repair_cost_high": 1500
+   },
+   {
+    "name": "Doors and windows difficult to operate",
+    "trade": "handyman",
+    "urgency": "monitor",
+    "location": "All internal areas",
+    "source_pages": [
+     33,
+     34,
+     35
+    ],
+    "plain_english": "Multiple doors and windows are binding, jamming, or sticking and won't open or close smoothly.",
+    "trade_category": "building",
+    "why_it_matters": "In a house with out-of-level floors, sticking doors and windows can be a symptom of ongoing foundation movement. Most cases in an old house are just seasonal timber swelling, but worth monitoring alongside the floor levels.",
+    "repair_cost_low": 300,
+    "trade_secondary": "carpenter",
+    "repair_cost_high": 800
+   },
+   {
+    "name": "Loose roof frame purlin strut — non-compliant alteration",
+    "trade": "carpenter",
+    "urgency": "within-12-months",
+    "location": "Roofspace",
+    "source_pages": [
+     36
+    ],
+    "plain_english": "Someone has altered the roof framing structure and a purlin strut (a timber brace that supports the roof) is now loose. The modifications don't comply with current building standards and a building permit was required but may not have been obtained.",
+    "trade_category": "building",
+    "why_it_matters": "A loose purlin strut reduces the structural integrity of the roof frame. You should check with Maribyrnong Council whether a building permit was issued for this work. If not, you may need to retrospectively approve or rectify it.",
+    "repair_cost_low": 800,
+    "trade_secondary": "licensed_builder",
+    "repair_cost_high": 2500
+   }
+  ],
+  "pest_findings": [
+   {
+    "name": "Termite workings and damage — internal areas",
+    "trade": "pest_controller",
+    "urgency": "urgent",
+    "location": "All internal areas",
+    "source_pages": [
+     65,
+     66
+    ],
+    "plain_english": "Evidence of past termite workings and/or damage was found inside the house. The extent was undetermined due to obstructions (wall linings, floor coverings). No live termites were found on the day, but the inspector notes that absence of live termites doesn't mean the colony is gone.",
+    "trade_category": "pest",
+    "why_it_matters": "Termite damage can be hidden behind wall linings and under floors. The full extent is unknown until an invasive inspection is done. Structural framing damage from termites can cost $8,000–$25,000+ to repair. This is the single biggest financial unknown in this report.",
+    "repair_cost_low": 3000,
+    "trade_secondary": "carpenter",
+    "repair_cost_high": 15000
+   },
+   {
+    "name": "Termite workings and damage — roofspace",
+    "trade": "pest_controller",
+    "urgency": "urgent",
+    "location": "Roofspace",
+    "source_pages": [
+     66,
+     67
+    ],
+    "plain_english": "Termite damage was found in the roof timbers. The damage appeared localised but the full extent couldn't be determined. A licensed builder needs to assess whether any structural roof members have been compromised.",
+    "trade_category": "pest",
+    "why_it_matters": "Roof framing damaged by termites can fail under load. Repair costs depend on how many members are affected — could range from a few thousand dollars to a full roof reframe.",
+    "repair_cost_low": 2000,
+    "trade_secondary": "carpenter",
+    "repair_cost_high": 10000
+   },
+   {
+    "name": "Fungal decay — weatherboards and fascias (widespread)",
+    "trade": "carpenter",
+    "urgency": "urgent",
+    "location": "All external areas — weatherboards and fascias",
+    "source_pages": [
+     67,
+     68,
+     69
+    ],
+    "plain_english": "The timber weatherboards and fascias have widespread fungal decay (rot). The inspector probed the timber and it tested as decayed. This is beyond just peeling paint — the timber itself is breaking down.",
+    "trade_category": "pest",
+    "why_it_matters": "Decayed weatherboards and fascias need to be replaced, not just repainted. If left, the rot spreads into the structural wall framing behind. Given the extent described as 'widespread', this is a significant repair job.",
+    "repair_cost_low": 5000,
+    "trade_secondary": "painter",
+    "repair_cost_high": 15000
+   },
+   {
+    "name": "Wood borer (furniture beetle) — Baltic pine flooring throughout",
+    "trade": "pest_controller",
+    "urgency": "urgent",
+    "location": "All internal areas — Baltic pine floorboards",
+    "source_pages": [
+     70,
+     71
+    ],
+    "plain_english": "The Baltic pine floorboards throughout the house have widespread wood borer (furniture beetle, Anobium punctatum) damage. The inspector couldn't confirm if the attack is still active without breaking open the timber, but says it should be treated as active unless proven otherwise.",
+    "trade_category": "pest",
+    "why_it_matters": "Wood borer weakens floorboards over time. Widespread attack means the floors may need chemical treatment and potentially replacement of the most affected boards. Baltic pine is particularly susceptible and replacement with non-susceptible timber is the most effective fix.",
+    "repair_cost_low": 3000,
+    "trade_secondary": "carpenter",
+    "repair_cost_high": 8000
+   },
+   {
+    "name": "No termite management system installed",
+    "trade": "pest_controller",
+    "urgency": "urgent",
+    "location": "Whole property",
+    "source_pages": [
+     86,
+     87
+    ],
+    "plain_english": "There is no termite barrier or management system protecting this property — no chemical barrier, no baiting system, nothing. There's no notice in the switchboard indicating any previous treatment either.",
+    "trade_category": "pest",
+    "why_it_matters": "An unprotected 80-year-old timber house in Melbourne is extremely vulnerable to termite attack. Given that termite workings have already been found, installing a management system is not optional — it's essential. This needs to happen immediately after purchase.",
+    "repair_cost_low": 2000,
+    "trade_secondary": "landscaper",
+    "repair_cost_high": 4000
+   },
+   {
+    "name": "Inadequate subfloor ventilation",
+    "trade": "carpenter",
+    "urgency": "within-12-months",
+    "location": "Subfloor — all external areas",
+    "source_pages": [
+     72,
+     73
+    ],
+    "plain_english": "The ventilation under the house is inadequate. There aren't enough vents to keep the subfloor dry and well-aired.",
+    "trade_category": "pest",
+    "why_it_matters": "Poor subfloor ventilation creates the damp, humid conditions that termites and fungal decay thrive in. It's a direct contributor to the rot and pest issues already found. Fixing ventilation is a prerequisite for any other subfloor repairs to last.",
+    "repair_cost_low": 800,
+    "trade_secondary": "pest_controller",
+    "repair_cost_high": 2500
+   },
+   {
+    "name": "Excessive moisture — external areas",
+    "trade": "plumber",
+    "urgency": "urgent",
+    "location": "All external areas",
+    "source_pages": [
+     74,
+     75,
+     76,
+     77
+    ],
+    "plain_english": "Excessive moisture was detected around the external perimeter of the house, linked to poor drainage, leaking plumbing connections, and vegetation against the walls.",
+    "trade_category": "pest",
+    "why_it_matters": "Moisture is the root cause of both the fungal decay and the termite conducive conditions. Until the moisture sources are fixed, pest and decay problems will keep recurring.",
+    "repair_cost_low": 500,
+    "trade_secondary": "landscaper",
+    "repair_cost_high": 2000
+   },
+   {
+    "name": "Termite inspection zones breached — widespread",
+    "trade": "landscaper",
+    "urgency": "urgent",
+    "location": "All external areas — front, rear, both sides",
+    "source_pages": [
+     78,
+     79,
+     80,
+     81
+    ],
+    "plain_english": "The areas around the base of the house that should be kept clear so termites can be spotted (called inspection zones) are blocked by paving, gardens, earth, vegetation, decking, and pipework on all four sides of the house. Termites could be entering the house undetected right now.",
+    "trade_category": "pest",
+    "why_it_matters": "When inspection zones are blocked, termites can travel from the soil into the house walls without anyone seeing them. This is a major risk factor and needs to be cleared as a priority.",
+    "repair_cost_low": 500,
+    "trade_secondary": "pest_controller",
+    "repair_cost_high": 2000
+   }
+  ],
+  "capex_forecast": {
+   "year_1_to_3": {
+    "low": 12000,
+    "high": 35000,
+    "summary": "Planned works in the first 2–3 years: replacement of decayed weatherboards and fascias (once painting is done and extent of rot is confirmed), site drainage and paving rectification, subfloor ventilation upgrade, fencing replacement, loose handrail and door/window adjustments, and internal plaster crack repairs. Also budget for the invasive subfloor inspection once access is created — stump replacement may be needed depending on findings."
+   },
+   "year_3_to_5": {
+    "low": 25000,
+    "high": 65000,
+    "summary": "Forward-looking maintenance for an 80-year-old Yarraville weatherboard: full roof restoration or re-roof of the main house (corrugated iron showing age in photos), hot water system replacement (visible external unit appears aged), kitchen and bathroom upgrades (both appear dated from inspection photos), potential restumping if subfloor inspection reveals failed stumps, and ongoing annual termite inspections plus barrier renewal. This era of home typically requires a restump every 40–60 years — at 80 years old, this may already be overdue."
+   },
+   "year_1_urgent": {
+    "low": 22000,
+    "high": 57000,
+    "summary": "Immediate action items: termite treatment and management system installation, pest controller assessment of internal and roofspace termite damage, structural engineer assessment of leaning veranda pier, shed roof replacement, external paint (to stop ongoing decay), bathroom grout/sealant repair, and clearing of termite inspection zones. These cannot wait — every month of delay increases the risk of hidden structural damage worsening."
+   }
+  },
+  "inspection_date": "7 Aug 2020",
+  "overall_verdict": "NEGOTIATE",
+  "verdict_summary": "This is a poorly maintained 80-year-old Yarraville weatherboard with a meaningful list of major defects — including a leaning veranda pier requiring structural assessment, termite workings found in the roofspace and internally, widespread fungal decay to weatherboards and fascias, no termite management system in place, and deteriorated external paint exposing bare timber. The property is liveable and structurally not catastrophic, but you're buying a significant maintenance backlog. The pest findings in particular — past termite damage plus wood borer throughout the Baltic pine floors — are serious enough to warrant a price reduction before you sign anything.",
+  "property_address": "18 Loch Street Yarraville 3013",
+  "negotiation_amount": 72000,
+  "negotiation_language": "Dear [Agent's Name],\n\nThank you for your assistance with 18 Loch Street, Yarraville. We remain genuinely interested in purchasing this property, however our pre-purchase building and timber pest inspection (conducted 7 August 2020 by Inside Out Property Inspections Victoria, Licence DBU 31691) has identified a significant number of major defects and pest findings that we are unable to overlook at the current asking price.\n\nThe key findings are as follows:\n\n1. TERMITE WORKINGS AND DAMAGE — Evidence of past termite activity was found in both the internal areas and the roofspace. No termite management system has ever been installed on this property, and the overall timber pest risk was rated HIGH by the inspector. The full extent of structural damage cannot be determined without an invasive inspection.\n\n2. WIDESPREAD FUNGAL DECAY — The weatherboards and fascias have widespread fungal decay confirmed by probe testing. This is not a paint issue — the timber itself is rotting and requires replacement across large sections of the exterior.\n\n3. WOOD BORER THROUGHOUT BALTIC PINE FLOORS — The furniture beetle (Anobium punctatum) has caused widespread damage to the Baltic pine floorboards throughout the house. Treatment and partial replacement is required.\n\n4. LEANING VERANDA PIER — The front left brick pier is leaning considerably and requires structural engineering assessment and repair.\n\n5. DETERIORATED EXTERNAL PAINT AND BARE TIMBER — Extensive paint failure across the weatherboards, fascias, and window frames is exposing bare timber to the elements, accelerating the decay already found.\n\n6. INADEQUATE SITE DRAINAGE AND PAVING — Water is draining toward the house rather than away from it across all external areas, which is a direct contributor to the moisture, decay, and pest conditions identified.\n\n7. RUSTED SHED ROOF — The shed roof sheets are heavily corroded and require replacement.\n\nBased on current 2026 Australian trade rates, we have obtained cost estimates for rectifying the defects identified in the inspection report. The total estimated rectification cost ranges from approximately $36,750 to $107,300, with a midpoint of approximately $72,000.\n\nIn light of these findings, we would like to formally request a price reduction of $72,000, bringing our revised offer to $778,000.\n\nThis figure reflects the estimated cost of putting the property into a condition consistent with its age and type, and is based entirely on the inspector's findings rather than any desire to renegotiate opportunistically. We want to be transparent: we are not walking away from this property. We believe it has genuine character and long-term value in Yarraville. However, we cannot proceed at $850,000 given the scope of work required.\n\nWe would welcome the opportunity to discuss this further and reach an agreement that works for both parties. Please let us know the vendor's position at your earliest convenience, as we are mindful of our cooling-off period.\n\nKind regards,\n[Your Name]",
+  "conveyancer_questions": [
+   "Does the Section 32 Vendor Statement disclose any history of termite treatment, termite damage, or pest management works at the property? Has the vendor been asked in writing whether they are aware of any past termite activity or damage, and what was their response?",
+   "Are there any building permits on record with Maribyrnong City Council for works carried out at the property, including the roof framing alterations identified in the inspection report (loose purlin strut)? If permits were issued, were final inspections completed and certificates of occupancy or final inspection certificates issued?",
+   "Does the Section 32 disclose any easements, rights of way, or drainage easements affecting the property, particularly given the site drainage issues identified? Are there any drainage infrastructure obligations on the owner?",
+   "What is the cooling-off period for this contract and what is the precise deadline for exercising it? Can the cooling-off period be extended by agreement to allow time for the vendor to respond to our price reduction request and for us to obtain specialist quotes for the termite damage and fungal decay?",
+   "Given the inspector's strong recommendation for an asbestos inspection on this pre-1965 property, does the Section 32 disclose any known asbestos-containing materials? Can we make the contract conditional on a satisfactory asbestos assessment, or negotiate a vendor warranty regarding asbestos?"
+  ],
+  "total_repair_cost_low": 36750,
+  "rental_compliance_gaps": [],
+  "total_repair_cost_high": 107300,
+  "if_builder_refuses_note": null,
+  "what_report_does_not_cover": "This report does not cover: (1) asbestos assessment — the inspector specifically recommends an asbestos inspector be engaged, which is critical for a pre-1965 property with fibrous cement sheeting likely present; (2) electrical safety — a licensed electrician inspection was recommended; (3) plumbing beyond visible tap leaks — a plumber inspection was recommended; (4) the full subfloor — access was inadequate and the subfloor could not be fully inspected, meaning stump condition, subfloor framing integrity, and the full extent of termite/borer damage below floor level is unknown; (5) wall cavities — wall linings prevented inspection of framing within walls; (6) the full extent of termite damage — wall linings and floor coverings concealed potentially significant structural damage; (7) appliances, smoke detector testing, pool/spa equipment, or compliance with current building codes.",
+  "builder_rectification_letter": null,
+  "compliance_inspections_recommended": []
+ },
+ "tradies_json": {
+  "tiler": [
+   {
+    "id": "here:pds:place:036r1qbt-5cecd2726371fdb4892a0b560f7e9cad",
+    "name": "Paving Experts - Paving & Tiling Contractors Melbourne - Pool Paving Installers",
+    "phone": null,
+    "address": "Paving Experts - Paving & Tiling Contractors Melbourne - Pool Paving Installers, Corymbia Ct, Truganina VIC 3029, Australia",
+    "website": "https://www.instagram.com/pavingexpertsmelbourne",
+    "categories": [
+     {
+      "id": "700-7200-0277",
+      "name": "Specialty Trade Contractors",
+      "primary": true
+     }
+    ],
+    "distance_m": 14156,
+    "business_name": "Paving Experts - Paving & Tiling Contractors Melbourne - Pool Paving Installers"
+   },
+   {
+    "id": "here:pds:place:036r1r1e-3e419979faa9325ffa3f5837462fd9ef",
+    "name": "Inline Ceramics & Stone (Inline Ceramics Stone Melbourne Commercial Tiling Contractors)",
+    "phone": "+611300799189",
+    "address": "Inline Ceramics & Stone, 6 Clay Ct, Thomastown VIC 3074, Australia",
+    "website": "http://inlineceramics.com",
+    "categories": [
+     {
+      "id": "700-7200-0277",
+      "name": "Specialty Trade Contractors",
+      "primary": true
+     },
+     {
+      "id": "600-6600-0079",
+      "name": "Floor & Carpet"
+     }
+    ],
+    "distance_m": 16698,
+    "business_name": "Inline Ceramics & Stone (Inline Ceramics Stone Melbourne Commercial Tiling Contractors)"
+   }
+  ],
+  "fencer": [
+   {
+    "id": "here:pds:place:036r1r14-2511b38e296a4242b15d11a508aa9d7f",
+    "name": "Boss Fencing ContractorsMelbourne",
+    "phone": "+61355505086",
+    "address": "Boss Fencing ContractorsMelbourne, 1 Tripovich St, Brunswick VIC 3056, Australia",
+    "website": null,
+    "categories": [
+     {
+      "id": "700-7200-0277",
+      "name": "Specialty Trade Contractors",
+      "primary": true
+     },
+     {
+      "id": "700-7200-0262",
+      "name": "Landscaping Services"
+     }
+    ],
+    "distance_m": 8749,
+    "business_name": "Boss Fencing ContractorsMelbourne"
+   },
+   {
+    "id": "here:pds:place:036r1qbx-4c31bf508e289f103d3711fe87db2787",
+    "name": "Altona Fencing Contractors",
+    "phone": "+61404162222",
+    "address": "Altona Fencing Contractors, 2 Newland St, Altona Meadows VIC 3028, Australia",
+    "website": "https://altona-fencing.business.site",
+    "categories": [
+     {
+      "id": "700-7200-0277",
+      "name": "Specialty Trade Contractors",
+      "primary": true
+     },
+     {
+      "id": "700-7200-0262",
+      "name": "Landscaping Services"
+     }
+    ],
+    "distance_m": 10878,
+    "business_name": "Altona Fencing Contractors"
+   }
+  ],
+  "roofer": [
+   {
+    "id": "here:pds:place:036r1r0b-b812bdf6bc57b17793262cb626a0f6c6",
+    "name": "Star Roof Restoration",
+    "phone": "+61405572474",
+    "address": "Star Roof Restoration, 129 Stanhope St, West Footscray VIC 3012, Australia",
+    "website": null,
+    "categories": [
+     {
+      "id": "700-7200-0277",
+      "name": "Specialty Trade Contractors",
+      "primary": true
+     }
+    ],
+    "distance_m": 2650,
+    "business_name": "Star Roof Restoration"
+   },
+   {
+    "id": "here:pds:place:036r1r0f-c859cb89fe3f4c1692fc988db2d5194b",
+    "name": "Polished Concrete Melbourne Wide (Roof Restoration Melbourne Wide)",
+    "phone": "+61370180789",
+    "address": "Polished Concrete Melbourne Wide, 270 Macaulay Rd, North Melbourne VIC 3051, Australia",
+    "website": "http://plantationshuttersmelbournewide.com.au",
+    "categories": [
+     {
+      "id": "800-8600-0182",
+      "name": "Swimming Pool",
+      "primary": true
+     },
+     {
+      "id": "600-6600-0078",
+      "name": "Home Decor Store"
+     },
+     {
+      "id": "600-6600-0083",
+      "name": "Glass & Windows"
+     },
+     {
+      "id": "700-7200-0254",
+      "name": "Construction"
+     },
+     {
+      "id": "700-7200-0277",
+      "name": "Specialty Trade Contractors"
+     }
+    ],
+    "distance_m": 5313,
+    "business_name": "Polished Concrete Melbourne Wide (Roof Restoration Melbourne Wide)"
+   }
+  ],
+  "painter": [
+   {
+    "id": "here:pds:place:036r1ppu-b542c38e23bd8fe47317c804b9d82a7c",
+    "name": "McIntosh Painters",
+    "phone": "+61393322719",
+    "address": "McIntosh Painters, 28 Fehon St, Yarraville VIC 3013, Australia",
+    "website": "http://mcintoshpainters.com.au",
+    "categories": [
+     {
+      "id": "700-7200-0342",
+      "name": "Interior & Exterior Design ",
+      "primary": true
+     },
+     {
+      "id": "800-8200-0361",
+      "name": "Fine Arts"
+     }
+    ],
+    "distance_m": 502,
+    "business_name": "McIntosh Painters"
+   },
+   {
+    "id": "here:pds:place:036r1r0f-7704eaa65ecd2c3f34a0db2108a0ae12",
+    "name": "The House Painters (Mark & Co Painting Contractors)",
+    "phone": "+61370685459",
+    "address": "The House Painters, 585 Little Collins St, Melbourne VIC 3000, Australia",
+    "website": "http://www.markandcopainters.com",
+    "categories": [
+     {
+      "id": "700-7200-0342",
+      "name": "Interior & Exterior Design ",
+      "primary": true
+     },
+     {
+      "id": "600-6600-0078",
+      "name": "Home Decor Store"
+     },
+     {
+      "id": "600-6900-0000",
+      "name": "Consumer Goods"
+     },
+     {
+      "id": "700-7200-0275",
+      "name": "Repair and Maintenance Services"
+     },
+     {
+      "id": "700-7400-0000",
+      "name": "Consumer Services"
+     }
+    ],
+    "distance_m": 6468,
+    "business_name": "The House Painters (Mark & Co Painting Contractors)"
+   }
+  ],
+  "plumber": [
+   {
+    "id": "here:pds:place:036r1r0b-d357642ea4036130b629f300bb3574db",
+    "name": "Yarraville Plumbing",
+    "phone": "+61393140408",
+    "address": "Yarraville Plumbing, 6 Court St, Yarraville VIC 3013, Australia",
+    "website": "http://www.yarravilleplumbing.com",
+    "categories": [
+     {
+      "id": "700-7400-0366",
+      "name": "Plumbing",
+      "primary": true
+     }
+    ],
+    "distance_m": 489,
+    "business_name": "Yarraville Plumbing"
+   },
+   {
+    "id": "here:pds:place:036r1r0b-0253fe3fc3784b413e9db629ae21261e",
+    "name": "Local Plumber Services",
+    "phone": "+61387975520",
+    "address": "Local Plumber Services, 50 Bena St, Yarraville VIC 3013, Australia",
+    "website": null,
+    "categories": [
+     {
+      "id": "700-7400-0366",
+      "name": "Plumbing",
+      "primary": true
+     }
+    ],
+    "distance_m": 914,
+    "business_name": "Local Plumber Services"
+   }
+  ],
+  "handyman": [
+   {
+    "id": "here:pds:place:036r1r0b-fdcd125d9437388aab4317cf6e9f61a6",
+    "name": "Handyman Melbourne Please",
+    "phone": "+61438539561",
+    "address": "Handyman Melbourne Please, 109 The Avenue, Spotswood VIC 3015, Australia",
+    "website": null,
+    "categories": [
+     {
+      "id": "700-7200-0277",
+      "name": "Specialty Trade Contractors",
+      "primary": true
+     },
+     {
+      "id": "600-6900-0095",
+      "name": "Office Supply & Services Store"
+     }
+    ],
+    "distance_m": 1563,
+    "business_name": "Handyman Melbourne Please"
+   },
+   {
+    "id": "here:pds:place:03614838-6a058f916923517ec33e269f9f3ef508",
+    "name": "Home Maintenance Services Melbourne",
+    "phone": "+61411313882",
+    "address": "Home Maintenance Services Melbourne, 278-286 Little Collins St, Melbourne VIC 3000, Australia",
+    "website": "http://www.homerenovations-melbourne.com.au",
+    "categories": [
+     {
+      "id": "700-7200-0254",
+      "name": "Construction",
+      "primary": true
+     }
+    ],
+    "distance_m": 7283,
+    "business_name": "Home Maintenance Services Melbourne"
+   }
+  ],
+  "plasterer": [
+   {
+    "id": "here:pds:place:036r1qbx-89561e20a9e40d6e8293ae1fa5f95467",
+    "name": "Local Plasterer",
+    "phone": "+61466344447",
+    "address": "Local Plasterer, 15-17 Chambers Rd, Altona North VIC 3025, Australia",
+    "website": "https://localplasterer.com.au",
+    "categories": [
+     {
+      "id": "700-7200-0277",
+      "name": "Specialty Trade Contractors",
+      "primary": true
+     }
+    ],
+    "distance_m": 4884,
+    "business_name": "Local Plasterer"
+   },
+   {
+    "id": "here:pds:place:036r1qcp-d478c2163293fd9f44ae67630d081c0f",
+    "name": "Dial A Plasterer",
+    "phone": "+61393118120",
+    "address": "Dial A Plasterer, 1 Hawthorn Ave, Sunshine North VIC 3020, Australia",
+    "website": null,
+    "categories": [
+     {
+      "id": "700-7200-0277",
+      "name": "Specialty Trade Contractors",
+      "primary": true
+     },
+     {
+      "id": "600-6900-0000",
+      "name": "Consumer Goods"
+     }
+    ],
+    "distance_m": 6998,
+    "business_name": "Dial A Plasterer"
+   }
+  ],
+  "restumper": [
+   {
+    "id": "here:pds:place:036r1r16-0b04011fed7bbaf17251a0c6704becb4",
+    "name": "House Levelling",
+    "phone": "+61396896707",
+    "address": "House Levelling, 19 Allenby St, Coburg North VIC 3058, Australia",
+    "website": "https://www.houselevelling.com.au",
+    "categories": [
+     {
+      "id": "700-7200-0254",
+      "name": "Construction",
+      "primary": true
+     }
+    ],
+    "distance_m": 11677,
+    "business_name": "House Levelling"
+   }
+  ],
+  "bricklayer": [
+   {
+    "id": "here:pds:place:036r1qcz-4a42a7ffb3a774180d49d6bdaa40f74b",
+    "name": "Canberra Bricklayers",
+    "phone": "+61393503757",
+    "address": "Canberra Bricklayers, 7-9 Catherine St, Coburg North VIC 3058, Australia",
+    "website": "http://www.canberrabricklayer.com.au",
+    "categories": [
+     {
+      "id": "700-7200-0254",
+      "name": "Construction",
+      "primary": true
+     },
+     {
+      "id": "600-6900-0000",
+      "name": "Consumer Goods"
+     },
+     {
+      "id": "700-7200-0277",
+      "name": "Specialty Trade Contractors"
+     },
+     {
+      "id": "700-7400-0000",
+      "name": "Consumer Services"
+     }
+    ],
+    "distance_m": 11676,
+    "business_name": "Canberra Bricklayers"
+   }
+  ],
+  "landscaper": [
+   {
+    "id": "here:pds:place:036r1r0h-df940d654366b54bdc8b077605f8e5d2",
+    "name": "The Landscaper Guys",
+    "phone": "+611300510555",
+    "address": "The Landscaper Guys, 282-284 Chesterville Rd, Moorabbin VIC 3189, Australia",
+    "website": "https://thelandscaperguys.com.au",
+    "categories": [
+     {
+      "id": "700-7200-0262",
+      "name": "Landscaping Services",
+      "primary": true
+     },
+     {
+      "id": "600-6600-0077",
+      "name": "Home Improvement/Hardware Store"
+     }
+    ],
+    "distance_m": 21032,
+    "business_name": "The Landscaper Guys"
+   },
+   {
+    "id": "here:pds:place:036r1r0h-3dfc09083204b56a4c78d834acec8696",
+    "name": "DGM Turf Contractors",
+    "phone": "+61385550641",
+    "address": "DGM Turf Contractors, 95 Tulip St, Cheltenham VIC 3192, Australia",
+    "website": "http://dgmturf.com.au",
+    "categories": [
+     {
+      "id": "700-7200-0264",
+      "name": "Management and Consulting Services",
+      "primary": true
+     },
+     {
+      "id": "600-6600-0077",
+      "name": "Home Improvement/Hardware Store"
+     },
+     {
+      "id": "700-7200-0262",
+      "name": "Landscaping Services"
+     }
+    ],
+    "distance_m": 21280,
+    "business_name": "DGM Turf Contractors"
+   }
+  ],
+  "cabinetmaker": [
+   {
+    "id": "here:pds:place:036r1r0b-8ac49aa6801eac9997c6a7a03fad3de6",
+    "name": "Inner West Joinery",
+    "phone": "+61431134263",
+    "address": "Inner West Joinery, 59 Hudsons Rd, Spotswood VIC 3015, Australia",
+    "website": "http://www.innerwestjoinery.com",
+    "categories": [
+     {
+      "id": "700-7200-0265",
+      "name": "Manufacturing",
+      "primary": true
+     },
+     {
+      "id": "600-6600-0080",
+      "name": "Furniture Store"
+     }
+    ],
+    "distance_m": 1961,
+    "business_name": "Inner West Joinery"
+   },
+   {
+    "id": "here:pds:place:036r1r0b-eec90f03ecb558ddebfd8ae7f8d1c2ea",
+    "name": "One 8th Joinery",
+    "phone": "+61435085231",
+    "address": "One 8th Joinery, 2A Holmwood Rd, Tottenham VIC 3012, Australia",
+    "website": "http://www.one8thjoinery.com.au",
+    "categories": [
+     {
+      "id": "700-7200-0265",
+      "name": "Manufacturing",
+      "primary": true
+     },
+     {
+      "id": "600-6600-0080",
+      "name": "Furniture Store"
+     }
+    ],
+    "distance_m": 2044,
+    "business_name": "One 8th Joinery"
+   }
+  ],
+  "waterproofer": [
+   {
+    "id": "here:pds:place:036r1r0c-f5624e8d7c9ba2efafa12685cf5f899c",
+    "name": "Watertite Waterproofing",
+    "phone": "+61396456308",
+    "address": "Watertite Waterproofing, 36 Sabre Dr, Port Melbourne VIC 3207, Australia",
+    "website": "https://www.watertite.melbourne",
+    "categories": [
+     {
+      "id": "700-7200-0277",
+      "name": "Specialty Trade Contractors",
+      "primary": true
+     }
+    ],
+    "distance_m": 2615,
+    "business_name": "Watertite Waterproofing"
+   },
+   {
+    "id": "here:pds:place:036r1qcj-184caee23c8b4285b9a7afa682f1dc37",
+    "name": "The Waterproofers",
+    "phone": "+611300666004",
+    "address": "The Waterproofers, 40 Orbis Dr, Ravenhall VIC 3023, Australia",
+    "website": "http://www.thewaterproofers.com.au",
+    "categories": [
+     {
+      "id": "700-7200-0277",
+      "name": "Specialty Trade Contractors",
+      "primary": true
+     },
+     {
+      "id": "700-7200-0254",
+      "name": "Construction"
+     },
+     {
+      "id": "700-7400-0151",
+      "name": "Utilities"
+     }
+    ],
+    "distance_m": 12408,
+    "business_name": "The Waterproofers"
+   }
+  ],
+  "pest_controller": [
+   {
+    "id": "here:pds:place:036r1r0f-ed2bc62b1b5c91d5227b9574bba8a686",
+    "name": "Termite Control",
+    "phone": "+61359230261",
+    "address": "Termite Control, 111 Bourke St, Melbourne VIC 3000, Australia",
+    "website": null,
+    "categories": [
+     {
+      "id": "700-7400-0152",
+      "name": "Waste & Sanitary",
+      "primary": true
+     }
+    ],
+    "distance_m": 7711,
+    "business_name": "Termite Control"
+   },
+   {
+    "id": "here:pds:place:036r1rry-61322b82ebe17b61c3fde01f272d1701",
+    "name": "Pest Control",
+    "phone": "+61426666336",
+    "address": "Pest Control, 12 Almondberry Way, Williams Landing VIC 3027, Australia",
+    "website": "https://reconpestcontrol.com.au",
+    "categories": [
+     {
+      "id": "700-7200-0254",
+      "name": "Construction",
+      "primary": true
+     },
+     {
+      "id": "700-7200-0344",
+      "name": "Property Management"
+     },
+     {
+      "id": "700-7400-0152",
+      "name": "Waste & Sanitary"
+     },
+     {
+      "id": "700-7400-0287",
+      "name": "Maid Services"
+     }
+    ],
+    "distance_m": 12688,
+    "business_name": "Pest Control"
+   }
+  ],
+  "licensed_builder": [
+   {
+    "id": "here:pds:place:036r1r0b-db9ccc036ea44d1aa49edc448425c309",
+    "name": "Pony and Trap Construction",
+    "phone": "+61425758735",
+    "address": "Pony and Trap Construction, 107 Hamilton St, Yarraville VIC 3013, Australia",
+    "website": null,
+    "categories": [
+     {
+      "id": "700-7200-0254",
+      "name": "Construction",
+      "primary": true
+     }
+    ],
+    "distance_m": 443,
+    "business_name": "Pony and Trap Construction"
+   },
+   {
+    "id": "here:pds:place:036r1r0b-4da02a6b8e04d4fbd6dfbd0dbbf2b273",
+    "name": "Haven Constructions",
+    "phone": "+61412472961",
+    "address": "Haven Constructions, 46 Graingers Rd, West Footscray VIC 3012, Australia",
+    "website": "http://www.havenconstructions.com.au",
+    "categories": [
+     {
+      "id": "700-7200-0254",
+      "name": "Construction",
+      "primary": true
+     }
+    ],
+    "distance_m": 987,
+    "business_name": "Haven Constructions"
+   }
+  ]
+ }
+}

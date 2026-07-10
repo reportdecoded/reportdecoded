@@ -9,7 +9,7 @@
 //   2. Yarraville housing stock is overwhelmingly pre-1960s, which is
 //      exactly where defect risk + asbestos + termite concerns peak —
 //      a buyer here genuinely benefits from this product
-//   3. Inner-west Melbourne prices ($800K–$1.5M typical) make a $59
+//   3. Inner-west Melbourne prices ($800K–$1.5M typical) make a $39
 //      buyer-side report financially trivial vs negotiation upside
 //
 // Pattern is reusable for future suburbs (Ocean Grove, Torquay, Geelong)
@@ -93,7 +93,7 @@ export default function YarravilleLandingPage() {
           <div className="upload-icon">📄</div>
           <div className="upload-title">Got your own Yarraville inspection report?</div>
           <div className="upload-sub">
-            Upload it on the homepage. Single report $59 AUD · results in under 2 minutes · branded PDF emailed to you.
+            Upload it on the homepage. Single report $39 AUD · results in under 2 minutes · branded PDF emailed to you.
           </div>
           <Link
             href="/#buyer-upload"
@@ -203,7 +203,7 @@ export default function YarravilleLandingPage() {
           <div className="pricing-row" style={{ marginTop: 18 }}>
             <div className="price-card">
               <div className="price-label">Single Report</div>
-              <div className="price-amount">$59</div>
+              <div className="price-amount">$39</div>
               <div className="price-desc">Full Yarraville analysis with citations, tradies, negotiation language.</div>
             </div>
             <div className="price-card featured">
@@ -280,7 +280,7 @@ export default function YarravilleLandingPage() {
             Ready to decode your Yarraville report?
           </div>
           <div style={{ color: 'rgba(255,255,255,0.65)', fontSize: 15, marginBottom: 22, maxWidth: 520, margin: '0 auto 22px' }}>
-            Upload your PDF and have a plain-English analysis in under 2 minutes. No account needed. $59 single, refunded if we can't read your PDF.
+            Upload your PDF and have a plain-English analysis in under 2 minutes. No account needed. $39 single, refunded if we can't read your PDF.
           </div>
           <Link
             href="/#buyer-upload"
@@ -361,7 +361,7 @@ const FAQS = [
   },
   {
     q: 'How does the refund policy work?',
-    a: "If we can't read your PDF (e.g. it's a scanned image with no extractable text, or it's not actually an inspection report) we automatically refund the $59. You'll get an email explaining what we tried and what to upload instead.",
+    a: "If we can't read your PDF (e.g. it's a scanned image with no extractable text, or it's not actually an inspection report) we automatically refund the $39. You'll get an email explaining what we tried and what to upload instead.",
   },
 ];
 

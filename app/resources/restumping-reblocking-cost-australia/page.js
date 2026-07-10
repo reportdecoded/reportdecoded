@@ -308,7 +308,7 @@ export default function Page() {
         <Link href="/">Upload your report to Report Decoded</Link> and
         every defect &mdash; stumps included &mdash; comes back in plain
         English, costed, with ready-to-send negotiation wording.{' '}
-        <strong>One report, $59. No subscription.</strong>
+        <strong>One report, $39. No subscription.</strong>
       </p>
     </ArticleLayout>
   );

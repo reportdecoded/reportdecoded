@@ -341,7 +341,7 @@ export default function Page() {
       <ul>
         <li>
           <strong>Per-report SaaS (cheapest at low volume):</strong>{' '}
-          ~$59 per individual report, no monthly fee, white-label not
+          ~$39 per individual report, no monthly fee, white-label not
           always included. Works for agents under 3-4 reports/month.
         </li>
         <li>

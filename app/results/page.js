@@ -4,6 +4,7 @@ import { useSearchParams } from 'next/navigation';
 import Link from 'next/link';
 import { track } from '@vercel/analytics';
 import { trackPurchase } from '@/lib/metaPixelEvents';
+import { SINGLE } from '@/lib/pricing';
 import { STYLES } from '@/components/ReportDecoded';
 import { topTradesForDefect, tradeByKey, googleMapsSearchUrl, filterTradiesByInferredTrades } from '@/lib/trades';
 
@@ -48,7 +49,7 @@ function ResultsBody() {
     if (stripeSessionId && !isSample) {
       track('report_purchased', { source: 'buyer_flow' });
       trackPurchase({
-        value: 59,
+        value: SINGLE.price,
         currency: 'AUD',
         contentName: 'buyer_report',
         transactionId: stripeSessionId,

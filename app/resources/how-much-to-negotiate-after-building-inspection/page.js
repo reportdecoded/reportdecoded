@@ -239,7 +239,7 @@ export default function Page() {
         a way they can&apos;t dismiss.
       </p>
       <p>
-        That&apos;s exactly what Report Decoded does in 2 minutes for $59. But
+        That&apos;s exactly what Report Decoded does in 2 minutes for $39. But
         even if you do it manually using this guide, the principle is the
         same: <strong>specific defects + specific pages + specific dollar
         amounts = serious negotiation.</strong>

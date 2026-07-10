@@ -277,7 +277,7 @@ export default function Page() {
         page in your inspector&apos;s PDF so the evidence is right there.
       </p>
       <p>
-        $59 per report. No subscription. Under 2 minutes.
+        $39 per report. No subscription. Under 2 minutes.
       </p>
     </ArticleLayout>
   );
