@@ -3,6 +3,7 @@ import { SpeedInsights } from '@vercel/speed-insights/next';
 import { DM_Sans, Fraunces, DM_Mono } from 'next/font/google';
 import MetaPixel from '@/components/MetaPixel';
 import GoogleAnalytics from '@/components/GoogleAnalytics';
+import GoogleTagManager from '@/components/GoogleTagManager';
 import AffiliateTracker from '@/components/AffiliateTracker';
 import {
   organizationSchema,
@@ -109,6 +110,7 @@ export default function RootLayout({ children }) {
       <body style={{ margin: 0, padding: 0 }}>
         <MetaPixel />
         <GoogleAnalytics />
+        <GoogleTagManager />
         <AffiliateTracker />
         {children}
         <Analytics />

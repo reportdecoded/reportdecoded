@@ -22,6 +22,10 @@ const faqs = [
     a: 'They\'ll identify it where it\'s visually obvious — exposed rust-stained rebar, rust bleeding through concrete surfaces, hollow-sounding concrete (tested with a hammer), efflorescence (white salt deposits) at crack lines, surface delamination. What AS4349.1 inspectors can\'t do: confirm extent without invasive testing (concrete cores, half-cell potential survey, chloride/carbonation testing) and quantify how much rebar is affected internally. The inspector\'s note will typically read "evidence of concrete spalling — further investigation by a structural engineer recommended." That triggered investigation costs $1,200-$3,500 and gives you a quantified repair scope.',
   },
   {
+    q: 'Is it safe to buy a house with concrete cancer?',
+    a: 'Usually yes — concrete cancer is almost always repairable, so it rarely makes a house unsafe to buy outright. The real question is severity and cost, not safety: a cosmetic patch is $1,500-$5,000, localised structural repair $5,000-$25,000, and widespread cancer $80,000+. The genuinely unsafe scenarios are rare — advanced, untreated corrosion on a load-bearing element like a cantilevered balcony, which can eventually fail. The safe way to buy one: commission a structural engineer\'s quantified scope before you go unconditional, confirm the repair is a defined cost rather than open-ended, and negotiate that cost off the price. Walk away only when the remediation bill approaches or exceeds the discount you can secure.',
+  },
+  {
     q: 'Why is concrete cancer worse in coastal Australian homes?',
     a: 'Chloride ions from sea spray penetrate concrete and accelerate rebar corrosion dramatically. Concrete cancer on a property 200m from the surf line in Bondi or Burleigh can progress 5-10x faster than identical concrete inland. Coastal AU stock — particularly 1960s-1990s suspended slab construction, balcony nosings, and unpainted concrete fences in the salt-spray zone — is the highest-risk category. Pre-1990 coastal apartments are the single biggest driver of strata special levies for concrete remediation. If you\'re buying within 500m of the coast in NSW, QLD, VIC, WA — expect concrete cancer to come up in due diligence regardless of building age.',
   },
@@ -68,6 +72,8 @@ export default function Page() {
         'what-is-as4349-1',
         'what-to-do-if-building-inspection-finds-major-problems',
         'how-much-to-negotiate-after-building-inspection',
+        'rising-damp-australia-how-much-to-fix',
+        'mould-in-australian-homes-remediation-cost',
       ]}
       related_suburbs={[
         'bondi',
@@ -150,6 +156,22 @@ export default function Page() {
         delamination, falling chunks — is called <strong>spalling
         </strong>. Inspectors use both terms; technically &ldquo;cancer&rdquo;
         describes the cause and &ldquo;spalling&rdquo; describes the symptom.
+      </p>
+
+      <h2>Concrete spalling vs concrete cancer: what&apos;s the difference?</h2>
+      <p>
+        These two terms get used interchangeably, but they describe
+        different stages of one problem. <strong>Concrete cancer</strong>{' '}
+        is the cause — the corrosion of the steel reinforcement inside
+        the concrete. <strong>Concrete spalling</strong> is the visible
+        symptom — the cracking, delamination and chunks of concrete
+        breaking away as the rusting rebar expands and pushes the surface
+        off. So if your inspector writes &ldquo;spalling,&rdquo;
+        they&apos;re describing what they can see; &ldquo;concrete
+        cancer&rdquo; is what&apos;s driving it underneath. By the time
+        spalling is visible, the corrosion has usually been progressing
+        internally for years — which is why a spalling note always
+        warrants the structural-engineer follow-up covered below.
       </p>
 
       <h2>Where it shows up in Australian homes</h2>
@@ -349,6 +371,56 @@ export default function Page() {
         the repair re-fails within 3-5 years.
       </p>
 
+      <h2>How concrete cancer is actually repaired</h2>
+      <p>
+        Knowing the repair process helps you sanity-check a quote — a
+        durable concrete cancer repair follows the same core steps
+        whether it&apos;s one balcony or a whole facade:
+      </p>
+      <ol>
+        <li>
+          <strong>Break out to sound concrete.</strong> All cracked,
+          delaminated and drummy concrete is cut back to solid
+          material — usually a larger area than the visible damage
+          suggests.
+        </li>
+        <li>
+          <strong>Treat or replace the rebar.</strong> Corroded
+          reinforcement is grit-blasted back to bright steel and
+          coated with a corrosion inhibitor; badly section-reduced
+          bars are cut out and spliced with new steel.
+        </li>
+        <li>
+          <strong>Reinstate with high-strength repair mortar.</strong>{' '}
+          Polymer-modified or epoxy-bonded mortar rebuilds the profile
+          — not the bagged render a lowball quote leans on.
+        </li>
+        <li>
+          <strong>Add cathodic protection where needed.</strong>{' '}
+          Sacrificial anodes stop the &ldquo;ring anode&rdquo; effect,
+          where a fresh patch accelerates corrosion in the older
+          concrete right next to it.
+        </li>
+        <li>
+          <strong>Apply an anti-carbonation coating.</strong> A
+          breathable protective coating slows future CO₂ and chloride
+          ingress so the repair lasts.
+        </li>
+      </ol>
+      <p>
+        The single biggest red flag in a concrete cancer repair quote:
+        a cheap &ldquo;patch and paint&rdquo; with no rebar treatment
+        and no protective coating. That cosmetic fix traps the
+        corrosion and typically re-fails within 3-5 years — which is
+        why the durable-repair ranges above sit where they do. If your
+        report also flags{' '}
+        <Link href="/resources/structural-cracks-building-inspection-australia">
+          structural cracking
+        </Link>{' '}
+        near the same element, treat both in one scope rather than
+        patching twice.
+      </p>
+
       <h2>Apartments and strata implications</h2>
       <p>
         For apartment buyers, concrete cancer is almost always a
@@ -420,6 +492,27 @@ export default function Page() {
         property pre-1995: always assume some concrete cancer is
         present. Budget for a structural engineer&apos;s assessment
         ($1,500-$3,500) before settlement.
+      </p>
+
+      <h2>Is it safe to buy a house with concrete cancer?</h2>
+      <p>
+        Usually, yes. Concrete cancer is almost always repairable, so it
+        rarely makes a house unsafe to buy outright — the real question
+        is severity and cost, not safety. A cosmetic patch runs
+        $1,500-$5,000; localised structural repair $5,000-$25,000;
+        widespread cancer across a slab or multiple balconies can exceed
+        $80,000. The genuinely unsafe cases are rare: advanced, untreated
+        corrosion on a load-bearing element like a cantilevered balcony,
+        which can eventually fail if left for years.
+      </p>
+      <p>
+        The safe way to buy one is procedural, not a gamble: commission a
+        structural engineer&apos;s scope ($1,500-$3,500) before
+        you&apos;re unconditional, confirm the repair is a defined cost
+        rather than open-ended, and negotiate that cost off the price.
+        Walk away only when the remediation bill approaches or exceeds
+        the discount you can secure — for most buyers, concrete cancer is
+        a price-negotiation issue, not a deal-breaker.
       </p>
 
       <h2>Negotiation framework</h2>

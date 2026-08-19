@@ -61,6 +61,7 @@ export default function Page() {
       faqs={faqs}
       related_articles={[
         'rising-damp-australia-how-much-to-fix',
+        'rising-damp-treatment-cost-sydney',
         'mould-in-australian-homes-remediation-cost',
         'concrete-cancer-spalling-cost-australia',
         'how-to-read-as4349-1-inspection-report',

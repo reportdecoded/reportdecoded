@@ -183,7 +183,13 @@ export async function POST(request) {
       payment_method_types: ['card'],
       customer_email: buyerEmail,
       ...(affiliateRef ? { client_reference_id: affiliateRef } : {}),
-      ...(affiliateRef ? { discounts: [{ coupon: COUPON_ID }] } : {}),
+      // Affiliate links auto-attach the creator coupon. Everyone else gets
+      // a "promotion code" field so we can hand out comp / launch codes
+      // (Stripe forbids allow_promotion_codes + discounts on the same session,
+      // so these are mutually exclusive).
+      ...(affiliateRef
+        ? { discounts: [{ coupon: COUPON_ID }] }
+        : { allow_promotion_codes: true }),
       line_items: [
         {
           price_data: {

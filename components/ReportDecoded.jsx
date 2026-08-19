@@ -209,15 +209,8 @@ body{
   position:relative;
   overflow:hidden;
 }
-/* Subtle dot-grid texture */
-.hero-section::before{
-  content:'';
-  position:absolute;
-  inset:0;
-  background-image:radial-gradient(circle at 1px 1px, rgba(255,255,255,0.04) 1px, transparent 0);
-  background-size:32px 32px;
-  pointer-events:none;
-}
+/* Stripped-back (Aug 2026): dot-grid texture removed for a flatter,
+   cleaner, more modern navy. Palette unchanged. */
 /* Amber hairline at base */
 .hero-section::after{
   content:'';
@@ -278,14 +271,14 @@ body{
 }
 .upload-zone{
   background:white;
-  border:2px dashed var(--border);
-  border-radius:22px;
+  border:1.5px dashed var(--border);
+  border-radius:16px;
   padding:60px 44px;
   text-align:center;
   cursor:pointer;
   transition:all .22s ease;
   margin-bottom:24px;
-  box-shadow:0 8px 40px rgba(10,22,40,0.12);
+  box-shadow:0 2px 16px rgba(10,22,40,0.06);
 }
 /* Pre-upload state: softened visual so it reads as the secondary
    path (drag/drop OR fallback click), with the hero CTA above
@@ -1621,6 +1614,11 @@ export default function App() {
   const [purchaseIntent, setPurchaseIntent] = useState("home");
   const [processing, setProcessing]   = useState(false);
   const [uploadError, setUploadError] = useState(null);
+  // CRO (Aug 2026): keep the checkout path to email → pay by default.
+  // Price + address are optional (better tradie matching) and hidden
+  // behind this toggle so a panic-mode buyer isn't faced with a wall
+  // of fields before they can pay.
+  const [showDetails, setShowDetails] = useState(false);
   // Homepage FAQ accordion — null = all closed; numeric index = that one is open
   const [openFaq, setOpenFaq]         = useState(null);
 
@@ -1858,7 +1856,7 @@ export default function App() {
                 the 44×44 iOS touch target spec
               · sub-text opacity 0.55 → 0.85 clears WCAG AA at 17px */}
           <div className="hero-section">
-            <div className="hero-badge hr-1">🇦🇺 Built for Australian Property Buyers</div>
+            <div className="hero-badge hr-1">Built for Australian property buyers</div>
             {/* h1 deliberately NOT staggered — it's the LCP element and
                 must paint the instant fonts/HTML arrive. */}
             <h1 className="hero-h">
@@ -2010,7 +2008,12 @@ export default function App() {
                  shadow) so it sits as the secondary path under the
                  hero CTA. */
               <div className="upload-zone upload-zone-secondary" onClick={() => fileInputRef.current?.click()}>
-                <div className="upload-icon" style={{fontSize:28, opacity:0.75}}>📄</div>
+                <div className="upload-icon" style={{marginBottom:6, display:"flex", justifyContent:"center"}}>
+                  <svg width="34" height="34" viewBox="0 0 24 24" fill="none" stroke="var(--amber)" strokeWidth="1.4" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true">
+                    <path d="M14 3v4a1 1 0 0 0 1 1h4" />
+                    <path d="M17 21H7a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h7l5 5v11a2 2 0 0 1-2 2z" />
+                  </svg>
+                </div>
                 <div className="upload-title" style={{fontSize:18, color:"var(--text)"}}>
                   Drop a PDF here — or click anywhere to choose
                 </div>
@@ -2033,6 +2036,9 @@ export default function App() {
                 <div className="upload-filetypes" style={{marginTop:14}}>
                   PDF format · End-to-end encrypted · Results in under 2 minutes
                 </div>
+                <div style={{marginTop:10,fontSize:12,color:"var(--subtle)",lineHeight:1.5}}>
+                  Report arrived by email? Open the PDF and save it to your device first, then drop it here.
+                </div>
                 {uploadError && (
                   <div style={{marginTop:16,color:"var(--red)",fontSize:14}}>{uploadError}</div>
                 )}
@@ -2050,7 +2056,9 @@ export default function App() {
             {uploadedFile && !isUploading && (
               <div className="upload-zone" style={{cursor:"default",padding:"36px 40px"}}>
                 <div style={{textAlign:"center",marginBottom:24}}>
-                  <div className="upload-icon">✅</div>
+                  <div className="upload-icon" style={{display:"flex",justifyContent:"center"}}>
+                    <svg width="30" height="30" viewBox="0 0 24 24" fill="none" stroke="var(--amber)" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true"><circle cx="12" cy="12" r="9"/><path d="M8.5 12.5l2.5 2.5 4.5-5"/></svg>
+                  </div>
                   <div className="upload-title" style={{marginBottom:4}}>{uploadedFile.name}</div>
                   <div className="upload-sub" style={{marginBottom:0}}>
                     Uploaded — let's get you your analysis.{" "}
@@ -2152,44 +2160,64 @@ export default function App() {
                     />
                   </label>
 
-                  <label style={{fontSize:13,color:"var(--muted)",textAlign:"left"}}>
-                    Purchase price (AUD) — optional
-                    <input
-                      type="number"
-                      value={purchasePrice}
-                      onChange={e => setPurchasePrice(e.target.value)}
-                      placeholder="785000"
-                      style={{display:"block",width:"100%",padding:"12px 14px",fontSize:15,border:"1px solid var(--border)",borderRadius:10,marginTop:6,fontFamily:"inherit",background:"#fff",color:"var(--text)"}}
-                    />
-                  </label>
-
-                  <label style={{fontSize:13,color:"var(--muted)",textAlign:"left"}}>
-                    Property address — <span style={{color:"var(--amber)"}}>recommended for local tradie matching</span>
-                    <div style={{marginTop:6}}>
-                      <AddressAutocomplete
-                        value={propertyAddress}
-                        onChange={setPropertyAddress}
-                        placeholder="123 Main Street, Suburb VIC 3000"
-                        inputStyle={{display:"block",width:"100%",padding:"12px 14px",fontSize:15,border:"1px solid var(--border)",borderRadius:10,fontFamily:"inherit",background:"#fff",color:"var(--text)"}}
-                      />
-                    </div>
-                    <div style={{fontSize:11.5,color:"var(--subtle)",marginTop:5,lineHeight:1.5}}>
-                      Start typing and pick a suggestion. If left blank we&apos;ll try to extract from the PDF — but some inspectors omit it.
-                    </div>
-                  </label>
-
-                  <label style={{fontSize:13,color:"var(--muted)",textAlign:"left"}}>
-                    Package
-                    <select
-                      value={pack}
-                      onChange={e => setPack(e.target.value)}
-                      style={{display:"block",width:"100%",padding:"12px 14px",fontSize:15,border:"1px solid var(--border)",borderRadius:10,marginTop:6,fontFamily:"inherit",background:"#fff",color:"var(--text)"}}
+                  {!showDetails && (
+                    <button
+                      type="button"
+                      onClick={() => setShowDetails(true)}
+                      style={{background:"none",border:"none",padding:"2px 0",fontSize:13,color:"var(--amber)",fontWeight:600,cursor:"pointer",textAlign:"left",fontFamily:"inherit"}}
                     >
-                      <option value="single">Single Report — {SINGLE_PRICE_STR}</option>
-                      <option value="three">3-Report Pack — $149</option>
-                      <option value="ten">10-Report Pack — $390</option>
-                    </select>
-                  </label>
+                      + Add price &amp; address for sharper cost estimates (optional)
+                    </button>
+                  )}
+
+                  {showDetails && (
+                    <>
+                      <label style={{fontSize:13,color:"var(--muted)",textAlign:"left"}}>
+                        Purchase price (AUD) — optional
+                        <input
+                          type="number"
+                          value={purchasePrice}
+                          onChange={e => setPurchasePrice(e.target.value)}
+                          placeholder="785000"
+                          style={{display:"block",width:"100%",padding:"12px 14px",fontSize:15,border:"1px solid var(--border)",borderRadius:10,marginTop:6,fontFamily:"inherit",background:"#fff",color:"var(--text)"}}
+                        />
+                      </label>
+
+                      <label style={{fontSize:13,color:"var(--muted)",textAlign:"left"}}>
+                        Property address — <span style={{color:"var(--amber)"}}>recommended for local tradie matching</span>
+                        <div style={{marginTop:6}}>
+                          <AddressAutocomplete
+                            value={propertyAddress}
+                            onChange={setPropertyAddress}
+                            placeholder="123 Main Street, Suburb VIC 3000"
+                            inputStyle={{display:"block",width:"100%",padding:"12px 14px",fontSize:15,border:"1px solid var(--border)",borderRadius:10,fontFamily:"inherit",background:"#fff",color:"var(--text)"}}
+                          />
+                        </div>
+                        <div style={{fontSize:11.5,color:"var(--subtle)",marginTop:5,lineHeight:1.5}}>
+                          Start typing and pick a suggestion. If left blank we&apos;ll try to extract from the PDF — but some inspectors omit it.
+                        </div>
+                      </label>
+                    </>
+                  )}
+
+                  {/* During the Founder sale we sell the single report only —
+                      packs stay hidden so a first-time buyer isn't distracted
+                      by higher-priced options. Auto-restores when the sale ends
+                      (SINGLE.compareAt set null in lib/pricing.js). */}
+                  {!SINGLE.compareAt && (
+                    <label style={{fontSize:13,color:"var(--muted)",textAlign:"left"}}>
+                      Package
+                      <select
+                        value={pack}
+                        onChange={e => setPack(e.target.value)}
+                        style={{display:"block",width:"100%",padding:"12px 14px",fontSize:15,border:"1px solid var(--border)",borderRadius:10,marginTop:6,fontFamily:"inherit",background:"#fff",color:"var(--text)"}}
+                      >
+                        <option value="single">Single Report — {SINGLE_PRICE_STR}</option>
+                        <option value="three">3-Report Pack — $149</option>
+                        <option value="ten">10-Report Pack — $390</option>
+                      </select>
+                    </label>
+                  )}
 
                   <button
                     className="upload-btn"
@@ -2312,7 +2340,7 @@ export default function App() {
                 source materials. Numbers + categories match the real
                 Yarraville sample for consistency with the letter
                 preview below. */}
-            <div style={{ marginTop: 56, marginBottom: 40 }}>
+            <div style={{ marginTop: 88, marginBottom: 48 }}>
               <div style={{ textAlign: "center", marginBottom: 24 }}>
                 <div className="section-label" style={{ marginBottom: 8 }}>
                   🔄 From overwhelming → decision-ready
@@ -2506,7 +2534,7 @@ export default function App() {
             <div style={{ marginTop: 48 }}>
               <div style={{ textAlign: "center", marginBottom: 18 }}>
                 <div className="section-label" style={{ marginBottom: 8 }}>
-                  🔍 Built to be verified
+                  Built to be verified
                 </div>
                 <h2 style={{ fontFamily: "var(--font-serif),serif", fontSize: 26, margin: 0, color: "var(--text)", letterSpacing: -0.3 }}>
                   How you can trust the AI
@@ -2933,7 +2961,7 @@ export default function App() {
                     gap: 12,
                     alignItems: "flex-start",
                   }}>
-                    <span style={{ fontSize: 20, flexShrink: 0, marginTop: 1 }}>{icon}</span>
+                    <svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="var(--amber)" strokeWidth="2.2" strokeLinecap="round" strokeLinejoin="round" style={{ flexShrink: 0, marginTop: 2 }} aria-hidden="true"><path d="M20 6 9 17l-5-5" /></svg>
                     <div>
                       <div style={{ fontWeight: 600, fontSize: 13.5, color: "var(--navy)", lineHeight: 1.35, marginBottom: 3 }}>{title}</div>
                       <div style={{ fontSize: 12, color: "var(--muted)", lineHeight: 1.4 }}>{desc}</div>
@@ -3086,21 +3114,14 @@ export default function App() {
               </Link>
             </div>
 
-            {/* Affiliate mention — passive one-liner below pricing.
-                Low-friction signal for anyone who knows a buyer/agent.
-                Links to /agents page where they can learn about the
-                creator affiliate programme ($15/report referred). */}
-            <div style={{ textAlign: "center", marginTop: 10, fontSize: 13, color: "var(--muted)" }}>
-              Know someone buying property?{" "}
-              <Link href="/agents" style={{ color: "var(--amber)", fontWeight: 600, textDecoration: "none" }}>
-                Earn $15 per report you refer →
-              </Link>
-            </div>
+            {/* Affiliate one-liner removed (Aug 2026, strip-back) to keep the
+                buyer path focused — the referral offer still lives on /agents.
+                Restore this block to bring it back to the buyer page. */}
 
             {/* Live report counter — only shown once 10+ reports complete */}
             {reportCount >= 10 && (
               <div style={{ textAlign:"center", marginTop:8, marginBottom:4, fontSize:13, color:"var(--muted)" }}>
-                🇦🇺 <strong style={{color:"var(--text)"}}>{reportCount.toLocaleString()}</strong> building reports decoded for Australian buyers
+                <strong style={{color:"var(--text)"}}>{reportCount.toLocaleString()}</strong> building reports decoded for Australian buyers
               </div>
             )}
 
@@ -3131,7 +3152,7 @@ export default function App() {
                 directly in search results. Content marked up matches
                 what the user sees on the page (best-practice). */}
             <JsonLd data={faqPageSchema(HOMEPAGE_FAQS)} />
-            <div style={{ marginTop: 56, marginBottom: 24 }}>
+            <div style={{ marginTop: 88, marginBottom: 24 }}>
               <div style={{ textAlign: "center", marginBottom: 22 }}>
                 <div className="section-label" style={{ marginBottom: 8 }}>
                   ❓ Common questions
@@ -3365,7 +3386,7 @@ export default function App() {
                                 💰 Estimated repair cost: <strong>{d.cost}</strong>
                               </div>
                               <div className="tradies-section">
-                                <div className="tradies-label">✅  Recommended Local Tradies</div>
+                                <div className="tradies-label">Recommended Local Tradies</div>
                                 <div className="tradie-cards">
                                   {d.tradies.map((t, ti) => (
                                     <div className="tradie-card" key={ti}>

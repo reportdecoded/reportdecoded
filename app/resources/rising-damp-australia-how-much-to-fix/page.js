@@ -61,6 +61,9 @@ export default function Page() {
         'what-is-as4349-1',
         'how-much-to-negotiate-after-building-inspection',
         'asbestos-australian-homes-buyer-guide',
+        'concrete-cancer-spalling-cost-australia',
+        'mould-in-australian-homes-remediation-cost',
+        'rising-damp-treatment-cost-sydney',
       ]}
       related_suburbs={['yarraville', 'brunswick', 'newtown', 'paddington', 'st-kilda']}
     >
@@ -92,6 +95,27 @@ export default function Page() {
         worst. The variance comes down to five factors. Here&apos;s how
         to figure out which end of the range your property sits at —
         and what to do with that number.
+      </p>
+
+      <h2>Rising damp vs salt damp: same defect, different name</h2>
+      <p>
+        If you&apos;re buying in South Australia, your report — and your
+        searches — may call this <strong>salt damp</strong> rather than
+        rising damp. It&apos;s the same mechanism: groundwater rising
+        through porous masonry by capillary action, carrying dissolved
+        salts that crystallise in the wall (the white, fluffy
+        efflorescence your inspector notes). &ldquo;Salt damp&rdquo; is
+        simply the term used in Adelaide and across SA, where the problem
+        is especially common in older bluestone and sandstone cottages.
+      </p>
+      <p>
+        Everything below applies to <strong>salt damp treatment cost</strong>{' '}
+        the same way — the five causes, the treatment methods, and the
+        $4,000–$40,000 range are identical. The one SA-specific wrinkle:
+        councils and heritage overlays often require salt-damp work on
+        older stone walls to use specific breathable renders and
+        salt-retardant systems, which tends to push heritage jobs toward
+        the higher end of the range.
       </p>
 
       <h2>Factor 1: Why your wall is wet</h2>

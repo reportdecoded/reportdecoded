@@ -69,6 +69,7 @@ export default function Page() {
         'what-is-as4349-1',
         'what-to-do-if-building-inspection-finds-major-problems',
         'how-much-to-negotiate-after-building-inspection',
+        'concrete-cancer-spalling-cost-australia',
       ]}
       related_suburbs={[
         'bondi',
