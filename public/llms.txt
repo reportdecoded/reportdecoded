@@ -1,0 +1,58 @@
+# Report Decoded
+
+> Report Decoded is an Australian tool that turns a building and pest inspection report (PDF, AS4349.1) into a plain-English verdict, repair-cost estimates for every defect, a ready-to-send negotiation letter, and locally matched tradies — in under 2 minutes. One report is $39 (no subscription). It helps property buyers understand what their inspection report actually means and what to negotiate before they commit.
+
+## What it does
+- Reads any Australian building, pest, or combined inspection report (AS4349.1)
+- Gives a Proceed / Negotiate / Walk Away verdict with a plain-English summary
+- Estimates repair cost ranges for every defect (2026 Australian rates)
+- Classifies defects by real severity (major vs minor, safety hazards)
+- Drafts a negotiation letter with a defensible dollar figure
+- Cites every finding to the exact page of the inspector's PDF
+
+## Key pages
+- [Report Decoded home](https://www.reportdecoded.com.au): upload a report, see the offer and a sample
+- [For buyer's agents](https://www.reportdecoded.com.au/agents): unlimited reports, white-label PDF, dashboard
+
+## Defect & repair-cost guides (Australian, 2026)
+- [Concrete Cancer Repair Cost in Australia](https://www.reportdecoded.com.au/resources/concrete-cancer-spalling-cost-australia): what it is, severity levels, real repair costs, is it safe to buy
+- [Rising Damp: How Much It Costs to Fix](https://www.reportdecoded.com.au/resources/rising-damp-australia-how-much-to-fix): causes, treatment options, cost ranges (incl. salt damp)
+- [Rising Damp Treatment Cost in Melbourne (by suburb)](https://www.reportdecoded.com.au/resources/rising-damp-melbourne-suburb-cost-guide)
+- [Rising Damp Treatment Cost in Sydney (by suburb)](https://www.reportdecoded.com.au/resources/rising-damp-treatment-cost-sydney)
+- [Mould Remediation Cost in Australian Homes](https://www.reportdecoded.com.au/resources/mould-in-australian-homes-remediation-cost)
+- [Black Mould vs Other Mould](https://www.reportdecoded.com.au/resources/black-mould-vs-other-mould-australian-homes): when to panic, when to clean
+- [Termite Damage Repair Cost](https://www.reportdecoded.com.au/resources/termite-damage-cost-australia)
+- [Structural Cracks vs Cosmetic Cracks](https://www.reportdecoded.com.au/resources/structural-cracks-building-inspection-australia)
+- [Restumping & Reblocking Cost](https://www.reportdecoded.com.au/resources/restumping-reblocking-cost-australia)
+- [Roof Damage Repair Costs](https://www.reportdecoded.com.au/resources/roof-damage-repair-cost-building-inspection-australia)
+- [Failed Bathroom Waterproofing: Costs](https://www.reportdecoded.com.au/resources/bathroom-waterproofing-failure-building-inspection-australia)
+- [Electrical Safety Findings](https://www.reportdecoded.com.au/resources/electrical-safety-building-inspection-australia)
+- [Asbestos in Australian Homes](https://www.reportdecoded.com.au/resources/asbestos-australian-homes-buyer-guide)
+- [Lead Paint in Pre-1970 Homes](https://www.reportdecoded.com.au/resources/lead-paint-pre-1970-australian-homes-buyer-guide)
+
+## Understanding your report
+- [How to Read an AS4349.1 Building Inspection Report](https://www.reportdecoded.com.au/resources/how-to-read-as4349-1-inspection-report)
+- [What is AS4349.1?](https://www.reportdecoded.com.au/resources/what-is-as4349-1)
+- [What "Average Condition" Means](https://www.reportdecoded.com.au/resources/what-does-average-condition-mean-building-inspection)
+- [Building Inspection vs Pest Inspection](https://www.reportdecoded.com.au/resources/building-inspection-vs-pest-inspection-difference)
+- [Why Your Report Has No Cost Estimates](https://www.reportdecoded.com.au/resources/building-inspection-report-no-cost-estimates-australia)
+- [Just Got Your Report? What to Do First](https://www.reportdecoded.com.au/resources/just-got-building-inspection-report-australia)
+- [What to Do If It Finds Major Problems](https://www.reportdecoded.com.au/resources/what-to-do-if-building-inspection-finds-major-problems)
+
+## Negotiation & buyer rights
+- [How Much to Negotiate After a Building Inspection](https://www.reportdecoded.com.au/resources/how-much-to-negotiate-after-building-inspection)
+- [Building Inspection Negotiation Letter Template](https://www.reportdecoded.com.au/resources/building-inspection-negotiation-letter-template-australia)
+- [Cooling-Off Period Rights by State](https://www.reportdecoded.com.au/resources/cooling-off-period-building-inspection-rights-by-state)
+- [Section 32 Vendor Statement (Victoria)](https://www.reportdecoded.com.au/resources/section-32-vendor-statement-building-inspection-victoria)
+- [Strata Report Explained (apartment buyers)](https://www.reportdecoded.com.au/resources/strata-report-explained-australia)
+- [Hidden Costs of Buying a House in Australia](https://www.reportdecoded.com.au/resources/hidden-costs-buying-house-australia-2026)
+
+## Process & timing
+- [Pre-Auction Building Inspection Guide](https://www.reportdecoded.com.au/resources/pre-auction-building-inspection-australia)
+- [How Fast Can You Book a Building Inspection?](https://www.reportdecoded.com.au/resources/how-fast-book-building-inspection-australia)
+- [New-Build Practical Completion Inspection (PCI)](https://www.reportdecoded.com.au/resources/practical-completion-inspection-australia)
+- [How to Write a Builder Rectification Letter](https://www.reportdecoded.com.au/resources/how-to-write-builder-rectification-letter-australia)
+
+## For buyer's agents
+- [Technical Due Diligence Tools for Buyer's Agents](https://www.reportdecoded.com.au/resources/buyers-agent-technical-due-diligence-tools-2026)
+- [White-Label Inspection Reports](https://www.reportdecoded.com.au/resources/white-label-building-inspection-report-for-buyers-agents)

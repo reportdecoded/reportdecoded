@@ -1,6 +1,6 @@
 import { Analytics } from '@vercel/analytics/next';
 import { SpeedInsights } from '@vercel/speed-insights/next';
-import { DM_Sans, Fraunces, DM_Mono } from 'next/font/google';
+import { DM_Sans, Inter, DM_Mono } from 'next/font/google';
 import MetaPixel from '@/components/MetaPixel';
 import GoogleAnalytics from '@/components/GoogleAnalytics';
 import GoogleTagManager from '@/components/GoogleTagManager';
@@ -23,10 +23,13 @@ const dmSans = DM_Sans({
   variable: '--font-sans',
   display: 'swap',
 });
-const fraunces = Fraunces({
+// Linear-informed test (Aug 2026): headlines swapped Fraunces -> Inter to
+// evaluate the Linear "precision instrument" feel. Kept the --font-serif
+// variable name so every heading switches without touching components.
+// To restore the editorial serif identity, revert this block to Fraunces.
+const inter = Inter({
   subsets: ['latin'],
   style: ['normal', 'italic'],
-  axes: ['opsz'],
   variable: '--font-serif',
   display: 'swap',
 });
@@ -93,7 +96,7 @@ export const viewport = {
 
 export default function RootLayout({ children }) {
   return (
-    <html lang="en-AU" className={`${dmSans.variable} ${fraunces.variable} ${dmMono.variable}`}>
+    <html lang="en-AU" className={`${dmSans.variable} ${inter.variable} ${dmMono.variable}`}>
       <head>
         {/* JSON-LD structured data — site-wide schemas.
             Organization gives Google our knowledge-panel data + logo.

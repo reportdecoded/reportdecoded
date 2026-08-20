@@ -124,6 +124,10 @@ html {
     transition-duration: 0.01ms !important;
     scroll-behavior: auto !important;
   }
+  /* Elements that animate in from opacity:0 must be forced visible —
+     otherwise killing the animation leaves the whole hero (CTA, pills,
+     product card) invisible for reduced-motion users. */
+  .hr-1,.hr-2,.hr-3,.hr-4{opacity:1 !important;animation:none !important;transform:none !important;}
 }
 
 body{
@@ -209,8 +213,18 @@ body{
   position:relative;
   overflow:hidden;
 }
-/* Stripped-back (Aug 2026): dot-grid texture removed for a flatter,
-   cleaner, more modern navy. Palette unchanged. */
+/* Linear-informed (Aug 2026): flat navy with a single soft amber glow
+   from the top for premium ambient depth — no texture, no clutter. */
+.hero-section::before{
+  content:'';
+  position:absolute;
+  inset:0;
+  /* Multi-stop radial so the glow fades smoothly into the navy — a
+     two-stop gradient produced a visible hard band on some displays. */
+  background:radial-gradient(ellipse 80% 60% at 50% -8%,
+    rgba(201,122,58,0.13) 0%, rgba(201,122,58,0.07) 35%, rgba(201,122,58,0.025) 60%, transparent 80%);
+  pointer-events:none;
+}
 /* Amber hairline at base */
 .hero-section::after{
   content:'';
@@ -238,13 +252,13 @@ body{
   margin-bottom:28px;
 }
 .hero-h{
-  font-family:var(--font-serif),serif;
+  font-family:var(--font-serif),sans-serif;
   font-size:clamp(42px,6vw,64px);
   line-height:1.06;
   color:white;
   margin-bottom:20px;
-  letter-spacing:-1.5px;
-  font-weight:400;
+  letter-spacing:-1.8px;
+  font-weight:560;
   max-width:760px;
   margin-left:auto;
   margin-right:auto;
@@ -261,18 +275,122 @@ body{
   font-weight:400;
 }
 
+/* ── Linear-style two-column hero (Aug 2026) ──────────
+   Desktop: headline left, framed product-preview card right — the
+   "product UI as the hero visual" move. Mobile (<1024px) collapses
+   back to the proven centered single-column funnel; card hidden. */
+.hero-grid{
+  display:grid;
+  grid-template-columns:1.05fr .95fr;
+  gap:64px;
+  align-items:center;
+  max-width:1140px;
+  margin:0 auto;
+  text-align:left;
+  position:relative;
+}
+.hero-grid .hero-h{margin-left:0;margin-right:0;font-size:clamp(40px,4.6vw,56px);}
+.hero-grid .hero-sub{margin-left:0;margin-right:0;max-width:520px;font-size:16.5px;}
+.hero-card{
+  background:var(--cream);
+  border-radius:12px;
+  box-shadow:0 0 0 1px rgba(255,255,255,0.08), 0 24px 64px rgba(0,0,0,0.35);
+  overflow:hidden;
+  font-family:var(--font-sans),sans-serif;
+  transform:rotate(0.4deg);
+}
+.hero-card-head{
+  display:flex;align-items:center;justify-content:space-between;
+  padding:12px 18px;
+  background:var(--navy2);
+  border-bottom:1px solid rgba(255,255,255,0.06);
+}
+.hero-card-title{
+  font-family:var(--font-mono),monospace;
+  font-size:11px;letter-spacing:1.6px;
+  color:rgba(255,255,255,0.55);
+}
+.hero-card-pill{
+  font-size:11px;font-weight:700;letter-spacing:1px;
+  color:var(--amber);
+  border:1px solid rgba(201,122,58,0.55);
+  background:rgba(201,122,58,0.12);
+  border-radius:5px;padding:3px 10px;
+}
+.hero-card-body{padding:6px 18px 0;}
+.hero-card-row{
+  display:flex;align-items:baseline;justify-content:space-between;gap:14px;
+  padding:11px 0;
+  border-bottom:1px solid var(--cream2);
+}
+.hero-card-defect{font-size:13px;color:var(--text);font-weight:500;line-height:1.35;}
+.hero-card-page{font-size:10.5px;color:var(--subtle);font-family:var(--font-mono),monospace;margin-top:2px;}
+.hero-card-cost{
+  font-family:var(--font-mono),monospace;font-size:12.5px;font-weight:500;
+  color:var(--muted);white-space:nowrap;font-variant-numeric:tabular-nums;
+}
+.hero-card-foot{
+  display:flex;align-items:center;justify-content:space-between;gap:12px;
+  padding:14px 18px 16px;
+}
+.hero-card-neg-label{font-size:10.5px;letter-spacing:1.2px;font-weight:700;color:var(--muted);}
+.hero-card-neg{
+  font-family:var(--font-serif),sans-serif;
+  font-size:26px;font-weight:600;letter-spacing:-0.5px;color:var(--navy);
+}
+.hero-card-neg em{font-style:normal;color:var(--amber);}
+@media(max-width:1023px){
+  .hero-grid{display:block;text-align:center;}
+  .hero-grid .hero-h{margin-left:auto;margin-right:auto;}
+  .hero-grid .hero-sub{margin-left:auto;margin-right:auto;}
+  .hero-card{display:none;}
+}
+
+/* Benefit pills — Linear-style feature chips: everything the report
+   includes, scannable in one glance on the navy hero. */
+/* Secondary links + benefit pills align to the hero grid's left edge on
+   desktop — one consistent alignment axis from headline to pills. */
+.hero-secondary{
+  max-width:1140px;margin-left:auto;margin-right:auto;
+  justify-content:flex-start;
+}
+.hero-benefits{
+  display:flex;flex-wrap:wrap;gap:8px;justify-content:flex-start;
+  max-width:1140px;margin:26px auto 0;
+}
+@media(max-width:1023px){
+  .hero-secondary{justify-content:center;}
+  .hero-benefits{justify-content:center;max-width:860px;}
+}
+.benefit-pill{
+  display:inline-flex;align-items:center;gap:7px;
+  background:rgba(255,255,255,0.05);
+  border:1px solid rgba(255,255,255,0.13);
+  border-radius:9999px;
+  padding:6px 14px;
+  font-size:12.5px;font-weight:500;
+  color:rgba(255,255,255,0.82);
+  white-space:nowrap;
+}
+.benefit-pill svg{flex-shrink:0;}
+
 /* ── UPLOAD AREA ─────────────────────────────────── */
 .upload-area{
-  max-width:780px;
+  /* Widened 780 → 1140px (Aug 2026) to match the hero grid's axis, so
+     below-the-fold sections run edge-to-edge with the hero instead of
+     sitting in a narrower, squeezed column. The upload zone itself is
+     capped separately so the drop box stays a sensible width. */
+  max-width:1140px;
   margin:-44px auto 0;
   padding:0 24px 72px;
   position:relative;
   z-index:1;
 }
+.upload-zone{max-width:820px;margin-left:auto;margin-right:auto;}
 .upload-zone{
   background:white;
   border:1.5px dashed var(--border);
-  border-radius:16px;
+  border-radius:12px;
   padding:60px 44px;
   text-align:center;
   cursor:pointer;
@@ -285,12 +403,31 @@ body{
    carrying the primary upload action. Less padding, no shadow,
    lighter border so it sits quietly under the hero. */
 .upload-zone-secondary{
-  padding:28px 32px;
-  box-shadow:none;
-  border-style:dashed;
-  border-width:1.5px;
-  background:rgba(255,255,255,0.6);
+  padding:26px 32px 24px;
+  /* "Neon" amber edge (Aug 2026): dashed transparent border over an
+     amber gradient painted into the border-box — the dashes themselves
+     glow. Solid white fill (any translucency over the navy half reads
+     as murky grey) + amber halo so the drop zone pops on both the navy
+     and cream backgrounds. */
+  border:2px dashed transparent;
+  background:
+    linear-gradient(#fff,#fff) padding-box,
+    linear-gradient(135deg, rgba(201,122,58,0.95), rgba(201,122,58,0.25) 38%, rgba(201,122,58,0.25) 62%, rgba(201,122,58,0.95)) border-box;
+  box-shadow:
+    0 0 24px rgba(201,122,58,0.18),
+    0 16px 48px rgba(10,22,40,0.16);
+  transition:box-shadow .25s ease, transform .25s ease;
 }
+.upload-zone-secondary:hover{
+  transform:translateY(-2px);
+  box-shadow:
+    0 0 36px rgba(201,122,58,0.30),
+    0 20px 56px rgba(10,22,40,0.20);
+}
+/* Tighter internal rhythm — less air between icon, title and meta lines */
+.upload-zone-secondary .upload-icon{width:56px;height:56px;margin-bottom:12px;}
+.upload-zone-secondary .upload-sub{margin-bottom:12px;}
+.upload-zone-secondary .upload-filetypes{margin-top:12px;}
 .upload-zone-secondary:hover{
   border-color:var(--amber);
   background:#fff;
@@ -304,7 +441,7 @@ body{
   width:68px;height:68px;
   background:var(--amber-bg);
   border:1.5px solid var(--amber-border);
-  border-radius:18px;
+  border-radius:12px;
   display:flex;
   align-items:center;
   justify-content:center;
@@ -350,7 +487,7 @@ body{
   grid-template-columns:repeat(3,1fr);
   gap:2px;
   background:var(--border);
-  border-radius:16px;
+  border-radius:12px;
   overflow:hidden;
   margin-bottom:24px;
 }
@@ -361,18 +498,10 @@ body{
   align-items:flex-start;
   gap:14px;
 }
-.how-num{
-  width:34px;height:34px;
-  border-radius:9px;
-  background:var(--navy);
-  color:white;
-  display:flex;
-  align-items:center;
-  justify-content:center;
-  font-family:var(--font-mono),monospace;
-  font-size:12.5px;
+.how-icon{
   flex-shrink:0;
   margin-top:1px;
+  display:flex;
 }
 .how-label{font-weight:600;font-size:14px;color:var(--navy);margin-bottom:4px;}
 .how-desc{font-size:12.5px;color:var(--muted);line-height:1.55;}
@@ -471,18 +600,94 @@ body{
    each, naturally centered. */
 .pricing-row{
   display:grid;
-  grid-template-columns:repeat(auto-fit,minmax(220px,1fr));
+  /* Single Founder-offer card: anchor left on the section's alignment
+     axis (not centered), at a deliberate width. Auto-fit still handles
+     multiple cards if packs return after the sale. */
+  grid-template-columns:repeat(auto-fit,minmax(260px,420px));
   gap:12px;
   margin-bottom:28px;
-  max-width:880px;
-  margin-left:auto;
-  margin-right:auto;
+  justify-content:start;
 }
 .price-card{
   background:white;
-  border:1.5px solid var(--border);
-  border-radius:16px;
-  padding:26px;
+  border-radius:12px;
+  padding:28px;
+  /* Amber "neon" edge + halo — the offer should pop as much as the
+     upload zone; same gradient-border technique, solid edge (not dashed). */
+  border:2px solid transparent;
+  background:
+    linear-gradient(#fff,#fff) padding-box,
+    linear-gradient(135deg, rgba(201,122,58,0.95), rgba(201,122,58,0.3) 40%, rgba(201,122,58,0.3) 60%, rgba(201,122,58,0.95)) border-box;
+  box-shadow:0 0 24px rgba(201,122,58,0.16), 0 12px 36px rgba(10,22,40,0.10);
+  transition:box-shadow .25s ease, transform .25s ease;
+}
+.price-card:hover{transform:translateY(-2px);box-shadow:0 0 36px rgba(201,122,58,0.28), 0 16px 44px rgba(10,22,40,0.14);}
+
+/* ── Offer row: price card (left) + trust panel (right) ─────────── */
+.offer-row{
+  display:grid;
+  grid-template-columns:minmax(300px,440px) 1fr;
+  gap:28px;
+  align-items:start;
+  margin-bottom:8px;
+}
+.offer-col .pricing-row{margin-bottom:0;grid-template-columns:1fr;}
+.trust-panel{
+  background:#fff;
+  border-radius:12px;
+  padding:22px 26px 10px;
+  box-shadow:0 0 0 1px rgba(10,22,40,0.07), 0 10px 30px rgba(10,22,40,0.06);
+}
+.trust-row{
+  display:flex;gap:14px;align-items:flex-start;
+  padding:13px 0;
+  border-bottom:1px solid var(--cream2);
+}
+.trust-row:last-child{border-bottom:none;}
+.trust-num{
+  font-family:var(--font-mono),monospace;font-size:12px;
+  color:var(--amber);font-weight:500;flex-shrink:0;margin-top:2px;
+}
+.trust-label{font-weight:600;font-size:14px;color:var(--navy);margin-bottom:3px;letter-spacing:-0.1px;}
+.trust-desc{font-size:12.5px;color:var(--muted);line-height:1.5;}
+@media(max-width:900px){
+  .offer-row{grid-template-columns:1fr;}
+}
+
+/* ── Reviews (verbatim Google reviews) ──────────────────────────── */
+.reviews-row{
+  display:grid;
+  grid-template-columns:repeat(auto-fit,minmax(300px,1fr));
+  gap:14px;
+  margin-top:14px;
+}
+.review-card{
+  background:#fff;
+  border-radius:12px;
+  padding:22px 24px;
+  box-shadow:0 0 0 1px rgba(10,22,40,0.07), 0 10px 30px rgba(10,22,40,0.06);
+  display:flex;flex-direction:column;gap:12px;
+}
+.review-stars{color:var(--amber);font-size:15px;letter-spacing:2px;line-height:1;}
+.review-text{font-size:15px;line-height:1.6;color:var(--text);flex:1;}
+.review-by{font-size:12.5px;color:var(--muted);display:flex;align-items:center;gap:7px;}
+.review-by strong{color:var(--navy);font-weight:600;}
+
+/* ── Gold-standard section surfaces (Aug 2026) ───────────────────
+   One consistent premium treatment for every content block on the
+   cream page: white card, 12px, hairline edge, soft lift. Amber glow is
+   reserved for the two conversion points (upload zone + price card) so
+   they stay the loudest things on the page. */
+.how-strip{
+  background:#fff;
+  gap:0;
+  box-shadow:0 0 0 1px rgba(10,22,40,0.07), 0 10px 30px rgba(10,22,40,0.06);
+}
+.how-step{border-right:1px solid var(--cream2);}
+.how-step:last-child{border-right:none;}
+.ba-card,.letter-card,.defect-card,.pm-card{
+  box-shadow:0 0 0 1px rgba(10,22,40,0.07), 0 10px 30px rgba(10,22,40,0.06);
+  border-color:transparent;
 }
 .price-card.featured{
   background:var(--navy);
@@ -495,9 +700,10 @@ body{
   transform:translateY(-2px);
 }
 .price-card.selected{
-  border-color:var(--amber);
-  border-width:2px;
-  box-shadow:0 10px 32px rgba(201,122,58,0.22);
+  background:
+    linear-gradient(#fff,#fff) padding-box,
+    linear-gradient(135deg, var(--amber), var(--amber)) border-box;
+  box-shadow:0 0 40px rgba(201,122,58,0.32), 0 14px 40px rgba(10,22,40,0.14);
 }
 .price-card.featured.selected{
   border-color:var(--amber);
@@ -637,7 +843,7 @@ body{
 }
 .prop-bar{
   background:var(--navy);
-  border-radius:16px;
+  border-radius:12px;
   padding:22px 32px;
   display:flex;
   align-items:center;
@@ -666,7 +872,7 @@ body{
 
 /* ── VERDICT ─────────────────────────────────────── */
 .verdict-card{
-  border-radius:16px;
+  border-radius:12px;
   padding:28px 32px;
   display:flex;
   align-items:flex-start;
@@ -709,7 +915,7 @@ body{
 .stat-card{
   background:white;
   border:1px solid var(--border);
-  border-radius:14px;
+  border-radius:12px;
   padding:20px 22px;
 }
 .stat-label{
@@ -772,7 +978,7 @@ body{
 .defect-card{
   background:white;
   border:1px solid var(--border);
-  border-radius:14px;
+  border-radius:12px;
   margin-bottom:12px;
   overflow:hidden;
   transition:box-shadow .2s;
@@ -901,7 +1107,7 @@ body{
 .panel-card{
   background:white;
   border:1px solid var(--border);
-  border-radius:16px;
+  border-radius:12px;
   padding:24px;
 }
 .panel-title{
@@ -1012,7 +1218,7 @@ body{
 .table-wrap{
   background:white;
   border:1px solid var(--border);
-  border-radius:16px;
+  border-radius:12px;
   overflow:hidden;
 }
 .table-head{
@@ -1054,7 +1260,7 @@ body{
 
 /* ── PM SCREEN ───────────────────────────────────── */
 .pm-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:12px;margin-bottom:28px;}
-.pm-card{background:white;border:1px solid var(--border);border-radius:14px;padding:22px;}
+.pm-card{background:white;border:1px solid var(--border);border-radius:12px;padding:22px;}
 .pm-card-title{font-size:11px;text-transform:uppercase;letter-spacing:.8px;color:var(--muted);margin-bottom:6px;font-weight:700;}
 .pm-card-val{
   font-family:var(--font-serif),serif;
@@ -1111,7 +1317,11 @@ body{
    sequence (badge → sub → CTA block → secondary links). Starts after
    a beat so the headline owns the first impression. */
 @keyframes heroRise{from{opacity:0;transform:translateY(12px)}to{opacity:1;transform:translateY(0)}}
-.hr-1,.hr-2,.hr-3,.hr-4{opacity:0;animation:heroRise .5s cubic-bezier(.22,.8,.32,1) forwards;}
+/* Animate FROM transparent via the keyframe rather than parking the
+   element at opacity:0 — if the animation never runs (reduced motion,
+   headless render, print, older engine), content stays visible instead
+   of disappearing. */
+.hr-1,.hr-2,.hr-3,.hr-4{opacity:1;animation:heroRise .5s cubic-bezier(.22,.8,.32,1) both;}
 .hr-1{animation-delay:.06s}
 .hr-2{animation-delay:.18s}
 .hr-3{animation-delay:.30s}
@@ -1228,7 +1438,7 @@ body{
 .pm-roadmap-banner{
   background:linear-gradient(135deg, var(--navy) 0%, var(--navy3) 100%);
   border:1px solid rgba(201,122,58,0.25);
-  border-radius:16px;
+  border-radius:12px;
   padding:22px 26px;
   margin-bottom:24px;
   color:#fff;
@@ -1327,7 +1537,7 @@ body{
 
   /* UPLOAD AREA */
   .upload-area{margin-top:-28px;padding:0 16px 48px;}
-  .upload-zone{padding:36px 22px;border-radius:18px;}
+  .upload-zone{padding:36px 22px;border-radius:12px;}
   .upload-icon{width:56px;height:56px;font-size:24px;margin-bottom:16px;}
   .upload-title{font-size:20px;}
   .upload-sub{font-size:13.5px;margin-bottom:20px;}
@@ -1353,12 +1563,12 @@ body{
   .results-screen,.agent-screen,.pm-screen{padding:24px 16px 80px;}
 
   /* PROPERTY BAR — stack address + price */
-  .prop-bar{padding:18px 20px;border-radius:14px;flex-direction:column;align-items:flex-start;gap:10px;}
+  .prop-bar{padding:18px 20px;border-radius:12px;flex-direction:column;align-items:flex-start;gap:10px;}
   .prop-addr{font-size:17px;}
   .prop-price-val{font-size:22px;}
 
   /* VERDICT — tighten + allow text to flow under emoji */
-  .verdict-card{padding:20px 22px;gap:14px;border-radius:14px;}
+  .verdict-card{padding:20px 22px;gap:14px;border-radius:12px;}
   .verdict-emoji{font-size:28px;}
   .verdict-text{font-size:14px;line-height:1.65;padding-top:0;}
 
@@ -1442,7 +1652,7 @@ body{
     align-items:stretch;
     padding:18px 18px;
     gap:14px;
-    border-radius:14px;
+    border-radius:12px;
     margin-bottom:18px;
   }
   /* Bumped from 10px to 12px for mobile readability audit (squirrelscan
@@ -1856,16 +2066,29 @@ export default function App() {
                 the 44×44 iOS touch target spec
               · sub-text opacity 0.55 → 0.85 clears WCAG AA at 17px */}
           <div className="hero-section">
+           <div className="hero-grid">
+            <div className="hero-left">
             <div className="hero-badge hr-1">Built for Australian property buyers</div>
             {/* h1 deliberately NOT staggered — it's the LCP element and
                 must paint the instant fonts/HTML arrive. */}
             <h1 className="hero-h">
               Your building report,<br/><em>decoded.</em>
             </h1>
+            {/* Subhead states plainly WHAT THE PRODUCT IS before selling the
+                benefit — a cold visitor from search doesn't yet know that
+                "decoded" means "upload your building & pest PDF". */}
             <p className="hero-sub hr-2">
-              <strong style={{color:"#fff", fontWeight:600}}>Plain-English verdict in 2 minutes.</strong>
+              <strong style={{color:"#fff", fontWeight:600}}>
+                Upload your building &amp; pest inspection PDF. Get a plain-English
+                verdict, repair costs for every defect, and a negotiation letter
+                — in under 2 minutes.
+              </strong>
               <br/>
-              Find out what your report is hiding — before you sign.
+              <span style={{display:"inline-block", marginTop:8}}>
+                Know which defects actually matter, what they&apos;ll cost to fix,
+                how much to ask off the price, and who to call to fix them —
+                before you sign.
+              </span>
             </p>
 
             {/* Primary CTA + savings anchor — biggest emotional hook for
@@ -1933,11 +2156,50 @@ export default function App() {
                 Most buyers have 48–72 hrs before settlement. Don't guess.
               </div>
             </div>
+            </div>{/* /hero-left */}
+
+            {/* Product-preview card — Linear's "product UI as hero visual".
+                Data mirrors the Yarraville sample demo further down the page
+                so the numbers stay consistent + defensible. Desktop only. */}
+            <div className="hero-card hr-2" aria-hidden="true">
+              <div className="hero-card-head">
+                <span className="hero-card-title">SAMPLE ANALYSIS · YARRAVILLE VIC</span>
+                <span className="hero-card-pill">NEGOTIATE</span>
+              </div>
+              <div className="hero-card-body">
+                <div className="hero-card-row">
+                  <div>
+                    <div className="hero-card-defect">Subfloor moisture — inadequate drainage</div>
+                    <div className="hero-card-page">cited · p.14 of inspector&apos;s PDF</div>
+                  </div>
+                  <span className="hero-card-cost">$4,500–$9,000</span>
+                </div>
+                <div className="hero-card-row">
+                  <div>
+                    <div className="hero-card-defect">Active termite workings — roof void</div>
+                    <div className="hero-card-page">cited · p.31 · treatment + repair</div>
+                  </div>
+                  <span className="hero-card-cost">$6,000–$14,000</span>
+                </div>
+                <div className="hero-card-row" style={{borderBottom:"none"}}>
+                  <div>
+                    <div className="hero-card-defect">Roof tile displacement &amp; pointing</div>
+                    <div className="hero-card-page">cited · p.22 · roofer required</div>
+                  </div>
+                  <span className="hero-card-cost">$1,800–$3,200</span>
+                </div>
+              </div>
+              <div className="hero-card-foot" style={{background:"var(--cream2)"}}>
+                <span className="hero-card-neg-label">SUGGESTED NEGOTIATION<br/>FROM 14 DOCUMENTED DEFECTS</span>
+                <span className="hero-card-neg"><em>$45,000</em> off</span>
+              </div>
+            </div>
+           </div>{/* /hero-grid */}
 
             {/* Secondary links — differentiated weights so the
                 conversion-relevant "See a sample" reads as primary
                 secondary, and the PDF download is a tertiary path. */}
-            <div className="hr-4" style={{marginTop:22, display:"flex", gap:14, justifyContent:"center", flexWrap:"wrap", alignItems:"center"}}>
+            <div className="hr-4 hero-secondary" style={{marginTop:22, display:"flex", gap:14, flexWrap:"wrap", alignItems:"center"}}>
               <a
                 href="/results?reportId=f3ef0ce1-5443-4e91-a420-5e8bf7d8713d&sample=1"
                 className="hero-ghost"
@@ -1961,26 +2223,25 @@ export default function App() {
               </a>
             </div>
 
-            {/* Trust micro-strip — line icons (1.6px stroke, matching the
-                logo mark) instead of emoji: emoji render differently on
-                every OS and read as template filler. */}
-            <div className="hr-4" style={{marginTop:20, display:"flex", gap:20, justifyContent:"center", flexWrap:"wrap"}}>
+            {/* Benefit pills — everything a report includes, as Linear-style
+                feature chips. Replaces the old 3-item trust strip; trust
+                items are folded in as pills. */}
+            <div className="hero-benefits hr-4">
               {[
-                {
-                  icon: <path d="M8 1.5l5.5 2v3.6c0 3.2-2.3 5.6-5.5 7.4-3.2-1.8-5.5-4.2-5.5-7.4V3.5l5.5-2z M5.5 8l1.8 1.8L11 6.2" fill="none" />,
-                  text: "Refunded if we can't read your PDF",
-                },
-                {
-                  icon: <path d="M4.5 7V5a3.5 3.5 0 017 0v2 M3.5 7h9v6.5h-9V7z" fill="none" />,
-                  text: "Your PDF is never stored",
-                },
-                {
-                  icon: <path d="M8 14s4.5-3.8 4.5-7.5a4.5 4.5 0 10-9 0C3.5 10.2 8 14 8 14z M8 8.2a1.7 1.7 0 100-3.4 1.7 1.7 0 000 3.4z" fill="none" />,
-                  text: "Australian-specific analysis",
-                },
-              ].map(({ icon, text }) => (
-                <span key={text} style={{fontSize:12, color:"rgba(255,255,255,0.55)", letterSpacing:0.1, display:"inline-flex", alignItems:"center", gap:6}}>
-                  <svg width="14" height="14" viewBox="0 0 16 16" stroke="rgba(255,255,255,0.45)" strokeWidth="1.4" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true" style={{flexShrink:0}}>{icon}</svg>
+                "Proceed / Negotiate / Walk-away verdict",
+                "Repair costs for every defect",
+                "Ready-to-send negotiation letter",
+                "Local tradies matched",
+                "5-year capex forecast",
+                "Rental compliance check",
+                "Questions for your conveyancer",
+                "Cited to your inspector's PDF",
+                "Results in under 2 minutes",
+                "Refunded if we can't read your PDF",
+                "Your PDF is never stored",
+              ].map((text) => (
+                <span key={text} className="benefit-pill">
+                  <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="var(--amber)" strokeWidth="2.6" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true"><path d="M20 6 9 17l-5-5"/></svg>
                   {text}
                 </span>
               ))}
@@ -2317,12 +2578,17 @@ export default function App() {
             {/* How it works */}
             <div className="how-strip">
               {[
-                {n:"01", label:"Upload Your Report",  desc:"Drop any AS4349.1 building & pest inspection PDF"},
-                {n:"02", label:"AI Analysis",          desc:"Defects classified, costs estimated, tradies matched"},
-                {n:"03", label:"Your Verdict",          desc:"Plain-English summary + ready-to-send negotiation letter"},
-              ].map(({n, label, desc}) => (
+                {n:"01", label:"Upload Your Report",  desc:"Drop any AS4349.1 building & pest inspection PDF",
+                  icon:(<><path d="M14 3v4a1 1 0 0 0 1 1h4"/><path d="M17 21H7a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h7l5 5v11a2 2 0 0 1-2 2z"/><path d="M12 17.5v-5"/><path d="m9.5 15 2.5-2.5 2.5 2.5"/></>)},
+                {n:"02", label:"AI Analysis",          desc:"Defects classified, costs estimated, tradies matched",
+                  icon:(<><path d="M18 12.5V8l-5-5H7a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h4.5"/><path d="M13 3v4a1 1 0 0 0 1 1h4"/><circle cx="16.5" cy="16.5" r="3"/><path d="m18.7 18.7 2.3 2.3"/></>)},
+                {n:"03", label:"Your Verdict",          desc:"Plain-English summary + ready-to-send negotiation letter",
+                  icon:(<><path d="M12 3l7 3v5c0 4.5-3 7-7 8-4-1-7-3.5-7-8V6z"/><path d="m9 12 2 2 4-4.5"/></>)},
+              ].map(({n, label, desc, icon}) => (
                 <div className="how-step" key={n}>
-                  <div className="how-num">{n}</div>
+                  <div className="how-icon">
+                    <svg width="30" height="30" viewBox="0 0 24 24" fill="none" stroke="var(--amber)" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true">{icon}</svg>
+                  </div>
                   <div>
                     <div className="how-label">{label}</div>
                     <div className="how-desc">{desc}</div>
@@ -2330,6 +2596,246 @@ export default function App() {
                 </div>
               ))}
             </div>
+
+            {/* ── WHAT YOU GET STRIP ────────────────────────────────
+                Full deliverable list before the price card — many visitors
+                don't realise they also get tradie contacts, a 5-year
+                capex forecast, AND the negotiation letter for $59. Listing
+                everything closes the "what do I actually get?" gap before
+                the price lands. */}
+            <div style={{ marginBottom: 36 }}>
+              <div style={{ textAlign: "left", marginBottom: 20 }}>
+                <div className="section-label" style={{ marginBottom: 8 }}>Everything included</div>
+                <h2 style={{ fontFamily: "var(--font-serif),sans-serif", fontSize: 28, fontWeight: 560, margin: 0, color: "var(--text)", letterSpacing: -0.7 }}>
+                  Here's what you get for {SINGLE_PRICE_STR}
+                </h2>
+              </div>
+              <div style={{
+                display: "grid",
+                gridTemplateColumns: "repeat(auto-fit, minmax(240px, 1fr))",
+                gap: "4px 28px",
+              }}>
+                {[
+                  { icon: "✅", title: "Proceed / Negotiate / Walk Away verdict", desc: "One clear recommendation to act on" },
+                  { icon: "📋", title: "Every defect classified by severity",      desc: "Major, minor, and pest — in plain English" },
+                  { icon: "💰", title: "Repair cost estimate per defect",           desc: "2026 Australian trade rates" },
+                  { icon: "✉️", title: "Ready-to-send negotiation letter",         desc: "With a dollar figure — copy, paste, send" },
+                  { icon: "📅", title: "5-year capex forecast",                    desc: "Year 1 urgent · Year 1–3 planned · Year 3–5 upcoming" },
+                  { icon: "🔧", title: "2 local tradies per major defect",         desc: "Names + phone numbers included" },
+                  { icon: "📄", title: "Every defect cited to its PDF page",       desc: "Flip to the page and verify any finding" },
+                  { icon: "⚡", title: "Under 2 minutes · No account needed",      desc: "Upload and go — completely anonymous" },
+                ].map(({ icon, title, desc }) => (
+                  <div key={title} style={{
+                    padding: "14px 0",
+                    borderBottom: "1px solid var(--border)",
+                    display: "flex",
+                    gap: 12,
+                    alignItems: "flex-start",
+                  }}>
+                    <svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="var(--amber)" strokeWidth="2.2" strokeLinecap="round" strokeLinejoin="round" style={{ flexShrink: 0, marginTop: 2 }} aria-hidden="true"><path d="M20 6 9 17l-5-5" /></svg>
+                    <div>
+                      <div style={{ fontWeight: 600, fontSize: 13.5, color: "var(--navy)", lineHeight: 1.35, marginBottom: 3 }}>{title}</div>
+                      <div style={{ fontSize: 12, color: "var(--muted)", lineHeight: 1.4 }}>{desc}</div>
+                    </div>
+                  </div>
+                ))}
+              </div>
+            </div>
+
+            {/* Pricing — buyer side. Cards are clickable and sync the pack
+                state used inside the upload form above. Clicking smooth-
+                scrolls back to the upload area so the user sees their
+                choice reflected in the "Continue to Payment ($X)" CTA. */}
+            {/* Reviews — verbatim public Google reviews, quoted exactly as
+                written. Update by adding to this array as more come in. */}
+            <div style={{ marginTop: 40, marginBottom: 34 }}>
+              <div style={{ textAlign: "left", marginBottom: 4 }}>
+                <div className="section-label" style={{ marginBottom: 8 }}>
+                  What buyers say
+                </div>
+                <h2 style={{ fontFamily: "var(--font-serif),sans-serif", fontSize: 28, fontWeight: 560, margin: 0, color: "var(--text)", letterSpacing: -0.7 }}>
+                  5.0 on Google
+                </h2>
+              </div>
+              <div className="reviews-row">
+                {[
+                  { name: "Ben Morris",   text: "I was overwhelmed reading 60 pages of defects and genuinely losing sleep over it. Report Decoded told me what actually mattered and what didn't. I went from having no clue to knowing exactly what to negotiate." },
+                  { name: "Cooper Smith", text: "Helped me so much! Peace of mind for a $700k decision." },
+                ].map(({ name, text }) => (
+                  <div className="review-card" key={name}>
+                    <div className="review-stars" aria-label="5 out of 5 stars">★★★★★</div>
+                    <div className="review-text">&ldquo;{text}&rdquo;</div>
+                    <div className="review-by"><strong>{name}</strong> · via Google</div>
+                  </div>
+                ))}
+              </div>
+            </div>
+
+            <div className="offer-row">
+              <div className="offer-col">
+              <div className="pricing-row">
+                {[
+                  // Per design review: "Most Popular" was on the 3-pack
+                  // but the target audience (single-property buyers) would
+                  // almost never need 3. The badge created cognitive
+                  // dissonance. Moved popular:true to the Single Report so
+                  // the badge matches what most buyers actually want.
+                  // Kept featured (navy gradient styling) on the 3-pack so
+                  // the cards still have clear visual hierarchy.
+                  // Founder offer: single report only during the launch sale.
+                  // Packs ($149/$390) hidden — at $39/report a single beats
+                  // the per-report pack rate, so they'd read as overpriced.
+                  // Re-add from git history when the sale ends if wanted.
+                  { id: "single", label: "Single Report", price: SINGLE_PRICE_STR, compareAt: SINGLE_COMPARE_STR, saleTag: SINGLE.saleLabel, sub: null, desc: "Full analysis, cost estimates & 2 tradie picks per defect", featured: false, popular: true },
+                ].map((p) => {
+                  const isSelected = pack === p.id;
+                  const handlePick = () => {
+                    setPack(p.id);
+                    setTimeout(() => {
+                      document.getElementById("buyer-upload")?.scrollIntoView({ behavior: "smooth", block: "start" });
+                    }, 50);
+                  };
+                  return (
+                    <div
+                      key={p.id}
+                      role="button"
+                      tabIndex={0}
+                      onClick={handlePick}
+                      onKeyDown={(e) => {
+                        if (e.key === "Enter" || e.key === " ") { e.preventDefault(); handlePick(); }
+                      }}
+                      className={`price-card${p.featured ? " featured" : ""}${isSelected ? " selected" : ""}`}
+                      style={{ cursor: "pointer", position: "relative", transition: "transform .15s, box-shadow .15s, border-color .15s" }}
+                    >
+                      {isSelected && (
+                        <div
+                          style={{
+                            position: "absolute",
+                            top: 10,
+                            right: 10,
+                            background: "var(--amber)",
+                            color: "#fff",
+                            fontSize: 10,
+                            fontWeight: 700,
+                            padding: "3px 9px",
+                            borderRadius: 5,
+                            letterSpacing: 0.6,
+                          }}
+                        >✓ SELECTED</div>
+                      )}
+                      <div className="price-label">{p.label}</div>
+                      <div style={{display:"flex", alignItems:"baseline", gap:8, flexWrap:"wrap"}}>
+                        {p.compareAt && (
+                          <div style={{fontFamily:"var(--font-serif),serif", fontSize:26, color:"var(--subtle)", textDecoration:"line-through", textDecorationThickness:1.5}}>{p.compareAt}</div>
+                        )}
+                        <div className="price-amount">{p.price}</div>
+                        {p.saleTag && (
+                          <span style={{fontSize:11, fontWeight:700, background:"var(--amber)", color:"#fff", padding:"3px 9px", borderRadius:5, letterSpacing:0.4, textTransform:"uppercase"}}>{p.saleTag}</span>
+                        )}
+                        {p.save && (
+                          <span style={{fontSize:11, fontWeight:700, background:"rgba(201,122,58,0.22)", color:"#E8A05A", padding:"2px 7px", borderRadius:5, letterSpacing:0.4}}>{p.save}</span>
+                        )}
+                      </div>
+                      {p.sub && <div style={{fontSize:12, color:"rgba(255,255,255,0.45)", marginTop:-4, marginBottom:6}}>{p.sub}</div>}
+                      <div className="price-desc">{p.desc}</div>
+                      {/* Show "Most Popular" badge regardless of selection
+                          state. Previously gated on !isSelected because the
+                          old featured card had a competing ✓ SELECTED pill,
+                          but on the new Single card (default-selected) we'd
+                          never see the badge if we hide it when selected.
+                          ✓ SELECTED lives top-right; this pill lives at the
+                          bottom of the card so they don't collide. */}
+                      {p.popular && <div className="price-tag">Most Popular</div>}
+                      {/* Next-step hint — only shown when this card is the
+                          chosen pack AND a PDF hasn't been uploaded yet.
+                          Disappears once they're in the form. */}
+                      {isSelected && !uploadedFile && (
+                        <div
+                          style={{
+                            marginTop: 14,
+                            padding: "8px 12px",
+                            background: p.featured ? "rgba(201,122,58,0.18)" : "var(--amber-bg)",
+                            border: `1px solid ${p.featured ? "rgba(201,122,58,0.45)" : "var(--amber-border)"}`,
+                            borderRadius: 8,
+                            fontSize: 12,
+                            fontWeight: 600,
+                            color: p.featured ? "#E8A05A" : "var(--amber)",
+                            textAlign: "center",
+                            letterSpacing: 0.2,
+                          }}
+                        >↑ Drop your PDF above to proceed</div>
+                      )}
+                      {isSelected && uploadedFile && (
+                        <div
+                          style={{
+                            marginTop: 14,
+                            padding: "8px 12px",
+                            background: p.featured ? "rgba(13,107,94,0.20)" : "var(--teal-light)",
+                            border: `1px solid ${p.featured ? "rgba(13,107,94,0.45)" : "var(--teal-border)"}`,
+                            borderRadius: 8,
+                            fontSize: 12,
+                            fontWeight: 600,
+                            color: p.featured ? "#9ECEC8" : "var(--teal)",
+                            textAlign: "center",
+                            letterSpacing: 0.2,
+                          }}
+                        >✓ PDF ready · finish the form above</div>
+                      )}
+                    </div>
+                  );
+                })}
+                <Link href="/agents" className="price-card" style={{textDecoration:"none",color:"inherit",cursor:"pointer"}}>
+                  <div className="price-label">For Agents</div>
+                  <div className="price-amount">From $79<span style={{fontSize:17,fontWeight:300}}>/mo</span></div>
+                  <div className="price-desc">Buyer's agents + selling agents. White-label, client history, $15 per extra report.</div>
+                  <div style={{marginTop:8,color:"var(--amber)",fontSize:13,fontWeight:600}}>Learn more →</div>
+                </Link>
+              </div>
+
+              {/* Refund line — design review #7. Matches the existing
+                  /terms policy exactly (no expansion). Sits right under
+                  the pricing cards so buyers see it before clicking
+                  Continue to Payment. */}
+              <div
+                style={{
+                  marginTop: 16,
+                  textAlign: "center",
+                  fontSize: 13,
+                  color: "var(--muted)",
+                  lineHeight: 1.5,
+                }}
+              >
+                <span aria-hidden="true">↩ </span>
+                Auto-refunded if we can't analyse your PDF.{" "}
+                <Link href="/terms" style={{ color: "var(--amber)", textDecoration: "none", fontWeight: 600 }}>
+                  Refund policy
+                </Link>
+              </div>
+              </div>
+
+              {/* Trust panel — sits beside the price card so the offer and
+                  its guarantees read as one unit (was a separate section). */}
+              <div className="trust-panel">
+                <div className="section-label" style={{ marginBottom: 10 }}>Built to be verified</div>
+                {[
+                  { n: "01", label: "Cited to your inspector's PDF",
+                    desc: "Every defect points to the exact page in your inspector's report — flip to it and verify any finding." },
+                  { n: "02", label: "Anchored, not invented",
+                    desc: "We don't extract claims we can't anchor to your inspector's text. No evidence, no finding." },
+                  { n: "03", label: "Wrong document → auto-refund",
+                    desc: "If your PDF isn't an AS4349.1 inspection report, our pre-screen catches it before you're charged." },
+                ].map(({ n, label, desc }) => (
+                  <div className="trust-row" key={n}>
+                    <span className="trust-num">{n}</span>
+                    <div>
+                      <div className="trust-label">{label}</div>
+                      <div className="trust-desc">{desc}</div>
+                    </div>
+                  </div>
+                ))}
+              </div>
+            </div>
+
 
             {/* ── BEFORE / AFTER VISUAL ──────────────────────────
                 Design review #6: 'the single highest-converting element
@@ -2341,11 +2847,11 @@ export default function App() {
                 Yarraville sample for consistency with the letter
                 preview below. */}
             <div style={{ marginTop: 88, marginBottom: 48 }}>
-              <div style={{ textAlign: "center", marginBottom: 24 }}>
+              <div style={{ textAlign: "left", marginBottom: 24 }}>
                 <div className="section-label" style={{ marginBottom: 8 }}>
-                  🔄 From overwhelming → decision-ready
+                  From overwhelming → decision-ready
                 </div>
-                <h2 style={{ fontFamily: "var(--font-serif),serif", fontSize: 28, margin: 0, color: "var(--text)", letterSpacing: -0.3 }}>
+                <h2 style={{ fontFamily: "var(--font-serif),sans-serif", fontSize: 28, fontWeight: 560, margin: 0, color: "var(--text)", letterSpacing: -0.7 }}>
                   80 pages of jargon in. A verdict and a number out.
                 </h2>
               </div>
@@ -2474,7 +2980,7 @@ export default function App() {
                       marginBottom: 12,
                     }}>
                       <div style={{ fontSize: 10.5, color: "var(--muted)", fontWeight: 700, letterSpacing: 0.6, textTransform: "uppercase", marginBottom: 4 }}>
-                        🔧 6 local tradies matched
+                        6 local tradies matched
                       </div>
                       <div style={{ fontSize: 11.5, color: "var(--text)", lineHeight: 1.5 }}>
                         Roof plumber · Pest controller · Damp specialist · 2 builders · Gutter plumber
@@ -2495,7 +3001,8 @@ export default function App() {
                       <div style={{ fontSize: 10.5, color: "var(--teal)", fontWeight: 700, letterSpacing: 0.6, textTransform: "uppercase" }}>
                         Suggested negotiation
                       </div>
-                      <div style={{ fontFamily: "var(--font-serif),serif", fontSize: 26, color: "var(--text)", marginTop: 2 }}>
+                      <div style={{ fontFamily: "var(--font-serif),sans-serif",
+                    fontSize: 28, fontWeight: 560, letterSpacing: -0.7, color: "var(--text)", marginTop: 2 }}>
                         $45,000 off
                       </div>
                     </div>
@@ -2531,43 +3038,6 @@ export default function App() {
                 we-can't-anchor rule, auto-refund on wrong document.
                 Reuses .how-strip grid so it visually matches the
                 step strip above and reads as a natural continuation. */}
-            <div style={{ marginTop: 48 }}>
-              <div style={{ textAlign: "center", marginBottom: 18 }}>
-                <div className="section-label" style={{ marginBottom: 8 }}>
-                  Built to be verified
-                </div>
-                <h2 style={{ fontFamily: "var(--font-serif),serif", fontSize: 26, margin: 0, color: "var(--text)", letterSpacing: -0.3 }}>
-                  How you can trust the AI
-                </h2>
-              </div>
-              <div className="how-strip">
-                {[
-                  {
-                    n: "01",
-                    label: "Cited to your inspector's PDF",
-                    desc: "Every defect we list points to the exact page in your inspector's report. Flip to the cited page to verify any finding.",
-                  },
-                  {
-                    n: "02",
-                    label: "Anchored, not invented",
-                    desc: "We don't extract claims we can't anchor to your inspector's text. If the AI can't find evidence, the finding is left out.",
-                  },
-                  {
-                    n: "03",
-                    label: "Wrong document → auto-refund",
-                    desc: "If your PDF isn't an AS4349.1 inspection report, our pre-screen detects it before you're charged. Zero risk of paying for an analysis that can't run.",
-                  },
-                ].map(({ n, label, desc }) => (
-                  <div className="how-step" key={n}>
-                    <div className="how-num">{n}</div>
-                    <div>
-                      <div className="how-label">{label}</div>
-                      <div className="how-desc">{desc}</div>
-                    </div>
-                  </div>
-                ))}
-              </div>
-            </div>
 
             {/* ── NEGOTIATION LETTER PREVIEW ────────────────────────
                 Design review #10: the negotiation letter is arguably
@@ -2579,11 +3049,11 @@ export default function App() {
                 public Yarraville sample ($45K ask) so visitors can
                 see exactly what they'll get before paying. */}
             <div style={{ margin: "56px 0 40px" }}>
-              <div style={{ textAlign: "center", marginBottom: 28 }}>
+              <div style={{ textAlign: "left", marginBottom: 28 }}>
                 <div className="section-label" style={{ marginBottom: 8 }}>
-                  ✉️ Built into every report
+                  Built into every report
                 </div>
-                <h2 style={{ fontFamily: "var(--font-serif),serif", fontSize: 30, margin: "0 0 10px", color: "var(--text)", letterSpacing: -0.3 }}>
+                <h2 style={{ fontFamily: "var(--font-serif),sans-serif", fontSize: 28, fontWeight: 560, margin: "0 0 10px", color: "var(--text)", letterSpacing: -0.7 }}>
                   Walk into the negotiation with a letter already written.
                 </h2>
                 <p style={{ color: "var(--muted)", fontSize: 15, lineHeight: 1.55, maxWidth: 560, margin: "0 auto" }}>
@@ -2712,11 +3182,11 @@ export default function App() {
                 "here's what you get" narrative before transitioning
                 to "meet the founder → pick a pack". */}
             <div style={{ margin: "56px 0 40px" }}>
-              <div style={{ textAlign: "center", marginBottom: 28 }}>
+              <div style={{ textAlign: "left", marginBottom: 28 }}>
                 <div className="section-label" style={{ marginBottom: 8 }}>
-                  🔧 Plus we tell you who to call
+                  Plus we tell you who to call
                 </div>
-                <h2 style={{ fontFamily: "var(--font-serif),serif", fontSize: 30, margin: "0 0 10px", color: "var(--text)", letterSpacing: -0.3 }}>
+                <h2 style={{ fontFamily: "var(--font-serif),sans-serif", fontSize: 28, fontWeight: 560, margin: "0 0 10px", color: "var(--text)", letterSpacing: -0.7 }}>
                   Right tradie, every defect.
                 </h2>
                 <p style={{ color: "var(--muted)", fontSize: 15, lineHeight: 1.55, maxWidth: 580, margin: "0 auto" }}>
@@ -2875,17 +3345,16 @@ export default function App() {
             <div style={{ marginTop: 16, marginBottom: 36 }}>
               <div
                 style={{
-                  maxWidth: 720,
-                  margin: "0 auto",
+                  maxWidth: 760,
+                  margin: "0",
                   background: "#fff",
-                  border: "1px solid var(--border)",
-                  borderRadius: 14,
+                  borderRadius: 12,
                   padding: "30px 32px",
-                  boxShadow: "0 6px 24px rgba(10,22,40,0.05)",
+                  boxShadow: "0 0 0 1px rgba(10,22,40,0.07), 0 10px 30px rgba(10,22,40,0.06)",
                 }}
               >
                 <div className="section-label" style={{ marginBottom: 6 }}>
-                  👋 Behind the product
+                  Behind the product
                 </div>
                 <h2
                   style={{
@@ -2922,197 +3391,6 @@ export default function App() {
               </div>
             </div>
 
-            {/* ── WHAT YOU GET STRIP ────────────────────────────────
-                Full deliverable list before the price card — many visitors
-                don't realise they also get tradie contacts, a 5-year
-                capex forecast, AND the negotiation letter for $59. Listing
-                everything closes the "what do I actually get?" gap before
-                the price lands. */}
-            <div style={{ marginBottom: 36 }}>
-              <div style={{ textAlign: "center", marginBottom: 20 }}>
-                <div className="section-label" style={{ marginBottom: 8 }}>📦 Everything included</div>
-                <h2 style={{ fontFamily: "var(--font-serif),serif", fontSize: 26, margin: 0, color: "var(--text)", letterSpacing: -0.3 }}>
-                  Here's what you get for {SINGLE_PRICE_STR}
-                </h2>
-              </div>
-              <div style={{
-                maxWidth: 720,
-                margin: "0 auto",
-                display: "grid",
-                gridTemplateColumns: "repeat(auto-fit, minmax(200px, 1fr))",
-                gap: 10,
-              }}>
-                {[
-                  { icon: "✅", title: "Proceed / Negotiate / Walk Away verdict", desc: "One clear recommendation to act on" },
-                  { icon: "📋", title: "Every defect classified by severity",      desc: "Major, minor, and pest — in plain English" },
-                  { icon: "💰", title: "Repair cost estimate per defect",           desc: "2026 Australian trade rates" },
-                  { icon: "✉️", title: "Ready-to-send negotiation letter",         desc: "With a dollar figure — copy, paste, send" },
-                  { icon: "📅", title: "5-year capex forecast",                    desc: "Year 1 urgent · Year 1–3 planned · Year 3–5 upcoming" },
-                  { icon: "🔧", title: "2 local tradies per major defect",         desc: "Names + phone numbers included" },
-                  { icon: "📄", title: "Every defect cited to its PDF page",       desc: "Flip to the page and verify any finding" },
-                  { icon: "⚡", title: "Under 2 minutes · No account needed",      desc: "Upload and go — completely anonymous" },
-                ].map(({ icon, title, desc }) => (
-                  <div key={title} style={{
-                    background: "#fff",
-                    border: "1px solid var(--border)",
-                    borderRadius: 12,
-                    padding: "16px 18px",
-                    display: "flex",
-                    gap: 12,
-                    alignItems: "flex-start",
-                  }}>
-                    <svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="var(--amber)" strokeWidth="2.2" strokeLinecap="round" strokeLinejoin="round" style={{ flexShrink: 0, marginTop: 2 }} aria-hidden="true"><path d="M20 6 9 17l-5-5" /></svg>
-                    <div>
-                      <div style={{ fontWeight: 600, fontSize: 13.5, color: "var(--navy)", lineHeight: 1.35, marginBottom: 3 }}>{title}</div>
-                      <div style={{ fontSize: 12, color: "var(--muted)", lineHeight: 1.4 }}>{desc}</div>
-                    </div>
-                  </div>
-                ))}
-              </div>
-            </div>
-
-            {/* Pricing — buyer side. Cards are clickable and sync the pack
-                state used inside the upload form above. Clicking smooth-
-                scrolls back to the upload area so the user sees their
-                choice reflected in the "Continue to Payment ($X)" CTA. */}
-            <div className="pricing-row">
-              {[
-                // Per design review: "Most Popular" was on the 3-pack
-                // but the target audience (single-property buyers) would
-                // almost never need 3. The badge created cognitive
-                // dissonance. Moved popular:true to the Single Report so
-                // the badge matches what most buyers actually want.
-                // Kept featured (navy gradient styling) on the 3-pack so
-                // the cards still have clear visual hierarchy.
-                // Founder offer: single report only during the launch sale.
-                // Packs ($149/$390) hidden — at $39/report a single beats
-                // the per-report pack rate, so they'd read as overpriced.
-                // Re-add from git history when the sale ends if wanted.
-                { id: "single", label: "Single Report", price: SINGLE_PRICE_STR, compareAt: SINGLE_COMPARE_STR, saleTag: SINGLE.saleLabel, sub: null, desc: "Full analysis, cost estimates & 2 tradie picks per defect", featured: false, popular: true },
-              ].map((p) => {
-                const isSelected = pack === p.id;
-                const handlePick = () => {
-                  setPack(p.id);
-                  setTimeout(() => {
-                    document.getElementById("buyer-upload")?.scrollIntoView({ behavior: "smooth", block: "start" });
-                  }, 50);
-                };
-                return (
-                  <div
-                    key={p.id}
-                    role="button"
-                    tabIndex={0}
-                    onClick={handlePick}
-                    onKeyDown={(e) => {
-                      if (e.key === "Enter" || e.key === " ") { e.preventDefault(); handlePick(); }
-                    }}
-                    className={`price-card${p.featured ? " featured" : ""}${isSelected ? " selected" : ""}`}
-                    style={{ cursor: "pointer", position: "relative", transition: "transform .15s, box-shadow .15s, border-color .15s" }}
-                  >
-                    {isSelected && (
-                      <div
-                        style={{
-                          position: "absolute",
-                          top: 10,
-                          right: 10,
-                          background: "var(--amber)",
-                          color: "#fff",
-                          fontSize: 10,
-                          fontWeight: 700,
-                          padding: "3px 9px",
-                          borderRadius: 5,
-                          letterSpacing: 0.6,
-                        }}
-                      >✓ SELECTED</div>
-                    )}
-                    <div className="price-label">{p.label}</div>
-                    <div style={{display:"flex", alignItems:"baseline", gap:8, flexWrap:"wrap"}}>
-                      {p.compareAt && (
-                        <div style={{fontFamily:"var(--font-serif),serif", fontSize:26, color:"var(--subtle)", textDecoration:"line-through", textDecorationThickness:1.5}}>{p.compareAt}</div>
-                      )}
-                      <div className="price-amount">{p.price}</div>
-                      {p.saleTag && (
-                        <span style={{fontSize:11, fontWeight:700, background:"var(--amber)", color:"#fff", padding:"3px 9px", borderRadius:5, letterSpacing:0.4, textTransform:"uppercase"}}>{p.saleTag}</span>
-                      )}
-                      {p.save && (
-                        <span style={{fontSize:11, fontWeight:700, background:"rgba(201,122,58,0.22)", color:"#E8A05A", padding:"2px 7px", borderRadius:5, letterSpacing:0.4}}>{p.save}</span>
-                      )}
-                    </div>
-                    {p.sub && <div style={{fontSize:12, color:"rgba(255,255,255,0.45)", marginTop:-4, marginBottom:6}}>{p.sub}</div>}
-                    <div className="price-desc">{p.desc}</div>
-                    {/* Show "Most Popular" badge regardless of selection
-                        state. Previously gated on !isSelected because the
-                        old featured card had a competing ✓ SELECTED pill,
-                        but on the new Single card (default-selected) we'd
-                        never see the badge if we hide it when selected.
-                        ✓ SELECTED lives top-right; this pill lives at the
-                        bottom of the card so they don't collide. */}
-                    {p.popular && <div className="price-tag">Most Popular</div>}
-                    {/* Next-step hint — only shown when this card is the
-                        chosen pack AND a PDF hasn't been uploaded yet.
-                        Disappears once they're in the form. */}
-                    {isSelected && !uploadedFile && (
-                      <div
-                        style={{
-                          marginTop: 14,
-                          padding: "8px 12px",
-                          background: p.featured ? "rgba(201,122,58,0.18)" : "var(--amber-bg)",
-                          border: `1px solid ${p.featured ? "rgba(201,122,58,0.45)" : "var(--amber-border)"}`,
-                          borderRadius: 8,
-                          fontSize: 12,
-                          fontWeight: 600,
-                          color: p.featured ? "#E8A05A" : "var(--amber)",
-                          textAlign: "center",
-                          letterSpacing: 0.2,
-                        }}
-                      >↑ Drop your PDF above to proceed</div>
-                    )}
-                    {isSelected && uploadedFile && (
-                      <div
-                        style={{
-                          marginTop: 14,
-                          padding: "8px 12px",
-                          background: p.featured ? "rgba(13,107,94,0.20)" : "var(--teal-light)",
-                          border: `1px solid ${p.featured ? "rgba(13,107,94,0.45)" : "var(--teal-border)"}`,
-                          borderRadius: 8,
-                          fontSize: 12,
-                          fontWeight: 600,
-                          color: p.featured ? "#9ECEC8" : "var(--teal)",
-                          textAlign: "center",
-                          letterSpacing: 0.2,
-                        }}
-                      >✓ PDF ready · finish the form above</div>
-                    )}
-                  </div>
-                );
-              })}
-              <Link href="/agents" className="price-card" style={{textDecoration:"none",color:"inherit",cursor:"pointer"}}>
-                <div className="price-label">For Agents</div>
-                <div className="price-amount">From $79<span style={{fontSize:17,fontWeight:300}}>/mo</span></div>
-                <div className="price-desc">Buyer's agents + selling agents. White-label, client history, $15 per extra report.</div>
-                <div style={{marginTop:8,color:"var(--amber)",fontSize:13,fontWeight:600}}>Learn more →</div>
-              </Link>
-            </div>
-
-            {/* Refund line — design review #7. Matches the existing
-                /terms policy exactly (no expansion). Sits right under
-                the pricing cards so buyers see it before clicking
-                Continue to Payment. */}
-            <div
-              style={{
-                marginTop: 16,
-                textAlign: "center",
-                fontSize: 13,
-                color: "var(--muted)",
-                lineHeight: 1.5,
-              }}
-            >
-              <span aria-hidden="true">↩ </span>
-              Auto-refunded if we can't analyse your PDF.{" "}
-              <Link href="/terms" style={{ color: "var(--amber)", textDecoration: "none", fontWeight: 600 }}>
-                Refund policy
-              </Link>
-            </div>
 
             {/* Affiliate one-liner removed (Aug 2026, strip-back) to keep the
                 buyer path focused — the referral offer still lives on /agents.
@@ -3153,15 +3431,15 @@ export default function App() {
                 what the user sees on the page (best-practice). */}
             <JsonLd data={faqPageSchema(HOMEPAGE_FAQS)} />
             <div style={{ marginTop: 88, marginBottom: 24 }}>
-              <div style={{ textAlign: "center", marginBottom: 22 }}>
+              <div style={{ textAlign: "left", marginBottom: 22 }}>
                 <div className="section-label" style={{ marginBottom: 8 }}>
-                  ❓ Common questions
+                  Common questions
                 </div>
-                <h2 style={{ fontFamily: "var(--font-serif),serif", fontSize: 28, margin: 0, color: "var(--text)", letterSpacing: -0.3 }}>
+                <h2 style={{ fontFamily: "var(--font-serif),sans-serif", fontSize: 28, fontWeight: 560, margin: 0, color: "var(--text)", letterSpacing: -0.7 }}>
                   Before you upload
                 </h2>
               </div>
-              <div style={{ maxWidth: 720, margin: "0 auto" }}>
+              <div style={{ maxWidth: 820, margin: "0" }}>
                 {HOMEPAGE_FAQS.map((f, i) => {
                   const isOpen = openFaq === i;
                   return (
